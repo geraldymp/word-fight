@@ -35,5 +35,5 @@ Your goal: defeat enemies by forming valid words using a randomized set of 12 le
   <img src="./assets/ss1.png" alt="Screenshot 1" width="150"/>
   <img src="./assets/ss2.png" alt="Screenshot 2" width="150"/>
   <img src="./assets/ss3.png" alt="Screenshot 3" width="150"/>
-  <img src="./assets/output.gif" alt="Gameplay demo" width="200"/>
+  <img src="./assets/output.gif" alt="Gameplay demo" width="150"/>
 </p>
