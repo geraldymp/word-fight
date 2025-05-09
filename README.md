@@ -31,21 +31,9 @@ Your goal: defeat enemies by forming valid words using a randomized set of 12 le
 
 ## 📸 Screenshots / Demo
 
-![SS 1](./assets/ss1.png)
-
-![SS 2](./assets/ss2.png)
-
-![SS 3](./assets/ss3.png)
-
-![Demo](./assets/output.gif)
-
-
----
-
-## 🚀 Getting Started
-
-1. Clone the repo:
-
-```bash
-git clone https://github.com/your-username/word-battle-game.git
-cd word-battle-game
+<p>
+  <img src="./assets/ss1.png" alt="Screenshot 1" width="150"/>
+  <img src="./assets/ss2.png" alt="Screenshot 2" width="150"/>
+  <img src="./assets/ss3.png" alt="Screenshot 3" width="150"/>
+  <img src="./assets/output.gif" alt="Gameplay demo" width="200"/>
+</p>
