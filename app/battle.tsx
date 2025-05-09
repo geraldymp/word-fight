@@ -317,7 +317,7 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: 'row',
-    marginTop: 10,
+    marginVertical: 24,
     gap: 10,
   },
   valid: { color: 'lightgreen', marginTop: 10 },

@@ -1,50 +1,51 @@
-# Welcome to your Expo app 👋
+# 📚 Word Battle — A React Native Word Game
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+**Word Battle** is a simple but fun mobile game inspired by *Bookworm Adventures*, built with **React Native**, **Expo Router**, and **Zustand**.
 
-## Get started
+Your goal: defeat enemies by forming valid words using a randomized set of 12 letters. The longer or more complex the word, the more damage you deal!
 
-1. Install dependencies
+---
 
-   ```bash
-   npm install
-   ```
+## 🎮 Features
 
-2. Start the app
+- 🔤 Word-based battle system with randomized letter sets
+- 🧠 Local dictionary word validation
+- ⚔️ Scalable damage system based on word length and letter rarity
+- 👾 Enemies get stronger with each level
+- 💥 Animated floating damage effects
+- 🪨 Reshuffle letters (limited to 2 per game)
+- ❤️ Shake animations when HP changes
+- 🧟‍♂️ Game over modal and level progression
 
-   ```bash
-   npx expo start
-   ```
+---
 
-In the output, you'll find options to open the app in a
+## 🛠 Tech Stack
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **React Native** (with Expo)
+- **Zustand** for state management
+- **Expo Router** for navigation
+- **Custom local dictionary** for word validation
+- **Animated API** for effects
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+---
 
-## Get a fresh project
+## 📸 Screenshots / Demo
 
-When you're ready, run:
+![SS 1](./assets/ss1.png)
+
+![SS 2](./assets/ss2.png)
+
+![SS 3](./assets/ss3.png)
+
+![Demo](./assets/output.gif)
+
+
+---
+
+## 🚀 Getting Started
+
+1. Clone the repo:
 
 ```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+git clone https://github.com/your-username/word-battle-game.git
+cd word-battle-game
