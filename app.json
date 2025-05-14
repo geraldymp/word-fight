@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "word-fight",
+    "name": "Word Fight",
     "slug": "word-fight",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/word_fight_logo.png",
     "scheme": "wordfight",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -39,6 +39,13 @@
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "b6ea42f8-504b-4bfe-a956-cf26df2aefde"
+      }
+    },
+    "owner": "germp24"
   }
 }

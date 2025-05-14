@@ -44,3 +44,6 @@ doctor:
 
 makenew:
 	npx create-expo-app@latest
+
+build-android:
+	eas build --platform android --profile preview
