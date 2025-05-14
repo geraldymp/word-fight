@@ -4,8 +4,9 @@ import { Animated, Button, FlatList, Image, Modal, StyleSheet, Text, TouchableOp
 import { FloatingDamage } from '../components/FloatingDamage';
 import { enemies } from '../constants/enemies';
 import { useGameStore } from '../store/useGameStore';
-import { calculateDamage } from '../utils/calculateDamage';
+import { calculateBaseLetterDamage } from '../utils/calculateDamage';
 import { generateRandomLetters } from '../utils/generateLetters';
+import { getBonusDamageFromLength } from '../utils/wordLengthDamageMap';
 import { isValidWord } from '../utils/wordValidator';
 
 export default function BattleScreen() {
@@ -93,7 +94,7 @@ export default function BattleScreen() {
     if (currentWord.length === 0) return;
 
     if (isValidWord(currentWord) && currentWord.length > 3) {
-      const damage = calculateDamage(currentWord) + currentWord.length;
+      const damage = calculateBaseLetterDamage(currentWord) + getBonusDamageFromLength(currentWord);
       setDamageEvents((prev) => [
         ...prev,
         { id: Date.now(), amount: damage, type: 'enemy' },

@@ -1,7 +1,7 @@
 // utils/calculateDamage.ts
 import { letterDamageMap } from './letterDamage';
 
-export const calculateDamage = (word: string): number => {
+export const calculateBaseLetterDamage = (word: string): number => {
   return word
     .toUpperCase()
     .split('')
