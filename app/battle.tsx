@@ -29,7 +29,7 @@ export default function BattleScreen() {
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [feedback, setFeedback] = useState<'valid' | 'invalid' | 'short' | null>(null);
   const [showGameOverModal, setShowGameOverModal] = useState(false);
-  const [reshuffleCount, setReshuffleCount] = useState(0);
+  const [reshuffleCount, setReshuffleCount] = useState(2);
   const [damageEvents, setDamageEvents] = useState<
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
@@ -57,10 +57,10 @@ export default function BattleScreen() {
 
 
   const handleReshuffle = () => {
-    if (reshuffleCount < maxReshuffles) {
+    if (reshuffleCount > 0) {
       setLetters(generateRandomLetters());
       setSelectedIndices([]);
-      setReshuffleCount((prev) => prev + 1);
+      setReshuffleCount((prev) => prev - 1);
     }
   };
 
@@ -143,7 +143,14 @@ export default function BattleScreen() {
     const { hp } = getEnemyStats(level);
     setEnemyHP(hp);
     setEnemyView({ name: enemies[level - 1].name, image: enemies[level - 1].image })
-    setPlayerHP(playerHP + (level * 2))
+    if (playerHP + (level * 2) > 20) {
+      setPlayerHP(20)
+    } else {
+      setPlayerHP(playerHP + (level * 2))
+    }
+    if (reshuffleCount < maxReshuffles && level > 1) {
+      setReshuffleCount((prev) => prev + 1);
+    }
   }, [level]);
 
   const modalContent: { modalText: string, showNextLevelBtn: boolean } = useMemo(() => {
@@ -163,7 +170,7 @@ export default function BattleScreen() {
         <Text style={styles.enemyTitle}>{`Level: ${level}`}</Text>
         <View style={{ flexDirection: 'column', alignItems: 'center', gap: 16, padding: 16 }}>
           <Text style={{ color: 'white', fontSize: 20 }}>{enemyView.name}</Text>
-          <Image source={(enemyView.image)} resizeMode='cover' style={{ width: 250, height: 250 }} />
+          <Image source={(enemyView.image)} resizeMode='cover' style={{ width: 220, height: 220 }} />
         </View>
         <Animated.Text
           style={[styles.enemyHP, { transform: [{ translateX: enemyShakeAnim }] }]}
@@ -186,7 +193,7 @@ export default function BattleScreen() {
         <FlatList
           data={letters}
           keyExtractor={(_, i) => i.toString()}
-          numColumns={4}
+          numColumns={5}
           renderItem={({ item, index }) => (
             <TouchableOpacity
               style={[
@@ -198,6 +205,7 @@ export default function BattleScreen() {
               <Text style={styles.letter}>{item.toUpperCase()}</Text>
             </TouchableOpacity>
           )}
+          showsVerticalScrollIndicator={false}
         />
 
         {feedback === 'valid' && <Text style={styles.valid}>✅ Good word!</Text>}
@@ -207,9 +215,9 @@ export default function BattleScreen() {
         {/* Controls */}
         <View style={styles.controls}>
           <Button
-            title={`Reshuffle (${maxReshuffles - reshuffleCount} left)`}
+            title={`Reshuffle (${reshuffleCount} left)`}
             onPress={handleReshuffle}
-            disabled={reshuffleCount >= maxReshuffles}
+            disabled={reshuffleCount === 0}
           />
           <Button title="Clear" onPress={handleClear} />
           <Button title="Submit" onPress={handleSubmit} />
@@ -301,8 +309,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   letterTile: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     margin: 5,
     backgroundColor: '#eee',
     justifyContent: 'center',
