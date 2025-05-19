@@ -1,10 +1,8 @@
 import { useRouter } from 'expo-router';
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useGameStore } from '../store/useGameStore';
 
 export default function HomeScreen() {
   const router = useRouter();
-  const resetGame = useGameStore((state) => state.resetGame);
 
   return (
     <ImageBackground
@@ -17,8 +15,7 @@ export default function HomeScreen() {
         <Text style={styles.tagline}>Defeat enemies with your vocabulary!</Text>
 
         <TouchableOpacity style={styles.button} onPress={() => {
-          resetGame()
-          router.push('/choose_enemy')
+          router.push('/loading')
         }}>
           <Text style={styles.buttonText}>Start Game</Text>
         </TouchableOpacity>

@@ -1,0 +1,93 @@
+import { useRouter } from 'expo-router';
+import LottieView from 'lottie-react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Animated, StyleSheet, Text, View } from 'react-native';
+import { loadingTexts, tips } from '../constants/loading_text';
+import { useGameStore } from '../store/useGameStore';
+
+const LoadingScreen = () => {
+    const router = useRouter();
+    const resetGame = useGameStore((state) => state.resetGame);
+    const fadeAnim = useRef(new Animated.Value(0)).current;
+    const getRandom = (arr: string[]) => arr[Math.floor(Math.random() * arr.length)];
+
+    const [loadingText, setLoadingText] = useState('');
+    const [tipText, setTipText] = useState('');
+
+    useEffect(() => {
+        setLoadingText(getRandom(loadingTexts));
+        setTipText(getRandom(tips));
+    }, []);
+
+    useEffect(() => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(fadeAnim, {
+                    toValue: 1,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(fadeAnim, {
+                    toValue: 0,
+                    duration: 1000,
+                    useNativeDriver: true,
+                }),
+            ])
+        ).start();
+
+        const timeout = setTimeout(() => {
+            resetGame()
+            router.replace('/choose_enemy'); // Replace with your actual game screen route
+        }, 4000);
+
+        return () => clearTimeout(timeout);
+    }, []);
+
+    return (
+        <View style={styles.container}>
+            <LottieView
+                source={require('../assets/lottie/loading.json')} // Place your fantasy Lottie JSON here
+                autoPlay
+                loop
+                style={styles.lottie}
+            />
+            <Animated.Text style={[styles.loadingText, { opacity: fadeAnim }]}>{loadingText}</Animated.Text>
+
+            <Text style={styles.tipTitle}>💡 Tip</Text>
+            <Text style={styles.tipText}>{tipText}</Text>
+        </View>
+    );
+};
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#121212',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    lottie: {
+        width: 200,
+        height: 200,
+    },
+    loadingText: {
+        color: '#fff',
+        fontSize: 18,
+        fontStyle: 'italic',
+        marginTop: 20,
+    },
+    tipTitle: {
+        marginTop: 40,
+        fontSize: 18,
+        color: '#ffd700',
+        fontWeight: 'bold',
+    },
+    tipText: {
+        marginTop: 10,
+        fontSize: 16,
+        color: '#ffffff',
+        textAlign: 'center',
+    },
+});
+
+export default LoadingScreen;

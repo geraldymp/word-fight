@@ -50,6 +50,7 @@ export default function ChooseEnemyScreen() {
                         </Text>
                     </TouchableOpacity>
                 )}
+                showsHorizontalScrollIndicator={false}
                 style={{ height: 300, flexGrow: 0 }}
             />
         </View>
@@ -78,7 +79,7 @@ const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 16,
         alignItems: 'center',
-        width: 180,
+        width: 150,
         height: 240
     },
     image: {
