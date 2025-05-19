@@ -18,7 +18,7 @@ export default function HomeScreen() {
 
         <TouchableOpacity style={styles.button} onPress={() => {
           resetGame()
-          router.push('/battle')
+          router.push('/choose_enemy')
         }}>
           <Text style={styles.buttonText}>Start Game</Text>
         </TouchableOpacity>
