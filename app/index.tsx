@@ -35,7 +35,7 @@ export default function HomeScreen() {
           <Text style={styles.buttonText}>Settings</Text>
         </TouchableOpacity>
 
-        <Text style={styles.footer}>v1.0</Text>
+        <Text style={styles.footer}>v1.1</Text>
       </View>
     </ImageBackground>
   );

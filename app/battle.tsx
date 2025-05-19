@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, Button, FlatList, Image, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FloatingDamage } from '../components/FloatingDamage';
-import { enemies } from '../constants/enemies';
+import { JourneyMapModal } from '../components/JourneyMapModal';
+import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
 import { useGameStore } from '../store/useGameStore';
 import { calculateBaseLetterDamage } from '../utils/calculateDamage';
 import { generateRandomLetters } from '../utils/generateLetters';
@@ -10,7 +12,9 @@ import { getBonusDamageFromLength } from '../utils/wordLengthDamageMap';
 import { isValidWord } from '../utils/wordValidator';
 
 export default function BattleScreen() {
-  const { level, getEnemyStats, setEnemyHP, setPlayerHP, increaseLevel } = useGameStore();
+  const router = useRouter();
+  const { selectedEnemy, setEnemyHP, increaseLevel, bonusDamage, journeyPath } = useGameStore();
+  const { name, image, baseHp, minDmg, maxDmg, level } = selectedEnemy
 
   const enemyHP = useGameStore((state) => state.enemyHP);
   const reduceEnemyHP = useGameStore((state) => state.reduceEnemyHP);
@@ -18,10 +22,9 @@ export default function BattleScreen() {
   const reducePlayerHP = useGameStore((state) => state.reducePlayerHP);
   const resetGame = useGameStore((state) => state.resetGame);
   const maxReshuffles = 2;
-  const { damageRange } = getEnemyStats(level);
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
-  const enemyDamage = getRandomInt(damageRange[0], damageRange[1]);
+  const enemyDamage = getRandomInt(minDmg, maxDmg) + bonusDamage;
   const playerShakeAnim = useRef(new Animated.Value(0)).current;
   const enemyShakeAnim = useRef(new Animated.Value(0)).current;
 
@@ -34,6 +37,7 @@ export default function BattleScreen() {
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
   const [enemyView, setEnemyView] = useState<{ name: string; image: any }>({ name: '', image: null })
+  const [mapVisible, setMapVisible] = useState(false)
 
   const triggerShake = (animRef: Animated.Value) => {
     Animated.sequence([
@@ -101,8 +105,12 @@ export default function BattleScreen() {
       ]);
 
       reduceEnemyHP(damage);
+
       triggerShake(enemyShakeAnim);
       setFeedback('valid');
+
+      // Submit highscore to supabase if in top 10
+      submitHighScoreIfTop10(currentWord, damage)
 
       // Replace used letters
       const newLetters = [...letters];
@@ -117,7 +125,7 @@ export default function BattleScreen() {
       if (currentWord.length <= 3) {
         setFeedback('short');
       }
-       else if (!isValidWord(currentWord)) {
+      else if (!isValidWord(currentWord)) {
         setFeedback('invalid');
       }
     }
@@ -140,26 +148,22 @@ export default function BattleScreen() {
 
   useEffect(() => {
     // On mount or level up, set enemy HP
-    const { hp } = getEnemyStats(level);
-    setEnemyHP(hp);
-    setEnemyView({ name: enemies[level - 1].name, image: enemies[level - 1].image })
-    if (playerHP + (level * 2) > 20) {
-      setPlayerHP(20)
-    } else {
-      setPlayerHP(playerHP + (level * 2))
-    }
+    setEnemyHP(baseHp);
+    setEnemyView({ name, image })
     if (reshuffleCount < maxReshuffles && level > 1) {
       setReshuffleCount((prev) => prev + 1);
     }
   }, [level]);
 
-  const modalContent: { modalText: string, showNextLevelBtn: boolean } = useMemo(() => {
-    if (level === 5) {
-      return { modalText: 'Congratulations, you beat the game!', showNextLevelBtn: false }
+  const modalContent: { modalText: string, showNextLevelBtn: boolean, showBoosterBtn: boolean } = useMemo(() => {
+    if (level === 5 && enemyHP === 0) {
+      return { modalText: 'Congratulations, you beat the game!', showNextLevelBtn: false, showBoosterBtn: false }
+    } else if (enemyHP === 0 && level === 3) {
+      return { modalText: 'You win the fight!', showNextLevelBtn: false, showBoosterBtn: true }
     } else if (enemyHP === 0) {
-      return { modalText: 'You win the fight!', showNextLevelBtn: true }
+      return { modalText: 'You win the fight!', showNextLevelBtn: true, showBoosterBtn: false }
     } else {
-      return { modalText: 'You lose!', showNextLevelBtn: false }
+      return { modalText: 'You lose!', showNextLevelBtn: false, showBoosterBtn: false }
     }
   }, [level, enemyHP])
 
@@ -177,6 +181,9 @@ export default function BattleScreen() {
         >
           Enemy HP: {enemyHP}
         </Animated.Text>
+        <View style={{ position: 'absolute', bottom: 16, left: 16, backgroundColor: 'white' }}>
+          <Text onPress={() => setMapVisible(true)}>MAP</Text>
+        </View>
       </View>
 
       {/* Letters + Word Builder */}
@@ -257,22 +264,36 @@ export default function BattleScreen() {
                   setSelectedIndices([]);
                   setFeedback(null);
                   setShowGameOverModal(false);
+                  router.replace('/choose_enemy')
+                }}
+              />}
+              {modalContent.showBoosterBtn && <Button
+                title="Go to Booster Selection"
+                onPress={() => {
+                  increaseLevel()
+                  setLetters(generateRandomLetters());
+                  setSelectedIndices([]);
+                  setFeedback(null);
+                  setShowGameOverModal(false);
+                  router.replace('/choose_booster')
                 }}
               />}
               <Button
                 title="Restart Game"
                 onPress={() => {
                   resetGame();
-                  setLetters(generateRandomLetters());
-                  setSelectedIndices([]);
-                  setFeedback(null);
-                  setShowGameOverModal(false);
+                  router.replace('/choose_enemy');
                 }}
               />
             </View>
           </View>
         </View>
       </Modal>
+      <JourneyMapModal
+        visible={mapVisible}
+        onClose={() => setMapVisible(false)}
+        journey={journeyPath}
+      />
       {damageEvents.map((event) => (
         <FloatingDamage
           key={event.id}
