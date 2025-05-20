@@ -17,13 +17,13 @@ export const FloatingDamage = ({ amount, type, onComplete }: Props) => {
       Animated.timing(translateY, {
         toValue: -40,
         duration: 2000,
-        useNativeDriver: true,
+        useNativeDriver: true
       }),
       Animated.timing(opacity, {
         toValue: 0,
         duration: 2000,
-        useNativeDriver: true,
-      }),
+        useNativeDriver: true
+      })
     ]).start(onComplete);
   }, []);
 
@@ -35,8 +35,8 @@ export const FloatingDamage = ({ amount, type, onComplete }: Props) => {
           transform: [{ translateY }],
           opacity,
           top: type === 'enemy' ? 100 : 500,
-          left: type === 'enemy' ? 200 : 100,
-        },
+          left: type === 'enemy' ? 200 : 100
+        }
       ]}
     >
       -{amount}
@@ -51,6 +51,6 @@ const styles = StyleSheet.create({
     fontSize: 64,
     fontWeight: 'bold',
     textShadowColor: '#000',
-    textShadowRadius: 2,
-  },
+    textShadowRadius: 2
+  }
 });

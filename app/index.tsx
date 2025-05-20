@@ -1,5 +1,11 @@
 import { useRouter } from 'expo-router';
-import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -14,21 +20,33 @@ export default function HomeScreen() {
         <Text style={styles.title}>Word Fight</Text>
         <Text style={styles.tagline}>Defeat enemies with your vocabulary!</Text>
 
-        <TouchableOpacity style={styles.button} onPress={() => {
-          router.push('/loading')
-        }}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => {
+            router.push('/loading');
+          }}
+        >
           <Text style={styles.buttonText}>Start Game</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.secondary]} onPress={() => router.push('/help')}>
+        <TouchableOpacity
+          style={[styles.button, styles.secondary]}
+          onPress={() => router.push('/help')}
+        >
           <Text style={styles.buttonText}>How To Play</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.secondary]} onPress={() => router.push('/leaderboard')}>
+        <TouchableOpacity
+          style={[styles.button, styles.secondary]}
+          onPress={() => router.push('/leaderboard')}
+        >
           <Text style={styles.buttonText}>Leaderboard</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={[styles.button, styles.secondary]} onPress={() => router.push('/settings')}>
+        <TouchableOpacity
+          style={[styles.button, styles.secondary]}
+          onPress={() => router.push('/settings')}
+        >
           <Text style={styles.buttonText}>Settings</Text>
         </TouchableOpacity>
 
@@ -40,25 +58,25 @@ export default function HomeScreen() {
 
 const styles = StyleSheet.create({
   background: {
-    flex: 1,
+    flex: 1
   },
   container: {
     flex: 1,
     padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)', // overlay for readability
+    backgroundColor: 'rgba(0,0,0,0.5)' // overlay for readability
   },
   title: {
     fontSize: 48,
     fontWeight: 'bold',
     color: '#fff',
-    marginBottom: 10,
+    marginBottom: 10
   },
   tagline: {
     fontSize: 16,
     color: '#ccc',
-    marginBottom: 40,
+    marginBottom: 40
   },
   button: {
     backgroundColor: '#6C5CE7',
@@ -71,19 +89,19 @@ const styles = StyleSheet.create({
     shadowColor: '#000',
     shadowOpacity: 0.3,
     shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6,
+    shadowRadius: 6
   },
   secondary: {
-    backgroundColor: '#636e72',
+    backgroundColor: '#636e72'
   },
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: '600'
   },
   footer: {
     position: 'absolute',
     bottom: 20,
-    color: '#999',
-  },
+    color: '#999'
+  }
 });

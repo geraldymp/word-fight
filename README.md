@@ -1,6 +1,6 @@
 # 📚 Word Battle — A React Native Word Game
 
-**Word Battle** is a simple but fun mobile game inspired by *Bookworm Adventures*, built with **React Native**, **Expo Router**, and **Zustand**.
+**Word Battle** is a simple but fun mobile game inspired by _Bookworm Adventures_, built with **React Native**, **Expo Router**, and **Zustand**.
 
 Your goal: defeat enemies by forming valid words using a randomized set of 12 letters. The longer or more complex the word, the more damage you deal!
 

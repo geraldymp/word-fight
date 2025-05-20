@@ -13,4 +13,3 @@ export function getBonusDamageFromLength(word: string): number {
   // For words with 12 letter, give 25 bonus damage
   return 25;
 }
-  

@@ -10,12 +10,12 @@ export default function Layout() {
         <Stack screenOptions={{ headerShown: false }} />
       </SafeAreaView>
     </SafeAreaProvider>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white'
-  },
+  }
 });

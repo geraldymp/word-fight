@@ -1,6 +1,12 @@
 // app/leaderboard.tsx
 import { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../lib/supabase';
 
@@ -49,9 +55,11 @@ export default function LeaderboardScreen() {
       ) : (
         <FlatList
           data={scores}
-          keyExtractor={(item) => item.id}
+          keyExtractor={item => item.id}
           renderItem={renderItem}
-          ListEmptyComponent={() => <Text style={{ color: 'white' }}>No Data</Text>}
+          ListEmptyComponent={() => (
+            <Text style={{ color: 'white' }}>No Data</Text>
+          )}
         />
       )}
     </SafeAreaView>
@@ -62,14 +70,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0a0a0a',
-    padding: 16,
+    padding: 16
   },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
     color: '#fff',
     marginBottom: 16,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   item: {
     flexDirection: 'row',
@@ -77,24 +85,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#1a1a1a',
     padding: 12,
     borderRadius: 8,
-    marginBottom: 8,
+    marginBottom: 8
   },
   rank: {
     color: '#aaa',
     fontSize: 18,
-    width: 30,
+    width: 30
   },
   word: {
     color: '#fff',
     fontSize: 18,
     flex: 1,
-    textTransform: 'uppercase',
+    textTransform: 'uppercase'
   },
   score: {
     color: '#ffd700',
     fontSize: 18,
     fontWeight: 'bold',
     width: 50,
-    textAlign: 'right',
-  },
+    textAlign: 'right'
+  }
 });

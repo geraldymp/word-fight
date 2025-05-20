@@ -1,6 +1,12 @@
 // app/choose_booster.tsx
 import { useRouter } from 'expo-router';
-import { FlatList, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 import { boosters } from '../constants/boosters';
 import { useGameStore } from '../store/useGameStore';
 import { IBooster } from '../types/IBooster';
@@ -9,15 +15,15 @@ export default function ChooseBoosterScreen() {
   const router = useRouter();
   const { addToJourney } = useGameStore();
 
-  const { increasePlayerHP } = useGameStore()
-  const increasePlayerBonusDamage = useGameStore((s) => s.setBonusDamage);
+  const { increasePlayerHP } = useGameStore();
+  const increasePlayerBonusDamage = useGameStore(s => s.setBonusDamage);
   // const increaseExtraGoldGained = useGameStore((s) => s.setBonusGold);
 
   const handleSelect = (booster: IBooster) => {
-    const {id, name} = booster;
+    const { id, name } = booster;
     if (id === 'extra-hp') {
-        increasePlayerHP(10);
-    };
+      increasePlayerHP(10);
+    }
     if (id === 'bonus-damage') increasePlayerBonusDamage(2);
     // if (id === 'gold-rush') increaseExtraGoldGained(5);
 
@@ -30,7 +36,7 @@ export default function ChooseBoosterScreen() {
       <Text style={styles.title}>Choose a Booster</Text>
       <FlatList
         data={boosters}
-        keyExtractor={(item) => item.id}
+        keyExtractor={item => item.id}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
           <TouchableOpacity
@@ -51,28 +57,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#111',
     padding: 20,
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   title: {
     color: '#fff',
     fontSize: 24,
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   list: {
-    gap: 16,
+    gap: 16
   },
   card: {
     backgroundColor: '#222',
     borderRadius: 12,
-    padding: 16,
+    padding: 16
   },
   name: {
     fontSize: 18,
     color: '#fff',
-    marginBottom: 8,
+    marginBottom: 8
   },
   desc: {
-    color: '#ccc',
-  },
+    color: '#ccc'
+  }
 });
