@@ -1,6 +1,8 @@
+import { CircleIcon } from '@/components/Home/CircleIcon';
 import { useRouter } from 'expo-router';
+import LottieView from 'lottie-react-native';
 import {
-  ImageBackground,
+  Image,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -11,48 +13,29 @@ export default function HomeScreen() {
   const router = useRouter();
 
   return (
-    <ImageBackground
-      source={require('../assets/bg1.png')}
-      style={styles.background}
-      resizeMode="cover"
-    >
-      <View style={styles.container}>
-        <Text style={styles.title}>Word Fight</Text>
-        <Text style={styles.tagline}>Defeat enemies with your vocabulary!</Text>
+    <View style={{ flex: 1, backgroundColor: '#777fa8', alignItems: 'center' }}>
+      <Image source={require('../assets/title_logo2.png')} style={{ width: '80%', marginTop: 120 }} resizeMode='contain' />
+      <LottieView
+        source={require('../assets/lottie/home_sword.json')}
+        autoPlay
+        loop
+        style={{ width: '80%', height: 200, marginTop: 20 }}
+      />
+      <TouchableOpacity
+        style={{ width: '80%', height: 150, backgroundColor: '#777fa8', alignItems: 'center', paddingTop: 48 }}
+        onPress={() => {
+          router.push('/loading');
+        }}
+      >
+        <Text style={styles.buttonText}>Tap to Start</Text>
+      </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            router.push('/loading');
-          }}
-        >
-          <Text style={styles.buttonText}>Start Game</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.secondary]}
-          onPress={() => router.push('/help')}
-        >
-          <Text style={styles.buttonText}>How To Play</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.secondary]}
-          onPress={() => router.push('/leaderboard')}
-        >
-          <Text style={styles.buttonText}>Leaderboard</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={[styles.button, styles.secondary]}
-          onPress={() => router.push('/settings')}
-        >
-          <Text style={styles.buttonText}>Settings</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.footer}>v1.1</Text>
+      <View style={{ flexDirection: 'row', position: 'absolute', bottom: 80, gap: 32 }}>
+        <CircleIcon icon={require('../assets/icons/home/question_mark.png')} onPress={() => router.push('/help')}/>
+        <CircleIcon icon={require('../assets/icons/home/achievement.png')} onPress={() => router.push('/leaderboard')}/>
+        <CircleIcon icon={require('../assets/icons/home/setting.png')} onPress={() => router.push('/settings')}/>
       </View>
-    </ImageBackground>
+    </View>
   );
 }
 
