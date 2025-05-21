@@ -43,37 +43,37 @@ export default {
         'expo-font',
         {
           fonts: [
-            "./assets/fonts/SpaceMono-Regular.ttf",
-            "./assets/fonts/KnightWarrior.otf",
-            "./assets/fonts/MightySouly.ttf",
-            "./assets/fonts/TechnoRaceItalic.otf"
+            './assets/fonts/SpaceMono-Regular.ttf',
+            './assets/fonts/KnightWarrior.otf',
+            './assets/fonts/MightySouly.ttf',
+            './assets/fonts/TechnoRaceItalic.otf'
           ],
           android: {
             fonts: [
               {
-                fontFamily: "KnightWarrior",
+                fontFamily: 'KnightWarrior',
                 fontDefinitions: [
                   {
-                    path: "./assets/fonts/KnightWarrior.otf"
-                  },
+                    path: './assets/fonts/KnightWarrior.otf'
+                  }
                 ]
               },
               {
-                fontFamily: "MightySouly",
+                fontFamily: 'MightySouly',
                 fontDefinitions: [
                   {
-                    path: "./assets/fonts/MightySouly.ttf"
-                  },
+                    path: './assets/fonts/MightySouly.ttf'
+                  }
                 ]
               }
             ]
           },
           ios: {
             fonts: [
-              "./assets/fonts/SpaceMono-Regular.ttf",
-              "./assets/fonts/KnightWarrior.otf",
-              "./assets/fonts/MightySouly.ttf",
-              "./assets/fonts/TechnoRaceItalic.otf"
+              './assets/fonts/SpaceMono-Regular.ttf',
+              './assets/fonts/KnightWarrior.otf',
+              './assets/fonts/MightySouly.ttf',
+              './assets/fonts/TechnoRaceItalic.otf'
             ]
           }
         }
