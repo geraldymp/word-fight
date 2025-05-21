@@ -101,10 +101,12 @@ const styles = StyleSheet.create({
   name: {
     color: '#fff',
     fontSize: 18,
-    marginBottom: 8
+    marginBottom: 8,
+    textAlign: 'center'
   },
   stats: {
     color: '#ccc',
-    fontSize: 14
+    fontSize: 14,
+    textAlign: 'center'
   }
 });

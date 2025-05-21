@@ -349,10 +349,10 @@ export default function BattleScreen() {
                 />
               )}
               <Button
-                title="Restart Game"
+                title="Back to Home"
                 onPress={() => {
                   resetGame();
-                  router.replace('/choose_enemy');
+                  router.replace('/');
                 }}
               />
             </View>

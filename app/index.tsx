@@ -1,6 +1,6 @@
-import { CircleIcon } from '@/components/Home/CircleIcon';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
+import { useState } from 'react';
 import {
   Image,
   StyleSheet,
@@ -8,12 +8,18 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import { AboutModal } from '../components/AboutModal';
+import { CircleIcon } from '../components/Home/CircleIcon';
 
 export default function HomeScreen() {
   const router = useRouter();
+  const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false)
 
   return (
     <View style={{ flex: 1, backgroundColor: '#777fa8', alignItems: 'center' }}>
+      <TouchableOpacity onPress={() => setVisibleAboutModal(true)} style={{ height: 32, width: 32, borderRadius: 16, borderColor: '#3eab5e', borderWidth: 1, alignItems: 'center', justifyContent: 'center', position: 'absolute', right: 24, top: 24, backgroundColor: 'white' }}>
+        <Text style={{ fontFamily: 'MightySouly', fontSize: 26, color: '#3eab5e' }}>i</Text>
+      </TouchableOpacity>
       <Image source={require('../assets/title_logo2.png')} style={{ width: '80%', marginTop: 120 }} resizeMode='contain' />
       <LottieView
         source={require('../assets/lottie/home_sword.json')}
@@ -35,57 +41,16 @@ export default function HomeScreen() {
         <CircleIcon icon={require('../assets/icons/home/achievement.png')} onPress={() => router.push('/leaderboard')}/>
         <CircleIcon icon={require('../assets/icons/home/setting.png')} onPress={() => router.push('/settings')}/>
       </View>
+      <AboutModal visible={visibleAboutModal} onClose={() => setVisibleAboutModal(false)}/>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1
-  },
-  container: {
-    flex: 1,
-    padding: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0,0,0,0.5)' // overlay for readability
-  },
-  title: {
-    fontSize: 48,
-    fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 10
-  },
-  tagline: {
-    fontSize: 16,
-    color: '#ccc',
-    marginBottom: 40
-  },
-  button: {
-    backgroundColor: '#6C5CE7',
-    paddingVertical: 14,
-    paddingHorizontal: 30,
-    borderRadius: 20,
-    marginVertical: 10,
-    width: '80%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOpacity: 0.3,
-    shadowOffset: { width: 0, height: 4 },
-    shadowRadius: 6
-  },
-  secondary: {
-    backgroundColor: '#636e72'
-  },
   buttonText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
     fontFamily: 'KnightWarrior'
-  },
-  footer: {
-    position: 'absolute',
-    bottom: 20,
-    color: '#999'
   }
 });
