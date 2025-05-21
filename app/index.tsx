@@ -80,7 +80,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: '600'
+    fontWeight: '600',
+    fontFamily: 'KnightWarrior'
   },
   footer: {
     position: 'absolute',

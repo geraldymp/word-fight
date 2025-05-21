@@ -38,7 +38,46 @@ export default {
           backgroundColor: '#ffffff'
         }
       ],
-      'expo-asset'
+      'expo-asset',
+      [
+        'expo-font',
+        {
+          fonts: [
+            "./assets/fonts/SpaceMono-Regular.ttf",
+            "./assets/fonts/KnightWarrior.otf",
+            "./assets/fonts/MightySouly.ttf",
+            "./assets/fonts/TechnoRaceItalic.otf"
+          ],
+          android: {
+            fonts: [
+              {
+                fontFamily: "KnightWarrior",
+                fontDefinitions: [
+                  {
+                    path: "./assets/fonts/KnightWarrior.otf"
+                  },
+                ]
+              },
+              {
+                fontFamily: "MightySouly",
+                fontDefinitions: [
+                  {
+                    path: "./assets/fonts/MightySouly.ttf"
+                  },
+                ]
+              }
+            ]
+          },
+          ios: {
+            fonts: [
+              "./assets/fonts/SpaceMono-Regular.ttf",
+              "./assets/fonts/KnightWarrior.otf",
+              "./assets/fonts/MightySouly.ttf",
+              "./assets/fonts/TechnoRaceItalic.otf"
+            ]
+          }
+        }
+      ]
     ],
     experiments: {
       typedRoutes: true
