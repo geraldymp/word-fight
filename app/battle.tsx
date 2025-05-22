@@ -83,11 +83,19 @@ export default function BattleScreen() {
     }
   };
 
+  const handleRearrange = () => {
+    setSelectedIndices([]);
+    const shuffled = [...letters].sort(() => Math.random() - 0.5)
+    setLetters(shuffled)
+  }
+
   const currentWord = selectedIndices.map(i => letters[i]).join('');
 
   const handleLetterPress = (index: number) => {
     if (!selectedIndices.includes(index)) {
       setSelectedIndices([...selectedIndices, index]);
+    } else {
+      setSelectedIndices([...selectedIndices.filter(id => id !== index)])
     }
   };
 
@@ -230,16 +238,17 @@ export default function BattleScreen() {
         >
           Enemy HP: {enemyHP}
         </Animated.Text>
-        <View
+        <TouchableOpacity
+
           style={{
             position: 'absolute',
             bottom: 16,
-            left: 16,
-            backgroundColor: 'white'
+            left: 16
           }}
+          onPress={() => setMapVisible(true)}
         >
-          <Text onPress={() => setMapVisible(true)}>MAP</Text>
-        </View>
+          <Image source={require('../assets/icons/battle/map.png')} resizeMode='contain' style={{ width: 32, height: 32 }} />
+        </TouchableOpacity>
       </View>
 
       {/* Letters + Word Builder */}
@@ -294,13 +303,14 @@ export default function BattleScreen() {
           />
           <Button title="Clear" onPress={handleClear} />
           <Button title="Submit" onPress={handleSubmit} />
+          <Button title='Rearrange' onPress={handleRearrange}/>
         </View>
       </View>
       <Modal
         visible={showGameOverModal}
         transparent
         animationType="slide"
-        onRequestClose={() => {}}
+        onRequestClose={() => { }}
       >
         <View
           style={{
