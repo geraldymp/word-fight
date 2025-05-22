@@ -53,6 +53,7 @@ export const useGameStore = create<GameState>(set => ({
     set({
       gold: 0,
       level: 1,
+      playerHP: 50,
       journeyPath: []
     }),
 
