@@ -1,10 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useRouter } from 'expo-router';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
-  Animated,
   Button,
-  FlatList,
   Image,
   Modal,
   StyleSheet,
@@ -12,6 +10,20 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import Animated, {
+  SharedValue,
+  useAnimatedStyle,
+  useSharedValue,
+  withSequence,
+  withTiming
+} from 'react-native-reanimated';
+import {
+  IcCancel,
+  IcFight,
+  IcRearrange,
+  IcReshuffle
+} from '../assets/icons/battle';
+import { ActionBottomButton } from '../components/Battle/ActionBottomButton';
 import { FloatingDamage } from '../components/FloatingDamage';
 import { JourneyMapModal } from '../components/JourneyMapModal';
 import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
@@ -36,14 +48,17 @@ export default function BattleScreen() {
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
   const enemyDamage = getRandomInt(minDmg, maxDmg) + bonusDamage;
-  const playerShakeAnim = useRef(new Animated.Value(0)).current;
-  const enemyShakeAnim = useRef(new Animated.Value(0)).current;
+  const playerShakeAnim = useSharedValue(0);
+  const enemyShakeAnim = useSharedValue(0);
+  const wrongWordShakeAnim = useSharedValue(0);
+
+  const enemyRotation = useSharedValue(0);
+  const enemyScale = useSharedValue(1);
+  const enemyOpacity = useSharedValue(1);
 
   const [letters, setLetters] = useState<string[]>([]);
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
-  const [feedback, setFeedback] = useState<
-    'valid' | 'invalid' | 'short' | null
-  >(null);
+  const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const [reshuffleCount, setReshuffleCount] = useState(2);
   const [damageEvents, setDamageEvents] = useState<
@@ -55,25 +70,23 @@ export default function BattleScreen() {
   });
   const [mapVisible, setMapVisible] = useState(false);
 
-  const triggerShake = (animRef: Animated.Value) => {
-    Animated.sequence([
-      Animated.timing(animRef, {
-        toValue: 5,
-        duration: 50,
-        useNativeDriver: true
-      }),
-      Animated.timing(animRef, {
-        toValue: -5,
-        duration: 50,
-        useNativeDriver: true
-      }),
-      Animated.timing(animRef, {
-        toValue: 0,
-        duration: 50,
-        useNativeDriver: true
-      })
-    ]).start();
+  const triggerQuickShake = (animRef: SharedValue<number>) => {
+    animRef.value = withSequence(
+      withTiming(10, { duration: 50 }),
+      withTiming(-10, { duration: 50 }),
+      withTiming(0, { duration: 50 })
+    );
   };
+
+  const enemyStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { rotate: `${enemyRotation.value}deg` },
+        { scale: enemyScale.value }
+      ],
+      opacity: enemyOpacity.value
+    };
+  });
 
   const handleReshuffle = () => {
     if (reshuffleCount > 0) {
@@ -85,9 +98,9 @@ export default function BattleScreen() {
 
   const handleRearrange = () => {
     setSelectedIndices([]);
-    const shuffled = [...letters].sort(() => Math.random() - 0.5)
-    setLetters(shuffled)
-  }
+    const shuffled = [...letters].sort(() => Math.random() - 0.5);
+    setLetters(shuffled);
+  };
 
   const currentWord = selectedIndices.map(i => letters[i]).join('');
 
@@ -95,7 +108,7 @@ export default function BattleScreen() {
     if (!selectedIndices.includes(index)) {
       setSelectedIndices([...selectedIndices, index]);
     } else {
-      setSelectedIndices([...selectedIndices.filter(id => id !== index)])
+      setSelectedIndices([...selectedIndices.filter(id => id !== index)]);
     }
   };
 
@@ -112,7 +125,7 @@ export default function BattleScreen() {
           { id: Date.now(), amount: enemyDamage, type: 'player' }
         ]);
         reducePlayerHP(enemyDamage);
-        triggerShake(playerShakeAnim);
+        triggerQuickShake(playerShakeAnim);
       }, 1200);
     }
   };
@@ -131,8 +144,7 @@ export default function BattleScreen() {
 
       reduceEnemyHP(damage);
 
-      triggerShake(enemyShakeAnim);
-      setFeedback('valid');
+      triggerQuickShake(enemyShakeAnim);
 
       // Submit highscore to supabase if in top 10
       submitHighScoreIfTop10(currentWord, damage);
@@ -148,17 +160,28 @@ export default function BattleScreen() {
     } else {
       if (currentWord.length <= 3) {
         setFeedback('short');
+        triggerQuickShake(wrongWordShakeAnim);
       } else if (!isValidWord(currentWord)) {
         setFeedback('invalid');
+        triggerQuickShake(wrongWordShakeAnim);
       }
     }
 
     setSelectedIndices([]);
-    setTimeout(() => setFeedback(null), 2000);
+    setTimeout(() => setFeedback(null), 2000); // hide feedback after 2
   };
 
   useEffect(() => {
-    if (enemyHP === 0 || playerHP === 0) {
+    if (enemyHP === 0) {
+      setTimeout(() => {
+        enemyRotation.value = withTiming(720, { duration: 1000 });
+        enemyScale.value = withTiming(0, { duration: 1000 });
+        enemyOpacity.value = withTiming(0, { duration: 1000 });
+      }, 500);
+      setTimeout(() => {
+        setShowGameOverModal(true);
+      }, 3000);
+    } else if (playerHP === 0) {
       setTimeout(() => {
         setShowGameOverModal(true);
       }, 1500);
@@ -224,11 +247,13 @@ export default function BattleScreen() {
           }}
         >
           <Text style={{ color: 'white', fontSize: 20 }}>{enemyView.name}</Text>
-          <Image
-            source={enemyView.image}
-            resizeMode="cover"
-            style={{ width: 220, height: 220 }}
-          />
+          <Animated.View style={enemyStyle}>
+            <Image
+              source={enemyView.image}
+              resizeMode="cover"
+              style={{ width: 220, height: 220 }}
+            />
+          </Animated.View>
         </View>
         <Animated.Text
           style={[
@@ -239,7 +264,6 @@ export default function BattleScreen() {
           Enemy HP: {enemyHP}
         </Animated.Text>
         <TouchableOpacity
-
           style={{
             position: 'absolute',
             bottom: 16,
@@ -247,7 +271,11 @@ export default function BattleScreen() {
           }}
           onPress={() => setMapVisible(true)}
         >
-          <Image source={require('../assets/icons/battle/map.png')} resizeMode='contain' style={{ width: 32, height: 32 }} />
+          <Image
+            source={require('../assets/icons/battle/map.png')}
+            resizeMode="contain"
+            style={{ width: 32, height: 32 }}
+          />
         </TouchableOpacity>
       </View>
 
@@ -266,7 +294,7 @@ export default function BattleScreen() {
           {currentWord ? currentWord.toUpperCase() : '-'}
         </Text>
 
-        <FlatList
+        <Animated.FlatList
           data={letters}
           keyExtractor={(_, i) => i.toString()}
           numColumns={5}
@@ -282,35 +310,46 @@ export default function BattleScreen() {
             </TouchableOpacity>
           )}
           showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
+          style={[
+            { flexGrow: 0 },
+            { transform: [{ translateX: wrongWordShakeAnim }] }
+          ]}
         />
 
-        {feedback === 'valid' && (
-          <Text style={styles.valid}>✅ Good word!</Text>
-        )}
         {feedback === 'invalid' && (
-          <Text style={styles.invalid}>❌ Invalid word</Text>
+          <Text style={styles.invalid}>Invalid word</Text>
         )}
         {feedback === 'short' && (
-          <Text style={styles.invalid}>❌ At least 4 letter</Text>
+          <Text style={styles.invalid}>At least 4 letter</Text>
         )}
 
         {/* Controls */}
         <View style={styles.controls}>
-          <Button
-            title={`Reshuffle (${reshuffleCount} left)`}
+          <ActionBottomButton
+            icon={<IcReshuffle width={18} height={18} />}
             onPress={handleReshuffle}
             disabled={reshuffleCount === 0}
           />
-          <Button title="Clear" onPress={handleClear} />
-          <Button title="Submit" onPress={handleSubmit} />
-          <Button title='Rearrange' onPress={handleRearrange}/>
+          <ActionBottomButton
+            icon={<IcRearrange width={18} height={18} />}
+            onPress={handleRearrange}
+          />
+          <ActionBottomButton
+            icon={<IcCancel width={18} height={18} />}
+            onPress={handleClear}
+          />
+          <ActionBottomButton
+            icon={<IcFight width={18} height={18} />}
+            onPress={handleSubmit}
+          />
         </View>
       </View>
       <Modal
         visible={showGameOverModal}
         transparent
         animationType="slide"
-        onRequestClose={() => { }}
+        onRequestClose={() => {}}
       >
         <View
           style={{
@@ -409,9 +448,9 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   letterTile: {
-    width: 32,
-    height: 32,
-    margin: 5,
+    width: 28,
+    height: 28,
+    margin: 4,
     backgroundColor: '#eee',
     justifyContent: 'center',
     alignItems: 'center',
@@ -426,9 +465,9 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: 'row',
-    marginVertical: 24,
-    gap: 10
+    gap: 16,
+    position: 'absolute',
+    bottom: 24
   },
-  valid: { color: 'lightgreen', marginTop: 10 },
   invalid: { color: 'salmon', marginTop: 10 }
 });
