@@ -67,7 +67,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#121212',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 16
   },
   lottie: {
     width: 200,
@@ -77,13 +78,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontStyle: 'italic',
-    marginTop: 20
+    marginTop: 20,
+    textAlign: 'center'
   },
   tipTitle: {
     marginTop: 40,
     fontSize: 18,
     color: '#ffd700',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    textAlign: 'center'
   },
   tipText: {
     marginTop: 10,

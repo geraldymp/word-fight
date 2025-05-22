@@ -330,6 +330,7 @@ export default function BattleScreen() {
             icon={<IcReshuffle width={18} height={18} />}
             onPress={handleReshuffle}
             disabled={reshuffleCount === 0}
+            counter={reshuffleCount}
           />
           <ActionBottomButton
             icon={<IcRearrange width={18} height={18} />}
