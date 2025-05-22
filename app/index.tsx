@@ -35,7 +35,7 @@ export default function HomeScreen() {
       </TouchableOpacity>
       <Image
         source={require('../assets/title_logo2.png')}
-        style={{ width: '80%', marginTop: 120 }}
+        style={{ width: '80%', marginTop: 100 }}
         resizeMode="contain"
       />
       <LottieView
@@ -63,7 +63,7 @@ export default function HomeScreen() {
         style={{
           flexDirection: 'row',
           position: 'absolute',
-          bottom: 80,
+          bottom: 42,
           gap: 32
         }}
       >

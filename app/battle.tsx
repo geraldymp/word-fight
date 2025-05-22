@@ -3,6 +3,7 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Button,
+  Dimensions,
   Image,
   Modal,
   StyleSheet,
@@ -32,6 +33,9 @@ import { calculateBaseLetterDamage } from '../utils/calculateDamage';
 import { generateRandomLetters } from '../utils/generateLetters';
 import { getBonusDamageFromLength } from '../utils/wordLengthDamageMap';
 import { isValidWord } from '../utils/wordValidator';
+
+const screenHeight = Dimensions.get('window').height
+const screenWidth = Dimensions.get('window').width
 
 export default function BattleScreen() {
   const router = useRouter();
@@ -247,11 +251,11 @@ export default function BattleScreen() {
           }}
         >
           <Text style={{ color: 'white', fontSize: 20 }}>{enemyView.name}</Text>
-          <Animated.View style={enemyStyle}>
+          <Animated.View style={[enemyStyle]}>
             <Image
               source={enemyView.image}
               resizeMode="cover"
-              style={{ width: 220, height: 220 }}
+              style={{ width: screenWidth/2, height: screenHeight/4 }}
             />
           </Animated.View>
         </View>
@@ -283,7 +287,7 @@ export default function BattleScreen() {
       <View style={styles.playerArea}>
         <Animated.Text
           style={[
-            { fontSize: 18, color: 'white', marginVertical: 10 },
+            { fontSize: 18, color: 'white', marginVertical: 6 },
             { transform: [{ translateX: playerShakeAnim }] }
           ]}
         >
@@ -436,7 +440,7 @@ const styles = StyleSheet.create({
     padding: 16
   },
   enemyTitle: { fontSize: 18, color: 'white' },
-  enemyHP: { fontSize: 18, color: '#ffaaaa', alignSelf: 'center' },
+  enemyHP: { fontSize: 18, color: '#ffaaaa', alignSelf: 'center', position: 'absolute', bottom: 0, marginBottom: 16 },
   playerArea: {
     flex: 1,
     padding: 10,
