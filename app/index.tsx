@@ -1,13 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AboutModal } from '../components/AboutModal';
 import { CircleIcon } from '../components/Home/CircleIcon';
 
+const homeBgMusic = require('../assets/sounds/home_screen.mp3');
+
 export default function HomeScreen() {
   const router = useRouter();
+  const bgMusic = useAudioPlayer(homeBgMusic);
+
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    bgMusic.loop = true;
+    setTimeout(() => {
+      if (bgMusic.isLoaded) {
+        bgMusic.play();
+      }
+    }, 500);
+  }, []);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#777fa8', alignItems: 'center' }}>
@@ -53,6 +68,7 @@ export default function HomeScreen() {
           paddingTop: 48
         }}
         onPress={() => {
+          bgMusic.pause();
           router.push('/loading');
         }}
       >

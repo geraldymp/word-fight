@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
@@ -34,14 +35,23 @@ import { generateRandomLetters } from '../utils/generateLetters';
 import { getBonusDamageFromLength } from '../utils/wordLengthDamageMap';
 import { isValidWord } from '../utils/wordValidator';
 
-const screenHeight = Dimensions.get('window').height
-const screenWidth = Dimensions.get('window').width
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
+
+const enemyHit = require('../assets/sounds/enemy_hit.mp3');
+const enemyBeaten = require('../assets/sounds/enemy_beaten.mp3');
+const playerHit = require('../assets/sounds/player_hit.mp3');
+const battleBgMusic = require('../assets/sounds/battle_screen.mp3');
 
 export default function BattleScreen() {
   const router = useRouter();
   const { selectedEnemy, setEnemyHP, increaseLevel, bonusDamage, journeyPath } =
     useGameStore();
   const { name, image, baseHp, minDmg, maxDmg, level } = selectedEnemy;
+  const enemyHitSound = useAudioPlayer(enemyHit);
+  const playerHitSound = useAudioPlayer(playerHit);
+  const enemyBeatenSound = useAudioPlayer(enemyBeaten);
+  const bgMusic = useAudioPlayer(battleBgMusic);
 
   const enemyHP = useGameStore(state => state.enemyHP);
   const reduceEnemyHP = useGameStore(state => state.reduceEnemyHP);
@@ -51,7 +61,7 @@ export default function BattleScreen() {
   const maxReshuffles = 2;
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
-  const enemyDamage = getRandomInt(minDmg, maxDmg) + bonusDamage;
+  const enemyDamage = getRandomInt(minDmg, maxDmg);
   const playerShakeAnim = useSharedValue(0);
   const enemyShakeAnim = useSharedValue(0);
   const wrongWordShakeAnim = useSharedValue(0);
@@ -74,6 +84,7 @@ export default function BattleScreen() {
   });
   const [mapVisible, setMapVisible] = useState(false);
 
+  // Shake when damage is done (for enemy or player)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
     animRef.value = withSequence(
       withTiming(10, { duration: 50 }),
@@ -129,6 +140,8 @@ export default function BattleScreen() {
           { id: Date.now(), amount: enemyDamage, type: 'player' }
         ]);
         reducePlayerHP(enemyDamage);
+        playerHitSound.seekTo(0);
+        playerHitSound.play();
         triggerQuickShake(playerShakeAnim);
       }, 1200);
     }
@@ -143,11 +156,12 @@ export default function BattleScreen() {
         getBonusDamageFromLength(currentWord);
       setDamageEvents(prev => [
         ...prev,
-        { id: Date.now(), amount: damage, type: 'enemy' }
+        { id: Date.now(), amount: damage + bonusDamage, type: 'enemy' }
       ]);
 
       reduceEnemyHP(damage);
-
+      enemyHitSound.seekTo(0);
+      enemyHitSound.play();
       triggerQuickShake(enemyShakeAnim);
 
       // Submit highscore to supabase if in top 10
@@ -178,6 +192,8 @@ export default function BattleScreen() {
   useEffect(() => {
     if (enemyHP === 0) {
       setTimeout(() => {
+        enemyBeatenSound.seekTo(0);
+        enemyBeatenSound.play();
         enemyRotation.value = withTiming(720, { duration: 1000 });
         enemyScale.value = withTiming(0, { duration: 1000 });
         enemyOpacity.value = withTiming(0, { duration: 1000 });
@@ -237,6 +253,15 @@ export default function BattleScreen() {
     }
   }, [level, enemyHP]);
 
+  useEffect(() => {
+    bgMusic.loop = true;
+    setTimeout(() => {
+      if (bgMusic.isLoaded) {
+        bgMusic.play();
+      }
+    }, 500);
+  }, []);
+
   return (
     <View style={styles.container}>
       {/* Enemy Display */}
@@ -255,7 +280,7 @@ export default function BattleScreen() {
             <Image
               source={enemyView.image}
               resizeMode="cover"
-              style={{ width: screenWidth/2, height: screenHeight/4 }}
+              style={{ width: screenWidth / 2, height: screenHeight / 4 }}
             />
           </Animated.View>
         </View>
@@ -350,12 +375,7 @@ export default function BattleScreen() {
           />
         </View>
       </View>
-      <Modal
-        visible={showGameOverModal}
-        transparent
-        animationType="slide"
-        onRequestClose={() => {}}
-      >
+      <Modal visible={showGameOverModal} transparent animationType="slide">
         <View
           style={{
             flex: 1,
@@ -406,6 +426,7 @@ export default function BattleScreen() {
                 title="Back to Home"
                 onPress={() => {
                   resetGame();
+                  setShowGameOverModal(false);
                   router.replace('/');
                 }}
               />
@@ -440,7 +461,14 @@ const styles = StyleSheet.create({
     padding: 16
   },
   enemyTitle: { fontSize: 18, color: 'white' },
-  enemyHP: { fontSize: 18, color: '#ffaaaa', alignSelf: 'center', position: 'absolute', bottom: 0, marginBottom: 16 },
+  enemyHP: {
+    fontSize: 18,
+    color: '#ffaaaa',
+    alignSelf: 'center',
+    position: 'absolute',
+    bottom: 0,
+    marginBottom: 16
+  },
   playerArea: {
     flex: 1,
     padding: 10,
