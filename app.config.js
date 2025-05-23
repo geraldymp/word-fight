@@ -29,6 +29,8 @@ export default {
     },
     plugins: [
       'expo-router',
+      'expo-audio',
+      'expo-asset',
       [
         'expo-splash-screen',
         {
@@ -38,7 +40,6 @@ export default {
           backgroundColor: '#ffffff'
         }
       ],
-      'expo-asset',
       [
         'expo-font',
         {
