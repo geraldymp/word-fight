@@ -1,5 +1,5 @@
 // utils/calculateDamage.ts
-import { letterDamageMap } from './letterDamage';
+import { letterDamageMap } from '../constants/letterDamage';
 
 export const calculateBaseLetterDamage = (word: string): number => {
   return word
