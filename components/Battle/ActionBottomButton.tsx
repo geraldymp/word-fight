@@ -5,7 +5,7 @@ interface IActionBottomButton {
   icon: React.ReactNode;
   onPress: () => void;
   disabled?: boolean;
-  counter?: number
+  counter?: number;
 }
 
 const _ActionBottomButton: React.FC<IActionBottomButton> = ({
@@ -14,12 +14,27 @@ const _ActionBottomButton: React.FC<IActionBottomButton> = ({
   disabled = false,
   counter = undefined
 }) => {
-  const counterBgCol = counter === 0 ? 'red' : 'green'
+  const counterBgCol = counter === 0 ? 'red' : 'green';
   return (
     <View style={{ paddingTop: 12, paddingRight: 12 }}>
-      {counter !== undefined && (<View style={{ backgroundColor: counterBgCol, position: 'absolute', right: 0, top: 0,borderRadius: 12, zIndex: 2, height: 24, width: 24, alignItems: 'center', justifyContent: 'center' }}>
-        <Text>{counter}</Text>
-      </View>)}
+      {counter !== undefined && (
+        <View
+          style={{
+            backgroundColor: counterBgCol,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            borderRadius: 12,
+            zIndex: 2,
+            height: 24,
+            width: 24,
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+        >
+          <Text>{counter}</Text>
+        </View>
+      )}
       <TouchableOpacity
         style={{
           height: 32,
@@ -34,7 +49,6 @@ const _ActionBottomButton: React.FC<IActionBottomButton> = ({
       >
         {icon}
       </TouchableOpacity>
-
     </View>
   );
 };

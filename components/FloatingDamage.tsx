@@ -47,10 +47,10 @@ export const FloatingDamage = ({ amount, type, onComplete }: Props) => {
 const styles = StyleSheet.create({
   floating: {
     position: 'absolute',
-    color: 'red',
-    fontSize: 64,
+    color: '#eb1052',
+    fontSize: 72,
     fontWeight: 'bold',
-    textShadowColor: '#000',
-    textShadowRadius: 2
+    textShadowColor: 'white',
+    textShadowRadius: 16
   }
 });
