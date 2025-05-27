@@ -6,23 +6,32 @@ import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { AboutModal } from '../components/AboutModal';
 import { CircleIcon } from '../components/Home/CircleIcon';
+import { useSettingsStore } from '../store/useSettingStore';
 
 const homeBgMusic = require('../assets/sounds/home_screen.mp3');
 
 export default function HomeScreen() {
   const router = useRouter();
+
+  const { muteMusic, loadSettings } = useSettingsStore();
   const bgMusic = useAudioPlayer(homeBgMusic);
 
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
 
   useEffect(() => {
-    bgMusic.loop = true;
-    setTimeout(() => {
+    loadSettings();
+  }, []); 
+
+  useEffect(() => {
+    if (!muteMusic) {
+      bgMusic.loop = true;
       if (bgMusic.isLoaded) {
         bgMusic.play();
       }
-    }, 500);
-  }, []);
+    } else {
+      bgMusic.pause();
+    }
+  }, [muteMusic, bgMusic.isLoaded]);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#777fa8', alignItems: 'center' }}>

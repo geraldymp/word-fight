@@ -3,6 +3,7 @@ import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
+  BackHandler,
   Button,
   Dimensions,
   Image,
@@ -30,6 +31,7 @@ import { FloatingDamage } from '../components/FloatingDamage';
 import { JourneyMapModal } from '../components/JourneyMapModal';
 import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
 import { useGameStore } from '../store/useGameStore';
+import { useSettingsStore } from '../store/useSettingStore';
 import { calculateBaseLetterDamage } from '../utils/calculateDamage';
 import { generateRandomLetters } from '../utils/generateLetters';
 import { getBonusDamageFromLength } from '../utils/wordLengthDamageMap';
@@ -45,12 +47,15 @@ const battleBgMusic = require('../assets/sounds/battle_screen.mp3');
 
 export default function BattleScreen() {
   const router = useRouter();
+
   const { selectedEnemy, setEnemyHP, increaseLevel, bonusDamage, journeyPath } =
     useGameStore();
   const { name, image, baseHp, minDmg, maxDmg, level } = selectedEnemy;
   const enemyHitSound = useAudioPlayer(enemyHit);
   const playerHitSound = useAudioPlayer(playerHit);
   const enemyBeatenSound = useAudioPlayer(enemyBeaten);
+
+  const { muteMusic } = useSettingsStore();
   const bgMusic = useAudioPlayer(battleBgMusic);
 
   const enemyHP = useGameStore(state => state.enemyHP);
@@ -159,7 +164,7 @@ export default function BattleScreen() {
         { id: Date.now(), amount: damage + bonusDamage, type: 'enemy' }
       ]);
 
-      reduceEnemyHP(damage);
+      reduceEnemyHP(damage + bonusDamage);
       enemyHitSound.seekTo(0);
       enemyHitSound.play();
       triggerQuickShake(enemyShakeAnim);
@@ -254,13 +259,29 @@ export default function BattleScreen() {
   }, [level, enemyHP]);
 
   useEffect(() => {
-    bgMusic.loop = true;
-    setTimeout(() => {
+    if (!muteMusic) {
+      bgMusic.loop = true;
       if (bgMusic.isLoaded) {
         bgMusic.play();
       }
-    }, 500);
-  }, []);
+    } else {
+      bgMusic.pause();
+    }
+  }, [muteMusic, bgMusic.isLoaded]);
+
+  useEffect(() => {
+    const backAction = () => {
+      router.replace('/');
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [router]);
 
   return (
     <View style={styles.container}>

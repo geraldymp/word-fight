@@ -1,21 +1,63 @@
-import { StyleSheet, Text, View } from 'react-native';
+import React from 'react';
+import { StyleSheet, Switch, Text, View } from 'react-native';
+import { useSettingsStore } from '../store/useSettingStore';
 
-export default function SettingsScreen() {
+
+const SettingsScreen = () => {
+  const {
+    muteMusic,
+    muteSound,
+    setMuteMusic,
+    setMuteSound
+  } = useSettingsStore();
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Settings (Coming Soon)</Text>
+      <Text style={styles.title}>Settings</Text>
+
+      <View style={styles.settingRow}>
+        <Text style={styles.settingText}>Mute Music</Text>
+        <Switch
+          value={muteMusic}
+          onValueChange={setMuteMusic}
+          thumbColor={muteMusic ? '#f00' : '#0f0'}
+        />
+      </View>
+
+      <View style={styles.settingRow}>
+        <Text style={styles.settingText}>Mute Sound</Text>
+        <Switch
+          value={muteSound}
+          onValueChange={setMuteSound}
+          thumbColor={muteSound ? '#f00' : '#0f0'}
+        />
+      </View>
     </View>
+
   );
-}
+};
+
+export default SettingsScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
+    padding: 20,
+    backgroundColor: '#121212',
   },
-  text: {
-    fontSize: 20,
-    color: 'gray'
-  }
+  title: {
+    fontSize: 24,
+    color: '#fff',
+    marginBottom: 20,
+  },
+  settingRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  settingText: {
+    color: '#fff',
+    fontSize: 18,
+  },
 });
