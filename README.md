@@ -1,8 +1,8 @@
-# 📚 Word Battle — A React Native Word Game
+# 📚 Word Fight — A React Native Word Game
 
-**Word Battle** is a simple but fun mobile game inspired by _Bookworm Adventures_, built with **React Native**, **Expo Router**, and **Zustand**.
+**Word Fight** is a simple but fun mobile game inspired by _Bookworm Adventures_, built with **React Native**, **Expo Router**, and **Zustand**.
 
-Your goal: defeat enemies by forming valid words using a randomized set of 12 letters. The longer or more complex the word, the more damage you deal!
+Your goal: defeat enemies by forming valid words using a randomized set of 20 letters. The longer or more complex the word, the more damage you deal!
 
 ---
 
@@ -13,7 +13,7 @@ Your goal: defeat enemies by forming valid words using a randomized set of 12 le
 - ⚔️ Scalable damage system based on word length and letter rarity
 - 👾 Enemies get stronger with each level
 - 💥 Animated floating damage effects
-- 🪨 Reshuffle letters (limited to 2 per game)
+- 🪨 Reshuffle letters (limited to 2 per enemy)
 - ❤️ Shake animations when HP changes
 - 🧟‍♂️ Game over modal and level progression
 
