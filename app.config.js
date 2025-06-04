@@ -16,7 +16,7 @@ export default {
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: './assets/images/adaptive-icon.png',
+        foregroundImage: './assets/word_fight_logo.png',
         backgroundColor: '#ffffff'
       },
       edgeToEdgeEnabled: true,
@@ -34,10 +34,13 @@ export default {
       [
         'expo-splash-screen',
         {
+          backgroundColor: "#4287f5",
           image: './assets/word_fight_logo.png',
-          imageWidth: 200,
-          resizeMode: 'contain',
-          backgroundColor: '#ffffff'
+          dark: {
+          image: './assets/word_fight_logo.png',
+            backgroundColor: "#4287f5"
+          },
+          imageWidth: 200
         }
       ],
       [
