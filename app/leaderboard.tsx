@@ -27,7 +27,7 @@ export default function LeaderboardScreen() {
         .from('high_scores')
         .select('*')
         .order('score', { ascending: false })
-        .limit(10);
+        .limit(20);
       if (error) {
         console.error('Error fetching scores:', error);
       } else {
