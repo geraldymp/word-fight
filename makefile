@@ -47,3 +47,6 @@ makenew:
 
 build-android:
 	eas build --platform android --profile preview
+
+after-update-expo-version:
+	npx expo install --fix
