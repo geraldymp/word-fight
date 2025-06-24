@@ -7,5 +7,4 @@ export interface IEnemy {
   minDmg: number;
   maxDmg: number;
   goldReward: number;
-  level: number;
 }
