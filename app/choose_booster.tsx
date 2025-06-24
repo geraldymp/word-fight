@@ -15,17 +15,39 @@ export default function ChooseBoosterScreen() {
   const router = useRouter();
   const { addToJourney } = useGameStore();
 
-  const { increasePlayerHP } = useGameStore();
-  const increasePlayerBonusDamage = useGameStore(s => s.setBonusDamage);
-  // const increaseExtraGoldGained = useGameStore((s) => s.setBonusGold);
+  const { increasePlayerHP, setBonusDamage, setVowelModifier, setABCDEModifier, setVWXYZRModifier, setIngModifier, setSTModifier } = useGameStore();
 
   const handleSelect = (booster: IBooster) => {
     const { id, name } = booster;
-    if (id === 'extra-hp') {
-      increasePlayerHP(10);
+    switch (id) {
+      case 'restore-hp':
+        increasePlayerHP(10);
+        break;
+      case 'bonus-damage':
+        setBonusDamage(3);
+        break;
+      case 'max-reshuffle':
+        // Increase max reshuffle logic here
+        break;
+      case 'vowel-boost':
+        setVowelModifier(2);
+        break;
+      case 'abcde-boost':
+        setABCDEModifier(3);
+        break;
+      case 'vwxyz-boost':
+        setVWXYZRModifier(5);
+        break;
+      case 'ing-boost':
+        setIngModifier(8);
+        break;
+      case 'st-boost':
+        setSTModifier(4);
+        break;
+      default:
+        console.warn(`Unknown booster ID: ${id}`);
+        return;
     }
-    if (id === 'bonus-damage') increasePlayerBonusDamage(2);
-    // if (id === 'gold-rush') increaseExtraGoldGained(5);
 
     addToJourney([{ name: name, type: 'booster', chosen: true }]); // Add the booster to the journey path
     router.replace('/choose_enemy'); // back to enemy select
