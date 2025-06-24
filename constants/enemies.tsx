@@ -1,171 +1,205 @@
-import { IEnemy } from '../types/IEnemy';
+import { IEnemy } from "@/types/IEnemy";
 
-export const enemies: IEnemy[] = [
+interface IEnemies {
+  step: number;
+  area: string;
+  content: IEnemy[]
+}
+
+export const enemies: IEnemies[] = [
   {
-    name: '',
-    image: null,
-    baseHp: 0,
-    minDmg: 0,
-    maxDmg: 0,
-    goldReward: 0,
-    level: 0
+    step: 1,
+    area: 'forest',
+    content: [
+      {
+        name: 'Junior Mage',
+        image: require('../assets/enemieses/forest/junior_mage.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Living Tree',
+        image: require('../assets/enemieses/forest/living_tree.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Old Warlock',
+        image: require('../assets/enemieses/forest/old_warlock.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      }
+    ]
+  },
+  {
+    step: 1,
+    area: 'goblin_camp',
+    content: [
+      {
+        name: 'Big Ear Goblin',
+        image: require('../assets/enemieses/goblin_camp/big_ear_goblin.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Mad Goblin',
+        image: require('../assets/enemieses/goblin_camp/mad_goblin.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Scarred Goblin',
+        image: require('../assets/enemieses/goblin_camp/scarred_goblin.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      }
+    ]
+  },
+  {
+    step: 2,
+    area: 'graveyard',
+    content: [
+      {
+        name: 'Cracked Skull',
+        image: require('../assets/enemieses/graveyard/cracked_skull.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Dead Face',
+        image: require('../assets/enemieses/graveyard/dead_face.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'The Frankenstein',
+        image: require('../assets/enemieses/graveyard/the_frankenstein.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      }
+    ]
+  },
+  {
+    step: 2,
+    area: 'witch_swamp',
+    content: [
+      {
+        name: 'Smilling Pumpkin',
+        image: require('../assets/enemieses/witch_swamp/smilling_pumpkin.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Bearded Centaur',
+        image: require('../assets/enemieses/witch_swamp/bearded_centaur.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'The Medusa',
+        image: require('../assets/enemieses/witch_swamp/the_medusa.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      }
+    ]
+  },
+  {
+    step: 4,
+    area: 'ancient_kingdom',
+    content: [
+      {
+        name: 'Metal Knight',
+        image: require('../assets/enemieses/ancient_kingdom/metal_knight.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Old Viking',
+        image: require('../assets/enemieses/ancient_kingdom/old_viking.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'The Executioner',
+        image: require('../assets/enemieses/ancient_kingdom/the_executioner.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      }
+    ]
+  },
+  {
+    step: 4,
+    area: 'futuristic_city',
+    content: [
+      {
+        name: 'Revamped Android',
+        image: require('../assets/enemieses/futuristic_city/revamped_android.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Half Cyborg',
+        image: require('../assets/enemieses/futuristic_city/half_cyborg.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      },
+      {
+        name: 'Ancient Machine',
+        image: require('../assets/enemieses/futuristic_city/ancient_machine.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      }
+    ]
   },
 
   {
-    name: 'Happy Frog',
-    image: require('../assets/enemies/happy_frog.png'),
-    baseHp: 30,
-    minDmg: 3,
-    maxDmg: 5,
-    goldReward: 10,
-    level: 1
-  },
-  {
-    name: 'Sleepy Head',
-    image: require('../assets/enemies/sleepy_head.png'),
-    baseHp: 30,
-    minDmg: 2,
-    maxDmg: 6,
-    goldReward: 10,
-    level: 1
-  },
-  {
-    name: 'Yellow Tusk',
-    image: require('../assets/enemies/yellow_tusk.png'),
-    baseHp: 25,
-    minDmg: 5,
-    maxDmg: 5,
-    goldReward: 10,
-    level: 1
-  },
-  {
-    name: 'Scar Face',
-    image: require('../assets/enemies/scar_face.png'),
-    baseHp: 20,
-    minDmg: 5,
-    maxDmg: 7,
-    goldReward: 10,
-    level: 1
-  },
-  {
-    name: 'Dark Ghost',
-    image: require('../assets/enemies/dark_ghost.png'),
-    baseHp: 20,
-    minDmg: 8,
-    maxDmg: 9,
-    goldReward: 10,
-    level: 1
-  },
-
-  {
-    name: 'Dead Face',
-    image: require('../assets/enemies/dead_face.png'),
-    baseHp: 35,
-    minDmg: 4,
-    maxDmg: 6,
-    goldReward: 12,
-    level: 2
-  },
-  {
-    name: 'Cracked Skull',
-    image: require('../assets/enemies/cracked_skull.png'),
-    baseHp: 35,
-    minDmg: 5,
-    maxDmg: 7,
-    goldReward: 12,
-    level: 2
-  },
-
-  {
-    name: 'Pirate Skull',
-    image: require('../assets/enemies/pirate_skull.png'),
-    baseHp: 40,
-    minDmg: 6,
-    maxDmg: 7,
-    goldReward: 15,
-    level: 3
-  },
-  {
-    name: 'The Frankenstein',
-    image: require('../assets/enemies/the_frankenstein.png'),
-    baseHp: 38,
-    minDmg: 6,
-    maxDmg: 8,
-    goldReward: 15,
-    level: 3
-  },
-  {
-    name: 'Scary Clown',
-    image: require('../assets/enemies/scary_clown.png'),
-    baseHp: 38,
-    minDmg: 4,
-    maxDmg: 7,
-    goldReward: 15,
-    level: 3
-  },
-  {
-    name: 'Big Ear Goblin',
-    image: require('../assets/enemies/big_ear_goblin.png'),
-    baseHp: 22,
-    minDmg: 2,
-    maxDmg: 13,
-    goldReward: 15,
-    level: 3
-  },
-
-  {
-    name: 'Evil Queen',
-    image: require('../assets/enemies/evil_queen.png'),
-    baseHp: 45,
-    minDmg: 6,
-    maxDmg: 10,
-    goldReward: 20,
-    level: 4
-  },
-  {
-    name: 'Horned Cyclops',
-    image: require('../assets/enemies/horned_cyclops.png'),
-    baseHp: 45,
-    minDmg: 4,
-    maxDmg: 12,
-    goldReward: 20,
-    level: 4
-  },
-  {
-    name: 'Mother of Demon',
-    image: require('../assets/enemies/mother_of_demon.png'),
-    baseHp: 35,
-    minDmg: 8,
-    maxDmg: 8,
-    goldReward: 20,
-    level: 4
-  },
-
-  {
-    name: 'Fallen Angel',
-    image: require('../assets/enemies/fallen_angel.png'),
-    baseHp: 80,
-    minDmg: 8,
-    maxDmg: 10,
-    goldReward: 25,
-    level: 5
-  },
-  {
-    name: 'Smiling Demon',
-    image: require('../assets/enemies/smiling_demon.png'),
-    baseHp: 50,
-    minDmg: 12,
-    maxDmg: 15,
-    goldReward: 25,
-    level: 5
-  },
-  {
-    name: 'Ancient Cyborg',
-    image: require('../assets/enemies/ancient_cyborg.png'),
-    baseHp: 50,
-    minDmg: 10,
-    maxDmg: 18,
-    goldReward: 25,
-    level: 5
+    step: 6,
+    area: 'boss',
+    content: [
+      {
+        name: 'The Death',
+        image: require('../assets/enemieses/the_death.png'),
+        baseHp: 30,
+        minDmg: 3,
+        maxDmg: 5,
+        goldReward: 10
+      }
+    ]
   }
-];
+]

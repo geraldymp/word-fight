@@ -29,7 +29,7 @@ import {
 import { ActionBottomButton } from '../components/Battle/ActionBottomButton';
 import { FloatingDamage } from '../components/FloatingDamage';
 import { JourneyMapModal } from '../components/JourneyMapModal';
-import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
+// import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
 import { useGameStore } from '../store/useGameStore';
 import { useSettingsStore } from '../store/useSettingStore';
 import { calculateBaseLetterDamage } from '../utils/calculateDamage';
@@ -48,9 +48,22 @@ const battleBgMusic = require('../assets/sounds/battle_screen.mp3');
 export default function BattleScreen() {
   const router = useRouter();
 
-  const { selectedEnemy, setEnemyHP, increaseLevel, bonusDamage, journeyPath } =
-    useGameStore();
-  const { name, image, baseHp, minDmg, maxDmg, level } = selectedEnemy;
+  const {
+    selectedEnemy,
+    setEnemyHP,
+    bonusDamage,
+    journeyPath,
+    stage,
+    increaseStage,
+    step,
+    increaseStep,
+    enemyHP,
+    reduceEnemyHP,
+    playerHP,
+    reducePlayerHP,
+    resetGame
+  } = useGameStore();
+  const { name, image, baseHp, minDmg, maxDmg } = selectedEnemy;
   const enemyHitSound = useAudioPlayer(enemyHit);
   const playerHitSound = useAudioPlayer(playerHit);
   const enemyBeatenSound = useAudioPlayer(enemyBeaten);
@@ -58,11 +71,6 @@ export default function BattleScreen() {
   const { muteMusic } = useSettingsStore();
   const bgMusic = useAudioPlayer(battleBgMusic);
 
-  const enemyHP = useGameStore(state => state.enemyHP);
-  const reduceEnemyHP = useGameStore(state => state.reduceEnemyHP);
-  const playerHP = useGameStore(state => state.playerHP);
-  const reducePlayerHP = useGameStore(state => state.reducePlayerHP);
-  const resetGame = useGameStore(state => state.resetGame);
   const maxReshuffles = 2;
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
@@ -158,7 +166,7 @@ export default function BattleScreen() {
     if (isValidWord(currentWord) && currentWord.length > 3) {
       const damage =
         calculateBaseLetterDamage(currentWord) +
-        getBonusDamageFromLength(currentWord);
+        getBonusDamageFromLength(currentWord) + 20;
       setDamageEvents(prev => [
         ...prev,
         { id: Date.now(), amount: damage + bonusDamage, type: 'enemy' }
@@ -170,7 +178,7 @@ export default function BattleScreen() {
       triggerQuickShake(enemyShakeAnim);
 
       // Submit highscore to supabase if in top 10
-      submitHighScoreIfTop10(currentWord, damage);
+      // submitHighScoreIfTop10(currentWord, damage);
 
       // Replace used letters
       const newLetters = [...letters];
@@ -218,28 +226,28 @@ export default function BattleScreen() {
   }, []);
 
   useEffect(() => {
-    // On mount or level up, set enemy HP
+    // On mount or stage up, set enemy HP
     setEnemyHP(baseHp);
     setEnemyView({ name, image });
-    if (reshuffleCount < maxReshuffles && level > 1) {
+    if (reshuffleCount < maxReshuffles && stage > 1) {
       setReshuffleCount(prev => prev + 1);
     }
-  }, [level]);
+  }, [stage]);
 
   const modalContent: {
     modalText: string;
     showNextLevelBtn: boolean;
     showBoosterBtn: boolean;
   } = useMemo(() => {
-    if (level === 5 && enemyHP === 0) {
+    if (enemyHP === 0 && step === 6) {
       return {
         modalText: 'Congratulations, you beat the game!',
         showNextLevelBtn: false,
         showBoosterBtn: false
       };
-    } else if (enemyHP === 0 && level === 3) {
+    } else if (enemyHP === 0 && stage === 3) {
       return {
-        modalText: 'You win the fight!',
+        modalText: 'You beat the area!',
         showNextLevelBtn: false,
         showBoosterBtn: true
       };
@@ -256,21 +264,23 @@ export default function BattleScreen() {
         showBoosterBtn: false
       };
     }
-  }, [level, enemyHP]);
+  }, [step, stage, enemyHP]);
 
-  useEffect(() => {
-    if (!muteMusic) {
-      bgMusic.loop = true;
-      if (bgMusic.isLoaded) {
-        bgMusic.play();
-      }
-    } else {
-      bgMusic.pause();
-    }
-  }, [muteMusic, bgMusic.isLoaded]);
+  // hidden music for now
+  // useEffect(() => {
+  //   if (!muteMusic) {
+  //     bgMusic.loop = true;
+  //     if (bgMusic.isLoaded) {
+  //       bgMusic.play();
+  //     }
+  //   } else {
+  //     bgMusic.pause();
+  //   }
+  // }, [muteMusic, bgMusic]);
 
   useEffect(() => {
     const backAction = () => {
+      // bgMusic.pause();
       router.replace('/');
       return true;
     };
@@ -287,7 +297,7 @@ export default function BattleScreen() {
     <View style={styles.container}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <Text style={styles.enemyTitle}>{`Level: ${level}`}</Text>
+        <Text style={styles.enemyTitle}>{`Stage: ${step === 6 ? 'Final' : stage}`}</Text>
         <View
           style={{
             flexDirection: 'column',
@@ -313,7 +323,9 @@ export default function BattleScreen() {
         >
           Enemy HP: {enemyHP}
         </Animated.Text>
-        <TouchableOpacity
+
+        {/* map hidden for now */}
+        {/* <TouchableOpacity
           style={{
             position: 'absolute',
             bottom: 16,
@@ -326,7 +338,8 @@ export default function BattleScreen() {
             resizeMode="contain"
             style={{ width: 32, height: 32 }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
+
       </View>
 
       {/* Letters + Word Builder */}
@@ -419,27 +432,27 @@ export default function BattleScreen() {
             <View style={{ gap: 6 }}>
               {modalContent.showNextLevelBtn && (
                 <Button
-                  title="Next Level"
+                  title="Next Stage"
                   onPress={() => {
-                    increaseLevel();
+                    increaseStage()
                     setLetters(generateRandomLetters());
                     setSelectedIndices([]);
                     setFeedback(null);
                     setShowGameOverModal(false);
-                    router.replace('/choose_enemy');
+                    enemyRotation.value = 1;
+                    enemyScale.value = 1;
+                    enemyOpacity.value = 1;
                   }}
                 />
               )}
               {modalContent.showBoosterBtn && (
                 <Button
-                  title="Go to Booster Selection"
+                  title="Go to next area"
                   onPress={() => {
-                    increaseLevel();
-                    setLetters(generateRandomLetters());
-                    setSelectedIndices([]);
-                    setFeedback(null);
+                    increaseStep()
                     setShowGameOverModal(false);
-                    router.replace('/choose_booster');
+                    // bgMusic.pause();
+                    router.replace('/choose_area');
                   }}
                 />
               )}
@@ -448,6 +461,7 @@ export default function BattleScreen() {
                 onPress={() => {
                   resetGame();
                   setShowGameOverModal(false);
+                  // bgMusic.pause();
                   router.replace('/');
                 }}
               />
@@ -523,5 +537,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 24
   },
-  invalid: { color: 'salmon', marginTop: 10 }
+  invalid: { 
+    color: 'salmon',
+     marginTop: 10 
+    }
 });

@@ -31,7 +31,7 @@ export default function HomeScreen() {
     } else {
       bgMusic.pause();
     }
-  }, [muteMusic, bgMusic.isLoaded]);
+  }, [muteMusic, bgMusic]);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#777fa8', alignItems: 'center' }}>
@@ -77,8 +77,8 @@ export default function HomeScreen() {
           paddingTop: 48
         }}
         onPress={() => {
-          bgMusic.pause();
-          router.push('/loading');
+          // bgMusic.pause();
+          router.replace('/choose_area');
         }}
       >
         <Text style={styles.buttonText}>Tap to Start</Text>
