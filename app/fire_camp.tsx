@@ -5,13 +5,13 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useGameStore } from '../store/useGameStore';
 
 export default function FireCamp() {
-  const router = useRouter()
+  const router = useRouter();
   const { increaseStep } = useGameStore();
 
   function handleNext() {
-    increaseStep()
-    router.replace('/choose_area')
-  };
+    increaseStep();
+    router.replace('/choose_area');
+  }
 
   return (
     <View style={styles.container}>
@@ -43,39 +43,39 @@ const styles = StyleSheet.create({
     backgroundColor: '#111', // dark background
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 20,
+    padding: 20
   },
   title: {
     fontSize: 28,
     color: '#ffe08a',
     fontWeight: 'bold',
     marginBottom: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   animationWrapper: {
     width: 200,
     height: 200,
-    marginBottom: 20,
+    marginBottom: 20
   },
   lottie: {
     width: '100%',
-    height: '100%',
+    height: '100%'
   },
   description: {
     fontSize: 16,
     color: '#ccc',
     textAlign: 'center',
-    marginBottom: 30,
+    marginBottom: 30
   },
   button: {
     backgroundColor: '#ffb347',
     paddingVertical: 12,
     paddingHorizontal: 32,
-    borderRadius: 10,
+    borderRadius: 10
   },
   buttonText: {
     fontSize: 18,
     color: '#1a1a1a',
-    fontWeight: 'bold',
-  },
+    fontWeight: 'bold'
+  }
 });

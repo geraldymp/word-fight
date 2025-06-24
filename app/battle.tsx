@@ -166,7 +166,8 @@ export default function BattleScreen() {
     if (isValidWord(currentWord) && currentWord.length > 3) {
       const damage =
         calculateBaseLetterDamage(currentWord) +
-        getBonusDamageFromLength(currentWord) + 20;
+        getBonusDamageFromLength(currentWord) +
+        20;
       setDamageEvents(prev => [
         ...prev,
         { id: Date.now(), amount: damage + bonusDamage, type: 'enemy' }
@@ -297,7 +298,9 @@ export default function BattleScreen() {
     <View style={styles.container}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <Text style={styles.enemyTitle}>{`Stage: ${step === 6 ? 'Final' : stage}`}</Text>
+        <Text
+          style={styles.enemyTitle}
+        >{`Stage: ${step === 6 ? 'Final' : stage}`}</Text>
         <View
           style={{
             flexDirection: 'column',
@@ -339,7 +342,6 @@ export default function BattleScreen() {
             style={{ width: 32, height: 32 }}
           />
         </TouchableOpacity> */}
-
       </View>
 
       {/* Letters + Word Builder */}
@@ -434,7 +436,7 @@ export default function BattleScreen() {
                 <Button
                   title="Next Stage"
                   onPress={() => {
-                    increaseStage()
+                    increaseStage();
                     setLetters(generateRandomLetters());
                     setSelectedIndices([]);
                     setFeedback(null);
@@ -449,7 +451,7 @@ export default function BattleScreen() {
                 <Button
                   title="Go to next area"
                   onPress={() => {
-                    increaseStep()
+                    increaseStep();
                     setShowGameOverModal(false);
                     // bgMusic.pause();
                     router.replace('/choose_area');
@@ -537,8 +539,8 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 24
   },
-  invalid: { 
+  invalid: {
     color: 'salmon',
-     marginTop: 10 
-    }
+    marginTop: 10
+  }
 });

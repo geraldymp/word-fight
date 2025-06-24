@@ -2,14 +2,9 @@ import React from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 import { useSettingsStore } from '../store/useSettingStore';
 
-
 const SettingsScreen = () => {
-  const {
-    muteMusic,
-    muteSound,
-    setMuteMusic,
-    setMuteSound
-  } = useSettingsStore();
+  const { muteMusic, muteSound, setMuteMusic, setMuteSound } =
+    useSettingsStore();
 
   return (
     <View style={styles.container}>
@@ -33,7 +28,6 @@ const SettingsScreen = () => {
         />
       </View>
     </View>
-
   );
 };
 
@@ -43,21 +37,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#121212',
+    backgroundColor: '#121212'
   },
   title: {
     fontSize: 24,
     color: '#fff',
-    marginBottom: 20,
+    marginBottom: 20
   },
   settingRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 20
   },
   settingText: {
     color: '#fff',
-    fontSize: 18,
-  },
+    fontSize: 18
+  }
 });

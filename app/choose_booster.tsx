@@ -15,7 +15,15 @@ export default function ChooseBoosterScreen() {
   const router = useRouter();
   const { addToJourney } = useGameStore();
 
-  const { increasePlayerHP, setBonusDamage, setVowelModifier, setABCDEModifier, setVWXYZRModifier, setIngModifier, setSTModifier } = useGameStore();
+  const {
+    increasePlayerHP,
+    setBonusDamage,
+    setVowelModifier,
+    setABCDEModifier,
+    setVWXYZRModifier,
+    setIngModifier,
+    setSTModifier
+  } = useGameStore();
 
   const handleSelect = (booster: IBooster) => {
     const { id, name } = booster;

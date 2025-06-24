@@ -1,9 +1,9 @@
-import { IEnemy } from "@/types/IEnemy";
+import { IEnemy } from '@/types/IEnemy';
 
 interface IEnemies {
   step: number;
   area: string;
-  content: IEnemy[]
+  content: IEnemy[];
 }
 
 export const enemies: IEnemies[] = [
@@ -202,4 +202,4 @@ export const enemies: IEnemies[] = [
       }
     ]
   }
-]
+];
