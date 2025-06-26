@@ -12,7 +12,8 @@ export default {
     userInterfaceStyle: 'automatic',
     newArchEnabled: true,
     ios: {
-      supportsTablet: true
+      supportsTablet: true,
+      bundleIdentifier: "com.germp24.wordfight"
     },
     android: {
       adaptiveIcon: {
