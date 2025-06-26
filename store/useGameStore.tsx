@@ -63,7 +63,7 @@ export const useGameStore = create<GameState>(set => ({
   reducePlayerHP: amount =>
     set(state => ({ playerHP: Math.max(0, state.playerHP - amount) })),
 
-  step: 5,
+  step: 1,
   increaseStep: () =>
     set(state => ({
       step: state.step + 1,

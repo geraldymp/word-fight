@@ -4,10 +4,8 @@ import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   BackHandler,
-  Button,
   Dimensions,
   Image,
-  Modal,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -30,6 +28,8 @@ import { ActionBottomButton } from '../components/Battle/ActionBottomButton';
 import { FloatingDamage } from '../components/FloatingDamage';
 import { JourneyMapModal } from '../components/JourneyMapModal';
 // import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
+import { Cinzel_700Bold, useFonts } from '@expo-google-fonts/cinzel';
+import { GameProgressModal } from '../components/Battle/GameProgressModal';
 import { useGameStore } from '../store/useGameStore';
 import { useSettingsStore } from '../store/useSettingStore';
 import { calculateBaseLetterDamage } from '../utils/calculateDamage';
@@ -71,6 +71,10 @@ export default function BattleScreen() {
   const { muteMusic } = useSettingsStore();
   const bgMusic = useAudioPlayer(battleBgMusic);
 
+  const [fontsLoaded] = useFonts({
+    Cinzel_700Bold
+  });
+
   const maxReshuffles = 2;
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
@@ -83,6 +87,7 @@ export default function BattleScreen() {
   const enemyScale = useSharedValue(1);
   const enemyOpacity = useSharedValue(1);
 
+  const [enemyMaxHp, setEnemyMaxHP] = useState(0);
   const [letters, setLetters] = useState<string[]>([]);
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
@@ -229,6 +234,7 @@ export default function BattleScreen() {
   useEffect(() => {
     // On mount or stage up, set enemy HP
     setEnemyHP(baseHp);
+    setEnemyMaxHP(baseHp);
     setEnemyView({ name, image });
     if (reshuffleCount < maxReshuffles && stage > 1) {
       setReshuffleCount(prev => prev + 1);
@@ -237,32 +243,32 @@ export default function BattleScreen() {
 
   const modalContent: {
     modalText: string;
-    showNextLevelBtn: boolean;
-    showBoosterBtn: boolean;
+    showNextStageBtn: boolean;
+    showNextAreaBtn: boolean;
   } = useMemo(() => {
     if (enemyHP === 0 && step === 6) {
       return {
         modalText: 'Congratulations, you beat the game!',
-        showNextLevelBtn: false,
-        showBoosterBtn: false
+        showNextStageBtn: false,
+        showNextAreaBtn: false
       };
     } else if (enemyHP === 0 && stage === 3) {
       return {
         modalText: 'You beat the area!',
-        showNextLevelBtn: false,
-        showBoosterBtn: true
+        showNextStageBtn: false,
+        showNextAreaBtn: true
       };
     } else if (enemyHP === 0) {
       return {
         modalText: 'You win the fight!',
-        showNextLevelBtn: true,
-        showBoosterBtn: false
+        showNextStageBtn: true,
+        showNextAreaBtn: false
       };
     } else {
       return {
         modalText: 'You lose!',
-        showNextLevelBtn: false,
-        showBoosterBtn: false
+        showNextStageBtn: false,
+        showNextAreaBtn: false
       };
     }
   }, [step, stage, enemyHP]);
@@ -299,7 +305,7 @@ export default function BattleScreen() {
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
         <Text
-          style={styles.enemyTitle}
+          style={styles.stageStyle}
         >{`Stage: ${step === 6 ? 'Final' : stage}`}</Text>
         <View
           style={{
@@ -309,7 +315,7 @@ export default function BattleScreen() {
             padding: 16
           }}
         >
-          <Text style={{ color: 'white', fontSize: 20 }}>{enemyView.name}</Text>
+          <Text style={styles.enemyName}>{enemyView.name}</Text>
           <Animated.View style={[enemyStyle]}>
             <Image
               source={enemyView.image}
@@ -324,7 +330,7 @@ export default function BattleScreen() {
             { transform: [{ translateX: enemyShakeAnim }] }
           ]}
         >
-          Enemy HP: {enemyHP}
+          Enemy HP: {enemyHP} / {enemyMaxHp}
         </Animated.Text>
 
         {/* map hidden for now */}
@@ -411,66 +417,32 @@ export default function BattleScreen() {
           />
         </View>
       </View>
-      <Modal visible={showGameOverModal} transparent animationType="slide">
-        <View
-          style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: 'rgba(0,0,0,0.6)'
-          }}
-        >
-          <View
-            style={{
-              backgroundColor: '#222',
-              padding: 30,
-              borderRadius: 12,
-              alignItems: 'center'
-            }}
-          >
-            <Text style={{ color: 'white', fontSize: 24, marginBottom: 10 }}>
-              {modalContent.modalText}
-            </Text>
-            <View style={{ gap: 6 }}>
-              {modalContent.showNextLevelBtn && (
-                <Button
-                  title="Next Stage"
-                  onPress={() => {
-                    increaseStage();
-                    setLetters(generateRandomLetters());
-                    setSelectedIndices([]);
-                    setFeedback(null);
-                    setShowGameOverModal(false);
-                    enemyRotation.value = 1;
-                    enemyScale.value = 1;
-                    enemyOpacity.value = 1;
-                  }}
-                />
-              )}
-              {modalContent.showBoosterBtn && (
-                <Button
-                  title="Go to next area"
-                  onPress={() => {
-                    increaseStep();
-                    setShowGameOverModal(false);
-                    // bgMusic.pause();
-                    router.replace('/choose_area');
-                  }}
-                />
-              )}
-              <Button
-                title="Back to Home"
-                onPress={() => {
-                  resetGame();
-                  setShowGameOverModal(false);
-                  // bgMusic.pause();
-                  router.replace('/');
-                }}
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <GameProgressModal
+        showModal={showGameOverModal}
+        modalContent={modalContent}
+        onPressNextStage={() => {
+          increaseStage();
+          setLetters(generateRandomLetters());
+          setSelectedIndices([]);
+          setFeedback(null);
+          setShowGameOverModal(false);
+          enemyRotation.value = 1;
+          enemyScale.value = 1;
+          enemyOpacity.value = 1;
+        }}
+        onPressNextArea={() => {
+          increaseStep();
+          setShowGameOverModal(false);
+          // bgMusic.pause();
+          router.replace('/choose_area');
+        }}
+        onPressBackToHome={() => {
+          resetGame();
+          setShowGameOverModal(false);
+          // bgMusic.pause();
+          router.replace('/');
+        }}
+      />
       <JourneyMapModal
         visible={mapVisible}
         onClose={() => setMapVisible(false)}
@@ -497,7 +469,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#330000',
     padding: 16
   },
-  enemyTitle: { fontSize: 18, color: 'white' },
+  stageStyle: {
+    fontSize: 18,
+    color: 'white'
+  },
+  enemyName: {
+    fontSize: 28,
+    color: '#ffe08a',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    textShadowColor: '#ffcc00',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 10,
+    letterSpacing: 1.2,
+    fontFamily: 'Cinzel_700Bold'
+  },
   enemyHP: {
     fontSize: 18,
     color: '#ffaaaa',
