@@ -1,0 +1,7 @@
+appId: "com.germp24.wordfight"
+
+---
+- launchApp
+- tapOn: { id: 'home-start-btn' }
+- tapOn: { id: 'select-area-btn-forest' }
+- assertVisible: 'Enemy HP.*'

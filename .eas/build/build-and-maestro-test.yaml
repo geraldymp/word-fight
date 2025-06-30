@@ -1,0 +1,8 @@
+build:
+  name: Build and test
+  steps:
+    - eas/build
+    - eas/maestro_test:
+        inputs:
+          flow_path: |
+            maestro/home.yaml

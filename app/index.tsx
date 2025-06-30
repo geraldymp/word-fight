@@ -76,6 +76,7 @@ export default function HomeScreen() {
           alignItems: 'center',
           paddingTop: 48
         }}
+        testID='home-start-btn'
         onPress={() => {
           // bgMusic.pause();
           router.replace('/choose_area');

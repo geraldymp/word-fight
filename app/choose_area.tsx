@@ -30,7 +30,6 @@ export default function ChooseAreaScreen() {
 
   function onPress(option: string) {
     if (step === 3 || step === 5) {
-      console.log(option);
       if (option === 'shop') {
         router.replace('/choose_safe_zone');
       } else if (option === 'fire_camp') {
@@ -59,6 +58,7 @@ export default function ChooseAreaScreen() {
           key={option.id}
           style={styles.card}
           onPress={() => onPress(option.id)}
+          testID={`select-area-btn-${option.id}`}
         >
           <ImageBackground style={styles.cardInner} source={option.image}>
             <Text style={styles.optionName}>{option.name}</Text>
