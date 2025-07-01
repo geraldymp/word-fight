@@ -68,9 +68,7 @@ export default {
       supabaseURL: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_KEY
     },
-    runtimeVersion: {
-      policy: '1.0.0'
-    },
+    runtimeVersion: '1.0.0',
     updates: {
       url: 'https://u.expo.dev/b6ea42f8-504b-4bfe-a956-cf26df2aefde'
     },
