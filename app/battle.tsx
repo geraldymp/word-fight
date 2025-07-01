@@ -376,6 +376,7 @@ export default function BattleScreen() {
                 selectedIndices.includes(index) && styles.selectedTile
               ]}
               onPress={() => handleLetterPress(index)}
+              testID={`letter-${item}`}
             >
               <Text style={styles.letter}>{item.toUpperCase()}</Text>
             </TouchableOpacity>

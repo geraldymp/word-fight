@@ -52,35 +52,7 @@ export default {
             './assets/fonts/KnightWarrior.otf',
             './assets/fonts/MightySouly.ttf',
             './assets/fonts/TechnoRaceItalic.otf'
-          ],
-          android: {
-            fonts: [
-              {
-                fontFamily: 'KnightWarrior',
-                fontDefinitions: [
-                  {
-                    path: './assets/fonts/KnightWarrior.otf'
-                  }
-                ]
-              },
-              {
-                fontFamily: 'MightySouly',
-                fontDefinitions: [
-                  {
-                    path: './assets/fonts/MightySouly.ttf'
-                  }
-                ]
-              }
-            ]
-          },
-          ios: {
-            fonts: [
-              './assets/fonts/SpaceMono-Regular.ttf',
-              './assets/fonts/KnightWarrior.otf',
-              './assets/fonts/MightySouly.ttf',
-              './assets/fonts/TechnoRaceItalic.otf'
-            ]
-          }
+          ]
         }
       ]
     ],
@@ -92,6 +64,7 @@ export default {
       eas: {
         projectId: 'b6ea42f8-504b-4bfe-a956-cf26df2aefde'
       },
+      test_letters: process.env.TEST_LETTERS,
       supabaseURL: process.env.SUPABASE_URL,
       supabaseKey: process.env.SUPABASE_KEY
     },
