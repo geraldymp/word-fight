@@ -8,30 +8,30 @@ import { AboutModal } from '../components/AboutModal';
 import { CircleIcon } from '../components/Home/CircleIcon';
 import { useSettingsStore } from '../store/useSettingStore';
 
-const homeBgMusic = require('../assets/sounds/home_screen.mp3');
+// @ts-ignore
+import homeBgMusic from '../assets/sounds/home_screen.mp3';
 
 export default function HomeScreen() {
   const router = useRouter();
 
-  const { muteMusic, loadSettings } = useSettingsStore();
+  const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, stop } = useSettingsStore();
   const bgMusic = useAudioPlayer(homeBgMusic);
 
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
 
   useEffect(() => {
     loadSettings();
+    setAudio(homeBgMusic, true);
   }, []);
 
   useEffect(() => {
-    if (!muteMusic) {
+    if (currentSrc === homeBgMusic && shouldPlay && !muteMusic) {
       bgMusic.loop = true;
-      if (bgMusic.isLoaded) {
-        bgMusic.play();
-      }
+      bgMusic.play();
     } else {
       bgMusic.pause();
     }
-  }, [muteMusic, bgMusic]);
+  }, [currentSrc, shouldPlay, muteMusic, bgMusic]);
 
   return (
     <View style={{ flex: 1, backgroundColor: '#777fa8', alignItems: 'center' }}>
@@ -78,7 +78,7 @@ export default function HomeScreen() {
         }}
         testID='home-start-btn'
         onPress={() => {
-          // bgMusic.pause();
+          stop();
           router.replace('/choose_area');
         }}
       >

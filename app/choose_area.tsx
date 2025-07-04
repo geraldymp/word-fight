@@ -2,6 +2,7 @@
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
+  BackHandler,
   ImageBackground,
   StyleSheet,
   Text,
@@ -22,6 +23,20 @@ export default function ChooseAreaScreen() {
   function getEnemiesByArea(area: string) {
     return enemies.find(entry => entry.area === area)?.content || [];
   }
+
+  useEffect(() => {
+    const backAction = () => {
+      router.replace('/');
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, [router]);
 
   useEffect(() => {
     const filtered = areas.find(e => e.step === step)?.content || [];

@@ -29,6 +29,7 @@ import { FloatingDamage } from '../components/FloatingDamage';
 import { JourneyMapModal } from '../components/JourneyMapModal';
 // import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
 import { Cinzel_700Bold, useFonts } from '@expo-google-fonts/cinzel';
+import { ConfirmBackHomeModal } from '../components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '../components/Battle/GameProgressModal';
 import { useGameStore } from '../store/useGameStore';
 import { useSettingsStore } from '../store/useSettingStore';
@@ -68,7 +69,7 @@ export default function BattleScreen() {
   const playerHitSound = useAudioPlayer(playerHit);
   const enemyBeatenSound = useAudioPlayer(enemyBeaten);
 
-  const { muteMusic } = useSettingsStore();
+  const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, play, stop } = useSettingsStore();
   const bgMusic = useAudioPlayer(battleBgMusic);
 
   const [fontsLoaded] = useFonts({
@@ -92,6 +93,7 @@ export default function BattleScreen() {
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
   const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
   const [showGameOverModal, setShowGameOverModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [reshuffleCount, setReshuffleCount] = useState(2);
   const [damageEvents, setDamageEvents] = useState<
     { id: number; amount: number; type: 'player' | 'enemy' }[]
@@ -273,22 +275,26 @@ export default function BattleScreen() {
     }
   }, [step, stage, enemyHP]);
 
-  // hidden music for now
-  // useEffect(() => {
-  //   if (!muteMusic) {
-  //     bgMusic.loop = true;
-  //     if (bgMusic.isLoaded) {
-  //       bgMusic.play();
-  //     }
-  //   } else {
-  //     bgMusic.pause();
-  //   }
-  // }, [muteMusic, bgMusic]);
+
+  useEffect(() => {
+    loadSettings();
+    setAudio(battleBgMusic, true);
+  }, []);
+
+  useEffect(() => {
+    if (currentSrc === battleBgMusic && shouldPlay && !muteMusic) {
+      bgMusic.loop = true;
+      bgMusic.play();
+    } else {
+      bgMusic.pause();
+    }
+  }, [currentSrc, shouldPlay, muteMusic, bgMusic]);
+
 
   useEffect(() => {
     const backAction = () => {
-      // bgMusic.pause();
-      router.replace('/');
+      stop();
+      setShowConfirmModal(true)
       return true;
     };
 
@@ -434,14 +440,22 @@ export default function BattleScreen() {
         onPressNextArea={() => {
           increaseStep();
           setShowGameOverModal(false);
-          // bgMusic.pause();
+          stop();
           router.replace('/choose_area');
         }}
         onPressBackToHome={() => {
           resetGame();
           setShowGameOverModal(false);
-          // bgMusic.pause();
+          stop();
           router.replace('/');
+        }}
+      />
+      <ConfirmBackHomeModal
+        visible={showConfirmModal}
+        onConfirm={() => router.replace('/')}
+        onCancel={() => {
+          setShowConfirmModal(false)
+          play();
         }}
       />
       <JourneyMapModal
