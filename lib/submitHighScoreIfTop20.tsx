@@ -1,7 +1,7 @@
 import { supabase } from './supabase';
 
 // TODO: Change function name to top 20 later
-export const submitHighScoreIfTop10 = async (word: string, score: number) => {
+export const submitHighScoreIfTop20 = async (word: string, score: number) => {
   // Fetch current top 20
   const { data: topScores, error: fetchError } = await supabase
     .from('high_scores')

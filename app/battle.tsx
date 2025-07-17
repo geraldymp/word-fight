@@ -28,6 +28,7 @@ import { ActionBottomButton } from '../components/Battle/ActionBottomButton';
 import { FloatingDamage } from '../components/FloatingDamage';
 import { JourneyMapModal } from '../components/JourneyMapModal';
 // import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
+import { submitHighScoreIfTop20 } from '@/lib/submitHighScoreIfTop20';
 import { Cinzel_700Bold, useFonts } from '@expo-google-fonts/cinzel';
 import { ConfirmBackHomeModal } from '../components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '../components/Battle/GameProgressModal';
@@ -62,7 +63,6 @@ export default function BattleScreen() {
     reduceEnemyHP,
     playerHP,
     reducePlayerHP,
-    resetGame
   } = useGameStore();
   const { name, image, baseHp, minDmg, maxDmg } = selectedEnemy;
   const enemyHitSound = useAudioPlayer(enemyHit);
@@ -173,8 +173,7 @@ export default function BattleScreen() {
     if (isValidWord(currentWord) && currentWord.length > 3) {
       const damage =
         calculateBaseLetterDamage(currentWord) +
-        getBonusDamageFromLength(currentWord) +
-        20;
+        getBonusDamageFromLength(currentWord)
       setDamageEvents(prev => [
         ...prev,
         { id: Date.now(), amount: damage + bonusDamage, type: 'enemy' }
@@ -185,8 +184,8 @@ export default function BattleScreen() {
       enemyHitSound.play();
       triggerQuickShake(enemyShakeAnim);
 
-      // Submit highscore to supabase if in top 10
-      // submitHighScoreIfTop10(currentWord, damage);
+      // Submit highscore to supabase if in top 20
+      submitHighScoreIfTop20(currentWord, damage);
 
       // Replace used letters
       const newLetters = [...letters];
@@ -224,6 +223,7 @@ export default function BattleScreen() {
       }, 3000);
     } else if (playerHP === 0) {
       setTimeout(() => {
+        stop();
         setShowGameOverModal(true);
       }, 1500);
     }
@@ -440,11 +440,9 @@ export default function BattleScreen() {
         onPressNextArea={() => {
           increaseStep();
           setShowGameOverModal(false);
-          stop();
           router.replace('/choose_area');
         }}
         onPressBackToHome={() => {
-          resetGame();
           setShowGameOverModal(false);
           stop();
           router.replace('/');
