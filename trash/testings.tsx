@@ -3566,11 +3566,20 @@ function lmao(input) {
     return result.join(' ');
   }
 
-  return transformArray(mappingSlug);
+  // return transformArray(mappingSlug);
 }
 
-console.log(lmao('from-south-korea'));
-console.log(lmao('from-indonesia-to-hongkong'));
-console.log(lmao('from-south-korea-to-saint-lucia'));
-console.log(lmao('to-south-korea'));
-console.log(lmao('to-hongkong-from-indonesia'));
+// console.log(lmao('from-south-korea'));
+// console.log(lmao('from-indonesia-to-hongkong'));
+// console.log(lmao('from-south-korea-to-saint-lucia'));
+// console.log(lmao('to-south-korea'));
+// console.log(lmao('to-hongkong-from-indonesia'));
+
+
+function mapC() {
+  country.forEach((item) => {
+    console.log(item.denonym)
+  })
+}
+
+mapC()

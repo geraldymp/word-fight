@@ -79,7 +79,7 @@ export default function HomeScreen() {
         testID='home-start-btn'
         onPress={() => {
           stop();
-          router.replace('/choose_area');
+          router.replace('/loading');
         }}
       >
         <Text style={styles.buttonText}>Tap to Start</Text>
@@ -117,7 +117,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   buttonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: '600',
     fontFamily: 'KnightWarrior'
   }
