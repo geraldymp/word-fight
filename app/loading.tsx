@@ -1,3 +1,4 @@
+import { getRandomInt } from '@/utils/getRandomInt';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useRef, useState } from 'react';
@@ -9,15 +10,17 @@ const LoadingScreen = () => {
   const router = useRouter();
   const resetGame = useGameStore(state => state.resetGame);
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const getRandom = (arr: string[]) =>
+  const getRandomText = (arr: string[]) =>
     arr[Math.floor(Math.random() * arr.length)];
+
+  const randomizedTime = getRandomInt(1500, 4000)
 
   const [loadingText, setLoadingText] = useState('');
   const [tipText, setTipText] = useState('');
 
   useEffect(() => {
-    setLoadingText(getRandom(loadingTexts));
-    setTipText(getRandom(tips));
+    setLoadingText(getRandomText(loadingTexts));
+    setTipText(getRandomText(tips));
   }, []);
 
   useEffect(() => {
@@ -38,11 +41,11 @@ const LoadingScreen = () => {
 
     const timeout = setTimeout(() => {
       resetGame();
-      router.replace('/choose_enemy'); // Replace with your actual game screen route
-    }, 4000);
+      router.replace('/choose_area'); // Replace with your actual game screen route
+    }, randomizedTime);
 
     return () => clearTimeout(timeout);
-  }, [fadeAnim, resetGame, router]); // dep from Copilot
+  }, [fadeAnim, resetGame, router, randomizedTime]); // dep from Copilot
 
   return (
     <View style={styles.container}>

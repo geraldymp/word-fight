@@ -7,7 +7,6 @@ import {
   Text,
   View
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '../lib/supabase';
 
 interface HighScore {
@@ -42,67 +41,100 @@ export default function LeaderboardScreen() {
   const renderItem = ({ item, index }: { item: HighScore; index: number }) => (
     <View style={styles.item}>
       <Text style={styles.rank}>{index + 1}.</Text>
-      <Text style={styles.word}>{item.word}</Text>
-      <Text style={styles.score}>{item.score}</Text>
+      <View style={styles.wordAndScoreWrapper}>
+        <Text style={styles.word}>{item.word}</Text>
+        <Text style={styles.score}>{item.score}</Text>
+      </View>
     </View>
   );
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>🏆 Leaderboard</Text>
+    <View style={styles.scrollContainer}>
+      <Text style={styles.header}>Leaderboard</Text>
       {loading ? (
-        <ActivityIndicator size="large" color="#fff" />
+        <ActivityIndicator size="large" color="#ffe08a" />
       ) : (
         <FlatList
           data={scores}
           keyExtractor={item => item.id}
           renderItem={renderItem}
           ListEmptyComponent={() => (
-            <Text style={{ color: 'white' }}>No Data</Text>
+            <Text style={styles.noData}>No Data</Text>
           )}
+          contentContainerStyle={{ paddingHorizontal: 2, paddingBottom: 24 }}
+          showsVerticalScrollIndicator={false}
         />
       )}
-    </SafeAreaView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeContainer: {
     flex: 1,
-    backgroundColor: '#0a0a0a',
-    padding: 16
+    backgroundColor: '#121212',
   },
-  title: {
-    fontSize: 28,
+  scrollContainer: {
+    paddingVertical: 48,
+    paddingHorizontal: 16,
+    backgroundColor: '#121212',
+  },
+  header: {
+    fontSize: 32,
+    color: '#ffe08a',
     fontWeight: 'bold',
-    color: '#fff',
-    marginBottom: 16,
-    textAlign: 'center'
+    marginBottom: 24,
+    letterSpacing: 1.5,
+    textAlign: 'center',
   },
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#1a1a1a',
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 8
+    backgroundColor: '#23233a',
+    paddingVertical: 14,
+    paddingHorizontal: 10,
+    borderRadius: 12,
+    marginBottom: 10,
+    alignItems: 'center',
+    shadowColor: '#ffe08a',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
+    
   },
   rank: {
-    color: '#aaa',
+    color: '#ffe08a',
     fontSize: 18,
-    width: 30
+    width: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  wordAndScoreWrapper: {
+    flexDirection: 'row',
+    flex: 1,
+    paddingHorizontal: 12,
+    justifyContent: 'space-between'
   },
   word: {
     color: '#fff',
     fontSize: 18,
     flex: 1,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    fontWeight: '600',
+    // textAlign: 'center',
   },
   score: {
-    color: '#ffd700',
+    color: '#3eab5e',
     fontSize: 18,
     fontWeight: 'bold',
-    width: 50,
-    textAlign: 'right'
-  }
+    // width: 50,
+    // textAlign: 'right',
+  },
+  noData: {
+    color: '#ccc',
+    fontSize: 16,
+    textAlign: 'center',
+    marginVertical: 20,
+  },
 });
