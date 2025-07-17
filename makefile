@@ -50,3 +50,6 @@ build-android:
 
 after-update-expo-version:
 	npx expo install --fix
+
+expo-update-bmt:
+	eas update --platform ${PLAT} --message "${MSG}" --channel build-and-maestro-test
