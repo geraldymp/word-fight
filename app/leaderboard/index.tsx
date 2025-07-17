@@ -1,4 +1,5 @@
 // app/leaderboard.tsx
+import { supabase } from '@lib/supabase';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -7,7 +8,6 @@ import {
   Text,
   View
 } from 'react-native';
-import { supabase } from '../lib/supabase';
 
 interface HighScore {
   id: string;
@@ -122,14 +122,11 @@ const styles = StyleSheet.create({
     flex: 1,
     textTransform: 'uppercase',
     fontWeight: '600',
-    // textAlign: 'center',
   },
   score: {
     color: '#3eab5e',
     fontSize: 18,
     fontWeight: 'bold',
-    // width: 50,
-    // textAlign: 'right',
   },
   noData: {
     color: '#ccc',

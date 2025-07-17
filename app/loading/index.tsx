@@ -1,10 +1,10 @@
-import { getRandomInt } from '@/utils/getRandomInt';
+import { loadingTexts, tips } from '@constants/loading_text';
+import { useGameStore } from '@store/useGameStore';
+import { getRandomInt } from '@utils/getRandomInt';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, StyleSheet, Text, View } from 'react-native';
-import { loadingTexts, tips } from '../constants/loading_text';
-import { useGameStore } from '../store/useGameStore';
 
 const LoadingScreen = () => {
   const router = useRouter();
@@ -50,7 +50,7 @@ const LoadingScreen = () => {
   return (
     <View style={styles.container}>
       <LottieView
-        source={require('../assets/lottie/loading.json')} // Place your fantasy Lottie JSON here
+        source={require('@assets/lottie/loading.json')} // Place your fantasy Lottie JSON here
         autoPlay
         loop
         style={styles.lottie}

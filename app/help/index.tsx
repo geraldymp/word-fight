@@ -69,7 +69,6 @@ const styles = StyleSheet.create({
     color: '#ffe08a',
     fontWeight: 'bold',
     marginBottom: 24,
-    // fontFamily: 'KnightWarrior',
     letterSpacing: 1.5,
     textAlign: 'center',
   },
@@ -91,7 +90,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     marginTop: 18,
     marginBottom: 8,
-    // fontFamily: 'KnightWarrior',
   },
   paragraph: {
     fontSize: 16,

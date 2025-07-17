@@ -1,7 +1,7 @@
 // JourneyMapModal.tsx
+import { INode } from '@customTypes/INode';
 import React from 'react';
 import { Modal, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { INode } from '../types/INode';
 
 export const JourneyMapModal = ({
   visible,

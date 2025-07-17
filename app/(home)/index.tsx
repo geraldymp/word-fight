@@ -1,15 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { AboutModal } from '@components/AboutModal';
+import { CircleIcon } from '@components/Home/CircleIcon';
+import { useSettingsStore } from '@store/useSettingStore';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { useEffect, useState } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { AboutModal } from '../components/AboutModal';
-import { CircleIcon } from '../components/Home/CircleIcon';
-import { useSettingsStore } from '../store/useSettingStore';
 
 // @ts-ignore
-import homeBgMusic from '../assets/sounds/home_screen.mp3';
+import homeBgMusic from '@assets/sounds/home_screen.mp3';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -58,12 +58,12 @@ export default function HomeScreen() {
         </Text>
       </TouchableOpacity>
       <Image
-        source={require('../assets/title_logo2.png')}
+        source={require('@assets/title_logo2.png')}
         style={{ width: '80%', marginTop: 100 }}
         resizeMode="contain"
       />
       <LottieView
-        source={require('../assets/lottie/home_sword.json')}
+        source={require('@assets/lottie/home_sword.json')}
         autoPlay
         loop
         style={{ width: '80%', height: 200, marginTop: 20 }}
@@ -94,15 +94,15 @@ export default function HomeScreen() {
         }}
       >
         <CircleIcon
-          icon={require('../assets/icons/home/question_mark.png')}
+          icon={require('@assets/icons/home/question_mark.png')}
           onPress={() => router.push('/help')}
         />
         <CircleIcon
-          icon={require('../assets/icons/home/achievement.png')}
+          icon={require('@assets/icons/home/achievement.png')}
           onPress={() => router.push('/leaderboard')}
         />
         <CircleIcon
-          icon={require('../assets/icons/home/setting.png')}
+          icon={require('@assets/icons/home/setting.png')}
           onPress={() => router.push('/settings')}
         />
       </View>

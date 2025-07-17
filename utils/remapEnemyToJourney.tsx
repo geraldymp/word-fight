@@ -1,5 +1,5 @@
-import { IEnemy } from '../types/IEnemy';
-import { INode } from '../types/INode';
+import { IEnemy } from '@customTypes/IEnemy';
+import { INode } from '@customTypes/INode';
 
 interface IEnemyChosen extends IEnemy {
   chosen: boolean;

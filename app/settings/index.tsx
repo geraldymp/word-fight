@@ -1,6 +1,6 @@
+import { useSettingsStore } from '@store/useSettingStore';
 import React from 'react';
 import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
-import { useSettingsStore } from '../store/useSettingStore';
 
 const SettingsScreen = () => {
   const { muteMusic, muteSound, setMuteMusic, setMuteSound } =

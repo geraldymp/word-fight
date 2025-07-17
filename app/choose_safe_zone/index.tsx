@@ -1,4 +1,7 @@
 // app/choose_booster.tsx
+import { boosters } from '@constants/boosters';
+import { IBooster } from '@customTypes/IBooster';
+import { useGameStore } from '@store/useGameStore';
 import { useRouter } from 'expo-router';
 import {
   FlatList,
@@ -7,9 +10,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { boosters } from '../constants/boosters';
-import { useGameStore } from '../store/useGameStore';
-import { IBooster } from '../types/IBooster';
 
 export default function ChooseBoosterScreen() {
   const router = useRouter();

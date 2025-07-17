@@ -1,4 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import {
+  IcCancel,
+  IcFight,
+  IcRearrange,
+  IcReshuffle
+} from '@assets/icons/battle';
+import { ActionBottomButton } from '@components/Battle/ActionBottomButton';
+import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
+import { GameProgressModal } from '@components/Battle/GameProgressModal';
+import { FloatingDamage } from '@components/FloatingDamage';
+import { JourneyMapModal } from '@components/JourneyMapModal';
+import { Cinzel_700Bold, useFonts } from '@expo-google-fonts/cinzel';
+import { submitHighScoreIfTop20 } from '@lib/submitHighScoreIfTop20';
+import { useGameStore } from '@store/useGameStore';
+import { useSettingsStore } from '@store/useSettingStore';
+import { calculateBaseLetterDamage } from '@utils/calculateDamage';
+import { generateRandomLetters } from '@utils/generateLetters';
+import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
+import { isValidWord } from '@utils/wordValidator';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useMemo, useState } from 'react';
@@ -18,34 +37,14 @@ import Animated, {
   withSequence,
   withTiming
 } from 'react-native-reanimated';
-import {
-  IcCancel,
-  IcFight,
-  IcRearrange,
-  IcReshuffle
-} from '../assets/icons/battle';
-import { ActionBottomButton } from '../components/Battle/ActionBottomButton';
-import { FloatingDamage } from '../components/FloatingDamage';
-import { JourneyMapModal } from '../components/JourneyMapModal';
-// import { submitHighScoreIfTop10 } from '../lib/submitHighScoreIfTop10';
-import { submitHighScoreIfTop20 } from '@/lib/submitHighScoreIfTop20';
-import { Cinzel_700Bold, useFonts } from '@expo-google-fonts/cinzel';
-import { ConfirmBackHomeModal } from '../components/Battle/ConfirmBackHomeModal';
-import { GameProgressModal } from '../components/Battle/GameProgressModal';
-import { useGameStore } from '../store/useGameStore';
-import { useSettingsStore } from '../store/useSettingStore';
-import { calculateBaseLetterDamage } from '../utils/calculateDamage';
-import { generateRandomLetters } from '../utils/generateLetters';
-import { getBonusDamageFromLength } from '../utils/wordLengthDamageMap';
-import { isValidWord } from '../utils/wordValidator';
 
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
-const enemyHit = require('../assets/sounds/enemy_hit.mp3');
-const enemyBeaten = require('../assets/sounds/enemy_beaten.mp3');
-const playerHit = require('../assets/sounds/player_hit.mp3');
-const battleBgMusic = require('../assets/sounds/battle_screen.mp3');
+const enemyHit = require('@assets/sounds/enemy_hit.mp3');
+const enemyBeaten = require('@assets/sounds/enemy_beaten.mp3');
+const playerHit = require('@assets/sounds/player_hit.mp3');
+const battleBgMusic = require('@assets/sounds/battle_screen.mp3');
 
 export default function BattleScreen() {
   const router = useRouter();

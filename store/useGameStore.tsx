@@ -1,7 +1,7 @@
 // stores/useGameStore.ts
+import { IEnemy } from '@customTypes/IEnemy';
+import { INode } from '@customTypes/INode';
 import { create } from 'zustand';
-import { IEnemy } from '../types/IEnemy';
-import { INode } from '../types/INode';
 
 interface GameState {
   enemyHP: number;

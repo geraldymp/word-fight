@@ -1,8 +1,8 @@
+import { useGameStore } from '@store/useGameStore';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { useGameStore } from '../store/useGameStore';
 
 export default function FireCamp() {
   const router = useRouter();
@@ -19,7 +19,7 @@ export default function FireCamp() {
 
       <View style={styles.animationWrapper}>
         <LottieView
-          source={require('../assets/lottie/fire_camp.json')}
+          source={require('@assets/lottie/fire_camp.json')}
           autoPlay
           loop
           style={styles.lottie}

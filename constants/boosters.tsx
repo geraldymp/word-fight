@@ -1,4 +1,4 @@
-import { IBooster } from '../types/IBooster';
+import { IBooster } from '@customTypes/IBooster';
 
 export const boosters: IBooster[] = [
   {

@@ -1,4 +1,4 @@
-import { IArea } from '../types/IArea';
+import { IArea } from '@customTypes/IArea';
 
 export const areas: IArea[] = [
   {

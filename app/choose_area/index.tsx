@@ -1,4 +1,8 @@
 // app/choose_area.tsx
+import { areas } from '@constants/areas';
+import { enemies } from '@constants/enemies';
+import { IArea } from '@customTypes/IArea';
+import { useGameStore } from '@store/useGameStore';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
@@ -9,10 +13,6 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
-import { areas } from '../constants/areas';
-import { enemies } from '../constants/enemies';
-import { useGameStore } from '../store/useGameStore';
-import { IArea } from '../types/IArea';
 
 export default function ChooseAreaScreen() {
   const { step, setSelectedEnemies } = useGameStore();
