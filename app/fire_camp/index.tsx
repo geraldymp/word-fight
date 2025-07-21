@@ -6,9 +6,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function FireCamp() {
   const router = useRouter();
-  const { increaseStep } = useGameStore();
+  const { increaseStep, setFirecampHeal } = useGameStore();
 
   function handleNext() {
+    setFirecampHeal();
     increaseStep();
     router.replace('/choose_area');
   }
@@ -30,6 +31,10 @@ export default function FireCamp() {
         You take a moment to rest and recover by the warmth of the fire.
       </Text>
 
+      <Text style={[styles.description, { color: '#ffb347', fontSize: 12 }]}>
+        Healed by 5 HP and gain +2 total damage.
+      </Text>
+
       <TouchableOpacity style={styles.button} onPress={handleNext}>
         <Text style={styles.buttonText}>Continue</Text>
       </TouchableOpacity>
@@ -40,7 +45,7 @@ export default function FireCamp() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#111', // dark background
+    backgroundColor: '#111',
     justifyContent: 'center',
     alignItems: 'center',
     padding: 20

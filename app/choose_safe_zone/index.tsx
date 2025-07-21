@@ -1,4 +1,3 @@
-// app/choose_booster.tsx
 import { boosters } from '@constants/boosters';
 import { IBooster } from '@customTypes/IBooster';
 import { useGameStore } from '@store/useGameStore';
@@ -29,10 +28,10 @@ export default function ChooseBoosterScreen() {
     const { id, name } = booster;
     switch (id) {
       case 'restore-hp':
-        increasePlayerHP(10);
+        increasePlayerHP(15);
         break;
       case 'bonus-damage':
-        setBonusDamage(3);
+        setBonusDamage(4);
         break;
       case 'max-reshuffle':
         // Increase max reshuffle logic here

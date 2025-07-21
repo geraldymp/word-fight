@@ -10,7 +10,7 @@ export const boosters: IBooster[] = [
   {
     id: 'bonus-damage',
     name: 'Generalist',
-    description: 'Increase total damage by 3',
+    description: 'Increase total damage by 4',
     apply: () => {}
   },
   {

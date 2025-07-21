@@ -46,6 +46,8 @@ interface GameState {
   STModifier: number;
   setSTModifier: (modifier: number) => void;
 
+  setFirecampHeal: () => void;
+
   selectedEnemies: any;
   setSelectedEnemies: (enemy: IEnemy[]) => void;
 }
@@ -132,6 +134,12 @@ export const useGameStore = create<GameState>(set => ({
   STModifier: 0,
   setSTModifier: (modifier: number) =>
     set(state => ({ STModifier: state.STModifier + modifier })),
+
+  setFirecampHeal: () =>
+    set(state => ({
+      playerHP: state.playerHP + 5,
+      bonusDamage: state.bonusDamage + 2
+    })),
 
   selectedEnemies: [],
   setSelectedEnemies: enemies => {
