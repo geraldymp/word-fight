@@ -1,12 +1,15 @@
 import { loadingTexts, tips } from '@constants/loading_text';
 import { useGameStore } from '@store/useGameStore';
 import { getRandomInt } from '@utils/getRandomInt';
+import { getLowestHighscore } from 'app/lib/highscoreFunctions';
+import { useHighscoreStore } from 'app/store/useHighscoreStore';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Animated } from 'react-native';
 
 export default function UseLoading() {
     const router = useRouter();
+    const { setLowestHighscore } = useHighscoreStore()
     const resetGame = useGameStore(state => state.resetGame);
     const fadeAnim = useRef(new Animated.Value(0)).current;
     const getRandomText = (arr: string[]) =>
@@ -17,7 +20,13 @@ export default function UseLoading() {
     const [loadingText, setLoadingText] = useState('');
     const [tipText, setTipText] = useState('');
 
+    async function setHighscoreLowerLimit() {
+        const lowestHS = await getLowestHighscore()
+        setLowestHighscore(lowestHS)
+    }
+
     useEffect(() => {
+        setHighscoreLowerLimit()
         setLoadingText(getRandomText(loadingTexts));
         setTipText(getRandomText(tips));
     }, []);
