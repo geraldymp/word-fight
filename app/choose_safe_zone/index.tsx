@@ -1,7 +1,4 @@
 import { boosters } from '@constants/boosters';
-import { IBooster } from '@customTypes/IBooster';
-import { useGameStore } from '@store/useGameStore';
-import { useRouter } from 'expo-router';
 import {
   FlatList,
   StyleSheet,
@@ -9,57 +6,11 @@ import {
   TouchableOpacity,
   View
 } from 'react-native';
+import UseChooseSafeZone from './use_choose_safe_zone';
 
 export default function ChooseBoosterScreen() {
-  const router = useRouter();
-
-  const {
-    increasePlayerHP,
-    setBonusDamage,
-    setVowelModifier,
-    setABCDEModifier,
-    setVWXYZRModifier,
-    setIngModifier,
-    setSTModifier,
-    increaseStep
-  } = useGameStore();
-
-  const handleSelect = (booster: IBooster) => {
-    const { id, name } = booster;
-    switch (id) {
-      case 'restore-hp':
-        increasePlayerHP(15);
-        break;
-      case 'bonus-damage':
-        setBonusDamage(4);
-        break;
-      case 'max-reshuffle':
-        // Increase max reshuffle logic here
-        break;
-      case 'vowel-boost':
-        setVowelModifier(2);
-        break;
-      case 'abcde-boost':
-        setABCDEModifier(3);
-        break;
-      case 'vwxyz-boost':
-        setVWXYZRModifier(5);
-        break;
-      case 'ing-boost':
-        setIngModifier(8);
-        break;
-      case 'st-boost':
-        setSTModifier(4);
-        break;
-      default:
-        console.warn(`Unknown booster ID: ${id}`);
-        return;
-    }
-
-    // addToJourney([{ name: name, type: 'booster', chosen: true }]); // Add the booster to the journey path
-    increaseStep();
-    router.replace('/choose_area'); // back to enemy select
-  };
+  const { actions } = UseChooseSafeZone();
+  const { handleSelect } = actions;
 
   return (
     <View style={styles.container}>

@@ -1,61 +1,17 @@
 // app/choose_area.tsx
-import { areas } from '@constants/areas';
-import { enemies } from '@constants/enemies';
-import { IArea } from '@customTypes/IArea';
-import { useGameStore } from '@store/useGameStore';
-import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
 import {
-  BackHandler,
   ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
+import UseChooseArea from './use_choose_area';
 
 export default function ChooseAreaScreen() {
-  const { step, setSelectedEnemies } = useGameStore();
-  const router = useRouter();
-
-  const [choices, setChoices] = useState<IArea['content']>([]);
-
-  function getEnemiesByArea(area: string) {
-    return enemies.find(entry => entry.area === area)?.content || [];
-  }
-
-  useEffect(() => {
-    const backAction = () => {
-      router.replace('/');
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener(
-      'hardwareBackPress',
-      backAction
-    );
-
-    return () => backHandler.remove();
-  }, [router]);
-
-  useEffect(() => {
-    const filtered = areas.find(e => e.step === step)?.content || [];
-    setChoices(filtered);
-  }, [step]);
-
-  function onPress(option: string) {
-    if (step === 3 || step === 5) {
-      if (option === 'shop') {
-        router.replace('/choose_safe_zone');
-      } else if (option === 'fire_camp') {
-        router.replace('/fire_camp');
-      }
-    } else {
-      setSelectedEnemies(getEnemiesByArea(option));
-      router.replace('/battle');
-    }
-  }
-
+  const { actions, states } = UseChooseArea();
+  const { choices } = states;
+  const { onPress } = actions;
   return (
     <View style={styles.container}>
       <Text
