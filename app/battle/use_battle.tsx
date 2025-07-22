@@ -84,6 +84,10 @@ export default function UseBattle() {
     });
     const [mapVisible, setMapVisible] = useState(false);
 
+    const currentStage = useMemo(() => {
+        return `Stage: ${step === 6 ? 'Final' : stage}`
+    }, [step, stage])
+
     // Shake when damage is done (for enemy or player)
     const triggerQuickShake = (animRef: SharedValue<number>) => {
         animRef.value = withSequence(
@@ -351,6 +355,8 @@ export default function UseBattle() {
             enemyShakeAnim,
             enemyHP,
             enemyMaxHp,
+            enemyMinDmg: minDmg,
+            enemyMaxDmg: maxDmg,
             playerShakeAnim,
             playerHP,
             currentWord,
@@ -364,7 +370,8 @@ export default function UseBattle() {
             mapVisible,
             journeyPath,
             damageEvents,
-            reshuffleCount
+            reshuffleCount,
+            currentStage
         }
     }
 }

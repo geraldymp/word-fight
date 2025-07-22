@@ -41,13 +41,14 @@ export default function BattleScreen() {
     onPressNextArea,
     onPressNextStage
   } = actions;
-  const { step,
-    stage,
+  const {
     enemyView,
     enemyStyle,
     enemyShakeAnim,
     enemyHP,
     enemyMaxHp,
+    enemyMaxDmg,
+    enemyMinDmg,
     playerShakeAnim,
     playerHP,
     currentWord,
@@ -61,40 +62,41 @@ export default function BattleScreen() {
     mapVisible,
     journeyPath,
     damageEvents,
-    reshuffleCount
+    reshuffleCount,
+    currentStage
   } = states;
   return (
     <View style={styles.container}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <Text
-          style={styles.stageStyle}
-        >{`Stage: ${step === 6 ? 'Final' : stage}`}</Text>
-        <View
-          style={{
-            flexDirection: 'column',
-            alignItems: 'center',
-            gap: 16,
-            padding: 16
-          }}
-        >
-          <Text style={styles.enemyName}>{enemyView.name}</Text>
-          <Animated.View style={[enemyStyle]}>
-            <Image
-              source={enemyView.image}
-              resizeMode="cover"
-              style={{ width: screenWidth / 2, height: screenHeight / 4 }}
-            />
+        <Text style={styles.stageStyle}>{currentStage}</Text>
+        <Text style={styles.enemyName}>{enemyView.name}</Text>
+        <Animated.View style={enemyStyle}>
+          <Image
+            source={enemyView.image}
+            resizeMode="contain"
+            style={{ width: screenWidth / 2, height: screenHeight / 4 }}
+          />
+        </Animated.View>
+        <View style={styles.enemyStatusContainer}>
+          <Text style={{ color: 'white', marginBottom: 6 }}>
+            <Text>⚔ </Text>
+            <Text>{`${enemyMinDmg} - ${enemyMaxDmg}`}</Text>
+          </Text>
+          <Animated.View
+            style={[
+              { width: '100%', paddingHorizontal: 32 },
+              { transform: [{ translateX: enemyShakeAnim }] }
+            ]}
+          >
+            <View style={styles.maxHealthBar}>
+              <View style={[styles.currentHealthBar, { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }]} />
+              <Text style={styles.enemyHP}>
+                {enemyHP} / {enemyMaxHp}
+              </Text>
+            </View>
           </Animated.View>
         </View>
-        <Animated.Text
-          style={[
-            styles.enemyHP,
-            { transform: [{ translateX: enemyShakeAnim }] }
-          ]}
-        >
-          Enemy HP: {enemyHP} / {enemyMaxHp}
-        </Animated.Text>
 
         {/* map hidden for now */}
         {/* <TouchableOpacity
@@ -215,11 +217,15 @@ const styles = StyleSheet.create({
   enemyArea: {
     flex: 1,
     backgroundColor: '#330000',
-    padding: 16
+    padding: 16,
+    alignItems: 'center',
   },
   stageStyle: {
     fontSize: 18,
-    color: 'white'
+    color: 'white',
+    position: 'absolute',
+    top: 12,
+    left: 16
   },
   enemyName: {
     fontSize: 28,
@@ -230,15 +236,16 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
     letterSpacing: 1.2,
-    fontFamily: 'Cinzel_700Bold'
+    fontFamily: 'Cinzel_700Bold',
+    marginTop: 16,
+    marginBottom: 8
   },
   enemyHP: {
-    fontSize: 18,
-    color: '#ffaaaa',
-    alignSelf: 'center',
+    color: '#222',
     position: 'absolute',
-    bottom: 0,
-    marginBottom: 16
+    alignSelf: 'center',
+    fontWeight: 'bold',
+    fontSize: 16,
   },
   playerArea: {
     flex: 1,
@@ -276,5 +283,30 @@ const styles = StyleSheet.create({
   invalid: {
     color: 'salmon',
     marginTop: 10
+  },
+  enemyStatusContainer: {
+    position: 'absolute',
+    bottom: 16,
+    alignItems: 'center',
+    width: '100%'
+  },
+  maxHealthBar: {
+    width: '100%',
+    height: 32,
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#222',
+    overflow: 'hidden',
+    justifyContent: 'center',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.15,
+    shadowRadius: 4
+  },
+  currentHealthBar: {
+    height: 32,
+    backgroundColor: '#ffe08a',
+    borderRadius: 12,
   }
 });
