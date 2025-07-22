@@ -3,6 +3,7 @@ import {
   Modal,
   StyleSheet,
   Text,
+  TouchableOpacity,
   TouchableWithoutFeedback,
   View
 } from 'react-native';
@@ -14,48 +15,50 @@ interface IAboutModal {
 
 const _AboutModal: React.FC<IAboutModal> = ({ visible, onClose }) => {
   return (
-    <Modal visible={visible} transparent animationType="fade">
-      <TouchableWithoutFeedback onPress={onClose}>
+    <Modal visible={visible} transparent animationType='none'>
+      <TouchableOpacity style={{flex: 1 }} onPress={onClose}>
         <View style={styles.modalOverlay}>
-          <View
-            style={{
-              backgroundColor: '#7d2abd',
-              padding: 16,
-              flexDirection: 'row',
-              borderRadius: 12,
-              gap: 12,
-              alignItems: 'center'
-            }}
-          >
-            <Text
-              style={{
-                fontFamily: 'MightySouly',
-                color: 'white',
-                fontSize: 24
-              }}
-            >
-              Game by
-            </Text>
+          <TouchableWithoutFeedback>
             <View
               style={{
-                backgroundColor: '#2ec75c',
-                borderRadius: 8,
-                padding: 8
+                backgroundColor: '#7d2abd',
+                padding: 16,
+                flexDirection: 'row',
+                borderRadius: 12,
+                gap: 12,
+                alignItems: 'center'
               }}
             >
               <Text
                 style={{
-                  fontFamily: 'TechnoRaceItalic',
+                  fontFamily: 'MightySouly',
                   color: 'white',
                   fontSize: 24
                 }}
               >
-                Kiel Helix
+                Game by
               </Text>
+              <View
+                style={{
+                  backgroundColor: '#2ec75c',
+                  borderRadius: 8,
+                  padding: 8
+                }}
+              >
+                <Text
+                  style={{
+                    fontFamily: 'TechnoRaceItalic',
+                    color: 'white',
+                    fontSize: 24
+                  }}
+                >
+                  Kiel Helix
+                </Text>
+              </View>
             </View>
-          </View>
+          </TouchableWithoutFeedback>
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableOpacity>
     </Modal>
   );
 };

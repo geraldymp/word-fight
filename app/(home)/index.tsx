@@ -10,6 +10,10 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // @ts-ignore
 import homeBgMusic from '@assets/sounds/home_screen.mp3';
+import { StatisticModal } from 'app/components/StatisticModal';
+import { IStatistic } from 'app/types/IStatistic';
+import { getStats } from 'app/utils/Statistic/getStatistic';
+import { resetStats } from 'app/utils/Statistic/resetStatistic';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -17,7 +21,14 @@ export default function HomeScreen() {
   const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, stop } = useSettingsStore();
   const bgMusic = useAudioPlayer(homeBgMusic);
 
+  const [stats, setStats] = useState<IStatistic>({ averageLength: 0, averageDamage: 0 })
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
+  const [visibleStatsModal, setVisibleStatsModal] = useState<boolean>(false);
+
+  async function loadStats() {
+    const stats = await getStats();
+    setStats({ averageDamage: stats?.averageDamage, averageLength: stats?.averageLength })
+  };
 
   useEffect(() => {
     loadSettings();
@@ -33,28 +44,20 @@ export default function HomeScreen() {
     }
   }, [currentSrc, shouldPlay, muteMusic, bgMusic]);
 
+  useEffect(() => {
+    loadStats();
+  }, [visibleStatsModal])
+
   return (
-    <View style={{ flex: 1, backgroundColor: '#777fa8', alignItems: 'center' }}>
-      <TouchableOpacity
-        onPress={() => setVisibleAboutModal(true)}
-        style={{
-          height: 32,
-          width: 32,
-          borderRadius: 16,
-          borderColor: '#3eab5e',
-          borderWidth: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
-          position: 'absolute',
-          right: 24,
-          top: 24,
-          backgroundColor: 'white'
-        }}
-      >
-        <Text
-          style={{ fontFamily: 'MightySouly', fontSize: 26, color: '#3eab5e' }}
-        >
+    <View style={styles.mainContainer}>
+      <TouchableOpacity onPress={() => setVisibleAboutModal(true)} style={styles.topButtonsContainer}>
+        <Text style={styles.topButtonsText}>
           i
+        </Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => setVisibleStatsModal(true)} style={[styles.topButtonsContainer, { right: 0, left: 24 }]} >
+        <Text style={styles.topButtonsText}>
+          G
         </Text>
       </TouchableOpacity>
       <Image
@@ -69,30 +72,17 @@ export default function HomeScreen() {
         style={{ width: '80%', height: 200, marginTop: 20 }}
       />
       <TouchableOpacity
-        style={{
-          width: '80%',
-          height: 150,
-          backgroundColor: '#777fa8',
-          alignItems: 'center',
-          paddingTop: 48
-        }}
+        style={styles.startButtonContainer}
         testID='home-start-btn'
         onPress={() => {
           stop();
           router.replace('/loading');
         }}
       >
-        <Text style={styles.buttonText}>Tap to Start</Text>
+        <Text style={styles.startButtonText}>Tap to Start</Text>
       </TouchableOpacity>
 
-      <View
-        style={{
-          flexDirection: 'row',
-          position: 'absolute',
-          bottom: 42,
-          gap: 32
-        }}
-      >
+      <View style={styles.bottomButtonsContainer}>
         <CircleIcon
           icon={require('@assets/icons/home/question_mark.png')}
           onPress={() => router.push('/help')}
@@ -106,6 +96,12 @@ export default function HomeScreen() {
           onPress={() => router.push('/settings')}
         />
       </View>
+      <StatisticModal
+        stats={stats}
+        visible={visibleStatsModal}
+        onClose={() => setVisibleStatsModal(false)}
+        onReset={resetStats}
+      />
       <AboutModal
         visible={visibleAboutModal}
         onClose={() => setVisibleAboutModal(false)}
@@ -115,10 +111,46 @@ export default function HomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  buttonText: {
+  mainContainer: {
+    flex: 1,
+    backgroundColor: '#777fa8',
+    alignItems: 'center'
+  },
+  startButtonContainer: {
+    width: '80%',
+    height: 150,
+    backgroundColor: '#777fa8',
+    alignItems: 'center',
+    paddingTop: 48
+  },
+  startButtonText: {
     color: '#fff',
     fontSize: 24,
     fontWeight: '600',
     fontFamily: 'KnightWarrior'
+  },
+  topButtonsContainer: {
+    height: 32,
+    width: 32,
+    borderRadius: 16,
+    borderColor: '#3eab5e',
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'absolute',
+    right: 24,
+    top: 24,
+    backgroundColor: 'white'
+  },
+  topButtonsText: {
+    fontFamily: 'MightySouly',
+    fontSize: 26,
+    color: '#3eab5e'
+  },
+  bottomButtonsContainer: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 42,
+    gap: 32
   }
 });

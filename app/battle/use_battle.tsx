@@ -7,6 +7,7 @@ import { calculateBaseLetterDamage } from '@utils/calculateDamage';
 import { generateRandomLetters } from '@utils/generateLetters';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
+import { setStats } from 'app/utils/Statistic/setStatistic';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
@@ -172,6 +173,8 @@ export default function UseBattle() {
                 newLetters[i] = generateRandomLetters(1)[0];
             });
             setLetters(newLetters);
+
+            setStats(currentWord, damage)
 
             enemyHitBack();
         } else {
