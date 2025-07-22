@@ -68,7 +68,7 @@ const _StatisticModal: React.FC<IStatsModal> = ({ stats, visible, onClose, onRes
              {showResetButton && <>
                 {!confirmReset ? (
                   <TouchableOpacity style={styles.resetContainer} onPress={changeToConfirm}>
-                    <Text style={styles.itemText}>Reset</Text>
+                    <Text style={styles.resetText}>Reset</Text>
                   </TouchableOpacity>
                 ) : (
                   <>
@@ -131,13 +131,12 @@ const styles = StyleSheet.create({
   resetContainer: {
     backgroundColor: 'red',
     borderRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 6,
+    padding: 4,
   },
   resetText: {
     fontFamily: 'TechnoRaceItalic',
     color: 'white',
-    fontSize: 14
+    fontSize: 12
   },
 });
 
