@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Cinzel_700Bold, useFonts } from '@expo-google-fonts/cinzel';
-import { submitHighScoreIfTop20 } from '@lib/submitHighScoreIfTop20';
 import { useGameStore } from '@store/useGameStore';
 import { useSettingsStore } from '@store/useSettingStore';
 import { calculateBaseLetterDamage } from '@utils/calculateDamage';
 import { generateRandomLetters } from '@utils/generateLetters';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
+import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
 import { setStats } from 'app/utils/Statistic/setStatistic';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
@@ -43,6 +43,9 @@ export default function UseBattle() {
         reduceEnemyHP,
         playerHP,
         reducePlayerHP,
+        lowestHighscore,
+        highScoreFilled,
+        setHighScoreFilled
     } = useGameStore();
     const { name, image, baseHp, minDmg, maxDmg } = selectedEnemy;
     const enemyHitSound = useAudioPlayer(enemyHit);
@@ -135,6 +138,19 @@ export default function UseBattle() {
         setSelectedIndices([]);
     };
 
+
+    async function setHiScore(word: string, dmg: number) {
+        if (highScoreFilled) {
+            if (dmg > lowestHighscore) {
+                submitHighscore(word, dmg)
+            }
+        } else {
+            submitHighscore(word, dmg)
+            const hiscoreFilled = await isHighscoreFilled();
+            setHighScoreFilled(hiscoreFilled)
+        }
+    }
+
     const enemyHitBack = () => {
         const currentEnemyHp = useGameStore.getState().enemyHP;
         if (currentEnemyHp > 0) {
@@ -169,7 +185,7 @@ export default function UseBattle() {
             triggerQuickShake(enemyShakeAnim);
 
             // Submit highscore to supabase if in top 20
-            submitHighScoreIfTop20(currentWord, damage);
+            setHiScore(currentWord, damage)
 
             // Replace used letters
             const newLetters = [...letters];

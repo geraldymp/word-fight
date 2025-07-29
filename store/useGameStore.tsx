@@ -50,6 +50,11 @@ interface GameState {
 
   selectedEnemies: any;
   setSelectedEnemies: (enemy: IEnemy[]) => void;
+
+  lowestHighscore: number;
+  setLowestHighScore: (hiscore: number) => void;
+  highScoreFilled: boolean;
+  setHighScoreFilled: (isFilled: boolean) => void;
 }
 
 export const useGameStore = create<GameState>(set => ({
@@ -148,5 +153,10 @@ export const useGameStore = create<GameState>(set => ({
       selectedEnemy: enemies[state.stage - 1],
       enemyHP: enemies[state.stage - 1].baseHp
     }));
-  }
+  },
+
+  lowestHighscore: 0,
+  setLowestHighScore: score => set({ lowestHighscore: score }),
+  highScoreFilled: false,
+  setHighScoreFilled: isFilled => set({ highScoreFilled: isFilled })
 }));

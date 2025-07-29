@@ -8,7 +8,7 @@ export async function isHighscoreFilled() {
     .limit(20);
   if (error) {
     console.error('Failed to get Highscore Data', error);
-    return;
+    return false;
   } else if (data.length < 20) {
     return false
   } else {

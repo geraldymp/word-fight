@@ -2,6 +2,7 @@
 import { AboutModal } from '@components/AboutModal';
 import { CircleIcon } from '@components/Home/CircleIcon';
 import { useSettingsStore } from '@store/useSettingStore';
+import { useGameStore } from 'app/store/useGameStore';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
@@ -11,6 +12,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // @ts-ignore
 import homeBgMusic from '@assets/sounds/home_screen.mp3';
 import { StatisticModal } from 'app/components/StatisticModal';
+import { getLowestHighscore, isHighscoreFilled } from 'app/lib/highscoreFunctions';
 import { IStatistic } from 'app/types/IStatistic';
 import { getStats } from 'app/utils/Statistic/getStatistic';
 import { resetStats } from 'app/utils/Statistic/resetStatistic';
@@ -19,6 +21,7 @@ export default function HomeScreen() {
   const router = useRouter();
 
   const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, stop } = useSettingsStore();
+  const { setLowestHighScore, setHighScoreFilled } = useGameStore();
   const bgMusic = useAudioPlayer(homeBgMusic);
 
   const [stats, setStats] = useState<IStatistic>({ averageLength: 0, averageDamage: 0 })
@@ -30,8 +33,20 @@ export default function HomeScreen() {
     setStats({ averageDamage: stats?.averageDamage, averageLength: stats?.averageLength })
   };
 
+  async function setHiScore() {
+    const highscoreFilled = await isHighscoreFilled();
+    const lowestHiScoreSupabase: number = await getLowestHighscore() ?? 0;
+    setHighScoreFilled(highscoreFilled)
+    if (highscoreFilled) {
+      setLowestHighScore(lowestHiScoreSupabase)
+    } else {
+      setLowestHighScore(0)
+    }
+  }
+
   useEffect(() => {
     loadSettings();
+    setHiScore();
     setAudio(homeBgMusic, true);
   }, []);
 
