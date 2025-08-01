@@ -25,6 +25,11 @@ import UseBattle from './use_battle';
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
+const diceSize = screenHeight/24
+const diceTextSize = diceSize * 3/4
+
+const bottomIconSize = screenWidth/10
+
 export default function BattleScreen() {
   const { actions, states } = UseBattle();
   const {
@@ -71,11 +76,11 @@ export default function BattleScreen() {
       <View style={styles.enemyArea}>
         <Text style={styles.stageStyle}>{currentStage}</Text>
         <Text style={styles.enemyName}>{enemyView.name}</Text>
-        <Animated.View style={enemyStyle}>
+        <Animated.View style={[enemyStyle, { width: '60%', height: '60%' }]}>
           <Image
             source={enemyView.image}
             resizeMode="contain"
-            style={{ width: screenWidth / 2, height: screenHeight / 4 }}
+            style={{ width: '100%', height: '100%' }}
           />
         </Animated.View>
         <View style={styles.enemyStatusContainer}>
@@ -119,7 +124,7 @@ export default function BattleScreen() {
       <View style={styles.playerArea}>
         <Animated.Text
           style={[
-            { fontSize: 18, color: 'white', marginVertical: 6 },
+            { fontSize: 18, color: 'white', marginBottom: 6 },
             { transform: [{ translateX: playerShakeAnim }] }
           ]}
         >
@@ -168,18 +173,22 @@ export default function BattleScreen() {
             onPress={handleReshuffle}
             disabled={reshuffleCount === 0}
             counter={reshuffleCount}
+            size={bottomIconSize}
           />
           <ActionBottomButton
             icon={<IcRearrange width={18} height={18} />}
             onPress={handleRearrange}
+            size={bottomIconSize}
           />
           <ActionBottomButton
             icon={<IcCancel width={18} height={18} />}
             onPress={handleClear}
+            size={bottomIconSize}
           />
           <ActionBottomButton
             icon={<IcFight width={18} height={18} />}
             onPress={handleSubmit}
+            size={bottomIconSize}
           />
         </View>
       </View>
@@ -213,12 +222,14 @@ export default function BattleScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: { 
+    flex: 1
+   },
   enemyArea: {
     flex: 1,
-    backgroundColor: '#330000',
-    padding: 16,
     alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#330000'
   },
   stageStyle: {
     fontSize: 18,
@@ -249,9 +260,9 @@ const styles = StyleSheet.create({
   },
   playerArea: {
     flex: 1,
-    padding: 10,
-    backgroundColor: '#001a33',
-    alignItems: 'center'
+    alignItems: 'center',
+    padding: 16,
+    backgroundColor: '#001a33'
   },
   currentWord: {
     fontSize: 20,
@@ -259,8 +270,8 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   letterTile: {
-    width: 28,
-    height: 28,
+    width: diceSize,
+    height: diceSize,
     margin: 4,
     backgroundColor: '#eee',
     justifyContent: 'center',
@@ -271,7 +282,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#aaf'
   },
   letter: {
-    fontSize: 18,
+    fontSize: diceTextSize,
     fontWeight: 'bold'
   },
   controls: {
