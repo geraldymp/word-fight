@@ -1,5 +1,5 @@
 // app/leaderboard.tsx
-import { supabase } from '@lib/supabase';
+import { getHighscore } from 'app/lib/highscoreFunctions';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -20,22 +20,14 @@ export default function LeaderboardScreen() {
   const [scores, setScores] = useState<HighScore[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchScores = async () => {
-      const { data, error } = await supabase
-        .from('high_scores')
-        .select('*')
-        .order('score', { ascending: false })
-        .limit(20);
-      if (error) {
-        console.error('Error fetching scores:', error);
-      } else {
-        setScores(data);
-      }
-      setLoading(false);
-    };
+  async function fetchHighscore() {
+    const data = await getHighscore()
+    setScores(data);
+    setLoading(false)
+  }
 
-    fetchScores();
+  useEffect(() => {
+    fetchHighscore()
   }, []);
 
   const renderItem = ({ item, index }: { item: HighScore; index: number }) => (
@@ -70,11 +62,8 @@ export default function LeaderboardScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeContainer: {
-    flex: 1,
-    backgroundColor: '#121212',
-  },
   scrollContainer: {
+    flex: 1,
     paddingVertical: 48,
     paddingHorizontal: 16,
     backgroundColor: '#121212',

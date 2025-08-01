@@ -41,3 +41,17 @@ export async function submitHighscore(word: string, score: number) {
     console.log('New high score submitted!');
   }
 }
+
+export async function getHighscore() {
+  const { data, error } = await supabase
+    .from('high_scores')
+    .select('*')
+    .order('score', { ascending: false })
+    .limit(20);
+  if (error) {
+    console.error('Failed to get Highscore data', error);
+    return []
+  } else {
+    return data
+  }
+}
