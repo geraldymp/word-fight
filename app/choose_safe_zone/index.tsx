@@ -2,12 +2,7 @@ import { ShopItem } from '@components/ShopItem';
 import { boosters } from 'app/constants/boosters';
 import { IBooster } from 'app/types/IBooster';
 import React, { useMemo, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import UseChooseSafeZone from './use_choose_safe_zone';
 
 function getRandomPowerups(list: IBooster[]) {
@@ -18,26 +13,27 @@ function getRandomPowerups(list: IBooster[]) {
 export default function ChooseBoosterScreen() {
   const [selectedItem, setSelectedItem] = useState<string>('');
 
-  const {actions} = UseChooseSafeZone()
-  const { handleSelect } = actions
+  const { actions } = UseChooseSafeZone();
+  const { handleSelect } = actions;
 
   function onClickItem(id: string) {
-    setSelectedItem(id)
+    setSelectedItem(id);
   }
 
   function onConfirmShopping() {
-    handleSelect(selectedItem)
+    handleSelect(selectedItem);
   }
 
   const randomPowerups = useMemo(() => {
-    return getRandomPowerups(boosters)
+    return getRandomPowerups(boosters);
   }, []);
-
 
   return (
     <View style={styles.gameContainer}>
       <Text style={styles.title}>Shop</Text>
-      <Text style={{ color: 'white', marginBottom: 12 }}>You can only buy 1 from these items</Text>
+      <Text style={{ color: 'white', marginBottom: 12 }}>
+        You can only buy 1 from these items
+      </Text>
       {/* <View style={styles.houseContainer}>
         <Image
           source={IcFight}
@@ -48,19 +44,39 @@ export default function ChooseBoosterScreen() {
       <View style={styles.powerupGrid}>
         {/* Top Row */}
         <View style={styles.row}>
-          <ShopItem onPress={onClickItem} item={randomPowerups[0]} selected={selectedItem === randomPowerups[0].id}/>
+          <ShopItem
+            onPress={onClickItem}
+            item={randomPowerups[0]}
+            selected={selectedItem === randomPowerups[0].id}
+          />
           <View style={styles.separatorVertical} />
-          <ShopItem onPress={onClickItem} item={randomPowerups[1]} selected={selectedItem === randomPowerups[1].id}/>
+          <ShopItem
+            onPress={onClickItem}
+            item={randomPowerups[1]}
+            selected={selectedItem === randomPowerups[1].id}
+          />
         </View>
         <View style={styles.separatorHorizontal} />
         {/* Bottom Row */}
         <View style={styles.row}>
-          <ShopItem onPress={onClickItem} item={randomPowerups[2]} selected={selectedItem === randomPowerups[2].id}/>
+          <ShopItem
+            onPress={onClickItem}
+            item={randomPowerups[2]}
+            selected={selectedItem === randomPowerups[2].id}
+          />
           <View style={styles.separatorVertical} />
-          <ShopItem onPress={onClickItem} item={randomPowerups[3]} selected={selectedItem === randomPowerups[3].id}/>
+          <ShopItem
+            onPress={onClickItem}
+            item={randomPowerups[3]}
+            selected={selectedItem === randomPowerups[3].id}
+          />
         </View>
       </View>
-      <TouchableOpacity style={styles.confirmButton} disabled={selectedItem === ''} onPress={onConfirmShopping}>
+      <TouchableOpacity
+        style={styles.confirmButton}
+        disabled={selectedItem === ''}
+        onPress={onConfirmShopping}
+      >
         <Text style={styles.confirmText}>Confirm</Text>
       </TouchableOpacity>
     </View>

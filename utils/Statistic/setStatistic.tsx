@@ -18,5 +18,4 @@ export async function setStats(word: string, damage: number) {
   stats.totalDamage += damage;
 
   await AsyncStorage.setItem(STORAGE_KEYS.STATS_KEY, JSON.stringify(stats));
-
-} 
+}

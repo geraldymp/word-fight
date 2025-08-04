@@ -25,10 +25,10 @@ import UseBattle from './use_battle';
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
-const diceSize = screenHeight/24
-const diceTextSize = diceSize * 3/4
+const diceSize = screenHeight / 24;
+const diceTextSize = (diceSize * 3) / 4;
 
-const bottomIconSize = screenWidth/10
+const bottomIconSize = screenWidth / 10;
 
 export default function BattleScreen() {
   const { actions, states } = UseBattle();
@@ -95,7 +95,12 @@ export default function BattleScreen() {
             ]}
           >
             <View style={styles.maxHealthBar}>
-              <View style={[styles.currentHealthBar, { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }]} />
+              <View
+                style={[
+                  styles.currentHealthBar,
+                  { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }
+                ]}
+              />
               <Text style={styles.enemyHP}>
                 {enemyHP} / {enemyMaxHp}
               </Text>
@@ -222,9 +227,9 @@ export default function BattleScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { 
+  container: {
     flex: 1
-   },
+  },
   enemyArea: {
     flex: 1,
     alignItems: 'center',
@@ -256,7 +261,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 16,
+    fontSize: 16
   },
   playerArea: {
     flex: 1,
@@ -318,6 +323,6 @@ const styles = StyleSheet.create({
   currentHealthBar: {
     height: 32,
     backgroundColor: '#ffe08a',
-    borderRadius: 12,
+    borderRadius: 12
   }
 });

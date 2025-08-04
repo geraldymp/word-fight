@@ -1,7 +1,7 @@
 import { KeyValues } from '@constants/key_values';
 import { IBooster } from '@customTypes/IBooster';
 
-const { shop } = KeyValues
+const { shop } = KeyValues;
 
 export const boosters: IBooster[] = [
   {

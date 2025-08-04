@@ -29,7 +29,10 @@ export const _ConfirmBackHomeModal: React.FC<IConfirmBackHomeModal> = ({
           <TouchableOpacity style={styles.button} onPress={onConfirm}>
             <Text style={styles.buttonText}>Yes</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={[styles.button, styles.secondaryButton]} onPress={onCancel}>
+          <TouchableOpacity
+            style={[styles.button, styles.secondaryButton]}
+            onPress={onCancel}
+          >
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
         </View>
@@ -88,4 +91,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export const ConfirmBackHomeModal = React.memo(_ConfirmBackHomeModal)
+export const ConfirmBackHomeModal = React.memo(_ConfirmBackHomeModal);

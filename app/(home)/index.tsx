@@ -12,7 +12,10 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 // @ts-ignore
 import homeBgMusic from '@assets/sounds/home_screen.mp3';
 import { StatisticModal } from 'app/components/StatisticModal';
-import { getLowestHighscore, isHighscoreFilled } from 'app/lib/highscoreFunctions';
+import {
+  getLowestHighscore,
+  isHighscoreFilled
+} from 'app/lib/highscoreFunctions';
 import { IStatistic } from 'app/types/IStatistic';
 import { getStats } from 'app/utils/Statistic/getStatistic';
 import { resetStats } from 'app/utils/Statistic/resetStatistic';
@@ -20,27 +23,34 @@ import { resetStats } from 'app/utils/Statistic/resetStatistic';
 export default function HomeScreen() {
   const router = useRouter();
 
-  const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, stop } = useSettingsStore();
+  const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, stop } =
+    useSettingsStore();
   const { setLowestHighScore, setHighScoreFilled } = useGameStore();
   const bgMusic = useAudioPlayer(homeBgMusic);
 
-  const [stats, setStats] = useState<IStatistic>({ averageLength: 0, averageDamage: 0 })
+  const [stats, setStats] = useState<IStatistic>({
+    averageLength: 0,
+    averageDamage: 0
+  });
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
   const [visibleStatsModal, setVisibleStatsModal] = useState<boolean>(false);
 
   async function loadStats() {
     const stats = await getStats();
-    setStats({ averageDamage: stats?.averageDamage, averageLength: stats?.averageLength })
-  };
+    setStats({
+      averageDamage: stats?.averageDamage,
+      averageLength: stats?.averageLength
+    });
+  }
 
   async function setHiScore() {
     const highscoreFilled = await isHighscoreFilled();
-    const lowestHiScoreSupabase: number = await getLowestHighscore() ?? 0;
-    setHighScoreFilled(highscoreFilled)
+    const lowestHiScoreSupabase: number = (await getLowestHighscore()) ?? 0;
+    setHighScoreFilled(highscoreFilled);
     if (highscoreFilled) {
-      setLowestHighScore(lowestHiScoreSupabase)
+      setLowestHighScore(lowestHiScoreSupabase);
     } else {
-      setLowestHighScore(0)
+      setLowestHighScore(0);
     }
   }
 
@@ -61,19 +71,21 @@ export default function HomeScreen() {
 
   useEffect(() => {
     loadStats();
-  }, [visibleStatsModal])
+  }, [visibleStatsModal]);
 
   return (
     <View style={styles.mainContainer}>
-      <TouchableOpacity onPress={() => setVisibleAboutModal(true)} style={styles.topButtonsContainer}>
-        <Text style={styles.topButtonsText}>
-          i
-        </Text>
+      <TouchableOpacity
+        onPress={() => setVisibleAboutModal(true)}
+        style={styles.topButtonsContainer}
+      >
+        <Text style={styles.topButtonsText}>i</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => setVisibleStatsModal(true)} style={[styles.topButtonsContainer, { right: 0, left: 24 }]} >
-        <Text style={styles.topButtonsText}>
-          G
-        </Text>
+      <TouchableOpacity
+        onPress={() => setVisibleStatsModal(true)}
+        style={[styles.topButtonsContainer, { right: 0, left: 24 }]}
+      >
+        <Text style={styles.topButtonsText}>G</Text>
       </TouchableOpacity>
       <Image
         source={require('@assets/title_logo2.png')}
@@ -88,7 +100,7 @@ export default function HomeScreen() {
       />
       <TouchableOpacity
         style={styles.startButtonContainer}
-        testID='home-start-btn'
+        testID="home-start-btn"
         onPress={() => {
           stop();
           router.replace('/loading');

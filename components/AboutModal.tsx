@@ -15,8 +15,8 @@ interface IAboutModal {
 
 const _AboutModal: React.FC<IAboutModal> = ({ visible, onClose }) => {
   return (
-    <Modal visible={visible} transparent animationType='none'>
-      <TouchableOpacity style={{flex: 1 }} onPress={onClose}>
+    <Modal visible={visible} transparent animationType="none">
+      <TouchableOpacity style={{ flex: 1 }} onPress={onClose}>
         <View style={styles.modalOverlay}>
           <TouchableWithoutFeedback>
             <View

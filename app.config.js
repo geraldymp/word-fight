@@ -13,7 +13,7 @@ export default {
     newArchEnabled: true,
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.germp24.wordfight"
+      bundleIdentifier: 'com.germp24.wordfight'
     },
     android: {
       adaptiveIcon: {

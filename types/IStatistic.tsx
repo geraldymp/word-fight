@@ -1,4 +1,4 @@
 export interface IStatistic {
-    averageLength: number
-    averageDamage: number
+  averageLength: number;
+  averageDamage: number;
 }

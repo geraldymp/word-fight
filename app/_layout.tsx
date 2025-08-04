@@ -7,7 +7,7 @@ export default function Layout() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
-        <Stack screenOptions={{ headerShown: false }}  />
+        <Stack screenOptions={{ headerShown: false }} />
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -15,6 +15,6 @@ export default function Layout() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   }
 });

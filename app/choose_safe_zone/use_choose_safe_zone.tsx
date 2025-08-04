@@ -1,12 +1,12 @@
 import { KeyValues } from '@constants/key_values';
-import { boosters } from "app/constants/boosters";
-import { useGameStore } from "app/store/useGameStore";
-import { useRouter } from "expo-router";
+import { boosters } from 'app/constants/boosters';
+import { useGameStore } from 'app/store/useGameStore';
+import { useRouter } from 'expo-router';
 
 export default function UseChooseSafeZone() {
   const router = useRouter();
 
-  const { shop } = KeyValues
+  const { shop } = KeyValues;
 
   type BoosterId = (typeof boosters)[number]['id'];
 
@@ -56,7 +56,7 @@ export default function UseChooseSafeZone() {
 
   return {
     actions: {
-        handleSelect
+      handleSelect
     }
-  }
+  };
 }

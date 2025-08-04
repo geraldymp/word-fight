@@ -10,9 +10,9 @@ export async function isHighscoreFilled() {
     console.error('Failed to get Highscore Data', error);
     return false;
   } else if (data.length < 20) {
-    return false
+    return false;
   } else {
-    return true
+    return true;
   }
 }
 
@@ -21,12 +21,12 @@ export async function getLowestHighscore() {
     .from('high_scores')
     .select('*')
     .order('score', { ascending: true })
-    .limit(1)
+    .limit(1);
   if (error) {
     console.error('Failed to get Highscore Limit', error);
-    return null
+    return null;
   } else {
-    return data[0].score
+    return data[0].score;
   }
 }
 
@@ -50,8 +50,8 @@ export async function getHighscore() {
     .limit(20);
   if (error) {
     console.error('Failed to get Highscore data', error);
-    return []
+    return [];
   } else {
-    return data
+    return data;
   }
 }

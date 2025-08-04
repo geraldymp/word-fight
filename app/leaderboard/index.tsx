@@ -21,13 +21,13 @@ export default function LeaderboardScreen() {
   const [loading, setLoading] = useState(true);
 
   async function fetchHighscore() {
-    const data = await getHighscore()
+    const data = await getHighscore();
     setScores(data);
-    setLoading(false)
+    setLoading(false);
   }
 
   useEffect(() => {
-    fetchHighscore()
+    fetchHighscore();
   }, []);
 
   const renderItem = ({ item, index }: { item: HighScore; index: number }) => (
@@ -50,9 +50,7 @@ export default function LeaderboardScreen() {
           data={scores}
           keyExtractor={item => item.id}
           renderItem={renderItem}
-          ListEmptyComponent={() => (
-            <Text style={styles.noData}>No Data</Text>
-          )}
+          ListEmptyComponent={() => <Text style={styles.noData}>No Data</Text>}
           contentContainerStyle={{ paddingHorizontal: 2, paddingBottom: 24 }}
           showsVerticalScrollIndicator={false}
         />
@@ -66,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: 48,
     paddingHorizontal: 16,
-    backgroundColor: '#121212',
+    backgroundColor: '#121212'
   },
   header: {
     fontSize: 32,
@@ -74,7 +72,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 24,
     letterSpacing: 1.5,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   item: {
     flexDirection: 'row',
@@ -89,15 +87,14 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
-    elevation: 2,
-    
+    elevation: 2
   },
   rank: {
     color: '#ffe08a',
     fontSize: 18,
     width: 30,
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   wordAndScoreWrapper: {
     flexDirection: 'row',
@@ -110,17 +107,17 @@ const styles = StyleSheet.create({
     fontSize: 18,
     flex: 1,
     textTransform: 'uppercase',
-    fontWeight: '600',
+    fontWeight: '600'
   },
   score: {
     color: '#3eab5e',
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: 'bold'
   },
   noData: {
     color: '#ccc',
     fontSize: 16,
     textAlign: 'center',
-    marginVertical: 20,
-  },
+    marginVertical: 20
+  }
 });

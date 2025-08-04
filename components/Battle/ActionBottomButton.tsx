@@ -17,7 +17,7 @@ const _ActionBottomButton: React.FC<IActionBottomButton> = ({
   size
 }) => {
   const counterBgCol = counter === 0 ? 'red' : 'green';
-  const counterSize = size * 3/4
+  const counterSize = (size * 3) / 4;
   return (
     <View style={{ paddingTop: 12, paddingRight: 12 }}>
       {counter !== undefined && (
@@ -27,7 +27,7 @@ const _ActionBottomButton: React.FC<IActionBottomButton> = ({
             position: 'absolute',
             right: 0,
             top: 0,
-            borderRadius: counterSize/2,
+            borderRadius: counterSize / 2,
             zIndex: 2,
             height: counterSize,
             width: counterSize,

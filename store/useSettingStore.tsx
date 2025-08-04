@@ -8,7 +8,6 @@ type SettingsStore = {
   setMuteSound: (value: boolean) => void;
   loadSettings: () => Promise<void>;
 
-
   currentSrc: string | null;
   shouldPlay: boolean;
   setAudio: (src: string | null, play?: boolean) => void;

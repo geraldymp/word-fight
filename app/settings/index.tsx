@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#121212',
     padding: 0,
     alignItems: 'center',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   },
   header: {
     fontSize: 32,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     marginTop: 40,
     marginBottom: 24,
     fontFamily: 'KnightWarrior',
-    letterSpacing: 1.5,
+    letterSpacing: 1.5
   },
   card: {
     backgroundColor: '#1e1e2f',
@@ -69,31 +69,31 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 16,
     elevation: 8,
-    marginBottom: 32,
+    marginBottom: 32
   },
   sectionTitle: {
     fontSize: 20,
     color: '#ffe08a',
     fontWeight: '600',
     marginBottom: 18,
-    fontFamily: 'KnightWarrior',
+    fontFamily: 'KnightWarrior'
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: 24
   },
   settingText: {
     color: '#fff',
     fontSize: 18,
     fontFamily: 'MightySouly',
-    fontWeight: '600',
+    fontWeight: '600'
   },
   settingDesc: {
     color: '#ffe08a',
     fontSize: 13,
     fontFamily: 'SpaceMono-Regular',
     marginTop: 2,
-    marginBottom: 0,
-  },
+    marginBottom: 0
+  }
 });

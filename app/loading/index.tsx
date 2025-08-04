@@ -5,7 +5,7 @@ import UseLoading from './use_loading';
 
 const LoadingScreen = () => {
   const { states } = UseLoading();
-  const { fadeAnim, loadingText, tipText } = states
+  const { fadeAnim, loadingText, tipText } = states;
 
   return (
     <View style={styles.container}>

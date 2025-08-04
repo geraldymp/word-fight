@@ -1,3 +1,3 @@
 export const STORAGE_KEYS = {
-    STATS_KEY: 'sgvheuwe'
-}
+  STATS_KEY: 'sgvheuwe'
+};

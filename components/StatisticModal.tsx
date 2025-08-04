@@ -10,35 +10,40 @@ import {
 } from 'react-native';
 
 interface IStatsModal {
-  stats: IStatistic
+  stats: IStatistic;
   visible: boolean;
   onClose: () => void;
   onReset: () => void;
 }
 
-const _StatisticModal: React.FC<IStatsModal> = ({ stats, visible, onClose, onReset }) => {
+const _StatisticModal: React.FC<IStatsModal> = ({
+  stats,
+  visible,
+  onClose,
+  onReset
+}) => {
   const [confirmReset, setConfirmReset] = useState<boolean>(false);
 
   function changeToConfirm() {
-    setConfirmReset(true)
+    setConfirmReset(true);
   }
 
   function revertConfirm() {
-    setConfirmReset(false)
+    setConfirmReset(false);
   }
 
   function onApplyReset() {
     onReset();
-    setConfirmReset(false)
+    setConfirmReset(false);
     onClose();
   }
 
   const showResetButton = useMemo(() => {
     if (stats.averageDamage === 0 && stats.averageLength === 0) {
-      return false
+      return false;
     }
-    return true
-  }, [stats.averageDamage, stats.averageLength])
+    return true;
+  }, [stats.averageDamage, stats.averageLength]);
 
   return (
     <Modal visible={visible} transparent animationType="none">
@@ -46,46 +51,51 @@ const _StatisticModal: React.FC<IStatsModal> = ({ stats, visible, onClose, onRes
         <View style={styles.modalOverlay}>
           <TouchableWithoutFeedback>
             <View style={styles.modalContainer}>
-              <Text style={styles.modalTitleText}>
-                Statistic
-              </Text>
+              <Text style={styles.modalTitleText}>Statistic</Text>
               <View style={styles.itemContainer}>
-                <Text style={styles.itemText}>
-                  {`Avg Word Length: `}
-                </Text>
+                <Text style={styles.itemText}>{`Avg Word Length: `}</Text>
                 <Text style={styles.itemText}>
                   {stats.averageLength.toFixed(1)}
                 </Text>
               </View>
               <View style={styles.itemContainer}>
-                <Text style={styles.itemText}>
-                  {`Avg Word Damage: `}
-                </Text>
+                <Text style={styles.itemText}>{`Avg Word Damage: `}</Text>
                 <Text style={styles.itemText}>
                   {stats.averageDamage.toFixed(1)}
                 </Text>
               </View>
-             {showResetButton && <>
-                {!confirmReset ? (
-                  <TouchableOpacity style={styles.resetContainer} onPress={changeToConfirm}>
-                    <Text style={styles.resetText}>Reset</Text>
-                  </TouchableOpacity>
-                ) : (
-                  <>
-                    <View style={styles.resetContainer}>
-                      <Text style={styles.resetText}>Sure?</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row', gap: 24 }}>
-                      <TouchableOpacity style={styles.resetContainer} onPress={onApplyReset}>
-                        <Text style={styles.resetText}>Yes!</Text>
-                      </TouchableOpacity>
-                      <TouchableOpacity style={styles.resetContainer} onPress={revertConfirm}>
-                        <Text style={styles.resetText}>No!</Text>
-                      </TouchableOpacity>
-                    </View>
-                  </>
-                )}
-              </>}
+              {showResetButton && (
+                <>
+                  {!confirmReset ? (
+                    <TouchableOpacity
+                      style={styles.resetContainer}
+                      onPress={changeToConfirm}
+                    >
+                      <Text style={styles.resetText}>Reset</Text>
+                    </TouchableOpacity>
+                  ) : (
+                    <>
+                      <View style={styles.resetContainer}>
+                        <Text style={styles.resetText}>Sure?</Text>
+                      </View>
+                      <View style={{ flexDirection: 'row', gap: 24 }}>
+                        <TouchableOpacity
+                          style={styles.resetContainer}
+                          onPress={onApplyReset}
+                        >
+                          <Text style={styles.resetText}>Yes!</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                          style={styles.resetContainer}
+                          onPress={revertConfirm}
+                        >
+                          <Text style={styles.resetText}>No!</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </>
+                  )}
+                </>
+              )}
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -131,13 +141,13 @@ const styles = StyleSheet.create({
   resetContainer: {
     backgroundColor: 'red',
     borderRadius: 8,
-    padding: 4,
+    padding: 4
   },
   resetText: {
     fontFamily: 'TechnoRaceItalic',
     color: 'white',
     fontSize: 12
-  },
+  }
 });
 
 export const StatisticModal = React.memo(_StatisticModal);

@@ -3575,11 +3575,10 @@ function lmao(input) {
 // console.log(lmao('to-south-korea'));
 // console.log(lmao('to-hongkong-from-indonesia'));
 
-
 function mapC() {
-  country.forEach((item) => {
-    console.log(item.denonym)
-  })
+  country.forEach(item => {
+    console.log(item.denonym);
+  });
 }
 
-mapC()
+mapC();
