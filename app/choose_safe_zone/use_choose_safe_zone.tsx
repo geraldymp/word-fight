@@ -1,9 +1,14 @@
+import { KeyValues } from '@constants/key_values';
+import { boosters } from "app/constants/boosters";
 import { useGameStore } from "app/store/useGameStore";
-import { IBooster } from "app/types/IBooster";
 import { useRouter } from "expo-router";
 
 export default function UseChooseSafeZone() {
   const router = useRouter();
+
+  const { shop } = KeyValues
+
+  type BoosterId = (typeof boosters)[number]['id'];
 
   const {
     increasePlayerHP,
@@ -16,36 +21,32 @@ export default function UseChooseSafeZone() {
     increaseStep
   } = useGameStore();
 
-  const handleSelect = (booster: IBooster) => {
-    const { id, name } = booster;
-    switch (id) {
-      case 'restore-hp':
-        increasePlayerHP(15);
+  const handleSelect = (boosterId: BoosterId) => {
+    switch (boosterId) {
+      case 'restoration_kit':
+        increasePlayerHP(shop.restoration_kit);
         break;
-      case 'bonus-damage':
-        setBonusDamage(4);
+      case 'bulking_up':
+        setBonusDamage(shop.bulking_up);
         break;
       case 'max-reshuffle':
         // Increase max reshuffle logic here
         break;
-      case 'vowel-boost':
-        setVowelModifier(2);
+      case 'book_of_vowels':
+        setVowelModifier(shop.book_of_vowels);
         break;
-      case 'abcde-boost':
-        setABCDEModifier(3);
+      case 'starter_briefcase':
+        setABCDEModifier(shop.starter_briefcase);
         break;
-      case 'vwxyz-boost':
-        setVWXYZRModifier(5);
+      case 'omega_cleaver':
+        setVWXYZRModifier(shop.omega_cleaver);
         break;
-      case 'ing-boost':
-        setIngModifier(8);
+      case 'brush_of_ing':
+        setIngModifier(shop.brush_of_ing);
         break;
-      case 'st-boost':
-        setSTModifier(4);
+      case 'saint_bow':
+        setSTModifier(shop.saint_bow);
         break;
-      default:
-        console.warn(`Unknown booster ID: ${id}`);
-        return;
     }
 
     // addToJourney([{ name: name, type: 'booster', chosen: true }]); // Add the booster to the journey path

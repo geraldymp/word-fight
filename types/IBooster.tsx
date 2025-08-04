@@ -1,6 +1,8 @@
+import { ImageSourcePropType } from "react-native";
+
 export interface IBooster {
   id: string;
   name: string;
   description: string;
-  apply: () => void; // Wire this to modify state
+  image: ImageSourcePropType | undefined;
 }

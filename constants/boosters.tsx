@@ -1,52 +1,55 @@
+import { KeyValues } from '@constants/key_values';
 import { IBooster } from '@customTypes/IBooster';
+
+const { shop } = KeyValues
 
 export const boosters: IBooster[] = [
   {
-    id: 'restore-hp',
-    name: 'Restore HP',
-    description: 'Restore HP by 10',
-    apply: () => {}
+    id: 'restoration_kit',
+    name: 'Restoration Kit',
+    description: `Restore HP by ${shop.restoration_kit}`,
+    image: require('@assets/icons/shop/restoration_kit.png')
   },
   {
-    id: 'bonus-damage',
-    name: 'Generalist',
-    description: 'Increase total damage by 4',
-    apply: () => {}
+    id: 'bulking_up',
+    name: 'Bulking Up',
+    description: `Increase total damage by +${shop.bulking_up}`,
+    image: require('@assets/icons/shop/bulking_up.png')
+  },
+  // {
+  //   id: 'max-reshuffle',
+  //   name: 'Everyday Shuffling',
+  //   description: 'Increase max Reshuffle by 1',
+  //   image: undefined
+  // },
+  {
+    id: 'book_of_vowels',
+    name: 'Book of Vowels',
+    description: `Every Vowel will deal +${shop.book_of_vowels} more damage`,
+    image: require('@assets/icons/shop/book_of_vowels.png')
   },
   {
-    id: 'max-reshuffle',
-    name: 'Everyday Shuffling',
-    description: 'Increase max Reshuffle by 1',
-    apply: () => {}
+    id: 'starter_briefcase',
+    name: 'Starter Briefcase',
+    description: `Every ABCDE letter will deal +${shop.starter_briefcase} more damage`,
+    image: require('@assets/icons/shop/starter_briefcase.png')
   },
   {
-    id: 'vowel-boost',
-    name: 'Vowel Up',
-    description: 'Every Vowel will deal +2 more damage',
-    apply: () => {}
+    id: 'omega_cleaver',
+    name: 'Omega Cleaver',
+    description: `Every VWXYZ letter will deal +${shop.omega_cleaver} more damage`,
+    image: require('@assets/icons/shop/omega_cleaver.png')
   },
   {
-    id: 'abcde-boost',
-    name: 'Starter Kit',
-    description: 'Every ABCDE letter will deal +3 more damage',
-    apply: () => {}
+    id: 'brush_of_ing',
+    name: 'Brush of Ing',
+    description: `Word with ING will deal +${shop.brush_of_ing} more damage`,
+    image: require('@assets/icons/shop/brush_of_ing.png')
   },
   {
-    id: 'vwxyz-boost',
-    name: 'Omega Bundle',
-    description: 'Every VWXYZ letter will deal +5 more damage',
-    apply: () => {}
-  },
-  {
-    id: 'ing-boost',
-    name: 'Working Class',
-    description: 'Word with ING will deal +8 more damage',
-    apply: () => {}
-  },
-  {
-    id: 'st-boost',
-    name: 'The Saint',
-    description: 'Every S and T letter will deal +4 more damage',
-    apply: () => {}
+    id: 'saint_bow',
+    name: 'Saint Bow',
+    description: `Every S and T letter will deal +${shop.saint_bow} more damage`,
+    image: require('@assets/icons/shop/saint_bow.png')
   }
 ];
