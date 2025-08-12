@@ -2,12 +2,13 @@
 import { AboutModal } from '@components/AboutModal';
 import { CircleIcon } from '@components/Home/CircleIcon';
 import { useSettingsStore } from '@store/useSettingStore';
+import COLORS from 'app/foundation/colors';
 import { useGameStore } from 'app/store/useGameStore';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { useEffect, useState } from 'react';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 // @ts-ignore
 import homeBgMusic from '@assets/sounds/home_screen.mp3';
@@ -87,11 +88,9 @@ export default function HomeScreen() {
       >
         <Text style={styles.topButtonsText}>G</Text>
       </TouchableOpacity>
-      <Image
-        source={require('@assets/title_logo2.png')}
-        style={{ width: '80%', marginTop: 100 }}
-        resizeMode="contain"
-      />
+      <View style={{ width: '80%', marginTop: 100, alignItems: 'center' }}>
+        <Text style={{ fontFamily: 'GoblinOne_400Regular', fontSize: 32, color: COLORS.text.primary }}>Word Fight</Text>
+      </View>
       <LottieView
         source={require('@assets/lottie/home_sword.json')}
         autoPlay

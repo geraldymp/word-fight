@@ -19,7 +19,8 @@ export default function ChooseAreaScreen() {
           color: 'white',
           alignSelf: 'center',
           fontSize: 20,
-          marginVertical: 16
+          marginVertical: 16,
+          fontFamily: 'ArchitectsDaughter_400Regular'
         }}
       >
         Choose your path
@@ -77,7 +78,7 @@ const styles = StyleSheet.create({
   },
   optionName: {
     fontSize: 26,
-    fontWeight: 'bold',
+    fontFamily: 'Candal_400Regular',
     color: '#ffe08a',
     textAlign: 'center',
     marginBottom: 32,
