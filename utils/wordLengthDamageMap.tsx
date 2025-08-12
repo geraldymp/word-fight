@@ -1,6 +1,7 @@
 export function getBonusDamageFromLength(word: string): number {
   const length = word.length;
 
+  if (length < 4) return 0;
   if (length === 4) return 4;
   if (length === 5) return 7;
   if (length === 6) return 10;

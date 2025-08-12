@@ -1,5 +1,4 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { Cinzel_700Bold, useFonts } from '@expo-google-fonts/cinzel';
 import { useGameStore } from '@store/useGameStore';
 import { useSettingsStore } from '@store/useSettingStore';
 import { calculateBaseLetterDamage } from '@utils/calculateDamage';
@@ -7,6 +6,8 @@ import { generateRandomLetters } from '@utils/generateLetters';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
+import { damageBreakdown } from 'app/utils/damageBreakdown';
+import { getDamageModifier } from 'app/utils/getDamageModifier';
 import { setStats } from 'app/utils/Statistic/setStatistic';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
@@ -31,7 +32,6 @@ export default function UseBattle() {
   const {
     selectedEnemy,
     setEnemyHP,
-    bonusDamage,
     journeyPath,
     stage,
     increaseStage,
@@ -46,7 +46,8 @@ export default function UseBattle() {
     setHighScoreFilled,
     maxReshuffle,
     reshuffle,
-    setReshuffle
+    setReshuffle,
+    damageModifier
   } = useGameStore();
   const { name, image, baseHp, minDmg, maxDmg } = selectedEnemy;
   const enemyHitSound = useAudioPlayer(enemyHit);
@@ -63,10 +64,6 @@ export default function UseBattle() {
     stop
   } = useSettingsStore();
   const bgMusic = useAudioPlayer(battleBgMusic);
-
-  const [fontsLoaded] = useFonts({
-    Cinzel_700Bold
-  });
 
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
@@ -100,14 +97,14 @@ export default function UseBattle() {
 
   const currentArea = useMemo(() => {
     if (step === 1) {
-      return 'Area 1'
+      return 'Area 1';
     } else if (step === 2) {
-      return 'Area 2'
+      return 'Area 2';
     } else if (step === 4) {
-      return 'Area 3'
+      return 'Area 3';
     }
-    return 'Final Boss'
-  }, [step])
+    return 'Final Boss';
+  }, [step]);
 
   // Shake when damage is done (for enemy or player)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
@@ -184,6 +181,8 @@ export default function UseBattle() {
     }
   };
 
+  const damageBreakdowns = damageBreakdown(currentWord, damageModifier);
+
   const handleSubmit = () => {
     if (currentWord.length === 0) return;
 
@@ -191,12 +190,13 @@ export default function UseBattle() {
       const damage =
         calculateBaseLetterDamage(currentWord) +
         getBonusDamageFromLength(currentWord);
+      const dmgModifier = getDamageModifier(currentWord, damageModifier);
       setDamageEvents(prev => [
         ...prev,
-        { id: Date.now(), amount: damage + bonusDamage, type: 'enemy' }
+        { id: Date.now(), amount: damage + dmgModifier, type: 'enemy' }
       ]);
 
-      reduceEnemyHP(damage + bonusDamage);
+      reduceEnemyHP(damage + dmgModifier);
       enemyHitSound.seekTo(0);
       enemyHitSound.play();
       triggerQuickShake(enemyShakeAnim);
@@ -404,7 +404,8 @@ export default function UseBattle() {
       damageEvents,
       reshuffleCount: reshuffle,
       currentStage,
-      currentArea
+      currentArea,
+      getDmgBreakdown: damageBreakdowns
     }
   };
 }

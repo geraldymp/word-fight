@@ -69,7 +69,8 @@ export default function BattleScreen() {
     damageEvents,
     reshuffleCount,
     currentStage,
-    currentArea
+    currentArea,
+    getDmgBreakdown
   } = states;
   return (
     <View style={styles.container}>
@@ -94,8 +95,7 @@ export default function BattleScreen() {
             style={[
               { width: '100%', paddingHorizontal: 32 },
               { transform: [{ translateX: enemyShakeAnim }] }
-            ]}
-          >
+            ]}>
             <View style={styles.maxHealthBar}>
               <View
                 style={[
@@ -133,8 +133,7 @@ export default function BattleScreen() {
           style={[
             { fontSize: 18, color: 'white', marginBottom: 6 },
             { transform: [{ translateX: playerShakeAnim }] }
-          ]}
-        >
+          ]}>
           Player HP: {playerHP}
         </Animated.Text>
 
@@ -153,8 +152,7 @@ export default function BattleScreen() {
                 selectedIndices.includes(index) && styles.selectedTile
               ]}
               onPress={() => handleLetterPress(index)}
-              testID={`letter-${item}`}
-            >
+              testID={`letter-${item}`}>
               <Text style={styles.letter}>{item.toUpperCase()}</Text>
             </TouchableOpacity>
           )}
@@ -165,6 +163,24 @@ export default function BattleScreen() {
             { transform: [{ translateX: wrongWordShakeAnim }] }
           ]}
         />
+
+        {currentWord.length > 0 && (
+          <View style={{ marginBottom: 8 }}>
+            <Text style={{ color: 'white' }}>
+              {getDmgBreakdown.map((val, idx) => (
+                <Text key={idx}>
+                  {val}
+                  {idx < getDmgBreakdown.length - 1 ? ' + ' : ''}
+                </Text>
+              ))}
+              ={getDmgBreakdown.reduce((a, b) => a + b)}
+            </Text>
+            <Text
+              style={{
+                color: 'white'
+              }}>{`(letters + length bonus + modifier)`}</Text>
+          </View>
+        )}
 
         {feedback === 'invalid' && (
           <Text style={styles.invalid}>Invalid word</Text>

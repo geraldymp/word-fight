@@ -1,67 +1,8 @@
 // stores/useGameStore.ts
-import { IEnemy } from '@customTypes/IEnemy';
-import { INode } from '@customTypes/INode';
 import { create } from 'zustand';
+import { GameStoreType } from './GameStoreType';
 
-interface GameState {
-  enemyHP: number;
-  setEnemyHP: (hp: number) => void;
-  reduceEnemyHP: (amount: number) => void;
-
-  playerHP: number;
-  setPlayerHP: (hp: number) => void;
-  increasePlayerHP: (amount: number) => void;
-  reducePlayerHP: (amount: number) => void;
-
-  step: number;
-  increaseStep: () => void;
-
-  stage: number;
-  setStage: (stage: number) => void;
-  increaseStage: () => void;
-
-  maxReshuffle: number;
-  reshuffle: number;
-  setReshuffle: (res: number) => void;
-
-  resetGame: () => void;
-
-  journeyPath: INode[][]; // e.g., ['B', 'D', 'F']
-  addToJourney: (node: INode[]) => void;
-  resetJourney: () => void;
-
-  selectedEnemy: IEnemy;
-  setSelectedEnemy: (enemy: IEnemy) => void;
-
-  gold: number;
-  setGold: (gold: number) => void;
-
-  bonusDamage: number;
-  setBonusDamage: (bonus: number) => void;
-
-  vowelModifier: number;
-  setVowelModifier: (modifier: number) => void;
-  ABCDEModifier: number;
-  setABCDEModifier: (modifier: number) => void;
-  VWXYZModifier: number;
-  setVWXYZRModifier: (modifier: number) => void;
-  IngModifier: number;
-  setIngModifier: (modifier: number) => void;
-  STModifier: number;
-  setSTModifier: (modifier: number) => void;
-
-  setFirecampHeal: () => void;
-
-  selectedEnemies: any;
-  setSelectedEnemies: (enemy: IEnemy[]) => void;
-
-  lowestHighscore: number;
-  setLowestHighScore: (hiscore: number) => void;
-  highScoreFilled: boolean;
-  setHighScoreFilled: (isFilled: boolean) => void;
-}
-
-export const useGameStore = create<GameState>(set => ({
+export const useGameStore = create<GameStoreType>(set => ({
   enemyHP: 20,
   setEnemyHP: hp => set({ enemyHP: hp }),
   reduceEnemyHP: amount =>
@@ -100,13 +41,14 @@ export const useGameStore = create<GameState>(set => ({
       gold: 0,
       playerHP: 50,
       journeyPath: [],
-
-      bonusDamage: 0,
-      vowelModifier: 0,
-      ABCDEModifier: 0,
-      VWXYZModifier: 0,
-      IngModifier: 0,
-      STModifier: 0
+      damageModifier: {
+        bonusDamage: 0,
+        vowelModifier: 0,
+        ABCDEModifier: 0,
+        VWXYZModifier: 0,
+        IngModifier: 0,
+        STModifier: 0
+      }
     }),
 
   journeyPath: [],
@@ -128,30 +70,67 @@ export const useGameStore = create<GameState>(set => ({
   gold: 0,
   setGold: (gold: number) => set({ gold }),
 
-  bonusDamage: 0,
-  setBonusDamage: (bonus: number) =>
-    set(state => ({ bonusDamage: state.bonusDamage + bonus })),
+  damageModifier: {
+    bonusDamage: 0,
+    vowelModifier: 0,
+    ABCDEModifier: 0,
+    VWXYZModifier: 0,
+    IngModifier: 0,
+    STModifier: 0
+  },
 
-  vowelModifier: 0,
+  setBonusDamage: (modifier: number) =>
+    set(state => ({
+      damageModifier: {
+        ...state.damageModifier,
+        bonusDamage: state.damageModifier.bonusDamage + modifier
+      }
+    })),
+
   setVowelModifier: (modifier: number) =>
-    set(state => ({ vowelModifier: state.vowelModifier + modifier })),
-  ABCDEModifier: 0,
+    set(state => ({
+      damageModifier: {
+        ...state.damageModifier,
+        vowelModifier: state.damageModifier.vowelModifier + modifier
+      }
+    })),
+
   setABCDEModifier: (modifier: number) =>
-    set(state => ({ ABCDEModifier: state.ABCDEModifier + modifier })),
-  VWXYZModifier: 0,
+    set(state => ({
+      damageModifier: {
+        ...state.damageModifier,
+        ABCDEModifier: state.damageModifier.ABCDEModifier + modifier
+      }
+    })),
+
   setVWXYZRModifier: (modifier: number) =>
-    set(state => ({ VWXYZModifier: state.VWXYZModifier + modifier })),
-  IngModifier: 0,
+    set(state => ({
+      damageModifier: {
+        ...state.damageModifier,
+        VWXYZModifier: state.damageModifier.VWXYZModifier + modifier
+      }
+    })),
+
   setIngModifier: (modifier: number) =>
-    set(state => ({ IngModifier: state.IngModifier + modifier })),
-  STModifier: 0,
+    set(state => ({
+      damageModifier: {
+        ...state.damageModifier,
+        IngModifier: state.damageModifier.IngModifier + modifier
+      }
+    })),
+
   setSTModifier: (modifier: number) =>
-    set(state => ({ STModifier: state.STModifier + modifier })),
+    set(state => ({
+      damageModifier: {
+        ...state.damageModifier,
+        STModifier: state.damageModifier.STModifier + modifier
+      }
+    })),
 
   setFirecampHeal: () =>
     set(state => ({
       playerHP: state.playerHP + 5,
-      bonusDamage: state.bonusDamage + 2
+      bonusDamage: state.damageModifier.bonusDamage + 2
     })),
 
   selectedEnemies: [],
