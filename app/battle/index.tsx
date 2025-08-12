@@ -68,12 +68,14 @@ export default function BattleScreen() {
     journeyPath,
     damageEvents,
     reshuffleCount,
-    currentStage
+    currentStage,
+    currentArea
   } = states;
   return (
     <View style={styles.container}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
+        <Text style={styles.areaStyle}>{currentArea}</Text>
         <Text style={styles.stageStyle}>{currentStage}</Text>
         <Text style={styles.enemyName}>{enemyView.name}</Text>
         <Animated.View style={[enemyStyle, { width: '60%', height: '60%' }]}>
@@ -236,12 +238,19 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#330000'
   },
-  stageStyle: {
+  areaStyle: {
     fontSize: 18,
     color: 'white',
     position: 'absolute',
     top: 12,
     left: 16
+  },
+  stageStyle: {
+    fontSize: 18,
+    color: 'white',
+    position: 'absolute',
+    top: 12,
+    right: 16
   },
   enemyName: {
     fontSize: 28,
@@ -253,7 +262,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 10,
     letterSpacing: 1.2,
     fontFamily: 'Cinzel_700Bold',
-    marginTop: 16,
+    marginTop: 20,
     marginBottom: 8
   },
   enemyHP: {

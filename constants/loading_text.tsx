@@ -12,7 +12,7 @@ export const loadingTexts = [
 ];
 
 export const tips = [
-  // 'You get 1 reshuffle every battle. Don’t forget to use it!',
+  'You get 1 reshuffle every battle. Don’t forget to use it!',
   'Enemies won’t hit if you beat them first.',
   'Choosing the right path matters.',
   //   'You can only heal with potions — use them wisely!',

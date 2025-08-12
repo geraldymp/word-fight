@@ -20,6 +20,10 @@ interface GameState {
   setStage: (stage: number) => void;
   increaseStage: () => void;
 
+  maxReshuffle: number;
+  reshuffle: number;
+  setReshuffle: (res: number) => void;
+
   resetGame: () => void;
 
   journeyPath: INode[][]; // e.g., ['B', 'D', 'F']
@@ -84,6 +88,10 @@ export const useGameStore = create<GameState>(set => ({
       stage: state.stage + 1,
       selectedEnemy: state.selectedEnemies[state.stage]
     })),
+
+  maxReshuffle: 2,
+  reshuffle: 2,
+  setReshuffle: res => set({ reshuffle: res }),
 
   resetGame: () =>
     set({

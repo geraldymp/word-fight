@@ -43,7 +43,10 @@ export default function UseBattle() {
     reducePlayerHP,
     lowestHighscore,
     highScoreFilled,
-    setHighScoreFilled
+    setHighScoreFilled,
+    maxReshuffle,
+    reshuffle,
+    setReshuffle
   } = useGameStore();
   const { name, image, baseHp, minDmg, maxDmg } = selectedEnemy;
   const enemyHitSound = useAudioPlayer(enemyHit);
@@ -65,7 +68,6 @@ export default function UseBattle() {
     Cinzel_700Bold
   });
 
-  const maxReshuffles = 2;
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
   const enemyDamage = getRandomInt(minDmg, maxDmg);
@@ -83,7 +85,6 @@ export default function UseBattle() {
   const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-  const [reshuffleCount, setReshuffleCount] = useState(2);
   const [damageEvents, setDamageEvents] = useState<
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
@@ -94,8 +95,19 @@ export default function UseBattle() {
   const [mapVisible, setMapVisible] = useState(false);
 
   const currentStage = useMemo(() => {
-    return `Stage: ${step === 6 ? 'Final' : stage}`;
+    return `Stage ${step === 6 ? '' : stage}`;
   }, [step, stage]);
+
+  const currentArea = useMemo(() => {
+    if (step === 1) {
+      return 'Area 1'
+    } else if (step === 2) {
+      return 'Area 2'
+    } else if (step === 4) {
+      return 'Area 3'
+    }
+    return 'Final Boss'
+  }, [step])
 
   // Shake when damage is done (for enemy or player)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
@@ -117,10 +129,10 @@ export default function UseBattle() {
   });
 
   const handleReshuffle = () => {
-    if (reshuffleCount > 0) {
+    if (reshuffle > 0) {
       setLetters(generateRandomLetters());
       setSelectedIndices([]);
-      setReshuffleCount(prev => prev - 1);
+      setReshuffle(reshuffle - 1);
     }
   };
 
@@ -245,8 +257,8 @@ export default function UseBattle() {
     setEnemyHP(baseHp);
     setEnemyMaxHP(baseHp);
     setEnemyView({ name, image });
-    if (reshuffleCount < maxReshuffles && stage > 1) {
-      setReshuffleCount(prev => prev + 1);
+    if (reshuffle < maxReshuffle && stage > 1) {
+      setReshuffle(reshuffle + 1);
     }
   }, [stage]);
 
@@ -390,8 +402,9 @@ export default function UseBattle() {
       mapVisible,
       journeyPath,
       damageEvents,
-      reshuffleCount,
-      currentStage
+      reshuffleCount: reshuffle,
+      currentStage,
+      currentArea
     }
   };
 }
