@@ -13,7 +13,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'Junior Mage',
-        image: require('../assets/enemieses/forest/junior_mage.png'),
+        image: require('../assets/enemies/forest/junior_mage.png'),
         baseHp: 40,
         minDmg: 3,
         maxDmg: 5,
@@ -21,7 +21,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Living Tree',
-        image: require('../assets/enemieses/forest/living_tree.png'),
+        image: require('../assets/enemies/forest/living_tree.png'),
         baseHp: 42,
         minDmg: 3,
         maxDmg: 5,
@@ -29,7 +29,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Old Warlock',
-        image: require('../assets/enemieses/forest/old_warlock.png'),
+        image: require('../assets/enemies/forest/old_warlock.png'),
         baseHp: 45,
         minDmg: 5,
         maxDmg: 7,
@@ -43,7 +43,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'Big Ear Goblin',
-        image: require('../assets/enemieses/goblin_camp/big_ear_goblin.png'),
+        image: require('../assets/enemies/goblin_camp/big_ear_goblin.png'),
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
@@ -51,7 +51,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Mad Goblin',
-        image: require('../assets/enemieses/goblin_camp/mad_goblin.png'),
+        image: require('../assets/enemies/goblin_camp/mad_goblin.png'),
         baseHp: 55,
         minDmg: 2,
         maxDmg: 3,
@@ -59,7 +59,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Scarred Goblin',
-        image: require('../assets/enemieses/goblin_camp/scarred_goblin.png'),
+        image: require('../assets/enemies/goblin_camp/scarred_goblin.png'),
         baseHp: 60,
         minDmg: 3,
         maxDmg: 5,
@@ -73,7 +73,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'Cracked Skull',
-        image: require('../assets/enemieses/graveyard/cracked_skull.png'),
+        image: require('../assets/enemies/graveyard/cracked_skull.png'),
         baseHp: 40,
         minDmg: 3,
         maxDmg: 5,
@@ -81,7 +81,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Dead Face',
-        image: require('../assets/enemieses/graveyard/dead_face.png'),
+        image: require('../assets/enemies/graveyard/dead_face.png'),
         baseHp: 42,
         minDmg: 3,
         maxDmg: 5,
@@ -89,7 +89,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'The Frankenstein',
-        image: require('../assets/enemieses/graveyard/the_frankenstein.png'),
+        image: require('../assets/enemies/graveyard/the_frankenstein.png'),
         baseHp: 45,
         minDmg: 5,
         maxDmg: 7,
@@ -103,7 +103,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'Smilling Pumpkin',
-        image: require('../assets/enemieses/witch_swamp/smilling_pumpkin.png'),
+        image: require('../assets/enemies/witch_swamp/smilling_pumpkin.png'),
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
@@ -111,7 +111,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Bearded Centaur',
-        image: require('../assets/enemieses/witch_swamp/bearded_centaur.png'),
+        image: require('../assets/enemies/witch_swamp/bearded_centaur.png'),
         baseHp: 55,
         minDmg: 2,
         maxDmg: 3,
@@ -119,7 +119,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'The Medusa',
-        image: require('../assets/enemieses/witch_swamp/the_medusa.png'),
+        image: require('../assets/enemies/witch_swamp/the_medusa.png'),
         baseHp: 60,
         minDmg: 3,
         maxDmg: 5,
@@ -133,7 +133,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'Metal Knight',
-        image: require('../assets/enemieses/ancient_kingdom/metal_knight.png'),
+        image: require('../assets/enemies/ancient_kingdom/metal_knight.png'),
         baseHp: 65,
         minDmg: 2,
         maxDmg: 3,
@@ -141,7 +141,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Old Viking',
-        image: require('../assets/enemieses/ancient_kingdom/old_viking.png'),
+        image: require('../assets/enemies/ancient_kingdom/old_viking.png'),
         baseHp: 60,
         minDmg: 2,
         maxDmg: 4,
@@ -149,7 +149,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'The Executioner',
-        image: require('../assets/enemieses/ancient_kingdom/the_executioner.png'),
+        image: require('../assets/enemies/ancient_kingdom/the_executioner.png'),
         baseHp: 65,
         minDmg: 3,
         maxDmg: 5,
@@ -163,7 +163,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'Revamped Android',
-        image: require('../assets/enemieses/futuristic_city/revamped_android.png'),
+        image: require('../assets/enemies/futuristic_city/revamped_android.png'),
         baseHp: 46,
         minDmg: 5,
         maxDmg: 7,
@@ -171,7 +171,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Half Cyborg',
-        image: require('../assets/enemieses/futuristic_city/half_cyborg.png'),
+        image: require('../assets/enemies/futuristic_city/half_cyborg.png'),
         baseHp: 48,
         minDmg: 5,
         maxDmg: 7,
@@ -179,7 +179,7 @@ export const enemies: IEnemies[] = [
       },
       {
         name: 'Ancient Machine',
-        image: require('../assets/enemieses/futuristic_city/ancient_machine.png'),
+        image: require('../assets/enemies/futuristic_city/ancient_machine.png'),
         baseHp: 50,
         minDmg: 9,
         maxDmg: 9,
@@ -193,7 +193,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'The Death',
-        image: require('../assets/enemieses/the_death.png'),
+        image: require('../assets/enemies/the_death.png'),
         baseHp: 70,
         minDmg: 10,
         maxDmg: 15,
