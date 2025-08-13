@@ -78,18 +78,23 @@ export default function HomeScreen() {
     <View style={styles.mainContainer}>
       <TouchableOpacity
         onPress={() => setVisibleAboutModal(true)}
-        style={styles.topButtonsContainer}
-      >
+        style={styles.topButtonsContainer}>
         <Text style={styles.topButtonsText}>i</Text>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => setVisibleStatsModal(true)}
-        style={[styles.topButtonsContainer, { right: 0, left: 24 }]}
-      >
+        style={[styles.topButtonsContainer, { right: 0, left: 24 }]}>
         <Text style={styles.topButtonsText}>G</Text>
       </TouchableOpacity>
       <View style={{ width: '80%', marginTop: 100, alignItems: 'center' }}>
-        <Text style={{ fontFamily: 'GoblinOne_400Regular', fontSize: 32, color: COLORS.text.primary }}>Word Fight</Text>
+        <Text
+          style={{
+            fontFamily: 'GoblinOne_400Regular',
+            fontSize: 32,
+            color: COLORS.text.primary
+          }}>
+          Word Fight
+        </Text>
       </View>
       <LottieView
         source={require('@assets/lottie/home_sword.json')}
@@ -103,8 +108,7 @@ export default function HomeScreen() {
         onPress={() => {
           stop();
           router.replace('/loading');
-        }}
-      >
+        }}>
         <Text style={styles.startButtonText}>Tap to Start</Text>
       </TouchableOpacity>
 

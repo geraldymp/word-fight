@@ -166,7 +166,7 @@ export default function BattleScreen() {
 
         {currentWord.length > 0 && (
           <View style={{ marginBottom: 8 }}>
-            <Text style={{ color: 'white' }}>
+            <Text style={styles.damagePreview}>
               {getDmgBreakdown.map((val, idx) => (
                 <Text key={idx}>
                   {val}
@@ -176,9 +176,9 @@ export default function BattleScreen() {
               ={getDmgBreakdown.reduce((a, b) => a + b)}
             </Text>
             <Text
-              style={{
-                color: 'white'
-              }}>{`(letters + length bonus + modifier)`}</Text>
+              style={
+                styles.damagePreviewLabel
+              }>{`(letters + length bonus + modifier)`}</Text>
           </View>
         )}
 
@@ -349,5 +349,16 @@ const styles = StyleSheet.create({
     height: 32,
     backgroundColor: '#ffe08a',
     borderRadius: 12
+  },
+  damagePreview: {
+    color: '#ffe08a',
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  damagePreviewLabel: {
+    color: '#ccc',
+    fontSize: 12,
+    textAlign: 'center'
   }
 });
