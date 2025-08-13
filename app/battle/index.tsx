@@ -26,7 +26,7 @@ const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
 const diceSize = screenHeight / 24;
-const diceTextSize = (diceSize * 3) / 4;
+const diceTextSize = (diceSize * 3) / 6;
 
 const bottomIconSize = screenWidth / 10;
 
@@ -76,8 +76,8 @@ export default function BattleScreen() {
     <View style={styles.container}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <Text style={styles.areaStyle}>{currentArea}</Text>
-        <Text style={styles.stageStyle}>{currentStage}</Text>
+        <Text style={styles.areaText}>{currentArea}</Text>
+        <Text style={styles.stageText}>{currentStage}</Text>
         <Text style={styles.enemyName}>{enemyView.name}</Text>
         <Animated.View style={[enemyStyle, { width: '60%', height: '60%' }]}>
           <Image
@@ -173,7 +173,7 @@ export default function BattleScreen() {
                   {idx < getDmgBreakdown.length - 1 ? ' + ' : ''}
                 </Text>
               ))}
-              ={getDmgBreakdown.reduce((a, b) => a + b)}
+              {` = ${getDmgBreakdown.reduce((a, b) => a + b)}`}
             </Text>
             <Text
               style={
@@ -254,14 +254,14 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#330000'
   },
-  areaStyle: {
+  areaText: {
     fontSize: 18,
     color: 'white',
     position: 'absolute',
     top: 12,
     left: 16
   },
-  stageStyle: {
+  stageText: {
     fontSize: 18,
     color: 'white',
     position: 'absolute',
@@ -295,25 +295,37 @@ const styles = StyleSheet.create({
     backgroundColor: '#001a33'
   },
   currentWord: {
-    fontSize: 20,
-    color: 'white',
-    marginBottom: 10
+    fontSize: 24,
+    color: '#ffe08a',
+    marginBottom: 10,
+    fontWeight: 'bold',
+    letterSpacing: 2,
+    backgroundColor: 'rgba(0,26,51,0.7)',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderWidth: 2,
+    borderColor: '#00aaff'
   },
   letterTile: {
     width: diceSize,
     height: diceSize,
     margin: 4,
-    backgroundColor: '#eee',
+    backgroundColor: '#222',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 6
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: '#ffe08a'
   },
   selectedTile: {
-    backgroundColor: '#aaf'
+    backgroundColor: '#00aaff',
+    borderColor: '#fff'
   },
   letter: {
     fontSize: diceTextSize,
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    color: '#ffe08a'
   },
   controls: {
     flexDirection: 'row',
@@ -322,8 +334,10 @@ const styles = StyleSheet.create({
     bottom: 24
   },
   invalid: {
-    color: 'salmon',
-    marginTop: 10
+    color: '#ff4d4d',
+    marginTop: 10,
+    fontWeight: 'bold',
+    fontSize: 16
   },
   enemyStatusContainer: {
     position: 'absolute',
