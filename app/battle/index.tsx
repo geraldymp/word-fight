@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#001a33'
   },
   currentWord: {
-    fontSize: 24,
+    fontSize: diceTextSize,
     color: '#ffe08a',
     marginBottom: 10,
     fontWeight: 'bold',
