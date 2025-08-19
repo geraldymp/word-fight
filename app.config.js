@@ -32,6 +32,7 @@ export default {
       'expo-router',
       'expo-audio',
       'expo-asset',
+      'expo-web-browser',
       [
         'expo-splash-screen',
         {
