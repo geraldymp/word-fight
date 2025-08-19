@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import {
+  SvgAchievement,
+  SvgGraph,
+  SvgHelp,
+  SvgInformation,
+  SvgSetting
+} from '@assets/icons/svgs';
 import { AboutModal } from '@components/AboutModal';
-import { CircleIcon } from '@components/Home/CircleIcon';
 import { useSettingsStore } from '@store/useSettingStore';
 import COLORS from 'app/foundation/colors';
 import { useGameStore } from 'app/store/useGameStore';
@@ -8,10 +14,12 @@ import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import { useEffect, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 // @ts-ignore
 import homeBgMusic from '@assets/sounds/home_screen.mp3';
+import RoundedButton from 'app/components/atoms/RoundedButton';
+import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { StatisticModal } from 'app/components/StatisticModal';
 import {
   getLowestHighscore,
@@ -76,16 +84,16 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.mainContainer}>
-      <TouchableOpacity
-        onPress={() => setVisibleAboutModal(true)}
-        style={styles.topButtonsContainer}>
-        <Text style={styles.topButtonsText}>i</Text>
-      </TouchableOpacity>
-      <TouchableOpacity
+      <RoundedButton
         onPress={() => setVisibleStatsModal(true)}
-        style={[styles.topButtonsContainer, { right: 0, left: 24 }]}>
-        <Text style={styles.topButtonsText}>G</Text>
-      </TouchableOpacity>
+        customStyle={[styles.topButtonsContainer, { left: 24 }]}
+        icon={<SvgGraph width={20} height={20} color="#FFD166" />}
+      />
+      <RoundedButton
+        onPress={() => setVisibleAboutModal(true)}
+        customStyle={[styles.topButtonsContainer, { right: 24 }]}
+        icon={<SvgInformation width={36} height={36} color="#FFD166" />}
+      />
       <View style={{ width: '80%', marginTop: 100, alignItems: 'center' }}>
         <Text
           style={{
@@ -102,28 +110,28 @@ export default function HomeScreen() {
         loop
         style={{ width: '80%', height: 200, marginTop: 20 }}
       />
-      <TouchableOpacity
-        style={styles.startButtonContainer}
+
+      <RoundedRectButton
         testID="home-start-btn"
+        title="PLAY"
         onPress={() => {
           stop();
           router.replace('/loading');
-        }}>
-        <Text style={styles.startButtonText}>Tap to Start</Text>
-      </TouchableOpacity>
+        }}
+      />
 
       <View style={styles.bottomButtonsContainer}>
-        <CircleIcon
-          icon={require('@assets/icons/home/question_mark.png')}
+        <RoundedButton
           onPress={() => router.push('/help')}
+          icon={<SvgHelp width={24} height={24} color="#FFD166" />}
         />
-        <CircleIcon
-          icon={require('@assets/icons/home/achievement.png')}
+        <RoundedButton
           onPress={() => router.push('/leaderboard')}
+          icon={<SvgAchievement width={24} height={24} color="#FFD166" />}
         />
-        <CircleIcon
-          icon={require('@assets/icons/home/setting.png')}
+        <RoundedButton
           onPress={() => router.push('/settings')}
+          icon={<SvgSetting width={24} height={24} color="#FFD166" />}
         />
       </View>
       <StatisticModal
@@ -143,7 +151,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#777fa8',
+    backgroundColor: '#1B263B',
     alignItems: 'center'
   },
   startButtonContainer: {
@@ -160,17 +168,8 @@ const styles = StyleSheet.create({
     fontFamily: 'KnightWarrior'
   },
   topButtonsContainer: {
-    height: 32,
-    width: 32,
-    borderRadius: 16,
-    borderColor: '#3eab5e',
-    borderWidth: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    position: 'absolute',
-    right: 24,
     top: 24,
-    backgroundColor: 'white'
+    position: 'absolute'
   },
   topButtonsText: {
     fontFamily: 'MightySouly',
