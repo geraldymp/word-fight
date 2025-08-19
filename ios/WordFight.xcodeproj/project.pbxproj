@@ -8,36 +8,36 @@
 
 /* Begin PBXBuildFile section */
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
-		14AC7762C4CE47A59ED4FB4E /* TechnoRaceItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E0E1FE1D32D240FEBE85700B /* TechnoRaceItalic.otf */; };
+		1FF1AE1E0623416D96428E4F /* MightySouly.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 40F6F59F384E48C2B5F642C7 /* MightySouly.ttf */; };
+		20CD6770F7D7BDF9462DEC83 /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8ABC68BEA174F48122F6CF0C /* ExpoModulesProvider.swift */; };
+		3BB1069E714D8449BCF23C7C /* libPods-WordFight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3BF60834265FECEB8820DF6E /* libPods-WordFight.a */; };
 		3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */; };
-		51B373ED459E45F181FC1178 /* MightySouly.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 480741BCC6534E87AFAFB82F /* MightySouly.ttf */; };
-		7B119726FC3CF960708FC46E /* libPods-WordFight.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 96392FDE0A87D49E2786DE70 /* libPods-WordFight.a */; };
-		7E39D350B692BE1302F97BED /* ExpoModulesProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4FA55828F734A6A8CFBFCF /* ExpoModulesProvider.swift */; };
-		AE9C8E33D6CE49F1BB1DE621 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4CA486D3B3634BD8B9A7E95E /* SpaceMono-Regular.ttf */; };
-		B156B38E75CD48A6BD0FC47F /* KnightWarrior.otf in Resources */ = {isa = PBXBuildFile; fileRef = F8280D5AE2D64287A821C095 /* KnightWarrior.otf */; };
-		B7873BD5EA6B53B21232B2CD /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 9DA8A70F14041E05734130E5 /* PrivacyInfo.xcprivacy */; };
+		A7ACE151D9C0AD4C1CCADA6E /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 7EBB7381347489CF2CF7EC0E /* PrivacyInfo.xcprivacy */; };
 		BB2F792D24A3F905000567C9 /* Expo.plist in Resources */ = {isa = PBXBuildFile; fileRef = BB2F792C24A3F905000567C9 /* Expo.plist */; };
+		C802EC24B8824A708425FD64 /* KnightWarrior.otf in Resources */ = {isa = PBXBuildFile; fileRef = 9168999B141D408EAED1320D /* KnightWarrior.otf */; };
+		D274E7F6C9814DD8A300B118 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CAD66A4C26084A5684200E9A /* SpaceMono-Regular.ttf */; };
 		F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F11748412D0307B40044C1D9 /* AppDelegate.swift */; };
+		F6CF5B9F528A41998F0A4B88 /* TechnoRaceItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 94D82B1EB6AD4B6CA6447546 /* TechnoRaceItalic.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		13B07F961A680F5B00A75B9A /* WordFight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordFight.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = WordFight/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = WordFight/Info.plist; sourceTree = "<group>"; };
-		480741BCC6534E87AFAFB82F /* MightySouly.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = MightySouly.ttf; path = ../assets/fonts/MightySouly.ttf; sourceTree = "<group>"; };
-		4CA486D3B3634BD8B9A7E95E /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SpaceMono-Regular.ttf"; path = "../assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
-		5B40C886ED129AECFEA024D9 /* Pods-WordFight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordFight.debug.xcconfig"; path = "Target Support Files/Pods-WordFight/Pods-WordFight.debug.xcconfig"; sourceTree = "<group>"; };
-		7B4FA55828F734A6A8CFBFCF /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-WordFight/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
-		96392FDE0A87D49E2786DE70 /* libPods-WordFight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WordFight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		9DA8A70F14041E05734130E5 /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = WordFight/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		3BF60834265FECEB8820DF6E /* libPods-WordFight.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-WordFight.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		40F6F59F384E48C2B5F642C7 /* MightySouly.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = MightySouly.ttf; path = ../assets/fonts/MightySouly.ttf; sourceTree = "<group>"; };
+		6F7552472206AB81A3EC81B8 /* Pods-WordFight.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordFight.debug.xcconfig"; path = "Target Support Files/Pods-WordFight/Pods-WordFight.debug.xcconfig"; sourceTree = "<group>"; };
+		7EBB7381347489CF2CF7EC0E /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = WordFight/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		8ABC68BEA174F48122F6CF0C /* ExpoModulesProvider.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ExpoModulesProvider.swift; path = "Pods/Target Support Files/Pods-WordFight/ExpoModulesProvider.swift"; sourceTree = "<group>"; };
+		9168999B141D408EAED1320D /* KnightWarrior.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = KnightWarrior.otf; path = ../assets/fonts/KnightWarrior.otf; sourceTree = "<group>"; };
+		94D82B1EB6AD4B6CA6447546 /* TechnoRaceItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = TechnoRaceItalic.otf; path = ../assets/fonts/TechnoRaceItalic.otf; sourceTree = "<group>"; };
+		94F0FA4A8F97F688BC90AA21 /* Pods-WordFight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordFight.release.xcconfig"; path = "Target Support Files/Pods-WordFight/Pods-WordFight.release.xcconfig"; sourceTree = "<group>"; };
 		AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = SplashScreen.storyboard; path = WordFight/SplashScreen.storyboard; sourceTree = "<group>"; };
-		B98E4231E7CEA0DB8D5CFB2B /* Pods-WordFight.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WordFight.release.xcconfig"; path = "Target Support Files/Pods-WordFight/Pods-WordFight.release.xcconfig"; sourceTree = "<group>"; };
 		BB2F792C24A3F905000567C9 /* Expo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Expo.plist; sourceTree = "<group>"; };
-		E0E1FE1D32D240FEBE85700B /* TechnoRaceItalic.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = TechnoRaceItalic.otf; path = ../assets/fonts/TechnoRaceItalic.otf; sourceTree = "<group>"; };
+		CAD66A4C26084A5684200E9A /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "SpaceMono-Regular.ttf"; path = "../assets/fonts/SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F11748412D0307B40044C1D9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = WordFight/AppDelegate.swift; sourceTree = "<group>"; };
 		F11748442D0722820044C1D9 /* WordFight-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = "WordFight-Bridging-Header.h"; path = "WordFight/WordFight-Bridging-Header.h"; sourceTree = "<group>"; };
-		F8280D5AE2D64287A821C095 /* KnightWarrior.otf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = KnightWarrior.otf; path = ../assets/fonts/KnightWarrior.otf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7B119726FC3CF960708FC46E /* libPods-WordFight.a in Frameworks */,
+				3BB1069E714D8449BCF23C7C /* libPods-WordFight.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				AA286B85B6C04FC6940260E9 /* SplashScreen.storyboard */,
-				9DA8A70F14041E05734130E5 /* PrivacyInfo.xcprivacy */,
+				7EBB7381347489CF2CF7EC0E /* PrivacyInfo.xcprivacy */,
 			);
 			name = WordFight;
 			sourceTree = "<group>";
@@ -70,17 +70,17 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				96392FDE0A87D49E2786DE70 /* libPods-WordFight.a */,
+				3BF60834265FECEB8820DF6E /* libPods-WordFight.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		7631E4E3A8DF5DC600223318 /* ExpoModulesProviders */ = {
+		516B0B91169B421391BDD6E1 /* WordFight */ = {
 			isa = PBXGroup;
 			children = (
-				9CEE49B1616273F325AC9CE7 /* WordFight */,
+				8ABC68BEA174F48122F6CF0C /* ExpoModulesProvider.swift */,
 			);
-			name = ExpoModulesProviders;
+			name = WordFight;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -97,9 +97,9 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
-				BA363135802445219B48D23C /* Resources */,
-				C78789569F77469F84D31024 /* Pods */,
-				7631E4E3A8DF5DC600223318 /* ExpoModulesProviders */,
+				E0C0D40014A9483F9A7C8076 /* Resources */,
+				CD2F34BDDF7859AC6D0699CC /* Pods */,
+				9CE648E5BCBDEE2BCD76E4EE /* ExpoModulesProviders */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -114,24 +114,12 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		9CEE49B1616273F325AC9CE7 /* WordFight */ = {
+		9CE648E5BCBDEE2BCD76E4EE /* ExpoModulesProviders */ = {
 			isa = PBXGroup;
 			children = (
-				7B4FA55828F734A6A8CFBFCF /* ExpoModulesProvider.swift */,
+				516B0B91169B421391BDD6E1 /* WordFight */,
 			);
-			name = WordFight;
-			sourceTree = "<group>";
-		};
-		BA363135802445219B48D23C /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				4CA486D3B3634BD8B9A7E95E /* SpaceMono-Regular.ttf */,
-				F8280D5AE2D64287A821C095 /* KnightWarrior.otf */,
-				480741BCC6534E87AFAFB82F /* MightySouly.ttf */,
-				E0E1FE1D32D240FEBE85700B /* TechnoRaceItalic.otf */,
-			);
-			name = Resources;
-			path = "";
+			name = ExpoModulesProviders;
 			sourceTree = "<group>";
 		};
 		BB2F792B24A3F905000567C9 /* Supporting */ = {
@@ -143,14 +131,26 @@
 			path = WordFight/Supporting;
 			sourceTree = "<group>";
 		};
-		C78789569F77469F84D31024 /* Pods */ = {
+		CD2F34BDDF7859AC6D0699CC /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				5B40C886ED129AECFEA024D9 /* Pods-WordFight.debug.xcconfig */,
-				B98E4231E7CEA0DB8D5CFB2B /* Pods-WordFight.release.xcconfig */,
+				6F7552472206AB81A3EC81B8 /* Pods-WordFight.debug.xcconfig */,
+				94F0FA4A8F97F688BC90AA21 /* Pods-WordFight.release.xcconfig */,
 			);
 			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		E0C0D40014A9483F9A7C8076 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CAD66A4C26084A5684200E9A /* SpaceMono-Regular.ttf */,
+				9168999B141D408EAED1320D /* KnightWarrior.otf */,
+				40F6F59F384E48C2B5F642C7 /* MightySouly.ttf */,
+				94D82B1EB6AD4B6CA6447546 /* TechnoRaceItalic.otf */,
+			);
+			name = Resources;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,13 +161,13 @@
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "WordFight" */;
 			buildPhases = (
 				08A4A3CD28434E44B6B9DE2E /* [CP] Check Pods Manifest.lock */,
-				F5C7F364DA4EB1D797F7E905 /* [Expo] Configure project */,
+				E231DC8394B712170265145F /* [Expo] Configure project */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
 				800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */,
-				4BEB47CBD6F23AFF9CCE6E9D /* [CP] Embed Pods Frameworks */,
+				BD6CA8B8B7167EFED2B3647B /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -217,11 +217,11 @@
 				BB2F792D24A3F905000567C9 /* Expo.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3E461D99554A48A4959DE609 /* SplashScreen.storyboard in Resources */,
-				AE9C8E33D6CE49F1BB1DE621 /* SpaceMono-Regular.ttf in Resources */,
-				B156B38E75CD48A6BD0FC47F /* KnightWarrior.otf in Resources */,
-				51B373ED459E45F181FC1178 /* MightySouly.ttf in Resources */,
-				14AC7762C4CE47A59ED4FB4E /* TechnoRaceItalic.otf in Resources */,
-				B7873BD5EA6B53B21232B2CD /* PrivacyInfo.xcprivacy in Resources */,
+				D274E7F6C9814DD8A300B118 /* SpaceMono-Regular.ttf in Resources */,
+				C802EC24B8824A708425FD64 /* KnightWarrior.otf in Resources */,
+				1FF1AE1E0623416D96428E4F /* MightySouly.ttf in Resources */,
+				F6CF5B9F528A41998F0A4B88 /* TechnoRaceItalic.otf in Resources */,
+				A7ACE151D9C0AD4C1CCADA6E /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -263,24 +263,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4BEB47CBD6F23AFF9CCE6E9D /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-WordFight/Pods-WordFight-frameworks.sh",
-				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WordFight/Pods-WordFight-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		800E24972A6A228C8D4807E9 /* [CP] Copy Pods Resources */ = {
@@ -331,7 +313,25 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WordFight/Pods-WordFight-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F5C7F364DA4EB1D797F7E905 /* [Expo] Configure project */ = {
+		BD6CA8B8B7167EFED2B3647B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-WordFight/Pods-WordFight-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/hermes-engine/Pre-built/hermes.framework/hermes",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/hermes.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-WordFight/Pods-WordFight-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E231DC8394B712170265145F /* [Expo] Configure project */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
 			buildActionMask = 2147483647;
@@ -358,7 +358,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F11748422D0307B40044C1D9 /* AppDelegate.swift in Sources */,
-				7E39D350B692BE1302F97BED /* ExpoModulesProvider.swift in Sources */,
+				20CD6770F7D7BDF9462DEC83 /* ExpoModulesProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -367,7 +367,7 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5B40C886ED129AECFEA024D9 /* Pods-WordFight.debug.xcconfig */;
+			baseConfigurationReference = 6F7552472206AB81A3EC81B8 /* Pods-WordFight.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -392,7 +392,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_DEBUG";
 				PRODUCT_BUNDLE_IDENTIFIER = com.germp24.wordfight;
-				PRODUCT_NAME = WordFight;
+				PRODUCT_NAME = "WordFight";
 				SWIFT_OBJC_BRIDGING_HEADER = "WordFight/WordFight-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -403,7 +403,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B98E4231E7CEA0DB8D5CFB2B /* Pods-WordFight.release.xcconfig */;
+			baseConfigurationReference = 94F0FA4A8F97F688BC90AA21 /* Pods-WordFight.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -423,7 +423,7 @@
 				);
 				OTHER_SWIFT_FLAGS = "$(inherited) -D EXPO_CONFIGURATION_RELEASE";
 				PRODUCT_BUNDLE_IDENTIFIER = com.germp24.wordfight;
-				PRODUCT_NAME = WordFight;
+				PRODUCT_NAME = "WordFight";
 				SWIFT_OBJC_BRIDGING_HEADER = "WordFight/WordFight-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

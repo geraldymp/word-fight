@@ -14,33 +14,8 @@ ios:
 web:
 	npx expo start --web
 
-install:
-	npm install
-
-clean:
-	rm -rf node_modules
-	rm -rf .expo
-	rm -rf .expo-shared
-	rm -rf dist
-	rm -rf build
-
-update:
-	npx expo upgrade
-
-build:
-	npx expo export
-
-publish:
-	npx expo publish
-
-login:
-	npx expo login
-
-logout:
-	npx expo logout
-
-doctor:
-	npx expo doctor
+pre:
+	npx expo prebuild
 
 makenew:
 	npx create-expo-app@latest
