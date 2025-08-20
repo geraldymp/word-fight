@@ -91,21 +91,6 @@ export default function UseBattle() {
   });
   const [mapVisible, setMapVisible] = useState(false);
 
-  const currentStage = useMemo(() => {
-    return `Stage ${step === 6 ? '' : stage}`;
-  }, [step, stage]);
-
-  const currentArea = useMemo(() => {
-    if (step === 1) {
-      return 'Area 1';
-    } else if (step === 2) {
-      return 'Area 2';
-    } else if (step === 4) {
-      return 'Area 3';
-    }
-    return 'Final Boss';
-  }, [step]);
-
   // Shake when damage is done (for enemy or player)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
     animRef.value = withSequence(
@@ -335,6 +320,11 @@ export default function UseBattle() {
     setDamageEvents(prev => prev.filter(e => e.id !== event.id));
   }
 
+  function onGiveUp() {
+    stop();
+    setShowConfirmModal(true);
+  }
+
   useEffect(() => {
     loadSettings();
     setAudio(battleBgMusic, true);
@@ -377,7 +367,8 @@ export default function UseBattle() {
       onConfirm,
       onPressBackToHome,
       onPressNextArea,
-      onPressNextStage
+      onPressNextStage,
+      onGiveUp
     },
     states: {
       step,
@@ -403,8 +394,6 @@ export default function UseBattle() {
       journeyPath,
       damageEvents,
       reshuffleCount: reshuffle,
-      currentStage,
-      currentArea,
       getDmgBreakdown: damageBreakdowns
     }
   };

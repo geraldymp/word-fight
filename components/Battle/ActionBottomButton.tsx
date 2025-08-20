@@ -33,23 +33,21 @@ const _ActionBottomButton: React.FC<IActionBottomButton> = ({
             width: counterSize,
             alignItems: 'center',
             justifyContent: 'center'
-          }}
-        >
+          }}>
           <Text>{counter}</Text>
         </View>
       )}
       <TouchableOpacity
         style={{
           height: size,
-          width: size,
+          width: size * 2,
           borderRadius: 12,
           backgroundColor: '#97c7a4',
           alignItems: 'center',
           justifyContent: 'center'
         }}
         onPress={onPress}
-        disabled={disabled}
-      >
+        disabled={disabled}>
         {icon}
       </TouchableOpacity>
     </View>

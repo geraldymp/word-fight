@@ -10,6 +10,8 @@ import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { JourneyMapModal } from '@components/JourneyMapModal';
+import { SvgCoins, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
+import AreaProgress from 'app/components/Battle/AreaProgress';
 import React from 'react';
 import {
   Dimensions,
@@ -25,10 +27,13 @@ import UseBattle from './use_battle';
 const screenHeight = Dimensions.get('window').height;
 const screenWidth = Dimensions.get('window').width;
 
-const diceSize = screenHeight / 24;
+const diceSize = screenHeight / 20;
 const diceTextSize = (diceSize * 3) / 6;
 
-const bottomIconSize = screenWidth / 10;
+const bottomIconSize = screenWidth / 12;
+
+const tileBg = '';
+const selectedtileBorder = '#00aaff';
 
 export default function BattleScreen() {
   const { actions, states } = UseBattle();
@@ -44,9 +49,12 @@ export default function BattleScreen() {
     onConfirm,
     onPressBackToHome,
     onPressNextArea,
-    onPressNextStage
+    onPressNextStage,
+    onGiveUp
   } = actions;
   const {
+    step,
+    stage,
     enemyView,
     enemyStyle,
     enemyShakeAnim,
@@ -68,63 +76,106 @@ export default function BattleScreen() {
     journeyPath,
     damageEvents,
     reshuffleCount,
-    currentStage,
-    currentArea,
     getDmgBreakdown
   } = states;
   return (
     <View style={styles.container}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <Text style={styles.areaText}>{currentArea}</Text>
-        <Text style={styles.stageText}>{currentStage}</Text>
+        <TouchableOpacity
+          style={{
+            position: 'absolute',
+            left: 16,
+            top: 16,
+            flexDirection: 'row',
+            alignItems: 'center',
+            backgroundColor: '#97c7a4',
+            borderRadius: 8,
+            paddingVertical: 8,
+            paddingHorizontal: 16,
+            justifyContent: 'center',
+            width: 125
+          }}
+          onPress={onGiveUp}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              fontSize: 12,
+              marginRight: 8
+            }}>
+            Give up
+          </Text>
+        </TouchableOpacity>
+        <AreaProgress
+          area={step}
+          stage={stage}
+          customStyle={{
+            position: 'absolute',
+            right: 16,
+            top: 16
+          }}
+        />
         <Text style={styles.enemyName}>{enemyView.name}</Text>
-        <Animated.View style={[enemyStyle, { width: '60%', height: '60%' }]}>
+        <View style={styles.enemyStatusContainer}>
+          <SvgHeart color="red" stroke="black" height={40} width={40} />
+          <View style={styles.maxHealthBar}>
+            <View
+              style={[
+                styles.currentHealthBar,
+                { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }
+              ]}
+            />
+            <Text style={styles.enemyHP}>
+              {enemyHP} / {enemyMaxHp}
+            </Text>
+          </View>
+        </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            width: '75%',
+            justifyContent: 'space-between'
+          }}>
+          <View
+            style={{
+              flex: 1,
+              gap: 6,
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}>
+            <SvgSword height={24} width={24} color="yellow" />
+            <Text
+              style={{
+                color: 'white'
+              }}>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              gap: 6,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end'
+            }}>
+            <SvgCoins height={24} width={24} color="green" />
+            <Text
+              style={{
+                color: 'white'
+              }}>{`20 Gold Reward`}</Text>
+          </View>
+        </View>
+        <Animated.View
+          style={[
+            enemyStyle,
+            { width: '60%', height: '60%' },
+            { transform: [{ translateX: enemyShakeAnim }] }
+          ]}>
           <Image
             source={enemyView.image}
             resizeMode="contain"
             style={{ width: '100%', height: '100%' }}
           />
         </Animated.View>
-        <View style={styles.enemyStatusContainer}>
-          <Text style={{ color: 'white', marginBottom: 6 }}>
-            <Text>⚔ </Text>
-            <Text>{`${enemyMinDmg} - ${enemyMaxDmg}`}</Text>
-          </Text>
-          <Animated.View
-            style={[
-              { width: '100%', paddingHorizontal: 32 },
-              { transform: [{ translateX: enemyShakeAnim }] }
-            ]}>
-            <View style={styles.maxHealthBar}>
-              <View
-                style={[
-                  styles.currentHealthBar,
-                  { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }
-                ]}
-              />
-              <Text style={styles.enemyHP}>
-                {enemyHP} / {enemyMaxHp}
-              </Text>
-            </View>
-          </Animated.View>
-        </View>
-
-        {/* map hidden for now */}
-        {/* <TouchableOpacity
-          style={{
-            position: 'absolute',
-            bottom: 16,
-            left: 16
-          }}
-          onPress={() => setMapVisible(true)}
-        >
-          <Image
-            source={require('../assets/icons/battle/map.png')}
-            resizeMode="contain"
-            style={{ width: 32, height: 32 }}
-          />
-        </TouchableOpacity> */}
       </View>
 
       {/* Letters + Word Builder */}
@@ -141,30 +192,8 @@ export default function BattleScreen() {
           {currentWord ? currentWord.toUpperCase() : '-'}
         </Text>
 
-        <Animated.FlatList
-          data={letters}
-          keyExtractor={(_, i) => i.toString()}
-          numColumns={5}
-          renderItem={({ item, index }) => (
-            <TouchableOpacity
-              style={[
-                styles.letterTile,
-                selectedIndices.includes(index) && styles.selectedTile
-              ]}
-              onPress={() => handleLetterPress(index)}
-              testID={`letter-${item}`}>
-              <Text style={styles.letter}>{item.toUpperCase()}</Text>
-            </TouchableOpacity>
-          )}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
-          style={[
-            { flexGrow: 0 },
-            { transform: [{ translateX: wrongWordShakeAnim }] }
-          ]}
-        />
-
-        {currentWord.length > 0 && (
+        {/* Damage breakdown */}
+        {/* {currentWord.length > 0 && (
           <View style={{ marginBottom: 8 }}>
             <Text style={styles.damagePreview}>
               {getDmgBreakdown.map((val, idx) => (
@@ -180,7 +209,7 @@ export default function BattleScreen() {
                 styles.damagePreviewLabel
               }>{`(letters + length bonus + modifier)`}</Text>
           </View>
-        )}
+        )} */}
 
         {feedback === 'invalid' && (
           <Text style={styles.invalid}>Invalid word</Text>
@@ -188,6 +217,37 @@ export default function BattleScreen() {
         {feedback === 'short' && (
           <Text style={styles.invalid}>At least 4 letter</Text>
         )}
+
+        <Animated.FlatList
+          data={letters}
+          keyExtractor={(_, i) => i.toString()}
+          numColumns={6}
+          renderItem={({ item, index }) => (
+            <TouchableOpacity
+              style={[styles.letterTile, { backgroundColor: 'white' }]}
+              onPress={() => handleLetterPress(index)}
+              testID={`letter-${item}`}>
+              <View
+                style={[
+                  styles.letterTile,
+                  { bottom: 0.8 },
+                  selectedIndices.includes(index) && styles.selectedTile
+                ]}>
+                <Text style={styles.letter}>{item.toUpperCase()}</Text>
+              </View>
+            </TouchableOpacity>
+          )}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
+          style={[
+            {
+              flexGrow: 0,
+              position: 'absolute',
+              bottom: bottomIconSize + 42
+            },
+            { transform: [{ translateX: wrongWordShakeAnim }] }
+          ]}
+        />
 
         {/* Controls */}
         <View style={styles.controls}>
@@ -254,22 +314,8 @@ const styles = StyleSheet.create({
     padding: 16,
     backgroundColor: '#330000'
   },
-  areaText: {
-    fontSize: 18,
-    color: 'white',
-    position: 'absolute',
-    top: 12,
-    left: 16
-  },
-  stageText: {
-    fontSize: 18,
-    color: 'white',
-    position: 'absolute',
-    top: 12,
-    right: 16
-  },
   enemyName: {
-    fontSize: 28,
+    fontSize: 20,
     color: '#ffe08a',
     fontWeight: 'bold',
     textAlign: 'center',
@@ -278,7 +324,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 10,
     letterSpacing: 1.2,
     fontFamily: 'Cinzel_700Bold',
-    marginTop: 20,
+    marginTop: 44,
     marginBottom: 8
   },
   enemyHP: {
@@ -286,12 +332,12 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     fontWeight: 'bold',
-    fontSize: 16
+    fontSize: 12
   },
   playerArea: {
     flex: 1,
     alignItems: 'center',
-    padding: 16,
+    paddingTop: 16,
     backgroundColor: '#001a33'
   },
   currentWord: {
@@ -305,7 +351,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderWidth: 2,
-    borderColor: '#00aaff'
+    borderColor: selectedtileBorder
   },
   letterTile: {
     width: diceSize,
@@ -314,13 +360,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#222',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 8,
-    borderWidth: 2,
-    borderColor: '#ffe08a'
+    borderRadius: 8
   },
   selectedTile: {
-    backgroundColor: '#00aaff',
-    borderColor: '#fff'
+    borderWidth: 2,
+    borderColor: selectedtileBorder,
+    bottom: 0
   },
   letter: {
     fontSize: diceTextSize,
@@ -329,9 +374,14 @@ const styles = StyleSheet.create({
   },
   controls: {
     flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'center',
     gap: 16,
     position: 'absolute',
-    bottom: 24
+    bottom: 0,
+    paddingTop: 8,
+    paddingBottom: 16,
+    backgroundColor: '#522546'
   },
   invalid: {
     color: '#ff4d4d',
@@ -340,29 +390,26 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   enemyStatusContainer: {
-    position: 'absolute',
-    bottom: 16,
+    width: '85%',
+    gap: 6,
+    flexDirection: 'row',
     alignItems: 'center',
-    width: '100%'
+    marginBottom: 6
   },
   maxHealthBar: {
-    width: '100%',
+    flex: 1,
     height: 32,
     backgroundColor: '#fff',
-    borderRadius: 12,
+    borderRadius: 8,
     borderWidth: 2,
     borderColor: '#222',
     overflow: 'hidden',
-    justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.15,
-    shadowRadius: 4
+    justifyContent: 'center'
   },
   currentHealthBar: {
     height: 32,
     backgroundColor: '#ffe08a',
-    borderRadius: 12
+    borderRadius: 8
   },
   damagePreview: {
     color: '#ffe08a',
