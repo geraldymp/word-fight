@@ -1,8 +1,8 @@
 import * as React from 'react';
-import Svg, { G, Path } from 'react-native-svg';
+import Svg, { G, Path, SvgProps } from 'react-native-svg';
 /* SVGR has dropped some elements not supported by react-native-svg: title */
 import { memo } from 'react';
-const SvgComponent = ({ color = 'black', ...props }) => (
+const SvgComponent = ({ color = 'black', ...props }: SvgProps) => (
   <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" {...props}>
     <G data-name={1}>
       <Path

@@ -1,6 +1,6 @@
 import * as React from 'react';
-import Svg, { Path, Rect } from 'react-native-svg';
-const SvgComponent = ({ color = 'black', ...props }) => (
+import Svg, { Path, Rect, SvgProps } from 'react-native-svg';
+const SvgComponent = ({ color = 'black', ...props }: SvgProps) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
     data-name="Layer 1"

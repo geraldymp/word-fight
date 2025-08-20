@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { memo } from 'react';
-import Svg, { Path } from 'react-native-svg';
-const SvgComponent = ({ color = 'black', ...props }) => (
+import Svg, { Path, SvgProps } from 'react-native-svg';
+const SvgComponent = ({ color = 'black', ...props }: SvgProps) => (
   <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" {...props}>
     <Path
       fill={color}

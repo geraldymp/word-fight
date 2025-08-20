@@ -1,5 +1,9 @@
 export { default as SvgAchievement } from './achievement';
+export { default as SvgCoins } from './coins';
+export { default as SvgFlag } from './flag';
 export { default as SvgGraph } from './graph';
+export { default as SvgHeart } from './heart';
 export { default as SvgHelp } from './help';
 export { default as SvgInformation } from './information';
 export { default as SvgSetting } from './setting';
+export { default as SvgSword } from './swords';
