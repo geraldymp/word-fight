@@ -2,38 +2,45 @@ import { IEnemy } from '@customTypes/IEnemy';
 import { INode } from '@customTypes/INode';
 
 export interface GameStoreType {
+  // Enemy section
   enemyHP: number;
   setEnemyHP: (hp: number) => void;
   reduceEnemyHP: (amount: number) => void;
 
+  // Player section
   playerHP: number;
   setPlayerHP: (hp: number) => void;
   increasePlayerHP: (amount: number) => void;
   reducePlayerHP: (amount: number) => void;
+  gold: number;
+  setGold: (gold: number) => void;
+  increaseGold: (gainedGold: number) => void;
 
+  // Progress section
   step: number;
   increaseStep: () => void;
-
   stage: number;
   setStage: (stage: number) => void;
   increaseStage: () => void;
+  selectedEnemy: IEnemy;
+  setSelectedEnemy: (enemy: IEnemy) => void;
+  selectedEnemies: any;
+  setSelectedEnemies: (enemy: IEnemy[]) => void;
 
+  // Menu section
   maxReshuffle: number;
   reshuffle: number;
   setReshuffle: (res: number) => void;
 
+  // Reset Game
   resetGame: () => void;
 
-  journeyPath: INode[][]; // e.g., ['B', 'D', 'F']
+  // Map section (unused)
+  journeyPath: INode[][];
   addToJourney: (node: INode[]) => void;
   resetJourney: () => void;
 
-  selectedEnemy: IEnemy;
-  setSelectedEnemy: (enemy: IEnemy) => void;
-
-  gold: number;
-  setGold: (gold: number) => void;
-
+  // Damage modifier
   damageModifier: {
     bonusDamage: number;
     vowelModifier: number;
@@ -42,7 +49,6 @@ export interface GameStoreType {
     IngModifier: number;
     STModifier: number;
   };
-
   setBonusDamage: (modifier: number) => void;
   setVowelModifier: (modifier: number) => void;
   setABCDEModifier: (modifier: number) => void;
@@ -52,9 +58,7 @@ export interface GameStoreType {
 
   setFirecampHeal: () => void;
 
-  selectedEnemies: any;
-  setSelectedEnemies: (enemy: IEnemy[]) => void;
-
+  // Highscore section
   lowestHighscore: number;
   setLowestHighScore: (hiscore: number) => void;
   highScoreFilled: boolean;

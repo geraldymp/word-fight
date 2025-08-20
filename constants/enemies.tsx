@@ -25,7 +25,7 @@ export const enemies: IEnemies[] = [
         baseHp: 42,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 10
+        goldReward: 12
       },
       {
         name: 'Old Warlock',
@@ -33,7 +33,7 @@ export const enemies: IEnemies[] = [
         baseHp: 45,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 10
+        goldReward: 15
       }
     ]
   },
@@ -47,7 +47,7 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
-        goldReward: 10
+        goldReward: 12
       },
       {
         name: 'Mad Goblin',
@@ -55,7 +55,7 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 2,
         maxDmg: 3,
-        goldReward: 10
+        goldReward: 13
       },
       {
         name: 'Scarred Goblin',
@@ -63,7 +63,7 @@ export const enemies: IEnemies[] = [
         baseHp: 60,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 10
+        goldReward: 15
       }
     ]
   },
@@ -77,7 +77,7 @@ export const enemies: IEnemies[] = [
         baseHp: 40,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 10
+        goldReward: 12
       },
       {
         name: 'Dead Face',
@@ -85,7 +85,7 @@ export const enemies: IEnemies[] = [
         baseHp: 42,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 10
+        goldReward: 12
       },
       {
         name: 'The Frankenstein',
@@ -93,7 +93,7 @@ export const enemies: IEnemies[] = [
         baseHp: 45,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 10
+        goldReward: 15
       }
     ]
   },
@@ -107,7 +107,7 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
-        goldReward: 10
+        goldReward: 13
       },
       {
         name: 'Bearded Centaur',
@@ -115,7 +115,7 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 2,
         maxDmg: 3,
-        goldReward: 10
+        goldReward: 14
       },
       {
         name: 'The Medusa',
@@ -123,7 +123,7 @@ export const enemies: IEnemies[] = [
         baseHp: 60,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 10
+        goldReward: 16
       }
     ]
   },
@@ -137,7 +137,7 @@ export const enemies: IEnemies[] = [
         baseHp: 65,
         minDmg: 2,
         maxDmg: 3,
-        goldReward: 10
+        goldReward: 20
       },
       {
         name: 'Old Viking',
@@ -145,7 +145,7 @@ export const enemies: IEnemies[] = [
         baseHp: 60,
         minDmg: 2,
         maxDmg: 4,
-        goldReward: 10
+        goldReward: 20
       },
       {
         name: 'The Executioner',
@@ -153,7 +153,7 @@ export const enemies: IEnemies[] = [
         baseHp: 65,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 10
+        goldReward: 25
       }
     ]
   },
@@ -167,7 +167,7 @@ export const enemies: IEnemies[] = [
         baseHp: 46,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 10
+        goldReward: 21
       },
       {
         name: 'Half Cyborg',
@@ -175,7 +175,7 @@ export const enemies: IEnemies[] = [
         baseHp: 48,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 10
+        goldReward: 23
       },
       {
         name: 'Ancient Machine',
@@ -183,7 +183,7 @@ export const enemies: IEnemies[] = [
         baseHp: 50,
         minDmg: 9,
         maxDmg: 9,
-        goldReward: 10
+        goldReward: 26
       }
     ]
   },
@@ -197,7 +197,7 @@ export const enemies: IEnemies[] = [
         baseHp: 70,
         minDmg: 10,
         maxDmg: 15,
-        goldReward: 10
+        goldReward: 99
       }
     ]
   }

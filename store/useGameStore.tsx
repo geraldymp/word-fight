@@ -14,6 +14,9 @@ export const useGameStore = create<GameStoreType>(set => ({
     set(state => ({ playerHP: state.playerHP + amount })),
   reducePlayerHP: amount =>
     set(state => ({ playerHP: Math.max(0, state.playerHP - amount) })),
+  gold: 0,
+  setGold: (gold: number) => set({ gold }),
+  increaseGold: gainedGold => set(state => ({ gold: state.gold + gainedGold })),
 
   step: 1,
   increaseStep: () =>
@@ -21,7 +24,6 @@ export const useGameStore = create<GameStoreType>(set => ({
       step: state.step + 1,
       stage: 1
     })),
-
   stage: 1,
   setStage: stage => set({ stage: stage }),
   increaseStage: () =>
@@ -29,6 +31,24 @@ export const useGameStore = create<GameStoreType>(set => ({
       stage: state.stage + 1,
       selectedEnemy: state.selectedEnemies[state.stage]
     })),
+  selectedEnemy: {
+    name: '',
+    image: undefined,
+    baseHp: 0,
+    minDmg: 0,
+    maxDmg: 0,
+    goldReward: 0
+  },
+  setSelectedEnemy: enemy =>
+    set({ selectedEnemy: enemy, enemyHP: enemy.baseHp }),
+  selectedEnemies: [],
+  setSelectedEnemies: enemies => {
+    set(state => ({
+      selectedEnemies: enemies,
+      selectedEnemy: enemies[state.stage - 1],
+      enemyHP: enemies[state.stage - 1].baseHp
+    }));
+  },
 
   maxReshuffle: 2,
   reshuffle: 2,
@@ -56,20 +76,6 @@ export const useGameStore = create<GameStoreType>(set => ({
     set(state => ({ journeyPath: [...state.journeyPath, node] })),
   resetJourney: () => set({ journeyPath: [] }),
 
-  selectedEnemy: {
-    name: '',
-    image: undefined,
-    baseHp: 0,
-    minDmg: 0,
-    maxDmg: 0,
-    goldReward: 0
-  },
-  setSelectedEnemy: enemy =>
-    set({ selectedEnemy: enemy, enemyHP: enemy.baseHp }),
-
-  gold: 0,
-  setGold: (gold: number) => set({ gold }),
-
   damageModifier: {
     bonusDamage: 0,
     vowelModifier: 0,
@@ -78,7 +84,6 @@ export const useGameStore = create<GameStoreType>(set => ({
     IngModifier: 0,
     STModifier: 0
   },
-
   setBonusDamage: (modifier: number) =>
     set(state => ({
       damageModifier: {
@@ -86,7 +91,6 @@ export const useGameStore = create<GameStoreType>(set => ({
         bonusDamage: state.damageModifier.bonusDamage + modifier
       }
     })),
-
   setVowelModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
@@ -94,7 +98,6 @@ export const useGameStore = create<GameStoreType>(set => ({
         vowelModifier: state.damageModifier.vowelModifier + modifier
       }
     })),
-
   setABCDEModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
@@ -102,7 +105,6 @@ export const useGameStore = create<GameStoreType>(set => ({
         ABCDEModifier: state.damageModifier.ABCDEModifier + modifier
       }
     })),
-
   setVWXYZRModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
@@ -110,7 +112,6 @@ export const useGameStore = create<GameStoreType>(set => ({
         VWXYZModifier: state.damageModifier.VWXYZModifier + modifier
       }
     })),
-
   setIngModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
@@ -118,7 +119,6 @@ export const useGameStore = create<GameStoreType>(set => ({
         IngModifier: state.damageModifier.IngModifier + modifier
       }
     })),
-
   setSTModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
@@ -132,15 +132,6 @@ export const useGameStore = create<GameStoreType>(set => ({
       playerHP: state.playerHP + 5,
       bonusDamage: state.damageModifier.bonusDamage + 2
     })),
-
-  selectedEnemies: [],
-  setSelectedEnemies: enemies => {
-    set(state => ({
-      selectedEnemies: enemies,
-      selectedEnemy: enemies[state.stage - 1],
-      enemyHP: enemies[state.stage - 1].baseHp
-    }));
-  },
 
   lowestHighscore: 0,
   setLowestHighScore: score => set({ lowestHighscore: score }),

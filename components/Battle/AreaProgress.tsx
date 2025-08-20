@@ -44,8 +44,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    justifyContent: 'center',
-    width: 125
+    justifyContent: 'center'
   },
   areaText: {
     color: '#ffe08a',

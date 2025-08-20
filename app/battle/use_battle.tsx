@@ -41,6 +41,8 @@ export default function UseBattle() {
     reduceEnemyHP,
     playerHP,
     reducePlayerHP,
+    gold,
+    increaseGold,
     lowestHighscore,
     highScoreFilled,
     setHighScoreFilled,
@@ -49,7 +51,7 @@ export default function UseBattle() {
     setReshuffle,
     damageModifier
   } = useGameStore();
-  const { name, image, baseHp, minDmg, maxDmg } = selectedEnemy;
+  const { name, image, baseHp, minDmg, maxDmg, goldReward } = selectedEnemy;
   const enemyHitSound = useAudioPlayer(enemyHit);
   const playerHitSound = useAudioPlayer(playerHit);
   const enemyBeatenSound = useAudioPlayer(enemyBeaten);
@@ -221,6 +223,7 @@ export default function UseBattle() {
         enemyRotation.value = withTiming(720, { duration: 1000 });
         enemyScale.value = withTiming(0, { duration: 1000 });
         enemyOpacity.value = withTiming(0, { duration: 1000 });
+        increaseGold(goldReward);
       }, 500);
       setTimeout(() => {
         setShowGameOverModal(true);
@@ -380,8 +383,10 @@ export default function UseBattle() {
       enemyMaxHp,
       enemyMinDmg: minDmg,
       enemyMaxDmg: maxDmg,
+      enemyGold: goldReward,
       playerShakeAnim,
       playerHP,
+      gold,
       currentWord,
       letters,
       selectedIndices,

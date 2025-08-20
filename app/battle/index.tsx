@@ -62,8 +62,10 @@ export default function BattleScreen() {
     enemyMaxHp,
     enemyMaxDmg,
     enemyMinDmg,
+    enemyGold,
     playerShakeAnim,
     playerHP,
+    gold,
     currentWord,
     letters,
     selectedIndices,
@@ -82,39 +84,58 @@ export default function BattleScreen() {
     <View style={styles.container}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <TouchableOpacity
-          style={{
-            position: 'absolute',
-            left: 16,
-            top: 16,
-            flexDirection: 'row',
-            alignItems: 'center',
-            backgroundColor: '#97c7a4',
-            borderRadius: 8,
-            paddingVertical: 8,
-            paddingHorizontal: 16,
-            justifyContent: 'center',
-            width: 125
-          }}
-          onPress={onGiveUp}>
-          <Text
+        <View style={styles.topStatusContainer}>
+          <TouchableOpacity
             style={{
-              fontWeight: 'bold',
-              fontSize: 12,
-              marginRight: 8
+              // TODO: need to change to component
+              flex: 1,
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#97c7a4',
+              borderRadius: 8,
+              paddingVertical: 8,
+              paddingHorizontal: 16
+            }}
+            onPress={onGiveUp}>
+            <Text
+              style={{
+                fontWeight: 'bold',
+                fontSize: 12,
+                marginRight: 8
+              }}>
+              Give up
+            </Text>
+          </TouchableOpacity>
+          <View
+            style={{
+              // TODO: change to component
+              flex: 1,
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'red',
+              borderWidth: 1,
+              borderColor: 'blue',
+              borderRadius: 8,
+              paddingVertical: 8,
+              paddingHorizontal: 16
             }}>
-            Give up
-          </Text>
-        </TouchableOpacity>
-        <AreaProgress
-          area={step}
-          stage={stage}
-          customStyle={{
-            position: 'absolute',
-            right: 16,
-            top: 16
-          }}
-        />
+            <Text
+              style={{
+                color: '#ffe08a',
+                fontWeight: 'bold',
+                fontSize: 12,
+                marginRight: 8
+              }}>{`Gold: ${gold}`}</Text>
+          </View>
+          <AreaProgress
+            area={step}
+            stage={stage}
+            customStyle={{
+              flex: 1
+            }}
+          />
+        </View>
         <Text style={styles.enemyName}>{enemyView.name}</Text>
         <View style={styles.enemyStatusContainer}>
           <SvgHeart color="red" stroke="black" height={40} width={40} />
@@ -161,7 +182,7 @@ export default function BattleScreen() {
             <Text
               style={{
                 color: 'white'
-              }}>{`20 Gold Reward`}</Text>
+              }}>{`${enemyGold} Gold Reward`}</Text>
           </View>
         </View>
         <Animated.View
@@ -311,8 +332,17 @@ const styles = StyleSheet.create({
   enemyArea: {
     flex: 1,
     alignItems: 'center',
-    padding: 16,
     backgroundColor: '#330000'
+  },
+  topStatusContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    backgroundColor: '#522546',
+    gap: 12,
+    padding: 6
   },
   enemyName: {
     fontSize: 20,
@@ -324,7 +354,7 @@ const styles = StyleSheet.create({
     textShadowRadius: 10,
     letterSpacing: 1.2,
     fontFamily: 'Cinzel_700Bold',
-    marginTop: 44,
+    marginTop: 52,
     marginBottom: 8
   },
   enemyHP: {
