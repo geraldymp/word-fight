@@ -136,10 +136,6 @@ export default function UseBattle() {
     }
   };
 
-  const handleClear = () => {
-    setSelectedIndices([]);
-  };
-
   async function setHiScore(word: string, dmg: number) {
     if (highScoreFilled) {
       if (dmg > lowestHighscore) {
@@ -363,7 +359,6 @@ export default function UseBattle() {
       handleRearrange,
       handleReshuffle,
       handleSubmit,
-      handleClear,
       onCancel,
       onCloseMap,
       onCompleteFloatingDamage,

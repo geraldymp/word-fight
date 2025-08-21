@@ -1,17 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  IcCancel,
-  IcFight,
-  IcRearrange,
-  IcReshuffle
-} from '@assets/icons/battle';
-import { ActionBottomButton } from '@components/Battle/ActionBottomButton';
 import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { JourneyMapModal } from '@components/JourneyMapModal';
 import { SvgCoins, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
 import AreaProgress from 'app/components/Battle/AreaProgress';
+import BottomMenu from 'app/components/BottomMenu';
 import React from 'react';
 import {
   Dimensions,
@@ -33,7 +27,6 @@ const diceTextSize = (diceSize * 3) / 6;
 
 const bottomIconSize = screenWidth / 12;
 
-const tileBg = '';
 const selectedtileBorder = '#00aaff';
 
 export default function BattleScreen() {
@@ -43,7 +36,6 @@ export default function BattleScreen() {
     handleRearrange,
     handleReshuffle,
     handleSubmit,
-    handleClear,
     onCancel,
     onCloseMap,
     onCompleteFloatingDamage,
@@ -84,105 +76,56 @@ export default function BattleScreen() {
   return (
     <ImageBackground
       style={styles.container}
-      source={require('@assets/bgbg.png')}>
+      source={require('@assets/main_background.png')}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <View style={styles.topStatusContainer}>
-          <TouchableOpacity
-            style={{
-              // TODO: need to change to component
-              flex: 1,
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              backgroundColor: '#97c7a4',
-              borderRadius: 8,
-              paddingVertical: 8,
-              paddingHorizontal: 16
-            }}
-            onPress={onGiveUp}>
-            <Text
-              style={{
-                fontWeight: 'bold',
-                fontSize: 12,
-                marginRight: 8
-              }}>
-              Give up
-            </Text>
-          </TouchableOpacity>
-          <View
-            style={{
-              // TODO: change to component
-              flex: 1,
-              alignItems: 'center',
-              justifyContent: 'center',
-              backgroundColor: 'red',
-              borderWidth: 1,
-              borderColor: 'blue',
-              borderRadius: 8,
-              paddingVertical: 8,
-              paddingHorizontal: 16
-            }}>
-            <Text
-              style={{
-                color: '#ffe08a',
-                fontWeight: 'bold',
-                fontSize: 12,
-                marginRight: 8
-              }}>{`Gold: ${gold}`}</Text>
-          </View>
-          <AreaProgress
-            area={step}
-            stage={stage}
-            customStyle={{
-              flex: 1
-            }}
-          />
+        <AreaProgress area={step} stage={stage} />
+        <View style={styles.enemyNameWrapper}>
+          <Text style={styles.enemyName}>{enemyView.name}</Text>
         </View>
-        <Text style={styles.enemyName}>{enemyView.name}</Text>
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            width: '75%',
-            justifyContent: 'space-between'
-          }}>
-          <View
-            style={{
-              flex: 1,
-              gap: 6,
-              flexDirection: 'row',
-              alignItems: 'center'
-            }}>
-            <SvgSword height={24} width={24} color="yellow" />
-            <Text
-              style={{
-                color: 'white',
 
-                fontFamily: 'SourGummy_400Regular'
-              }}>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
+        <View style={styles.enemyNameWrapper}>
+          <View style={styles.enemyStatusContainer}>
+            <SvgHeart color="red" stroke="black" height={32} width={32} />
+            <View style={styles.enemyMaxHealthBar}>
+              <View
+                style={[
+                  styles.enemyCurrentHealthBar,
+                  { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }
+                ]}
+              />
+              <Text style={styles.enemyHP}>
+                {enemyHP} / {enemyMaxHp}
+              </Text>
+            </View>
           </View>
-          <View
-            style={{
-              flex: 1,
-              gap: 6,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-end'
-            }}>
-            <SvgCoins height={24} width={24} color="green" />
-            <Text
-              style={{
-                color: 'white',
+          <View style={styles.enemyStatusWrapper}>
+            <View style={styles.enemyStatusItemWrapper}>
+              <SvgSword height={20} width={20} color="yellow" />
+              <Text
+                style={
+                  styles.enemyStatusText
+                }>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
+            </View>
+            <View
+              style={[
+                styles.enemyStatusItemWrapper,
+                { justifyContent: 'flex-end' }
+              ]}>
+              <SvgCoins height={20} width={20} color="green" />
+              <Text
+                style={
+                  styles.enemyStatusText
+                }>{`${enemyGold} Gold Bounty`}</Text>
+            </View>
+          </View>
+        </View>
 
-                fontFamily: 'SourGummy_400Regular'
-              }}>{`${enemyGold} Gold Reward`}</Text>
-          </View>
-        </View> */}
         <Animated.View
           style={[
             enemyStyle,
-            { width: '60%', height: '60%' },
-            { transform: [{ translateX: enemyShakeAnim }] }
+            { transform: [{ translateX: enemyShakeAnim }] },
+            { width: '60%', height: '60%', marginVertical: 8 }
           ]}>
           <Image
             source={enemyView.image}
@@ -190,78 +133,17 @@ export default function BattleScreen() {
             style={{ width: '100%', height: '100%' }}
           />
         </Animated.View>
-
-        <View style={styles.enemyStatusContainer}>
-          <SvgHeart color="red" stroke="black" height={32} width={32} />
-          <View style={styles.maxHealthBar}>
-            <View
-              style={[
-                styles.currentHealthBar,
-                { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }
-              ]}
-            />
-            <Text style={styles.enemyHP}>
-              {enemyHP} / {enemyMaxHp}
-            </Text>
-          </View>
-        </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            width: '75%',
-            justifyContent: 'space-between'
-          }}>
-          <View
-            style={{
-              flex: 1,
-              gap: 6,
-              flexDirection: 'row',
-              alignItems: 'center'
-            }}>
-            <SvgSword height={24} width={24} color="yellow" />
-            <Text
-              style={{
-                color: 'white',
-
-                fontFamily: 'SourGummy_400Regular'
-              }}>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
-          </View>
-          <View
-            style={{
-              flex: 1,
-              gap: 6,
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'flex-end'
-            }}>
-            <SvgCoins height={24} width={24} color="green" />
-            <Text
-              style={{
-                color: 'white',
-
-                fontFamily: 'SourGummy_400Regular'
-              }}>{`${enemyGold} Gold Reward`}</Text>
-          </View>
-        </View>
       </View>
 
       {/* Letters + Word Builder */}
       <View style={styles.playerArea}>
-        <Animated.Text
-          style={[
-            { fontSize: 18, color: 'white', marginBottom: 6 },
-            { transform: [{ translateX: playerShakeAnim }] }
-          ]}>
-          Player HP: {playerHP}
-        </Animated.Text>
-
         <Text style={styles.currentWord}>
           {currentWord ? currentWord.toUpperCase() : '-'}
         </Text>
 
         {/* Damage breakdown */}
-        {/* {currentWord.length > 0 && (
-          <View style={{ marginBottom: 8 }}>
+        {/* {currentWord.length > 3 && (
+          <View style={{ marginBottom: 8, paddingHorizontal: 12 }}>
             <Text style={styles.damagePreview}>
               {getDmgBreakdown.map((val, idx) => (
                 <Text key={idx}>
@@ -315,32 +197,18 @@ export default function BattleScreen() {
             { transform: [{ translateX: wrongWordShakeAnim }] }
           ]}
         />
-
-        {/* Controls */}
-        <View style={styles.controls}>
-          <ActionBottomButton
-            icon={<IcReshuffle width={18} height={18} />}
-            onPress={handleReshuffle}
-            disabled={reshuffleCount === 0}
-            counter={reshuffleCount}
-            size={bottomIconSize}
-          />
-          <ActionBottomButton
-            icon={<IcRearrange width={18} height={18} />}
-            onPress={handleRearrange}
-            size={bottomIconSize}
-          />
-          <ActionBottomButton
-            icon={<IcCancel width={18} height={18} />}
-            onPress={handleClear}
-            size={bottomIconSize}
-          />
-          <ActionBottomButton
-            icon={<IcFight width={18} height={18} />}
-            onPress={handleSubmit}
-            size={bottomIconSize}
-          />
-        </View>
+        <BottomMenu
+          characterImage={require('@assets/hero_icon.png')}
+          playerShakeAnim={playerShakeAnim}
+          playerHP={playerHP}
+          playerMaxHP={50}
+          gold={gold}
+          onPlay={handleSubmit}
+          onQuit={onGiveUp}
+          onRearrange={handleRearrange}
+          onReshuffle={handleReshuffle}
+          customStyle={styles.bottomBarContainer}
+        />
       </View>
       <GameProgressModal
         showModal={showGameOverModal}
@@ -376,19 +244,19 @@ const styles = StyleSheet.create({
     flex: 1
   },
   enemyArea: {
-    flex: 1,
-    alignItems: 'center'
-    // backgroundColor: '#2A1D16',
+    flex: 3,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+    paddingBottom: 12
   },
-  topStatusContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    backgroundColor: '#522546',
-    gap: 12,
-    padding: 6
+  enemyNameWrapper: {
+    backgroundColor: 'rgba(0, 128, 128, 0.8)',
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 4
   },
   enemyName: {
     fontSize: 20,
@@ -398,28 +266,40 @@ const styles = StyleSheet.create({
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
     letterSpacing: 1.2,
-    fontFamily: 'ArchitectsDaughter_400Regular',
-    marginTop: 52,
-    marginBottom: 8
+    fontFamily: 'ArchitectsDaughter_400Regular'
   },
   enemyHP: {
     color: '#222',
     position: 'absolute',
     alignSelf: 'center',
-    fontSize: 12,
+    fontSize: 16,
     fontFamily: 'SourGummy_800ExtraBold'
   },
   playerArea: {
-    flex: 1,
+    flex: 2,
     alignItems: 'center',
     paddingTop: 16
-    // backgroundColor: '#001a33'
+  },
+  enemyStatusWrapper: {
+    flexDirection: 'row',
+    width: '75%',
+    justifyContent: 'space-between'
+  },
+  enemyStatusItemWrapper: {
+    flex: 1,
+    gap: 6,
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  enemyStatusText: {
+    color: 'white',
+    fontFamily: 'SourGummy_400Regular'
   },
   currentWord: {
     fontSize: diceTextSize,
     fontFamily: 'SourGummy_400Regular',
     color: '#ffe08a',
-    marginBottom: 10,
+    marginBottom: 8,
     letterSpacing: 2,
     backgroundColor: 'rgba(0,26,51,0.7)',
     borderRadius: 8,
@@ -447,15 +327,11 @@ const styles = StyleSheet.create({
     color: '#ffe08a',
     fontFamily: 'SourGummy_800ExtraBold'
   },
-  controls: {
-    flexDirection: 'row',
+  bottomBarContainer: {
     width: '100%',
-    justifyContent: 'center',
-    gap: 16,
     position: 'absolute',
     bottom: 0,
-    paddingTop: 8,
-    paddingBottom: 16,
+    left: 0,
     backgroundColor: '#522546'
   },
   invalid: {
@@ -468,27 +344,26 @@ const styles = StyleSheet.create({
     width: '60%',
     gap: 6,
     flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 6
+    alignItems: 'center'
   },
-  maxHealthBar: {
+  enemyMaxHealthBar: {
     flex: 1,
     height: 20,
     backgroundColor: '#fff',
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: 'red',
+    borderColor: 'black',
     overflow: 'hidden',
     justifyContent: 'center'
   },
-  currentHealthBar: {
+  enemyCurrentHealthBar: {
     height: 20,
     backgroundColor: '#C53B2F',
     borderRadius: 10
   },
   damagePreview: {
     color: '#ffe08a',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center'
   },
