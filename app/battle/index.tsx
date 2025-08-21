@@ -16,6 +16,7 @@ import React from 'react';
 import {
   Dimensions,
   Image,
+  ImageBackground,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -81,7 +82,9 @@ export default function BattleScreen() {
     getDmgBreakdown
   } = states;
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      style={styles.container}
+      source={require('@assets/bgbg.png')}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
         <View style={styles.topStatusContainer}>
@@ -137,8 +140,59 @@ export default function BattleScreen() {
           />
         </View>
         <Text style={styles.enemyName}>{enemyView.name}</Text>
+        {/* <View
+          style={{
+            flexDirection: 'row',
+            width: '75%',
+            justifyContent: 'space-between'
+          }}>
+          <View
+            style={{
+              flex: 1,
+              gap: 6,
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}>
+            <SvgSword height={24} width={24} color="yellow" />
+            <Text
+              style={{
+                color: 'white',
+
+                fontFamily: 'SourGummy_400Regular'
+              }}>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              gap: 6,
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'flex-end'
+            }}>
+            <SvgCoins height={24} width={24} color="green" />
+            <Text
+              style={{
+                color: 'white',
+
+                fontFamily: 'SourGummy_400Regular'
+              }}>{`${enemyGold} Gold Reward`}</Text>
+          </View>
+        </View> */}
+        <Animated.View
+          style={[
+            enemyStyle,
+            { width: '60%', height: '60%' },
+            { transform: [{ translateX: enemyShakeAnim }] }
+          ]}>
+          <Image
+            source={enemyView.image}
+            resizeMode="contain"
+            style={{ width: '100%', height: '100%' }}
+          />
+        </Animated.View>
+
         <View style={styles.enemyStatusContainer}>
-          <SvgHeart color="red" stroke="black" height={40} width={40} />
+          <SvgHeart color="red" stroke="black" height={32} width={32} />
           <View style={styles.maxHealthBar}>
             <View
               style={[
@@ -167,7 +221,9 @@ export default function BattleScreen() {
             <SvgSword height={24} width={24} color="yellow" />
             <Text
               style={{
-                color: 'white'
+                color: 'white',
+
+                fontFamily: 'SourGummy_400Regular'
               }}>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
           </View>
           <View
@@ -181,22 +237,12 @@ export default function BattleScreen() {
             <SvgCoins height={24} width={24} color="green" />
             <Text
               style={{
-                color: 'white'
+                color: 'white',
+
+                fontFamily: 'SourGummy_400Regular'
               }}>{`${enemyGold} Gold Reward`}</Text>
           </View>
         </View>
-        <Animated.View
-          style={[
-            enemyStyle,
-            { width: '60%', height: '60%' },
-            { transform: [{ translateX: enemyShakeAnim }] }
-          ]}>
-          <Image
-            source={enemyView.image}
-            resizeMode="contain"
-            style={{ width: '100%', height: '100%' }}
-          />
-        </Animated.View>
       </View>
 
       {/* Letters + Word Builder */}
@@ -321,7 +367,7 @@ export default function BattleScreen() {
           onComplete={() => onCompleteFloatingDamage(event)}
         />
       ))}
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -331,8 +377,8 @@ const styles = StyleSheet.create({
   },
   enemyArea: {
     flex: 1,
-    alignItems: 'center',
-    backgroundColor: '#330000'
+    alignItems: 'center'
+    // backgroundColor: '#2A1D16',
   },
   topStatusContainer: {
     flex: 1,
@@ -347,13 +393,12 @@ const styles = StyleSheet.create({
   enemyName: {
     fontSize: 20,
     color: '#ffe08a',
-    fontWeight: 'bold',
     textAlign: 'center',
     textShadowColor: '#ffcc00',
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
     letterSpacing: 1.2,
-    fontFamily: 'Cinzel_700Bold',
+    fontFamily: 'ArchitectsDaughter_400Regular',
     marginTop: 52,
     marginBottom: 8
   },
@@ -361,20 +406,20 @@ const styles = StyleSheet.create({
     color: '#222',
     position: 'absolute',
     alignSelf: 'center',
-    fontWeight: 'bold',
-    fontSize: 12
+    fontSize: 12,
+    fontFamily: 'SourGummy_800ExtraBold'
   },
   playerArea: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: 16,
-    backgroundColor: '#001a33'
+    paddingTop: 16
+    // backgroundColor: '#001a33'
   },
   currentWord: {
     fontSize: diceTextSize,
+    fontFamily: 'SourGummy_400Regular',
     color: '#ffe08a',
     marginBottom: 10,
-    fontWeight: 'bold',
     letterSpacing: 2,
     backgroundColor: 'rgba(0,26,51,0.7)',
     borderRadius: 8,
@@ -399,8 +444,8 @@ const styles = StyleSheet.create({
   },
   letter: {
     fontSize: diceTextSize,
-    fontWeight: 'bold',
-    color: '#ffe08a'
+    color: '#ffe08a',
+    fontFamily: 'SourGummy_800ExtraBold'
   },
   controls: {
     flexDirection: 'row',
@@ -420,7 +465,7 @@ const styles = StyleSheet.create({
     fontSize: 16
   },
   enemyStatusContainer: {
-    width: '85%',
+    width: '60%',
     gap: 6,
     flexDirection: 'row',
     alignItems: 'center',
@@ -428,18 +473,18 @@ const styles = StyleSheet.create({
   },
   maxHealthBar: {
     flex: 1,
-    height: 32,
+    height: 20,
     backgroundColor: '#fff',
-    borderRadius: 8,
+    borderRadius: 10,
     borderWidth: 2,
-    borderColor: '#222',
+    borderColor: 'red',
     overflow: 'hidden',
     justifyContent: 'center'
   },
   currentHealthBar: {
-    height: 32,
-    backgroundColor: '#ffe08a',
-    borderRadius: 8
+    height: 20,
+    backgroundColor: '#C53B2F',
+    borderRadius: 10
   },
   damagePreview: {
     color: '#ffe08a',

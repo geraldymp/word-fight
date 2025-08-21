@@ -6,6 +6,10 @@ import {
 import { Candal_400Regular } from '@expo-google-fonts/candal';
 import { Cinzel_400Regular } from '@expo-google-fonts/cinzel';
 import { GoblinOne_400Regular } from '@expo-google-fonts/goblin-one';
+import {
+  SourGummy_400Regular,
+  SourGummy_800ExtraBold
+} from '@expo-google-fonts/sour-gummy';
 import { useSettingsStore } from 'app/store/useSettingStore';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -20,7 +24,9 @@ export default function Layout() {
     ArchitectsDaughter_400Regular,
     Candal_400Regular,
     Cinzel_400Regular,
-    GoblinOne_400Regular
+    GoblinOne_400Regular,
+    SourGummy_400Regular,
+    SourGummy_800ExtraBold
   });
 
   const { loadSettings } = useSettingsStore();
