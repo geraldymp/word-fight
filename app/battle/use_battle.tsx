@@ -2,11 +2,12 @@
 import { useGameStore } from '@store/useGameStore';
 import { useSettingsStore } from '@store/useSettingStore';
 import { calculateBaseLetterDamage } from '@utils/calculateDamage';
-import { generateRandomLetters } from '@utils/generateLetters';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
+import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
+import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
 import { getDamageModifier } from 'app/utils/getDamageModifier';
 import { setStats } from 'app/utils/Statistic/setStatistic';
 import { useAudioPlayer } from 'expo-audio';
@@ -115,7 +116,7 @@ export default function UseBattle() {
 
   const handleReshuffle = () => {
     if (reshuffle > 0) {
-      setLetters(generateRandomLetters());
+      setLetters(generateRandomLettersWithVowels());
       setSelectedIndices([]);
       setReshuffle(reshuffle - 1);
     }
@@ -189,10 +190,10 @@ export default function UseBattle() {
       setHiScore(currentWord, damage);
 
       // Replace used letters
-      const newLetters = [...letters];
-      selectedIndices.forEach(i => {
-        newLetters[i] = generateRandomLetters(1)[0];
-      });
+      const newLetters = generateSomeLettersWithVowels(
+        letters,
+        selectedIndices
+      );
       setLetters(newLetters);
 
       setStats(currentWord, damage);
@@ -234,7 +235,7 @@ export default function UseBattle() {
   }, [enemyHP, playerHP]);
 
   useEffect(() => {
-    setLetters(generateRandomLetters());
+    setLetters(generateRandomLettersWithVowels());
   }, []);
 
   useEffect(() => {
@@ -281,7 +282,7 @@ export default function UseBattle() {
 
   function onPressNextStage() {
     increaseStage();
-    setLetters(generateRandomLetters());
+    setLetters(generateRandomLettersWithVowels());
     setSelectedIndices([]);
     setFeedback(null);
     setShowGameOverModal(false);
