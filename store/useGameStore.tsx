@@ -60,6 +60,8 @@ export const useGameStore = create<GameStoreType>(set => ({
       stage: 1,
       gold: 0,
       playerHP: 50,
+      maxReshuffle: 2,
+      reshuffle: 2,
       journeyPath: [],
       damageModifier: {
         bonusDamage: 0,

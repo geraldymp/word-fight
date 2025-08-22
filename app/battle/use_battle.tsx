@@ -393,6 +393,7 @@ export default function UseBattle() {
       mapVisible,
       journeyPath,
       damageEvents,
+      maxReshuffle,
       reshuffleCount: reshuffle,
       getDmgBreakdown: damageBreakdowns
     }

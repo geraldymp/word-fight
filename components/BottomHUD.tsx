@@ -2,7 +2,7 @@ import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
 import { SvgHeart } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import React, { useMemo } from 'react';
 import {
   StyleProp,
   StyleSheet,
@@ -20,8 +20,12 @@ const STROKE_WIDTH = 7;
 const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
 const CIRCUM = 2 * Math.PI * RADIUS;
 
-const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const; // light gold gradient for buttons
-const BUTTON_GRADIENT_SECONDARY = ['#ba7ddbff', '#4164caff'] as const; // for secondary/blue buttons
+const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const;
+const BUTTON_GRADIENT_SECONDARY = ['#ba7ddbff', '#4164caff'] as const;
+const BUTTON_GRADIENT_SECONDARY_DISABLED = [
+  '#ece6efff',
+  'rgba(127, 133, 150, 1)'
+] as const;
 
 interface IBottomHUD {
   characterImage: any;
@@ -29,6 +33,8 @@ interface IBottomHUD {
   playerHP: number;
   playerMaxHP: number;
   gold: number;
+  maxReshuffle: number;
+  currentReshuffle: number;
   onReshuffle: () => void;
   onRearrange: () => void;
   onPlay: () => void;
@@ -41,12 +47,28 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   playerHP,
   playerMaxHP,
   gold,
+  maxReshuffle,
+  currentReshuffle,
   onReshuffle,
   onRearrange,
   onPlay,
   customStyle
 }) => {
-  const healthPercent = Math.max(0, playerHP / playerMaxHP);
+  const healthPercent = useMemo(() => {
+    return Math.max(0, playerHP / playerMaxHP);
+  }, [playerHP, playerMaxHP]);
+
+  const disableReshuffle = useMemo(() => {
+    return currentReshuffle === 0;
+  }, [currentReshuffle]);
+
+  const reshuffleStyle = useMemo(() => {
+    if (disableReshuffle) {
+      return BUTTON_GRADIENT_SECONDARY_DISABLED;
+    }
+    return BUTTON_GRADIENT_SECONDARY;
+  }, [disableReshuffle]);
+
   return (
     <View style={[stylesBtm.container, customStyle]}>
       {/* Health ring */}
@@ -98,20 +120,43 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
           <Text style={stylesBtm.goldText}>Gold: ${gold}</Text>
         </View>
         <View style={stylesBtm.buttonsWrapper}>
-          <TouchableOpacity
-            style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
-            onPress={onReshuffle}>
-            <LinearGradient
-              colors={BUTTON_GRADIENT_SECONDARY}
-              style={[stylesBtm.button, { bottom: 1.5 }]}>
-              <IcReshuffle
-                color="black"
-                width={ICON_SIZE}
-                height={ICON_SIZE}
-                style={{ marginVertical: 4, marginHorizontal: 9 }}
-              />
-            </LinearGradient>
-          </TouchableOpacity>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center'
+            }}>
+            <View style={stylesBtm.reshuffleDotsWrapper}>
+              {Array.from({ length: maxReshuffle }).map((_, i) => {
+                const isUsed = i < maxReshuffle - currentReshuffle;
+                return (
+                  <View
+                    key={i}
+                    style={[
+                      stylesBtm.reshuffleDot,
+                      isUsed
+                        ? stylesBtm.reshuffleDotUsed
+                        : stylesBtm.reshuffleDotActive
+                    ]}
+                  />
+                );
+              })}
+            </View>
+            <TouchableOpacity
+              style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
+              onPress={onReshuffle}
+              disabled={disableReshuffle}>
+              <LinearGradient
+                colors={reshuffleStyle}
+                style={[stylesBtm.button, { bottom: 1.5 }]}>
+                <IcReshuffle
+                  color="black"
+                  width={ICON_SIZE}
+                  height={ICON_SIZE}
+                  style={{ marginVertical: 4, marginHorizontal: 9 }}
+                />
+              </LinearGradient>
+            </TouchableOpacity>
+          </View>
 
           <TouchableOpacity
             style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
@@ -185,6 +230,32 @@ const stylesBtm = StyleSheet.create({
   },
   goldText: {
     fontFamily: 'ArchitectsDaughter_400Regular'
+  },
+  reshuffleDotsWrapper: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 4
+  },
+  reshuffleDot: {
+    width: 7,
+    height: 7,
+    borderRadius: 4,
+    marginVertical: 0.8,
+    backgroundColor: Colors.neutralDark,
+    borderWidth: 1,
+    borderColor: Colors.borderBlack,
+    shadowColor: Colors.primary,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.18,
+    shadowRadius: 2
+  },
+  reshuffleDotActive: {
+    backgroundColor: Colors.primary,
+    shadowOpacity: 0.5
+  },
+  reshuffleDotUsed: {
+    backgroundColor: Colors.neutralDark,
+    opacity: 0.4
   },
   buttonsWrapper: {
     flex: 1,

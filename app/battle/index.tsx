@@ -73,6 +73,7 @@ export default function BattleScreen() {
     mapVisible,
     journeyPath,
     damageEvents,
+    maxReshuffle,
     reshuffleCount,
     getDmgBreakdown
   } = states;
@@ -225,6 +226,8 @@ export default function BattleScreen() {
           playerHP={playerHP}
           playerMaxHP={50}
           gold={gold}
+          maxReshuffle={maxReshuffle}
+          currentReshuffle={reshuffleCount}
           onPlay={handleSubmit}
           onRearrange={handleRearrange}
           onReshuffle={handleReshuffle}
