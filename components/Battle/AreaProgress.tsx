@@ -1,3 +1,4 @@
+import Colors from 'app/foundation/colors';
 import React from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
@@ -38,16 +39,16 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: 'red',
+    backgroundColor: Colors.secondaryBg70,
     borderWidth: 1,
-    borderColor: 'blue',
+    borderColor: Colors.borderBlack,
     borderRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
     justifyContent: 'center'
   },
   areaText: {
-    color: '#ffe08a',
+    color: Colors.textWhite,
     fontWeight: 'bold',
     fontSize: 12,
     marginRight: 8
@@ -62,22 +63,18 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 5,
     borderWidth: 2,
-    borderColor: '#ffe08a',
+    borderColor: Colors.borderGold,
     backgroundColor: 'transparent'
   },
   completed: {
-    backgroundColor: '#ffe08a',
+    backgroundColor: Colors.accent,
     opacity: 0.7
   },
   current: {
-    backgroundColor: '#ffe08a',
+    backgroundColor: Colors.primary,
     opacity: 1,
-    borderColor: '#ffd700',
+    borderColor: Colors.borderGold,
     borderWidth: 2.5,
-    shadowColor: '#ffd700',
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.7,
-    shadowRadius: 4,
     elevation: 2
   },
   upcoming: {

@@ -1,7 +1,6 @@
-// Place this inside your BattleScreen's JSX, at the bottom of your main View
-
 import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
-import { SvgChevronRight } from 'app/assets/icons/svgs';
+import { SvgHeart } from 'app/assets/icons/svgs';
+import Colors from 'app/foundation/colors';
 import React from 'react';
 import {
   StyleProp,
@@ -15,7 +14,7 @@ import Animated, { SharedValue } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 
 const IMAGE_SIZE = 55;
-const BUTTON_SIZE = 16;
+const ICON_SIZE = 16;
 const STROKE_WIDTH = 7;
 const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
 const CIRCUM = 2 * Math.PI * RADIUS;
@@ -56,7 +55,7 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
             cx={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
             cy={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
             r={RADIUS}
-            stroke="#444"
+            stroke={Colors.neutralLight}
             strokeWidth={STROKE_WIDTH}
             fill="none"
           />
@@ -65,7 +64,7 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
             cx={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
             cy={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
             r={RADIUS}
-            stroke="#00e676"
+            stroke={Colors.danger}
             strokeWidth={STROKE_WIDTH}
             fill="none"
             strokeDasharray={CIRCUM}
@@ -84,7 +83,10 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
       </View>
 
       <View style={stylesBtm.playerHpWrapper}>
-        <Text style={stylesBtm.playerHPText}>{playerHP}</Text>
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <SvgHeart color="red" stroke="black" height={36} width={36} />
+          <Text style={stylesBtm.playerHPText}>{playerHP}</Text>
+        </View>
       </View>
 
       <View style={stylesBtm.sectionWrapper}>
@@ -93,28 +95,15 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
         </View>
         <View style={stylesBtm.buttonsWrapper}>
           <TouchableOpacity style={stylesBtm.button} onPress={onReshuffle}>
-            <IcReshuffle
-              color={'black'}
-              width={BUTTON_SIZE}
-              height={BUTTON_SIZE}
-            />
+            <IcReshuffle color="black" width={ICON_SIZE} height={ICON_SIZE} />
           </TouchableOpacity>
           <TouchableOpacity style={stylesBtm.button} onPress={onRearrange}>
-            <IcRearrange
-              color={'black'}
-              width={BUTTON_SIZE}
-              height={BUTTON_SIZE}
-            />
+            <IcRearrange color="black" width={ICON_SIZE} height={ICON_SIZE} />
           </TouchableOpacity>
           <TouchableOpacity
-            style={{ justifyContent: 'center' }}
-            onPress={onPlay}>
-            <SvgChevronRight width={80} height={50} color={'gold'} />
-            <IcFight
-              width={20}
-              height={20}
-              style={{ position: 'absolute', alignSelf: 'center' }}
-            />
+            onPress={onPlay}
+            style={stylesBtm.playButtonWrapper}>
+            <IcFight width={24} height={24} />
           </TouchableOpacity>
         </View>
       </View>
@@ -125,42 +114,37 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
 const stylesBtm = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 4,
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
-    shadowColor: '#000',
+    shadowColor: Colors.neutralDark,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.12,
     shadowRadius: 8
   },
   playerHpWrapper: {
     marginLeft: IMAGE_SIZE + 8,
-    backgroundColor: 'red',
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 30,
-    height: 30,
-    borderRadius: 15
+    justifyContent: 'flex-end'
   },
   playerHPText: {
-    color: 'white',
-    fontSize: 20,
-    fontFamily: 'SourGummy_800ExtraBold'
+    color: Colors.textWhite,
+    fontSize: 17,
+    fontFamily: 'SourGummy_800ExtraBold',
+    position: 'absolute'
   },
   sectionWrapper: {
     flex: 1,
     flexDirection: 'row',
-    alignItems: 'center',
-    paddingLeft: 20
+    alignItems: 'center'
   },
   goldWrapper: {
-    backgroundColor: 'cyan',
+    backgroundColor: Colors.neutralLight,
     paddingVertical: 4,
     paddingHorizontal: 9,
-    borderColor: 'blue',
+    marginHorizontal: 10,
+    borderColor: Colors.borderBlack,
     borderWidth: 2,
     borderRadius: 4
   },
@@ -170,19 +154,25 @@ const stylesBtm = StyleSheet.create({
   buttonsWrapper: {
     flex: 1,
     flexDirection: 'row',
-    paddingLeft: 20,
     alignItems: 'center',
     justifyContent: 'space-between'
   },
   button: {
-    backgroundColor: 'violet',
+    backgroundColor: Colors.calm,
     paddingVertical: 4,
     paddingHorizontal: 9,
     borderWidth: 2,
     borderRadius: 4
   },
-  icon: {
-    fontSize: 12
+  playButtonWrapper: {
+    backgroundColor: Colors.primary,
+    height: 35,
+    width: 70,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+    borderColor: Colors.borderBlack,
+    borderWidth: 2
   },
   ringWrapper: {
     position: 'absolute',
@@ -200,7 +190,7 @@ const stylesBtm = StyleSheet.create({
     width: IMAGE_SIZE,
     height: IMAGE_SIZE,
     borderRadius: IMAGE_SIZE / 2,
-    backgroundColor: '#222'
+    backgroundColor: Colors.neutralDark
   }
 });
 
