@@ -3,10 +3,11 @@ import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { JourneyMapModal } from '@components/JourneyMapModal';
-import { SvgCoins, SvgFlag, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
-import RoundedButton from 'app/components/atoms/RoundedButton';
+import { SvgCoins, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
+import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import BottomMenu from 'app/components/BottomMenu';
+import Colors from 'app/foundation/colors';
 import React from 'react';
 import {
   Dimensions,
@@ -27,8 +28,6 @@ const diceSize = screenHeight / 20;
 const diceTextSize = (diceSize * 3) / 6;
 
 const bottomIconSize = screenWidth / 12;
-
-const selectedtileBorder = '#00aaff';
 
 export default function BattleScreen() {
   const { actions, states } = UseBattle();
@@ -80,10 +79,12 @@ export default function BattleScreen() {
       source={require('@assets/main_background.png')}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <RoundedButton
-          icon={<SvgFlag width={20} height={20} />}
+        <RoundedRectButton
+          title="Give up"
           customStyle={{ position: 'absolute', top: 8, left: 8 }}
           onPress={onGiveUp}
+          type="warning"
+          size="sm"
         />
         <AreaProgress
           area={step}
@@ -108,14 +109,14 @@ export default function BattleScreen() {
                   { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }
                 ]}
               />
-              <Text style={styles.enemyHP}>
+              <Text style={styles.enemyHPText}>
                 {enemyHP} / {enemyMaxHp}
               </Text>
             </View>
           </View>
           <View style={styles.enemyStatusWrapper}>
             <View style={styles.enemyStatusItemWrapper}>
-              <SvgSword height={20} width={20} color="yellow" />
+              <SvgSword height={20} width={20} color={Colors.borderBlack} />
               <Text
                 style={
                   styles.enemyStatusText
@@ -126,7 +127,7 @@ export default function BattleScreen() {
                 styles.enemyStatusItemWrapper,
                 { justifyContent: 'flex-end' }
               ]}>
-              <SvgCoins height={20} width={20} color="green" />
+              <SvgCoins height={20} width={20} color={Colors.primary} />
               <Text
                 style={
                   styles.enemyStatusText
@@ -187,13 +188,16 @@ export default function BattleScreen() {
           numColumns={6}
           renderItem={({ item, index }) => (
             <TouchableOpacity
-              style={[styles.letterTile, { backgroundColor: 'white' }]}
+              style={[
+                styles.letterTile,
+                { backgroundColor: Colors.neutralLight } // There is View inside to make shadowing effect
+              ]}
               onPress={() => handleLetterPress(index)}
               testID={`letter-${item}`}>
               <View
                 style={[
                   styles.letterTile,
-                  { bottom: 0.8 },
+                  { bottom: 1 },
                   selectedIndices.includes(index) && styles.selectedTile
                 ]}>
                 <Text style={styles.letter}>{item.toUpperCase()}</Text>
@@ -263,9 +267,11 @@ const styles = StyleSheet.create({
     paddingBottom: 12
   },
   enemyNameWrapper: {
-    backgroundColor: 'rgba(0, 128, 128, 0.8)',
-    paddingVertical: 2,
-    paddingHorizontal: 4,
+    backgroundColor: Colors.secondaryBg70,
+    borderColor: Colors.borderBlack,
+    borderWidth: 0.5,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
     borderRadius: 12,
     justifyContent: 'center',
     alignItems: 'center',
@@ -273,19 +279,21 @@ const styles = StyleSheet.create({
   },
   enemyName: {
     fontSize: 20,
-    color: '#ffe08a',
+    color: Colors.textWhite,
     textAlign: 'center',
-    textShadowColor: '#ffcc00',
+    textShadowColor: Colors.primary,
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
-    letterSpacing: 1.2,
     fontFamily: 'ArchitectsDaughter_400Regular'
   },
-  enemyHP: {
-    color: '#222',
+  enemyHPText: {
+    color: Colors.textWhite,
+    textShadowColor: Colors.borderBlack,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 4,
     position: 'absolute',
     alignSelf: 'center',
-    fontSize: 16,
+    fontSize: 18,
     fontFamily: 'SourGummy_800ExtraBold'
   },
   playerArea: {
@@ -305,39 +313,39 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   enemyStatusText: {
-    color: 'white',
+    color: Colors.neutralLight,
     fontFamily: 'SourGummy_400Regular'
   },
   currentWord: {
     fontSize: diceTextSize,
     fontFamily: 'SourGummy_400Regular',
-    color: '#ffe08a',
+    color: Colors.accent,
     marginBottom: 8,
     letterSpacing: 2,
-    backgroundColor: 'rgba(0,26,51,0.7)',
+    backgroundColor: Colors.blackBg50,
     borderRadius: 8,
     paddingHorizontal: 10,
     paddingVertical: 4,
     borderWidth: 2,
-    borderColor: selectedtileBorder
+    borderColor: Colors.borderBlue
   },
   letterTile: {
     width: diceSize,
     height: diceSize,
-    margin: 4,
-    backgroundColor: '#222',
+    margin: 1.5,
+    backgroundColor: Colors.tertiary,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8
   },
   selectedTile: {
     borderWidth: 2,
-    borderColor: selectedtileBorder,
+    borderColor: Colors.borderBlue,
     bottom: 0
   },
   letter: {
     fontSize: diceTextSize,
-    color: '#ffe08a',
+    color: Colors.neutralLight,
     fontFamily: 'SourGummy_800ExtraBold'
   },
   bottomBarContainer: {
@@ -345,10 +353,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 0,
     left: 0,
-    backgroundColor: '#522546'
+    backgroundColor: Colors.secondary
   },
   invalid: {
-    color: '#ff4d4d',
+    color: Colors.danger,
     marginTop: 10,
     fontWeight: 'bold',
     fontSize: 16
@@ -361,27 +369,27 @@ const styles = StyleSheet.create({
   },
   enemyMaxHealthBar: {
     flex: 1,
-    height: 20,
-    backgroundColor: '#fff',
-    borderRadius: 10,
+    height: 25,
+    backgroundColor: Colors.neutralLight,
+    borderRadius: 15,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: Colors.borderBlack,
     overflow: 'hidden',
     justifyContent: 'center'
   },
   enemyCurrentHealthBar: {
-    height: 20,
-    backgroundColor: '#C53B2F',
+    height: 25,
+    backgroundColor: Colors.danger,
     borderRadius: 10
   },
   damagePreview: {
-    color: '#ffe08a',
+    color: Colors.primary,
     fontSize: 12,
     fontWeight: 'bold',
     textAlign: 'center'
   },
   damagePreviewLabel: {
-    color: '#ccc',
+    color: Colors.neutralLight,
     fontSize: 12,
     textAlign: 'center'
   }

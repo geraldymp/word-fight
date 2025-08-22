@@ -8,7 +8,6 @@ import {
 } from '@assets/icons/svgs';
 import { AboutModal } from '@components/AboutModal';
 import { useSettingsStore } from '@store/useSettingStore';
-import COLORS from 'app/foundation/colors';
 import { useGameStore } from 'app/store/useGameStore';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
@@ -98,8 +97,7 @@ export default function HomeScreen() {
         <Text
           style={{
             fontFamily: 'GoblinOne_400Regular',
-            fontSize: 32,
-            color: COLORS.text.primary
+            fontSize: 32
           }}>
           Word Fight
         </Text>
@@ -118,6 +116,8 @@ export default function HomeScreen() {
           stop();
           router.replace('/loading');
         }}
+        type="tertiary"
+        size="md"
       />
 
       <View style={styles.bottomButtonsContainer}>
