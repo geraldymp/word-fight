@@ -1,6 +1,7 @@
 import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
 import { SvgHeart } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
   StyleProp,
@@ -18,6 +19,9 @@ const ICON_SIZE = 16;
 const STROKE_WIDTH = 7;
 const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
 const CIRCUM = 2 * Math.PI * RADIUS;
+
+const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const; // light gold gradient for buttons
+const BUTTON_GRADIENT_SECONDARY = ['#ba7ddbff', '#4164caff'] as const; // for secondary/blue buttons
 
 interface IBottomMenu {
   characterImage: any;
@@ -94,16 +98,46 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
           <Text style={stylesBtm.goldText}>Gold: ${gold}</Text>
         </View>
         <View style={stylesBtm.buttonsWrapper}>
-          <TouchableOpacity style={stylesBtm.button} onPress={onReshuffle}>
-            <IcReshuffle color="black" width={ICON_SIZE} height={ICON_SIZE} />
+          <TouchableOpacity
+            style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
+            onPress={onReshuffle}>
+            <LinearGradient
+              colors={BUTTON_GRADIENT_SECONDARY}
+              style={[stylesBtm.button, { bottom: 1.5 }]}>
+              <IcReshuffle
+                color="black"
+                width={ICON_SIZE}
+                height={ICON_SIZE}
+                style={{ marginVertical: 4, marginHorizontal: 9 }}
+              />
+            </LinearGradient>
           </TouchableOpacity>
-          <TouchableOpacity style={stylesBtm.button} onPress={onRearrange}>
-            <IcRearrange color="black" width={ICON_SIZE} height={ICON_SIZE} />
+
+          <TouchableOpacity
+            style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
+            onPress={onRearrange}>
+            <LinearGradient
+              colors={BUTTON_GRADIENT_SECONDARY}
+              style={[stylesBtm.button, { bottom: 1.5 }]}>
+              <IcRearrange
+                color="black"
+                width={ICON_SIZE}
+                height={ICON_SIZE}
+                style={{ marginVertical: 4, marginHorizontal: 9 }}
+              />
+            </LinearGradient>
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={onPlay}
-            style={stylesBtm.playButtonWrapper}>
-            <IcFight width={24} height={24} />
+            style={[
+              stylesBtm.playButtonWrapper,
+              stylesBtm.buttonParent3DEffect
+            ]}
+            onPress={onPlay}>
+            <LinearGradient
+              colors={BUTTON_GRADIENT}
+              style={[stylesBtm.playButtonWrapper, { bottom: 4 }]}>
+              <IcFight width={24} height={24} />
+            </LinearGradient>
           </TouchableOpacity>
         </View>
       </View>
@@ -122,7 +156,8 @@ const stylesBtm = StyleSheet.create({
     shadowColor: Colors.neutralDark,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.12,
-    shadowRadius: 8
+    shadowRadius: 8,
+    backgroundColor: Colors.secondaryBg70
   },
   playerHpWrapper: {
     marginLeft: IMAGE_SIZE + 8,
@@ -159,10 +194,9 @@ const stylesBtm = StyleSheet.create({
   },
   button: {
     backgroundColor: Colors.calm,
-    paddingVertical: 4,
-    paddingHorizontal: 9,
-    borderWidth: 2,
-    borderRadius: 4
+    borderRadius: 8,
+    borderColor: Colors.borderBlack,
+    borderWidth: 0.5
   },
   playButtonWrapper: {
     backgroundColor: Colors.primary,
@@ -172,7 +206,10 @@ const stylesBtm = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 10,
     borderColor: Colors.borderBlack,
-    borderWidth: 2
+    borderWidth: 0.5
+  },
+  buttonParent3DEffect: {
+    backgroundColor: Colors.neutralDark
   },
   ringWrapper: {
     position: 'absolute',

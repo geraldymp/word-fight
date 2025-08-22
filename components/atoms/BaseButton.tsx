@@ -28,17 +28,17 @@ const _BaseButton: React.FC<IBaseButton> = ({ customStyle, onPress }) => {
 };
 
 const styles = StyleSheet.create({
-  buttonGrad: {
-    height: 50,
-    width: 200,
-    borderRadius: 10,
-    bottom: 5
-  },
   buttonParent: {
     height: 50,
     width: 200,
     borderRadius: 10,
     backgroundColor: '#024e51'
+  },
+  buttonGrad: {
+    height: 50,
+    width: 200,
+    borderRadius: 10,
+    bottom: 5
   }
 });
 
