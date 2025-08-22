@@ -26,5 +26,8 @@ build-android:
 after-update-expo-version:
 	npx expo install --fix
 
+expo-update-preview:
+	eas update --platform android --message "test" --channel preview
+
 expo-update-bmt:
 	eas update --platform ${PLAT} --message "${MSG}" --channel build-and-maestro-test

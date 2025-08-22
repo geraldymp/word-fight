@@ -36,11 +36,11 @@ export default {
       [
         'expo-splash-screen',
         {
-          backgroundColor: '#428',
+          backgroundColor: '#428444',
           image: './assets/word_fight_logo.png',
           dark: {
             image: './assets/word_fight_logo.png',
-            backgroundColor: '#444'
+            backgroundColor: '#444222'
           },
           imageWidth: 200
         }
