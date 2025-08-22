@@ -352,8 +352,7 @@ const styles = StyleSheet.create({
     width: '100%',
     position: 'absolute',
     bottom: 0,
-    left: 0,
-    backgroundColor: Colors.secondary
+    left: 0
   },
   invalid: {
     color: Colors.danger,
