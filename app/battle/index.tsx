@@ -8,6 +8,7 @@ import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import BottomMenu from 'app/components/BottomMenu';
 import Colors from 'app/foundation/colors';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
   Dimensions,
@@ -28,6 +29,8 @@ const diceSize = screenHeight / 20;
 const diceTextSize = (diceSize * 3) / 6;
 
 const bottomIconSize = screenWidth / 12;
+
+const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const; // light gold gradient for buttons
 
 export default function BattleScreen() {
   const { actions, states } = UseBattle();
@@ -190,18 +193,19 @@ export default function BattleScreen() {
             <TouchableOpacity
               style={[
                 styles.letterTile,
-                { backgroundColor: Colors.neutralLight } // There is View inside to make shadowing effect
+                { backgroundColor: Colors.neutralDark } // There is View inside to make shadowing effect
               ]}
               onPress={() => handleLetterPress(index)}
               testID={`letter-${item}`}>
-              <View
+              <LinearGradient
+                colors={BUTTON_GRADIENT}
                 style={[
                   styles.letterTile,
-                  { bottom: 1 },
+                  { bottom: 2 },
                   selectedIndices.includes(index) && styles.selectedTile
                 ]}>
                 <Text style={styles.letter}>{item.toUpperCase()}</Text>
-              </View>
+              </LinearGradient>
             </TouchableOpacity>
           )}
           showsVerticalScrollIndicator={false}
@@ -332,20 +336,20 @@ const styles = StyleSheet.create({
   letterTile: {
     width: diceSize,
     height: diceSize,
-    margin: 1.5,
-    backgroundColor: Colors.tertiary,
+    margin: 3,
+    backgroundColor: Colors.primary,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8
   },
   selectedTile: {
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: Colors.borderBlue,
     bottom: 0
   },
   letter: {
     fontSize: diceTextSize,
-    color: Colors.neutralLight,
+    color: Colors.neutralDark,
     fontFamily: 'SourGummy_800ExtraBold'
   },
   bottomBarContainer: {
