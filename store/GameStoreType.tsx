@@ -8,6 +8,8 @@ export interface GameStoreType {
   reduceEnemyHP: (amount: number) => void;
 
   // Player section
+  playerMaxHP: number;
+  setPlayerMaxHP: (maxHp: number) => void;
   playerHP: number;
   setPlayerHP: (hp: number) => void;
   increasePlayerHP: (amount: number) => void;

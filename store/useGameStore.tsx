@@ -8,10 +8,17 @@ export const useGameStore = create<GameStoreType>(set => ({
   reduceEnemyHP: amount =>
     set(state => ({ enemyHP: Math.max(0, state.enemyHP - amount) })),
 
-  playerHP: 50,
+  playerMaxHP: 50,
+  setPlayerMaxHP: maxHp => set({ playerMaxHP: maxHp }),
+  playerHP: 0,
   setPlayerHP: hp => set({ playerHP: hp }),
   increasePlayerHP: amount =>
-    set(state => ({ playerHP: state.playerHP + amount })),
+    set(state => {
+      const newHP = state.playerHP + amount;
+      return {
+        playerHP: newHP > state.playerMaxHP ? state.playerMaxHP : newHP
+      };
+    }),
   reducePlayerHP: amount =>
     set(state => ({ playerHP: Math.max(0, state.playerHP - amount) })),
   gold: 0,
@@ -55,11 +62,12 @@ export const useGameStore = create<GameStoreType>(set => ({
   setReshuffle: res => set({ reshuffle: res }),
 
   resetGame: () =>
-    set({
-      step: 1,
+    set(state => ({
+      step: 2,
       stage: 1,
       gold: 0,
-      playerHP: 50,
+      playerMaxHP: 50,
+      playerHP: state.playerMaxHP,
       maxReshuffle: 2,
       reshuffle: 2,
       journeyPath: [],
@@ -71,7 +79,7 @@ export const useGameStore = create<GameStoreType>(set => ({
         IngModifier: 0,
         STModifier: 0
       }
-    }),
+    })),
 
   journeyPath: [],
   addToJourney: node =>

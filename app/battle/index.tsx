@@ -60,6 +60,7 @@ export default function BattleScreen() {
     enemyMinDmg,
     enemyGold,
     playerShakeAnim,
+    playerMaxHP,
     playerHP,
     gold,
     currentWord,
@@ -224,7 +225,7 @@ export default function BattleScreen() {
           characterImage={require('@assets/hero_icon.png')}
           playerShakeAnim={playerShakeAnim}
           playerHP={playerHP}
-          playerMaxHP={50}
+          playerMaxHP={playerMaxHP}
           gold={gold}
           maxReshuffle={maxReshuffle}
           currentReshuffle={reshuffleCount}
