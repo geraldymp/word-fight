@@ -3,7 +3,8 @@ import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { JourneyMapModal } from '@components/JourneyMapModal';
-import { SvgCoins, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
+import { SvgCoins, SvgFlag, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
+import RoundedButton from 'app/components/atoms/RoundedButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import BottomMenu from 'app/components/BottomMenu';
 import React from 'react';
@@ -79,7 +80,20 @@ export default function BattleScreen() {
       source={require('@assets/main_background.png')}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
-        <AreaProgress area={step} stage={stage} />
+        <RoundedButton
+          icon={<SvgFlag width={20} height={20} />}
+          customStyle={{ position: 'absolute', top: 8, left: 8 }}
+          onPress={onGiveUp}
+        />
+        <AreaProgress
+          area={step}
+          stage={stage}
+          customStyle={{
+            position: 'absolute',
+            top: 8,
+            right: 8
+          }}
+        />
         <View style={styles.enemyNameWrapper}>
           <Text style={styles.enemyName}>{enemyView.name}</Text>
         </View>
@@ -204,7 +218,6 @@ export default function BattleScreen() {
           playerMaxHP={50}
           gold={gold}
           onPlay={handleSubmit}
-          onQuit={onGiveUp}
           onRearrange={handleRearrange}
           onReshuffle={handleReshuffle}
           customStyle={styles.bottomBarContainer}

@@ -1,7 +1,7 @@
 // Place this inside your BattleScreen's JSX, at the bottom of your main View
 
 import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
-import { SvgFlag } from 'app/assets/icons/svgs';
+import { SvgChevronRight } from 'app/assets/icons/svgs';
 import React from 'react';
 import {
   StyleProp,
@@ -26,7 +26,6 @@ interface IBottomMenu {
   playerHP: number;
   playerMaxHP: number;
   gold: number;
-  onQuit: () => void;
   onReshuffle: () => void;
   onRearrange: () => void;
   onPlay: () => void;
@@ -39,7 +38,6 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
   playerHP,
   playerMaxHP,
   gold,
-  onQuit,
   onReshuffle,
   onRearrange,
   onPlay,
@@ -94,9 +92,6 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
           <Text style={stylesBtm.goldText}>Gold: ${gold}</Text>
         </View>
         <View style={stylesBtm.buttonsWrapper}>
-          <TouchableOpacity style={stylesBtm.button} onPress={onQuit}>
-            <SvgFlag color="black" width={BUTTON_SIZE} height={BUTTON_SIZE} />
-          </TouchableOpacity>
           <TouchableOpacity style={stylesBtm.button} onPress={onReshuffle}>
             <IcReshuffle
               color={'black'}
@@ -111,8 +106,15 @@ const _BottomMenu: React.FC<IBottomMenu> = ({
               height={BUTTON_SIZE}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={stylesBtm.button} onPress={onPlay}>
-            <IcFight color={'black'} width={BUTTON_SIZE} height={BUTTON_SIZE} />
+          <TouchableOpacity
+            style={{ justifyContent: 'center' }}
+            onPress={onPlay}>
+            <SvgChevronRight width={80} height={50} color={'gold'} />
+            <IcFight
+              width={20}
+              height={20}
+              style={{ position: 'absolute', alignSelf: 'center' }}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -126,7 +128,7 @@ const stylesBtm = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingVertical: 4,
     borderTopLeftRadius: 18,
     borderTopRightRadius: 18,
     shadowColor: '#000',
@@ -176,7 +178,6 @@ const stylesBtm = StyleSheet.create({
     backgroundColor: 'violet',
     paddingVertical: 4,
     paddingHorizontal: 9,
-    borderColor: 'blue',
     borderWidth: 2,
     borderRadius: 4
   },
