@@ -17,6 +17,7 @@ export interface GameStoreType {
   gold: number;
   setGold: (gold: number) => void;
   increaseGold: (gainedGold: number) => void;
+  decreaseGold: (lostGold: number) => void;
 
   // Progress section
   step: number;

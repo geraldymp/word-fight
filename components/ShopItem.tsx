@@ -4,7 +4,7 @@ import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
 interface IShopItem {
   item: IBooster;
-  onPress: (id: string) => void;
+  onPress: (item: IBooster) => void;
   selected: boolean;
 }
 
@@ -16,11 +16,13 @@ const _ShopItem: React.FC<IShopItem> = ({
   const cardStyle = selected
     ? [styles.card, { borderColor: 'yellow' }]
     : styles.card;
+  const price = item.type === 'lower' ? 30 : 60;
   return (
-    <TouchableOpacity style={cardStyle} onPress={() => onPress(item.id)}>
+    <TouchableOpacity style={cardStyle} onPress={() => onPress(item)}>
       <Image source={item.image} style={styles.icon} resizeMode="contain" />
       <Text style={styles.name}>{item.name}</Text>
       <Text style={styles.desc}>{item.description}</Text>
+      <Text style={styles.desc}>Price: {price}</Text>
     </TouchableOpacity>
   );
 };

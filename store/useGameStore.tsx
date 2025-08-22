@@ -2,7 +2,7 @@
 import { create } from 'zustand';
 import { GameStoreType } from './GameStoreType';
 
-export const useGameStore = create<GameStoreType>(set => ({
+export const useGameStore = create<GameStoreType>((set, get) => ({
   enemyHP: 20,
   setEnemyHP: hp => set({ enemyHP: hp }),
   reduceEnemyHP: amount =>
@@ -24,6 +24,7 @@ export const useGameStore = create<GameStoreType>(set => ({
   gold: 0,
   setGold: (gold: number) => set({ gold }),
   increaseGold: gainedGold => set(state => ({ gold: state.gold + gainedGold })),
+  decreaseGold: lostGold => set(state => ({ gold: state.gold - lostGold })),
 
   step: 1,
   increaseStep: () =>
@@ -63,7 +64,7 @@ export const useGameStore = create<GameStoreType>(set => ({
 
   resetGame: () =>
     set(state => ({
-      step: 2,
+      step: 1,
       stage: 1,
       gold: 0,
       playerMaxHP: 50,
@@ -137,11 +138,10 @@ export const useGameStore = create<GameStoreType>(set => ({
       }
     })),
 
-  setFirecampHeal: () =>
-    set(state => ({
-      playerHP: state.playerHP + 5,
-      bonusDamage: state.damageModifier.bonusDamage + 2
-    })),
+  setFirecampHeal: () => {
+    get().increasePlayerHP(5);
+    get().setBonusDamage(2);
+  },
 
   lowestHighscore: 0,
   setLowestHighScore: score => set({ lowestHighscore: score }),

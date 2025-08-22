@@ -1,6 +1,6 @@
 import { KeyValues } from '@constants/key_values';
-import { boosters } from 'app/constants/boosters';
 import { useGameStore } from 'app/store/useGameStore';
+import { IBooster } from 'app/types/IBooster';
 import { useRouter } from 'expo-router';
 
 export default function UseChooseSafeZone() {
@@ -8,9 +8,9 @@ export default function UseChooseSafeZone() {
 
   const { shop } = KeyValues;
 
-  type BoosterId = (typeof boosters)[number]['id'];
-
   const {
+    gold,
+    decreaseGold,
     increasePlayerHP,
     setBonusDamage,
     setVowelModifier,
@@ -21,35 +21,60 @@ export default function UseChooseSafeZone() {
     increaseStep
   } = useGameStore();
 
-  const handleSelect = (boosterId: BoosterId) => {
-    switch (boosterId) {
-      case 'restoration_kit':
-        increasePlayerHP(shop.restoration_kit);
+  const handleSelect = (booster: IBooster) => {
+    switch (booster.id) {
+      case 'enlightenment':
+        // increasePlayerHP(shop.restoration_kit);
         break;
-      case 'bulking_up':
-        setBonusDamage(shop.bulking_up);
+      case 'restoration_spell':
+        increasePlayerHP(shop.restoration_spell);
         break;
-      case 'max-reshuffle':
-        // Increase max reshuffle logic here
+      case 'full_heal_magic':
+        increasePlayerHP(100);
         break;
-      case 'book_of_vowels':
-        setVowelModifier(shop.book_of_vowels);
+      case 'intelligence_scroll':
+        setBonusDamage(shop.intelligence_scroll);
         break;
-      case 'starter_briefcase':
-        setABCDEModifier(shop.starter_briefcase);
+      case 'intelligence_book':
+        setBonusDamage(shop.intelligence_book);
         break;
-      case 'omega_cleaver':
-        setVWXYZRModifier(shop.omega_cleaver);
+      case 'vowel_scroll':
+        setVowelModifier(shop.vowel_scroll);
         break;
-      case 'brush_of_ing':
-        setIngModifier(shop.brush_of_ing);
+      case 'vowel_book':
+        setVowelModifier(shop.vowel_book);
         break;
-      case 'saint_bow':
-        setSTModifier(shop.saint_bow);
+      case 'genesis_scroll':
+        setABCDEModifier(shop.genesis_scroll);
+        break;
+      case 'genesis_book':
+        setABCDEModifier(shop.genesis_book);
+        break;
+      case 'omega_scroll':
+        setVWXYZRModifier(shop.omega_scroll);
+        break;
+      case 'omega_book':
+        setVWXYZRModifier(shop.omega_book);
+        break;
+      case 'scroll_of_working':
+        setIngModifier(shop.scroll_of_working);
+        break;
+      case 'book_of_working':
+        setIngModifier(shop.book_of_working);
+        break;
+      case 'scroll_of_saint':
+        setSTModifier(shop.scroll_of_saint);
+        break;
+      case 'book_of_saint':
+        setSTModifier(shop.book_of_saint);
         break;
     }
 
-    // addToJourney([{ name: name, type: 'booster', chosen: true }]); // Add the booster to the journey path
+    if (booster.type === 'higher') {
+      decreaseGold(30);
+    } else {
+      decreaseGold(60);
+    }
     increaseStep();
     router.replace('/choose_area'); // back to enemy select
   };

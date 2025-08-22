@@ -5,4 +5,5 @@ export interface IBooster {
   name: string;
   description: string;
   image: ImageSourcePropType | undefined;
+  type: 'lower' | 'higher';
 }

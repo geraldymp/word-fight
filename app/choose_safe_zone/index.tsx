@@ -11,17 +11,19 @@ function getRandomPowerups(list: IBooster[]) {
 }
 
 export default function ChooseBoosterScreen() {
-  const [selectedItem, setSelectedItem] = useState<string>('');
+  const [selectedItem, setSelectedItem] = useState<IBooster>();
 
   const { actions } = UseChooseSafeZone();
   const { handleSelect } = actions;
 
-  function onClickItem(id: string) {
-    setSelectedItem(id);
+  function onClickItem(item: IBooster) {
+    setSelectedItem(item);
   }
 
   function onConfirmShopping() {
-    handleSelect(selectedItem);
+    if (boosters !== undefined) {
+      handleSelect(selectedItem!);
+    }
   }
 
   const randomPowerups = useMemo(() => {
@@ -47,13 +49,13 @@ export default function ChooseBoosterScreen() {
           <ShopItem
             onPress={onClickItem}
             item={randomPowerups[0]}
-            selected={selectedItem === randomPowerups[0].id}
+            selected={selectedItem === randomPowerups[0]}
           />
           <View style={styles.separatorVertical} />
           <ShopItem
             onPress={onClickItem}
             item={randomPowerups[1]}
-            selected={selectedItem === randomPowerups[1].id}
+            selected={selectedItem === randomPowerups[1]}
           />
         </View>
         <View style={styles.separatorHorizontal} />
@@ -62,21 +64,20 @@ export default function ChooseBoosterScreen() {
           <ShopItem
             onPress={onClickItem}
             item={randomPowerups[2]}
-            selected={selectedItem === randomPowerups[2].id}
+            selected={selectedItem === randomPowerups[2]}
           />
           <View style={styles.separatorVertical} />
           <ShopItem
             onPress={onClickItem}
             item={randomPowerups[3]}
-            selected={selectedItem === randomPowerups[3].id}
+            selected={selectedItem === randomPowerups[3]}
           />
         </View>
       </View>
       <TouchableOpacity
         style={styles.confirmButton}
-        disabled={selectedItem === ''}
-        onPress={onConfirmShopping}
-      >
+        disabled={selectedItem === undefined}
+        onPress={onConfirmShopping}>
         <Text style={styles.confirmText}>Confirm</Text>
       </TouchableOpacity>
     </View>
