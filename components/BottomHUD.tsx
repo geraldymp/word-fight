@@ -23,7 +23,7 @@ const CIRCUM = 2 * Math.PI * RADIUS;
 const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const; // light gold gradient for buttons
 const BUTTON_GRADIENT_SECONDARY = ['#ba7ddbff', '#4164caff'] as const; // for secondary/blue buttons
 
-interface IBottomMenu {
+interface IBottomHUD {
   characterImage: any;
   playerShakeAnim: SharedValue<number>;
   playerHP: number;
@@ -35,7 +35,7 @@ interface IBottomMenu {
   customStyle?: StyleProp<ViewStyle>;
 }
 
-const _BottomMenu: React.FC<IBottomMenu> = ({
+const _BottomHUD: React.FC<IBottomHUD> = ({
   characterImage,
   playerShakeAnim,
   playerHP,
@@ -231,5 +231,5 @@ const stylesBtm = StyleSheet.create({
   }
 });
 
-const BottomMenu = React.memo(_BottomMenu);
-export default BottomMenu;
+const BottomHUD = React.memo(_BottomHUD);
+export default BottomHUD;

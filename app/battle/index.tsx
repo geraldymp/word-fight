@@ -6,7 +6,7 @@ import { JourneyMapModal } from '@components/JourneyMapModal';
 import { SvgCoins, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
-import BottomMenu from 'app/components/BottomMenu';
+import BottomHUD from 'app/components/BottomHUD';
 import Colors from 'app/foundation/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
@@ -219,7 +219,7 @@ export default function BattleScreen() {
             { transform: [{ translateX: wrongWordShakeAnim }] }
           ]}
         />
-        <BottomMenu
+        <BottomHUD
           characterImage={require('@assets/hero_icon.png')}
           playerShakeAnim={playerShakeAnim}
           playerHP={playerHP}
