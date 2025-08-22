@@ -1,4 +1,5 @@
 import Colors from 'app/foundation/colors';
+import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
   StyleProp,
@@ -12,36 +13,36 @@ import {
 type ButtonType = 'primary' | 'secondary' | 'tertiary' | 'warning';
 type ButtonSize = 'lg' | 'md' | 'sm';
 
-interface IRoundedRectButton {
-  customStyle?: StyleProp<ViewStyle>;
-  onPress: () => void;
-  title?: string;
-  icon?: React.ReactNode;
-  testID?: string;
-  type: ButtonType;
-  size: ButtonSize;
-}
+// Gradient colors for each type
+const PRIMARY_GRADIENT = ['#ffe08a', '#f4c542'] as const;
+const SECONDARY_GRADIENT = ['#3a4a7a', '#2C3E73'] as const;
+const TERTIARY_GRADIENT = ['#353545', '#23232a'] as const;
+const WARNING_GRADIENT = ['#ff7b7b', '#E63946'] as const;
 
 const TYPE_STYLES = {
   primary: {
     backgroundColor: Colors.primary,
     borderColor: Colors.borderBlack,
-    textColor: Colors.secondary
+    textColor: Colors.secondary,
+    gradient: PRIMARY_GRADIENT
   },
   secondary: {
     backgroundColor: Colors.secondary,
     borderColor: Colors.primary,
-    textColor: Colors.primary
+    textColor: Colors.primary,
+    gradient: SECONDARY_GRADIENT
   },
   tertiary: {
     backgroundColor: Colors.tertiary,
     borderColor: Colors.primary,
-    textColor: Colors.primary
+    textColor: Colors.primary,
+    gradient: TERTIARY_GRADIENT
   },
   warning: {
     backgroundColor: Colors.danger,
     borderColor: Colors.borderBlack,
-    textColor: Colors.textWhite
+    textColor: Colors.textWhite,
+    gradient: WARNING_GRADIENT
   }
 };
 
@@ -66,6 +67,16 @@ const SIZE_STYLES = {
   }
 };
 
+interface IRoundedRectButton {
+  customStyle?: StyleProp<ViewStyle>;
+  onPress: () => void;
+  title?: string;
+  icon?: React.ReactNode;
+  testID?: string;
+  type: ButtonType;
+  size: ButtonSize;
+}
+
 const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
   customStyle,
   onPress,
@@ -80,36 +91,62 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
 
   return (
     <View style={customStyle}>
-      <TouchableOpacity
-        onPress={onPress}
-        testID={testID}
-        activeOpacity={0.85}
-        style={[
-          styles.button,
-          {
-            backgroundColor: typeStyle.backgroundColor,
-            borderColor: typeStyle.borderColor,
-            height: sizeStyle.height,
-            minWidth: sizeStyle.minWidth,
-            paddingHorizontal: sizeStyle.paddingHorizontal
-          }
-        ]}>
-        <View style={styles.contentRow}>
-          {title && (
-            <Text
+      <TouchableOpacity onPress={onPress} testID={testID} activeOpacity={0.85}>
+        {/* Shadow/3D effect layer */}
+        <View
+          style={[
+            styles.buttonParent,
+            {
+              height: sizeStyle.height,
+              minWidth: sizeStyle.minWidth,
+              borderRadius: 12,
+              backgroundColor: typeStyle.borderColor
+            }
+          ]}>
+          {/* Gradient button layer */}
+          <LinearGradient
+            colors={typeStyle.gradient}
+            start={[0, 0]}
+            end={[1, 1]}
+            style={[
+              styles.buttonGrad,
+              {
+                height: sizeStyle.height,
+                minWidth: sizeStyle.minWidth,
+                borderRadius: 12,
+                bottom: 4 // creates the 3D "lifted" effect
+              }
+            ]}>
+            <View
               style={[
-                styles.title,
+                styles.button,
                 {
-                  color: typeStyle.textColor,
-                  fontSize: sizeStyle.fontSize,
-                  marginRight: icon ? 8 : 0
+                  backgroundColor: 'transparent',
+                  borderColor: typeStyle.borderColor,
+                  height: sizeStyle.height,
+                  minWidth: sizeStyle.minWidth,
+                  paddingHorizontal: sizeStyle.paddingHorizontal
                 }
-              ]}
-              numberOfLines={1}>
-              {title}
-            </Text>
-          )}
-          {icon && <View style={styles.iconWrapper}>{icon}</View>}
+              ]}>
+              <View style={styles.contentRow}>
+                {title && (
+                  <Text
+                    style={[
+                      styles.title,
+                      {
+                        color: typeStyle.textColor,
+                        fontSize: sizeStyle.fontSize,
+                        marginRight: icon ? 8 : 0
+                      }
+                    ]}
+                    numberOfLines={1}>
+                    {title}
+                  </Text>
+                )}
+                {icon && <View style={styles.iconWrapper}>{icon}</View>}
+              </View>
+            </View>
+          </LinearGradient>
         </View>
       </TouchableOpacity>
     </View>
@@ -117,12 +154,24 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
 };
 
 const styles = StyleSheet.create({
+  buttonParent: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  buttonGrad: {
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    right: 0
+  },
   button: {
     borderRadius: 12,
     borderWidth: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    flexDirection: 'row'
+    flexDirection: 'row',
+    width: '100%',
+    height: '100%'
   },
   contentRow: {
     flexDirection: 'row',
