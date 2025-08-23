@@ -6,7 +6,7 @@
 
 export const KeyValues = {
   shop: {
-    enlightenment: 999,
+    enlightenment: 2,
     restoration_spell: 15,
     full_heal_magic: 999,
     intelligence_scroll: 4,

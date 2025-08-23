@@ -1,3 +1,4 @@
+import { GameStoreType } from 'app/store/GameStoreType';
 import { ImageSourcePropType } from 'react-native';
 
 export interface IBooster {
@@ -6,4 +7,5 @@ export interface IBooster {
   description: string;
   image: ImageSourcePropType | undefined;
   type: 'lower' | 'higher';
+  action: (gameStore: GameStoreType) => void; // New field
 }

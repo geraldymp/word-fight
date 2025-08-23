@@ -61,12 +61,21 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
   },
 
   maxReshuffle: 2,
+  increaseMaxReshuffleAndFill: addMaxRes => {
+    set(state => {
+      const newMax = state.maxReshuffle + addMaxRes;
+      return {
+        maxReshuffle: newMax,
+        reshuffle: newMax
+      };
+    });
+  },
   reshuffle: 2,
   setReshuffle: res => set({ reshuffle: res }),
 
   resetGame: () =>
     set(state => ({
-      step: 1,
+      step: 3,
       stage: 1,
       gold: 0,
       playerMaxHP: 50,

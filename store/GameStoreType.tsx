@@ -35,6 +35,7 @@ export interface GameStoreType {
 
   // Menu section
   maxReshuffle: number;
+  increaseMaxReshuffleAndFill: (addMaxRes: number) => void;
   reshuffle: number;
   setReshuffle: (res: number) => void;
 
