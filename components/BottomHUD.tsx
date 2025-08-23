@@ -1,9 +1,10 @@
 import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
-import { SvgHeart } from 'app/assets/icons/svgs';
+import { SvgHeart, SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useMemo } from 'react';
 import {
+  Dimensions,
   StyleProp,
   StyleSheet,
   Text,
@@ -14,18 +15,19 @@ import {
 import Animated, { SharedValue } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 
-const IMAGE_SIZE = 55;
-const ICON_SIZE = 16;
-const STROKE_WIDTH = 7;
-const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
-const CIRCUM = 2 * Math.PI * RADIUS;
-
 const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const;
 const BUTTON_GRADIENT_SECONDARY = ['#ba7ddbff', '#4164caff'] as const;
 const BUTTON_GRADIENT_SECONDARY_DISABLED = [
   '#ece6efff',
   'rgba(127, 133, 150, 1)'
 ] as const;
+
+const screenWidth = Dimensions.get('window').width;
+const IMAGE_SIZE = screenWidth / 7.5;
+const STROKE_WIDTH = IMAGE_SIZE / 7.5;
+const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
+const CIRCUM = 2 * Math.PI * RADIUS;
+const ACTION_ICON_SIZE = IMAGE_SIZE / 3.5;
 
 interface IBottomHUD {
   characterImage: any;
@@ -116,15 +118,13 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
       </View>
 
       <View style={stylesBtm.sectionWrapper}>
-        <View style={stylesBtm.goldWrapper}>
-          <Text style={stylesBtm.goldText}>Gold: ${gold}</Text>
+        <View style={stylesBtm.manaWrapper}>
+          <SvgMana height={20} width={20} color={Colors.primary} />
+          <Text style={stylesBtm.manaText}>{gold}</Text>
         </View>
         <View style={stylesBtm.buttonsWrapper}>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center'
-            }}>
+          {/* Reshuffle button */}
+          <View style={stylesBtm.reshuffleDotsAndButton}>
             <View style={stylesBtm.reshuffleDotsWrapper}>
               {Array.from({ length: maxReshuffle }).map((_, i) => {
                 const isUsed = i < maxReshuffle - currentReshuffle;
@@ -150,14 +150,15 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
                 style={[stylesBtm.button, { bottom: 1.5 }]}>
                 <IcReshuffle
                   color="black"
-                  width={ICON_SIZE}
-                  height={ICON_SIZE}
+                  width={ACTION_ICON_SIZE}
+                  height={ACTION_ICON_SIZE}
                   style={{ marginVertical: 4, marginHorizontal: 9 }}
                 />
               </LinearGradient>
             </TouchableOpacity>
           </View>
 
+          {/* Rearrange button */}
           <TouchableOpacity
             style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
             onPress={onRearrange}>
@@ -166,12 +167,14 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
               style={[stylesBtm.button, { bottom: 1.5 }]}>
               <IcRearrange
                 color="black"
-                width={ICON_SIZE}
-                height={ICON_SIZE}
+                width={ACTION_ICON_SIZE}
+                height={ACTION_ICON_SIZE}
                 style={{ marginVertical: 4, marginHorizontal: 9 }}
               />
             </LinearGradient>
           </TouchableOpacity>
+
+          {/* Attack button */}
           <TouchableOpacity
             style={[
               stylesBtm.playButtonWrapper,
@@ -219,17 +222,24 @@ const stylesBtm = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center'
   },
-  goldWrapper: {
-    backgroundColor: Colors.neutralLight,
+  manaWrapper: {
+    flexDirection: 'row',
+    backgroundColor: Colors.neutralDark,
     paddingVertical: 4,
     paddingHorizontal: 9,
     marginHorizontal: 10,
     borderColor: Colors.borderBlack,
     borderWidth: 2,
-    borderRadius: 4
+    borderRadius: 4,
+    gap: 4
   },
-  goldText: {
+  manaText: {
+    color: Colors.neutralLight,
     fontFamily: 'ArchitectsDaughter_400Regular'
+  },
+  reshuffleDotsAndButton: {
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   reshuffleDotsWrapper: {
     justifyContent: 'center',
@@ -271,13 +281,14 @@ const stylesBtm = StyleSheet.create({
   },
   playButtonWrapper: {
     backgroundColor: Colors.primary,
-    height: 35,
+    height: 30,
     width: 70,
     alignItems: 'center',
     justifyContent: 'center',
     borderRadius: 10,
     borderColor: Colors.borderBlack,
-    borderWidth: 0.5
+    borderWidth: 0.5,
+    marginTop: 2
   },
   buttonParent3DEffect: {
     backgroundColor: Colors.neutralDark

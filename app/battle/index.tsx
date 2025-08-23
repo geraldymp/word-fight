@@ -3,7 +3,7 @@ import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { JourneyMapModal } from '@components/JourneyMapModal';
-import { SvgCoins, SvgHeart, SvgSword } from 'app/assets/icons/svgs';
+import { SvgHeart, SvgMana, SvgSword } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import BottomHUD from 'app/components/BottomHUD';
@@ -132,11 +132,11 @@ export default function BattleScreen() {
                 styles.enemyStatusItemWrapper,
                 { justifyContent: 'flex-end' }
               ]}>
-              <SvgCoins height={20} width={20} color={Colors.primary} />
+              <SvgMana height={20} width={20} color={Colors.primary} />
               <Text
                 style={
                   styles.enemyStatusText
-                }>{`${enemyGold} Gold Bounty`}</Text>
+                }>{`${enemyGold} Mana bounty`}</Text>
             </View>
           </View>
         </View>
