@@ -3,17 +3,17 @@ import { boosters } from 'app/constants/boosters';
 import { IBooster } from 'app/types/IBooster';
 import React, { useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import UseChooseSafeZone from './use_choose_safe_zone';
+import UseMagicHut from './use_magic_hut';
 
 function getRandomPowerups(list: IBooster[]) {
   const shuffled = [...list].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, 4);
 }
 
-export default function ChooseBoosterScreen() {
+export default function MagicHutScreen() {
   const [selectedItem, setSelectedItem] = useState<IBooster>();
 
-  const { actions } = UseChooseSafeZone();
+  const { actions } = UseMagicHut();
   const { handleSelect } = actions;
 
   function onClickItem(item: IBooster) {
