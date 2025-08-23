@@ -36,6 +36,7 @@ export default function UseBattle() {
     journeyPath,
     stage,
     increaseStage,
+    area,
     step,
     increaseStep,
     enemyHP,
@@ -371,7 +372,7 @@ export default function UseBattle() {
       onGiveUp
     },
     states: {
-      step,
+      areaDetail: area,
       stage,
       enemyView,
       enemyStyle,

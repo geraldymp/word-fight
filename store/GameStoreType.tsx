@@ -1,5 +1,6 @@
 import { IEnemy } from '@customTypes/IEnemy';
 import { INode } from '@customTypes/INode';
+import { IContent } from 'app/types/IArea';
 
 export interface GameStoreType {
   // Enemy section
@@ -22,6 +23,8 @@ export interface GameStoreType {
   // Progress section
   step: number;
   increaseStep: () => void;
+  area?: IContent;
+  setArea?: (selectedArea: IContent) => void;
   stage: number;
   setStage: (stage: number) => void;
   increaseStage: () => void;

@@ -4,12 +4,12 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
 type AreaProgressProps = {
   customStyle?: StyleProp<ViewStyle>;
-  area: number;
+  area?: string;
   stage: number;
 };
 
 const _AreaProgress: React.FC<AreaProgressProps> = ({
-  area,
+  area = '',
   stage,
   customStyle
 }) => {
@@ -29,7 +29,7 @@ const _AreaProgress: React.FC<AreaProgressProps> = ({
 
   return (
     <View style={[styles.container, customStyle]}>
-      <Text style={styles.areaText}>Area {area}:</Text>
+      <Text style={styles.areaText}>{area}:</Text>
       <View style={styles.progressRow}>{circles}</View>
     </View>
   );

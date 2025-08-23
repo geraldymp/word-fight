@@ -49,7 +49,7 @@ export default function BattleScreen() {
     onGiveUp
   } = actions;
   const {
-    step,
+    areaDetail,
     stage,
     enemyView,
     enemyStyle,
@@ -81,7 +81,7 @@ export default function BattleScreen() {
   return (
     <ImageBackground
       style={styles.container}
-      source={require('@assets/main_background.png')}>
+      source={areaDetail?.battleBackground}>
       {/* Enemy Display */}
       <View style={styles.enemyArea}>
         <RoundedRectButton
@@ -92,7 +92,7 @@ export default function BattleScreen() {
           size="sm"
         />
         <AreaProgress
-          area={step}
+          area={areaDetail?.name}
           stage={stage}
           customStyle={{
             position: 'absolute',

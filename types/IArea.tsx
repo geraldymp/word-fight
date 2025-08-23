@@ -1,14 +1,15 @@
 import { ImageSourcePropType } from 'react-native';
 
-interface content {
+export interface IContent {
   id: string;
   name: string;
   image: ImageSourcePropType | undefined;
+  battleBackground: ImageSourcePropType | undefined;
   description: string;
 }
 
 export interface IArea {
   step: number;
   type: 'dungeon' | 'rest' | 'boss';
-  content: content[];
+  content: IContent[];
 }

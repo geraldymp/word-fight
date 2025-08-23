@@ -32,6 +32,8 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
       step: state.step + 1,
       stage: 1
     })),
+  area: undefined,
+  setArea: selectedArea => set({ area: selectedArea }),
   stage: 1,
   setStage: stage => set({ stage: stage }),
   increaseStage: () =>
