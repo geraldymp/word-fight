@@ -1,7 +1,7 @@
 export function generateSomeLettersWithVowels(
   letters: string[],
   selectedIndices: number[],
-  minimumVowels: number = 1
+  vowelsNeeded: number = 1
 ): string[] {
   const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
   const VOWELS = 'aeiou';
@@ -14,14 +14,13 @@ export function generateSomeLettersWithVowels(
     return VOWELS[Math.floor(Math.random() * VOWELS.length)];
   }
 
-  let vowelsNeeded = minimumVowels;
+  let minimumVowels = vowelsNeeded;
   let newLetters = [...letters];
   let replacements: string[] = [];
-
   for (let i = 0; i < selectedIndices.length; i++) {
-    if (vowelsNeeded > 0) {
+    if (minimumVowels > 0) {
       replacements.push(getRandomVowel());
-      vowelsNeeded--;
+      minimumVowels--;
     } else {
       replacements.push(getRandomAlphabet());
     }
