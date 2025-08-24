@@ -47,7 +47,7 @@ export default function MagicHutScreen() {
   }
 
   function onConfirmShopping() {
-    if (boosters !== undefined) {
+    if (selectedItem !== undefined) {
       handleSelect(selectedItem!);
     }
   }
