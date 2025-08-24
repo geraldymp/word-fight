@@ -1,4 +1,5 @@
 export { default as SvgAchievement } from './achievement';
+export { default as SvgBubbleChat } from './bubble_chat';
 export { default as SvgChevronRight } from './chevron_right';
 export { default as SvgCoins } from './coins';
 export { default as SvgFlag } from './flag';

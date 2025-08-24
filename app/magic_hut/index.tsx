@@ -1,13 +1,39 @@
-import { ShopItem } from '@components/ShopItem';
+import { SvgBubbleChat } from 'app/assets/icons/svgs';
+import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
+import { BoosterCard } from 'app/components/BoosterCard';
 import { boosters } from 'app/constants/boosters';
+import Colors from 'app/foundation/colors';
 import { IBooster } from 'app/types/IBooster';
 import React, { useMemo, useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  ImageBackground,
+  StyleSheet,
+  Text,
+  View
+} from 'react-native';
 import UseMagicHut from './use_magic_hut';
 
-function getRandomPowerups(list: IBooster[]) {
+const screenHeight = Dimensions.get('window').height;
+const screenWidth = Dimensions.get('window').width;
+
+const TOP_AREA_FLEX = 1;
+const BOTTOM_AREA_FLEX = 2;
+
+const MAGE_SIZE = screenWidth * 0.55;
+const BUBBLE_CHAT_WIDTH = screenWidth * 0.5;
+const BUBBLE_CHAT_HEIGHT = screenHeight * 0.15;
+
+const CARD_AREA_HEIGHT = screenHeight * 0.65;
+const CARD_AREA_PADDING_VERTICAL = screenHeight / 30;
+const CARD_WIDTH = screenWidth / 2 - 30;
+const CARD_HEIGHT = CARD_AREA_HEIGHT / 2 - CARD_AREA_PADDING_VERTICAL * 2;
+
+function getRandomPowerups(list: IBooster[], amount: number = 4) {
   const shuffled = [...list].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, 4);
+  return shuffled.slice(0, amount);
 }
 
 export default function MagicHutScreen() {
@@ -31,124 +57,127 @@ export default function MagicHutScreen() {
   }, []);
 
   return (
-    <View style={styles.gameContainer}>
-      <Text style={styles.title}>Shop</Text>
-      <Text style={{ color: 'white', marginBottom: 12 }}>
-        You can only buy 1 from these items
-      </Text>
-      {/* <View style={styles.houseContainer}>
-        <Image
-          source={IcFight}
-          style={styles.houseImage}
-          resizeMode="contain"
-        />
-      </View> */}
-      <View style={styles.powerupGrid}>
-        {/* Top Row */}
-        <View style={styles.row}>
-          <ShopItem
-            onPress={onClickItem}
-            item={randomPowerups[0]}
-            selected={selectedItem === randomPowerups[0]}
-          />
-          <View style={styles.separatorVertical} />
-          <ShopItem
-            onPress={onClickItem}
-            item={randomPowerups[1]}
-            selected={selectedItem === randomPowerups[1]}
-          />
+    <View style={styles.container}>
+      {/* Wrapper for title, mage and bubble chat */}
+      <View style={styles.topWrapper}>
+        <View style={styles.titleWrapper}>
+          <Text style={styles.titleText}>Magic Hut</Text>
         </View>
-        <View style={styles.separatorHorizontal} />
-        {/* Bottom Row */}
-        <View style={styles.row}>
-          <ShopItem
-            onPress={onClickItem}
-            item={randomPowerups[2]}
-            selected={selectedItem === randomPowerups[2]}
+        <ImageBackground
+          source={require('@assets/backgrounds/half_bg.png')}
+          resizeMode="stretch"
+          style={{ flex: 1 }}>
+          <Image
+            source={require('@assets/icons/shop/magician.png')}
+            style={styles.mageImage}
+            resizeMode="cover"
           />
-          <View style={styles.separatorVertical} />
-          <ShopItem
-            onPress={onClickItem}
-            item={randomPowerups[3]}
-            selected={selectedItem === randomPowerups[3]}
-          />
-        </View>
+          <View style={styles.bubbleChatWrapper}>
+            <SvgBubbleChat
+              height={BUBBLE_CHAT_HEIGHT}
+              width={BUBBLE_CHAT_WIDTH}
+              color={Colors.neutralDark}
+              preserveAspectRatio="none"
+            />
+            <Text style={styles.bubbleChatText}>
+              Let see how much magic you have gathered
+            </Text>
+          </View>
+        </ImageBackground>
       </View>
-      <TouchableOpacity
-        style={styles.confirmButton}
-        disabled={selectedItem === undefined}
-        onPress={onConfirmShopping}>
-        <Text style={styles.confirmText}>Confirm</Text>
-      </TouchableOpacity>
+      <ImageBackground
+        source={require('@assets/backgrounds/table_bg.png')}
+        resizeMode="cover"
+        style={styles.bottomWrapper}>
+        <FlatList
+          data={randomPowerups}
+          keyExtractor={item => item.id}
+          renderItem={({ item }) => (
+            <BoosterCard
+              item={item}
+              onPress={onClickItem}
+              selected={selectedItem === item}
+              cardHeight={CARD_HEIGHT}
+              cardWidth={CARD_WIDTH}
+            />
+          )}
+          numColumns={2}
+          columnWrapperStyle={styles.columnWrapperStyle}
+          style={styles.flatListStyle}
+          showsVerticalScrollIndicator={false}
+          scrollEnabled={false}
+        />
+        <RoundedRectButton
+          onPress={onConfirmShopping}
+          type="tertiary"
+          size="md"
+          title="Confirm"
+          customStyle={{ marginBottom: 8 }}
+        />
+      </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  gameContainer: {
-    flex: 1,
-    backgroundColor: '#18181a',
-    paddingTop: 32,
-    paddingHorizontal: 16,
-    alignItems: 'center'
+  container: {
+    flex: 1
   },
-  title: {
-    color: '#ffe08a',
-    fontSize: 28,
-    fontWeight: 'bold',
-    marginBottom: 18,
+  topWrapper: {
+    flex: TOP_AREA_FLEX,
+    backgroundColor: Colors.neutralDark
+  },
+  titleWrapper: {
+    position: 'absolute',
+    top: 16,
+    backgroundColor: Colors.secondaryBg70,
+    borderColor: Colors.borderBlack,
+    borderWidth: 0.5,
+    paddingVertical: 4,
+    paddingHorizontal: 6,
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+    zIndex: 2
+  },
+  titleText: {
+    fontSize: 20,
+    color: Colors.textWhite,
     textAlign: 'center',
-    letterSpacing: 1.2,
-    textShadowColor: '#ffcc00',
+    textShadowColor: Colors.primary,
     textShadowOffset: { width: 0, height: 0 },
     textShadowRadius: 10,
-    fontFamily: 'Cinzel_700Bold'
+    fontFamily: 'ArchitectsDaughter_400Regular'
   },
-  houseContainer: {
-    marginBottom: 18,
-    alignItems: 'center',
-    justifyContent: 'center'
+  mageImage: {
+    height: MAGE_SIZE,
+    width: MAGE_SIZE,
+    position: 'absolute',
+    bottom: -20
   },
-  houseImage: {
-    width: 100,
-    height: 80,
-    opacity: 0.85
+  bubbleChatWrapper: {
+    position: 'absolute',
+    right: 16,
+    top: MAGE_SIZE / 3.5
   },
-  powerupGrid: {
+  bubbleChatText: {
+    position: 'absolute',
+    padding: 20,
+    textAlign: 'center'
+  },
+  bottomWrapper: {
+    flex: BOTTOM_AREA_FLEX,
     width: '100%',
-    height: '65%',
-    justifyContent: 'center',
     alignItems: 'center'
   },
-  row: {
+  columnWrapperStyle: {
     flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-
-  separatorVertical: {
-    width: 24,
-    alignItems: 'center',
     justifyContent: 'center'
   },
-  separatorHorizontal: {
-    height: 24,
-    alignItems: 'center',
-    justifyContent: 'center'
-  },
-  confirmButton: {
-    backgroundColor: '#ffe08a',
-    borderRadius: 24,
-    paddingVertical: 12,
-    paddingHorizontal: 48,
-    marginTop: 32,
-    elevation: 2
-  },
-  confirmText: {
-    color: '#222',
-    fontWeight: 'bold',
-    fontSize: 18,
-    letterSpacing: 1.1
+  flatListStyle: {
+    flexGrow: 0,
+    paddingVertical: CARD_AREA_PADDING_VERTICAL,
+    paddingHorizontal: 12
   }
 });

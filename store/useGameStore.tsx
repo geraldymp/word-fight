@@ -61,6 +61,7 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
   },
 
   maxReshuffle: 2,
+  // try to limit max shuffle to 4, to prevent UI problem
   increaseMaxReshuffleAndFill: addMaxRes => {
     set(state => {
       const newMax = state.maxReshuffle + addMaxRes;
