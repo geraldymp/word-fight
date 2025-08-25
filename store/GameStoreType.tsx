@@ -15,10 +15,10 @@ export interface GameStoreType {
   setPlayerHP: (hp: number) => void;
   increasePlayerHP: (amount: number) => void;
   reducePlayerHP: (amount: number) => void;
-  gold: number;
-  setGold: (gold: number) => void;
-  increaseGold: (gainedGold: number) => void;
-  decreaseGold: (lostGold: number) => void;
+  mana: number;
+  setMana: (mana: number) => void;
+  increaseMana: (manaGained: number) => void;
+  decreaseMana: (manaLost: number) => void;
 
   // Progress section
   step: number;

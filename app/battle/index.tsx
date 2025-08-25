@@ -56,13 +56,14 @@ export default function BattleScreen() {
     enemyShakeAnim,
     enemyHP,
     enemyMaxHp,
-    enemyMaxDmg,
     enemyMinDmg,
-    enemyGold,
+    enemyMaxDmg,
+    enemyMinManaBounty,
+    enemyMaxManaBounty,
     playerShakeAnim,
     playerMaxHP,
     playerHP,
-    gold,
+    mana,
     currentWord,
     letters,
     selectedIndices,
@@ -136,7 +137,7 @@ export default function BattleScreen() {
               <Text
                 style={
                   styles.enemyStatusText
-                }>{`${enemyGold} Mana bounty`}</Text>
+                }>{`${enemyMinManaBounty} - ${enemyMaxManaBounty} Mana bounty`}</Text>
             </View>
           </View>
         </View>
@@ -226,7 +227,7 @@ export default function BattleScreen() {
           playerShakeAnim={playerShakeAnim}
           playerHP={playerHP}
           playerMaxHP={playerMaxHP}
-          gold={gold}
+          mana={mana}
           maxReshuffle={maxReshuffle}
           currentReshuffle={reshuffleCount}
           onPlay={handleSubmit}

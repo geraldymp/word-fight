@@ -1,4 +1,4 @@
-import { IEnemy } from '@/types/IEnemy';
+import { IEnemy } from '@customTypes/IEnemy';
 
 interface IEnemies {
   step: number;
@@ -17,7 +17,8 @@ export const enemies: IEnemies[] = [
         baseHp: 40,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 10
+        minManaBounty: 5,
+        maxManaBounty: 8
       },
       {
         name: 'Living Tree',
@@ -25,7 +26,8 @@ export const enemies: IEnemies[] = [
         baseHp: 42,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 12
+        minManaBounty: 6,
+        maxManaBounty: 9
       },
       {
         name: 'Old Warlock',
@@ -33,7 +35,8 @@ export const enemies: IEnemies[] = [
         baseHp: 45,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 15
+        minManaBounty: 7,
+        maxManaBounty: 10
       }
     ]
   },
@@ -47,7 +50,8 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
-        goldReward: 12
+        minManaBounty: 4,
+        maxManaBounty: 9
       },
       {
         name: 'Mad Goblin',
@@ -55,7 +59,8 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 2,
         maxDmg: 3,
-        goldReward: 13
+        minManaBounty: 5,
+        maxManaBounty: 10
       },
       {
         name: 'Scarred Goblin',
@@ -63,7 +68,8 @@ export const enemies: IEnemies[] = [
         baseHp: 60,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 15
+        minManaBounty: 6,
+        maxManaBounty: 11
       }
     ]
   },
@@ -77,7 +83,8 @@ export const enemies: IEnemies[] = [
         baseHp: 40,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 12
+        minManaBounty: 5,
+        maxManaBounty: 8
       },
       {
         name: 'Dead Face',
@@ -85,7 +92,8 @@ export const enemies: IEnemies[] = [
         baseHp: 42,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 12
+        minManaBounty: 6,
+        maxManaBounty: 9
       },
       {
         name: 'The Frankenstein',
@@ -93,7 +101,8 @@ export const enemies: IEnemies[] = [
         baseHp: 45,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 15
+        minManaBounty: 7,
+        maxManaBounty: 10
       }
     ]
   },
@@ -107,7 +116,8 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
-        goldReward: 13
+        minManaBounty: 4,
+        maxManaBounty: 9
       },
       {
         name: 'Bearded Centaur',
@@ -115,7 +125,8 @@ export const enemies: IEnemies[] = [
         baseHp: 55,
         minDmg: 2,
         maxDmg: 3,
-        goldReward: 14
+        minManaBounty: 5,
+        maxManaBounty: 10
       },
       {
         name: 'The Medusa',
@@ -123,7 +134,8 @@ export const enemies: IEnemies[] = [
         baseHp: 60,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 16
+        minManaBounty: 6,
+        maxManaBounty: 11
       }
     ]
   },
@@ -137,7 +149,8 @@ export const enemies: IEnemies[] = [
         baseHp: 65,
         minDmg: 2,
         maxDmg: 3,
-        goldReward: 20
+        minManaBounty: 8,
+        maxManaBounty: 12
       },
       {
         name: 'Old Viking',
@@ -145,7 +158,8 @@ export const enemies: IEnemies[] = [
         baseHp: 60,
         minDmg: 2,
         maxDmg: 4,
-        goldReward: 20
+        minManaBounty: 9,
+        maxManaBounty: 13
       },
       {
         name: 'The Executioner',
@@ -153,7 +167,8 @@ export const enemies: IEnemies[] = [
         baseHp: 65,
         minDmg: 3,
         maxDmg: 5,
-        goldReward: 25
+        minManaBounty: 10,
+        maxManaBounty: 15
       }
     ]
   },
@@ -167,7 +182,8 @@ export const enemies: IEnemies[] = [
         baseHp: 46,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 21
+        minManaBounty: 10,
+        maxManaBounty: 11
       },
       {
         name: 'Half Cyborg',
@@ -175,7 +191,8 @@ export const enemies: IEnemies[] = [
         baseHp: 48,
         minDmg: 5,
         maxDmg: 7,
-        goldReward: 23
+        minManaBounty: 11,
+        maxManaBounty: 12
       },
       {
         name: 'Ancient Machine',
@@ -183,7 +200,8 @@ export const enemies: IEnemies[] = [
         baseHp: 50,
         minDmg: 9,
         maxDmg: 9,
-        goldReward: 26
+        minManaBounty: 13,
+        maxManaBounty: 14
       }
     ]
   },
@@ -197,7 +215,8 @@ export const enemies: IEnemies[] = [
         baseHp: 70,
         minDmg: 10,
         maxDmg: 15,
-        goldReward: 99
+        minManaBounty: 99,
+        maxManaBounty: 99
       }
     ]
   }

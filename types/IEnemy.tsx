@@ -6,5 +6,6 @@ export interface IEnemy {
   baseHp: number;
   minDmg: number;
   maxDmg: number;
-  goldReward: number;
+  minManaBounty: number;
+  maxManaBounty: number;
 }

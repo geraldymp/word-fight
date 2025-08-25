@@ -21,10 +21,10 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
     }),
   reducePlayerHP: amount =>
     set(state => ({ playerHP: Math.max(0, state.playerHP - amount) })),
-  gold: 0,
-  setGold: (gold: number) => set({ gold }),
-  increaseGold: gainedGold => set(state => ({ gold: state.gold + gainedGold })),
-  decreaseGold: lostGold => set(state => ({ gold: state.gold - lostGold })),
+  mana: 0,
+  setMana: (mana: number) => set({ mana }),
+  increaseMana: manaGained => set(state => ({ mana: state.mana + manaGained })),
+  decreaseMana: manaLost => set(state => ({ mana: state.mana - manaLost })),
 
   step: 1,
   increaseStep: () =>
@@ -47,7 +47,8 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
     baseHp: 0,
     minDmg: 0,
     maxDmg: 0,
-    goldReward: 0
+    minManaBounty: 0,
+    maxManaBounty: 0
   },
   setSelectedEnemy: enemy =>
     set({ selectedEnemy: enemy, enemyHP: enemy.baseHp }),
@@ -76,9 +77,9 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
 
   resetGame: () =>
     set(state => ({
-      step: 1,
+      step: 3,
       stage: 1,
-      gold: 0,
+      mana: 0,
       playerMaxHP: 50,
       playerHP: state.playerMaxHP,
       maxReshuffle: 2,

@@ -7,7 +7,7 @@ import { BackHandler } from 'react-native';
 export default function UseMagicHut() {
   const router = useRouter();
 
-  const { decreaseGold, increaseStep } = useGameStore();
+  const { decreaseMana, increaseStep } = useGameStore();
 
   useEffect(() => {
     const backAction = () => {
@@ -25,9 +25,9 @@ export default function UseMagicHut() {
     booster.action(useGameStore.getState());
 
     if (booster.type === 'higher') {
-      decreaseGold(60);
+      decreaseMana(60);
     } else {
-      decreaseGold(30);
+      decreaseMana(30);
     }
     increaseStep();
     router.replace('/choose_area'); // back to enemy select

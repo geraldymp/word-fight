@@ -51,7 +51,7 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
             resizeMode="contain"
           />
           <Text style={styles.desc}>{item.description}</Text>
-          <Text style={styles.price}>Price: {price}</Text>
+          <Text style={styles.price}>{price} Mana</Text>
         </LinearGradient>
       </View>
     </TouchableOpacity>

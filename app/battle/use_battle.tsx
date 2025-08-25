@@ -44,8 +44,8 @@ export default function UseBattle() {
     playerMaxHP,
     playerHP,
     reducePlayerHP,
-    gold,
-    increaseGold,
+    mana,
+    increaseMana,
     lowestHighscore,
     highScoreFilled,
     setHighScoreFilled,
@@ -54,7 +54,8 @@ export default function UseBattle() {
     setReshuffle,
     damageModifier
   } = useGameStore();
-  const { name, image, baseHp, minDmg, maxDmg, goldReward } = selectedEnemy;
+  const { name, image, baseHp, minDmg, maxDmg, minManaBounty, maxManaBounty } =
+    selectedEnemy;
   const enemyHitSound = useAudioPlayer(enemyHit);
   const playerHitSound = useAudioPlayer(playerHit);
   const enemyBeatenSound = useAudioPlayer(enemyBeaten);
@@ -73,6 +74,7 @@ export default function UseBattle() {
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
   const enemyDamage = getRandomInt(minDmg, maxDmg);
+  const manaGained = getRandomInt(minManaBounty, maxManaBounty);
   const playerShakeAnim = useSharedValue(0);
   const enemyShakeAnim = useSharedValue(0);
   const wrongWordShakeAnim = useSharedValue(0);
@@ -222,7 +224,7 @@ export default function UseBattle() {
         enemyRotation.value = withTiming(720, { duration: 1000 });
         enemyScale.value = withTiming(0, { duration: 1000 });
         enemyOpacity.value = withTiming(0, { duration: 1000 });
-        increaseGold(goldReward);
+        increaseMana(manaGained);
       }, 500);
       setTimeout(() => {
         setShowGameOverModal(true);
@@ -381,11 +383,12 @@ export default function UseBattle() {
       enemyMaxHp,
       enemyMinDmg: minDmg,
       enemyMaxDmg: maxDmg,
-      enemyGold: goldReward,
+      enemyMinManaBounty: minManaBounty,
+      enemyMaxManaBounty: maxManaBounty,
       playerShakeAnim,
       playerMaxHP,
       playerHP,
-      gold,
+      mana,
       currentWord,
       letters,
       selectedIndices,

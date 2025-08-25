@@ -34,7 +34,7 @@ interface IBottomHUD {
   playerShakeAnim: SharedValue<number>;
   playerHP: number;
   playerMaxHP: number;
-  gold: number;
+  mana: number;
   maxReshuffle: number;
   currentReshuffle: number;
   onReshuffle: () => void;
@@ -48,7 +48,7 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   playerShakeAnim,
   playerHP,
   playerMaxHP,
-  gold,
+  mana,
   maxReshuffle,
   currentReshuffle,
   onReshuffle,
@@ -120,7 +120,7 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
       <View style={stylesBtm.sectionWrapper}>
         <View style={stylesBtm.manaWrapper}>
           <SvgMana height={20} width={20} color={Colors.primary} />
-          <Text style={stylesBtm.manaText}>{gold}</Text>
+          <Text style={stylesBtm.manaText}>{mana}</Text>
         </View>
         <View style={stylesBtm.buttonsWrapper}>
           {/* Reshuffle button */}
