@@ -48,20 +48,20 @@ const TYPE_STYLES = {
 
 const SIZE_STYLES = {
   lg: {
-    height: 54,
-    minWidth: 220,
-    paddingHorizontal: 28,
-    fontSize: 20
+    height: 50,
+    minWidth: 150,
+    paddingHorizontal: 16,
+    fontSize: 18
   },
   md: {
-    height: 44,
-    minWidth: 140,
-    paddingHorizontal: 18,
-    fontSize: 16
+    height: 45,
+    minWidth: 120,
+    paddingHorizontal: 12,
+    fontSize: 15
   },
   sm: {
-    height: 34,
-    minWidth: 80,
+    height: 40,
+    minWidth: 90,
     paddingHorizontal: 10,
     fontSize: 13
   }
@@ -75,6 +75,7 @@ interface IRoundedRectButton {
   testID?: string;
   type: ButtonType;
   size: ButtonSize;
+  disabled?: boolean;
 }
 
 const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
@@ -84,14 +85,19 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
   icon,
   testID,
   type,
-  size
+  size,
+  disabled = false
 }) => {
   const typeStyle = TYPE_STYLES[type];
   const sizeStyle = SIZE_STYLES[size];
 
   return (
     <View style={customStyle}>
-      <TouchableOpacity onPress={onPress} testID={testID} activeOpacity={0.85}>
+      <TouchableOpacity
+        onPress={onPress}
+        testID={testID}
+        activeOpacity={0.85}
+        disabled={disabled}>
         {/* Shadow/3D effect layer */}
         <View
           style={[
@@ -100,12 +106,12 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
               height: sizeStyle.height,
               minWidth: sizeStyle.minWidth,
               borderRadius: 12,
-              backgroundColor: typeStyle.borderColor
+              backgroundColor: disabled ? '#999' : typeStyle.borderColor
             }
           ]}>
           {/* Gradient button layer */}
           <LinearGradient
-            colors={typeStyle.gradient}
+            colors={disabled ? ['#aaa', '#777'] : typeStyle.gradient}
             start={[0, 0]}
             end={[1, 1]}
             style={[
@@ -122,7 +128,7 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
                 styles.button,
                 {
                   backgroundColor: 'transparent',
-                  borderColor: typeStyle.borderColor,
+                  borderColor: disabled ? '#666' : typeStyle.borderColor,
                   height: sizeStyle.height,
                   minWidth: sizeStyle.minWidth,
                   paddingHorizontal: sizeStyle.paddingHorizontal
@@ -134,7 +140,7 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
                     style={[
                       styles.title,
                       {
-                        color: typeStyle.textColor,
+                        color: disabled ? '#ddd' : typeStyle.textColor,
                         fontSize: sizeStyle.fontSize,
                         marginRight: icon ? 8 : 0
                       }
@@ -179,8 +185,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
-    fontWeight: 'bold',
-    letterSpacing: 1.1
+    fontWeight: 'bold'
   },
   iconWrapper: {
     alignItems: 'center',

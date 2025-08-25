@@ -1,3 +1,4 @@
+import { SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { IBooster } from 'app/types/IBooster';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,16 +11,19 @@ interface IBoosterCard {
   selected: boolean;
   cardHeight: number;
   cardWidth: number;
+  disabled: boolean;
 }
 
 const CARD_GRADIENT = ['#efc87bff', '#ebab2cff'] as const;
+const DISABLED_CARD_GRADIENT = ['#898987ff', '#686867ff'] as const;
 
 const _BoosterCard: React.FC<IBoosterCard> = ({
   item,
   onPress,
   selected = false,
   cardHeight,
-  cardWidth
+  cardWidth,
+  disabled
 }) => {
   const iconHeight = (cardHeight * 40) / 100;
   const iconWidth = (cardWidth * 75) / 100;
@@ -29,21 +33,23 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
   const cardStyle = StyleSheet.flatten([
     styles.card,
     cardSize,
-    selected && styles.selectedCardStyle
+    selected && styles.selectedCardStyle,
+    disabled && styles.disabledCardStyle
   ]);
 
   const gradStyle = StyleSheet.flatten([
     styles.grad,
     cardSize,
-    selected && styles.selectedGradStyle
+    selected && styles.selectedGradStyle,
+    disabled && styles.disabledGradStyle
   ]);
 
-  const price = item.type === 'lower' ? 30 : 60;
+  const cardGradient = disabled ? DISABLED_CARD_GRADIENT : CARD_GRADIENT;
 
   return (
-    <TouchableOpacity onPress={() => onPress(item)}>
+    <TouchableOpacity onPress={() => onPress(item)} disabled={disabled}>
       <View style={cardStyle}>
-        <LinearGradient colors={CARD_GRADIENT} style={gradStyle}>
+        <LinearGradient colors={cardGradient} style={gradStyle}>
           <Text style={styles.name}>{item.name}</Text>
           <Image
             source={item.image}
@@ -51,7 +57,13 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
             resizeMode="contain"
           />
           <Text style={styles.desc}>{item.description}</Text>
-          <Text style={styles.price}>{price} Mana</Text>
+          <View
+            style={
+              disabled ? styles.priceWrapperDisabled : styles.priceWrapper
+            }>
+            <Text style={styles.priceText}>{item.price}</Text>
+            <SvgMana height={20} width={20} color={Colors.primary} />
+          </View>
         </LinearGradient>
       </View>
     </TouchableOpacity>
@@ -89,6 +101,12 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderWidth: 0
   },
+  disabledCardStyle: {
+    borderColor: '#888'
+  },
+  disabledGradStyle: {
+    backgroundColor: '#888'
+  },
   icon: {
     marginBottom: 8
   },
@@ -104,12 +122,28 @@ const styles = StyleSheet.create({
     fontSize: 10,
     textAlign: 'center'
   },
-  price: {
+  priceWrapper: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 12,
+    alignItems: 'center'
+  },
+  priceWrapperDisabled: {
+    flexDirection: 'row',
+    position: 'absolute',
+    bottom: 12,
+    alignItems: 'center',
+    borderColor: 'red',
+    borderWidth: 1,
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    borderRadius: 6
+  },
+  priceText: {
     color: Colors.neutralDark,
     fontSize: 12,
     textAlign: 'center',
-    position: 'absolute',
-    bottom: 12
+    fontFamily: 'ArchitectsDaughter_400Regular'
   }
 });
 

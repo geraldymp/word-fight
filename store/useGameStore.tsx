@@ -77,7 +77,7 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
 
   resetGame: () =>
     set(state => ({
-      step: 3,
+      step: 1,
       stage: 1,
       mana: 0,
       playerMaxHP: 50,

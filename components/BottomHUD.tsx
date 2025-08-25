@@ -119,8 +119,8 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
 
       <View style={stylesBtm.sectionWrapper}>
         <View style={stylesBtm.manaWrapper}>
-          <SvgMana height={20} width={20} color={Colors.primary} />
           <Text style={stylesBtm.manaText}>{mana}</Text>
+          <SvgMana height={20} width={20} color={Colors.primary} />
         </View>
         <View style={stylesBtm.buttonsWrapper}>
           {/* Reshuffle button */}

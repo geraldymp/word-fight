@@ -25,6 +25,27 @@ export const areas: IArea[] = [
   },
   {
     step: 2,
+    type: 'rest',
+    content: [
+      {
+        id: 'shop',
+        name: 'Shop',
+        image: undefined,
+        battleBackground: undefined,
+        description:
+          'Spent some gold here, Hero! No need to save it all if your journey end!'
+      },
+      {
+        id: 'fire_camp',
+        name: 'Fire camp',
+        image: undefined,
+        battleBackground: undefined,
+        description: 'Take a rest. Your journey still far from finished'
+      }
+    ]
+  },
+  {
+    step: 3,
     type: 'dungeon',
     content: [
       {
@@ -46,7 +67,7 @@ export const areas: IArea[] = [
     ]
   },
   {
-    step: 3,
+    step: 4,
     type: 'rest',
     content: [
       {
@@ -67,7 +88,7 @@ export const areas: IArea[] = [
     ]
   },
   {
-    step: 4,
+    step: 5,
     type: 'dungeon',
     content: [
       {
@@ -88,7 +109,7 @@ export const areas: IArea[] = [
     ]
   },
   {
-    step: 5,
+    step: 6,
     type: 'rest',
     content: [
       {
@@ -109,7 +130,7 @@ export const areas: IArea[] = [
     ]
   },
   {
-    step: 6,
+    step: 7,
     type: 'boss',
     content: [
       {

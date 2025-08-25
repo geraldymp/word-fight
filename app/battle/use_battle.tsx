@@ -256,7 +256,7 @@ export default function UseBattle() {
     showNextStageBtn: boolean;
     showNextAreaBtn: boolean;
   } = useMemo(() => {
-    if (enemyHP === 0 && step === 6) {
+    if (enemyHP === 0 && step === 7) {
       return {
         modalText: 'Congratulations, you beat the game!',
         showNextStageBtn: false,

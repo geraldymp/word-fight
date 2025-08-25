@@ -1,4 +1,4 @@
-import { SvgBubbleChat } from 'app/assets/icons/svgs';
+import { SvgBubbleChat, SvgMana } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { BoosterCard } from 'app/components/BoosterCard';
 import { boosters } from 'app/constants/boosters';
@@ -39,22 +39,32 @@ function getRandomPowerups(list: IBooster[], amount: number = 4) {
 export default function MagicHutScreen() {
   const [selectedItem, setSelectedItem] = useState<IBooster>();
 
-  const { actions } = UseMagicHut();
+  const { actions, states } = UseMagicHut();
   const { handleSelect } = actions;
 
   function onClickItem(item: IBooster) {
-    setSelectedItem(item);
+    if (item.id === selectedItem?.id) {
+      setSelectedItem(undefined);
+    } else {
+      setSelectedItem(item);
+    }
   }
 
   function onConfirmShopping() {
-    if (selectedItem !== undefined) {
-      handleSelect(selectedItem!);
-    }
+    handleSelect(selectedItem);
   }
 
   const randomPowerups = useMemo(() => {
     return getRandomPowerups(boosters);
   }, []);
+
+  const confirmButtonTitle = useMemo(() => {
+    if (selectedItem === undefined) {
+      return 'Skip Ahead';
+    } else {
+      return 'Buy & Resume';
+    }
+  }, [selectedItem]);
 
   return (
     <View style={styles.container}>
@@ -83,6 +93,10 @@ export default function MagicHutScreen() {
               Let see how much magic you have gathered
             </Text>
           </View>
+          <View style={styles.manaWrapper}>
+            <Text style={styles.manaText}>{states.mana}</Text>
+            <SvgMana height={20} width={20} color={Colors.primary} />
+          </View>
         </ImageBackground>
       </View>
       <ImageBackground
@@ -99,6 +113,7 @@ export default function MagicHutScreen() {
               selected={selectedItem === item}
               cardHeight={CARD_HEIGHT}
               cardWidth={CARD_WIDTH}
+              disabled={item.price > states.mana}
             />
           )}
           numColumns={2}
@@ -111,7 +126,7 @@ export default function MagicHutScreen() {
           onPress={onConfirmShopping}
           type="tertiary"
           size="md"
-          title="Confirm"
+          title={confirmButtonTitle}
           customStyle={{ marginBottom: 8 }}
         />
       </ImageBackground>
@@ -165,6 +180,23 @@ const styles = StyleSheet.create({
     position: 'absolute',
     padding: 20,
     textAlign: 'center'
+  },
+  manaWrapper: {
+    position: 'absolute',
+    bottom: 4,
+    right: 24,
+    flexDirection: 'row',
+    backgroundColor: Colors.neutralDark,
+    paddingVertical: 4,
+    paddingHorizontal: 9,
+    borderColor: Colors.borderBlack,
+    borderWidth: 2,
+    borderRadius: 4,
+    gap: 4
+  },
+  manaText: {
+    color: Colors.neutralLight,
+    fontFamily: 'ArchitectsDaughter_400Regular'
   },
   bottomWrapper: {
     flex: BOTTOM_AREA_FLEX,

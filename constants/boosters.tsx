@@ -10,7 +10,8 @@ export const boosters: IBooster[] = [
     description: `Gain +2 Max Reshuffle`,
     image: require('@assets/icons/shop/enlightenment.png'),
     type: 'lower',
-    action: store => store.increaseMaxReshuffleAndFill(shop.enlightenment)
+    action: store => store.increaseMaxReshuffleAndFill(shop.enlightenment),
+    price: 25
   },
   {
     id: 'restoration_spell',
@@ -18,7 +19,8 @@ export const boosters: IBooster[] = [
     description: `Restore HP by ${shop.restoration_spell}`,
     image: require('@assets/icons/shop/restoration.png'),
     type: 'lower',
-    action: store => store.increasePlayerHP(shop.restoration_spell)
+    action: store => store.increasePlayerHP(shop.restoration_spell),
+    price: 20
   },
   {
     id: 'full_heal_magic',
@@ -26,7 +28,8 @@ export const boosters: IBooster[] = [
     description: `Restore HP 100%`,
     image: require('@assets/icons/shop/restoration.png'),
     type: 'higher',
-    action: store => store.increasePlayerHP(shop.full_heal_magic)
+    action: store => store.increasePlayerHP(shop.full_heal_magic),
+    price: 40
   },
   {
     id: 'intelligence_scroll',
@@ -34,7 +37,8 @@ export const boosters: IBooster[] = [
     description: `Increase total damage by +${shop.intelligence_scroll}`,
     image: require('@assets/icons/shop/scroll_1.png'),
     type: 'lower',
-    action: store => store.setBonusDamage(shop.intelligence_scroll)
+    action: store => store.setBonusDamage(shop.intelligence_scroll),
+    price: 25
   },
   {
     id: 'intelligence_book',
@@ -42,7 +46,8 @@ export const boosters: IBooster[] = [
     description: `Increase total damage by +${shop.intelligence_book}`,
     image: require('@assets/icons/shop/book_1.png'),
     type: 'higher',
-    action: store => store.setBonusDamage(shop.intelligence_book)
+    action: store => store.setBonusDamage(shop.intelligence_book),
+    price: 45
   },
   {
     id: 'vowel_scroll',
@@ -50,7 +55,8 @@ export const boosters: IBooster[] = [
     description: `Every Vowel will deal +${shop.vowel_scroll} more damage`,
     image: require('@assets/icons/shop/scroll_1.png'),
     type: 'lower',
-    action: store => store.setVowelModifier(shop.vowel_scroll)
+    action: store => store.setVowelModifier(shop.vowel_scroll),
+    price: 25
   },
   {
     id: 'vowel_book',
@@ -58,7 +64,8 @@ export const boosters: IBooster[] = [
     description: `Every Vowel will deal +${shop.vowel_book} more damage`,
     image: require('@assets/icons/shop/book_1.png'),
     type: 'higher',
-    action: store => store.setVowelModifier(shop.vowel_book)
+    action: store => store.setVowelModifier(shop.vowel_book),
+    price: 45
   },
   {
     id: 'genesis_scroll',
@@ -66,7 +73,8 @@ export const boosters: IBooster[] = [
     description: `Every ABCDE letter will deal +${shop.genesis_scroll} more damage`,
     image: require('@assets/icons/shop/scroll_1.png'),
     type: 'lower',
-    action: store => store.setABCDEModifier(shop.genesis_scroll)
+    action: store => store.setABCDEModifier(shop.genesis_scroll),
+    price: 25
   },
   {
     id: 'genesis_book',
@@ -74,7 +82,8 @@ export const boosters: IBooster[] = [
     description: `Every ABCDE letter will deal +${shop.genesis_book} more damage`,
     image: require('@assets/icons/shop/book_1.png'),
     type: 'higher',
-    action: store => store.setABCDEModifier(shop.genesis_book)
+    action: store => store.setABCDEModifier(shop.genesis_book),
+    price: 45
   },
   {
     id: 'omega_scroll',
@@ -82,7 +91,8 @@ export const boosters: IBooster[] = [
     description: `Every VWXYZ letter will deal +${shop.omega_scroll} more damage`,
     image: require('@assets/icons/shop/scroll_2.png'),
     type: 'lower',
-    action: store => store.setVWXYZRModifier(shop.omega_scroll)
+    action: store => store.setVWXYZRModifier(shop.omega_scroll),
+    price: 20
   },
   {
     id: 'omega_book',
@@ -90,7 +100,8 @@ export const boosters: IBooster[] = [
     description: `Every VWXYZ letter will deal +${shop.omega_book} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
     type: 'higher',
-    action: store => store.setVWXYZRModifier(shop.omega_book)
+    action: store => store.setVWXYZRModifier(shop.omega_book),
+    price: 40
   },
   {
     id: 'scroll_of_working',
@@ -98,7 +109,8 @@ export const boosters: IBooster[] = [
     description: `Word with ING will deal +${shop.scroll_of_working} more damage`,
     image: require('@assets/icons/shop/scroll_2.png'),
     type: 'lower',
-    action: store => store.setIngModifier(shop.scroll_of_working)
+    action: store => store.setIngModifier(shop.scroll_of_working),
+    price: 20
   },
   {
     id: 'book_of_working',
@@ -106,7 +118,8 @@ export const boosters: IBooster[] = [
     description: `Word with ING will deal +${shop.book_of_working} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
     type: 'higher',
-    action: store => store.setIngModifier(shop.book_of_working)
+    action: store => store.setIngModifier(shop.book_of_working),
+    price: 40
   },
   {
     id: 'scroll_of_saint',
@@ -114,7 +127,8 @@ export const boosters: IBooster[] = [
     description: `Every S and T letter will deal +${shop.scroll_of_saint} more damage`,
     image: require('@assets/icons/shop/scroll_3.png'),
     type: 'lower',
-    action: store => store.setSTModifier(shop.scroll_of_saint)
+    action: store => store.setSTModifier(shop.scroll_of_saint),
+    price: 25
   },
   {
     id: 'book_of_saint',
@@ -122,6 +136,7 @@ export const boosters: IBooster[] = [
     description: `Every S and T letter will deal +${shop.book_of_saint} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
     type: 'higher',
-    action: store => store.setSTModifier(shop.book_of_saint)
+    action: store => store.setSTModifier(shop.book_of_saint),
+    price: 40
   }
 ];

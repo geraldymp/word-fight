@@ -37,7 +37,7 @@ export default function UseChooseArea() {
   }, [step]);
 
   function onPress(option: string) {
-    if (step === 3 || step === 5) {
+    if (step % 2 === 0) {
       if (option === 'shop') {
         router.replace('/magic_hut');
       } else if (option === 'fire_camp') {

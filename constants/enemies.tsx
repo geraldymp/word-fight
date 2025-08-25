@@ -74,7 +74,7 @@ export const enemies: IEnemies[] = [
     ]
   },
   {
-    step: 2,
+    step: 3,
     area: 'graveyard',
     content: [
       {
@@ -107,7 +107,7 @@ export const enemies: IEnemies[] = [
     ]
   },
   {
-    step: 2,
+    step: 3,
     area: 'witch_swamp',
     content: [
       {
@@ -140,7 +140,7 @@ export const enemies: IEnemies[] = [
     ]
   },
   {
-    step: 4,
+    step: 5,
     area: 'ancient_kingdom',
     content: [
       {
@@ -173,7 +173,7 @@ export const enemies: IEnemies[] = [
     ]
   },
   {
-    step: 4,
+    step: 5,
     area: 'futuristic_city',
     content: [
       {
@@ -206,7 +206,7 @@ export const enemies: IEnemies[] = [
     ]
   },
   {
-    step: 6,
+    step: 7,
     area: 'boss',
     content: [
       {
