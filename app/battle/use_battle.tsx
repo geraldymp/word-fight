@@ -254,10 +254,10 @@ export default function UseBattle() {
     setEnemyHP(baseHp);
     setEnemyMaxHP(baseHp);
     setEnemyView({ name, image });
-    if (reshuffle < maxReshuffle && stage > 1) {
+    if (reshuffle < maxReshuffle && stage === 1) {
       setReshuffle(reshuffle + 1);
     }
-  }, [stage]);
+  }, [stage, step]);
 
   const modalContent: {
     modalText: string;
