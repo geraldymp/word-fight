@@ -1,4 +1,4 @@
-import { IStatistic } from 'app/types/IStatistic';
+import { IShowedStats } from 'app/types/IShowedStats';
 import React, { useMemo, useState } from 'react';
 import {
   Modal,
@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 
 interface IStatsModal {
-  stats: IStatistic;
+  stats: IShowedStats;
   visible: boolean;
   onClose: () => void;
   onReset: () => void;
@@ -39,11 +39,15 @@ const _StatisticModal: React.FC<IStatsModal> = ({
   }
 
   const showResetButton = useMemo(() => {
-    if (stats.averageDamage === 0 && stats.averageLength === 0) {
+    if (
+      stats.averageDamage === 0 &&
+      stats.averageLength === 0 &&
+      stats.totalBossBeaten === 0
+    ) {
       return false;
     }
     return true;
-  }, [stats.averageDamage, stats.averageLength]);
+  }, [stats]);
 
   return (
     <Modal visible={visible} transparent animationType="none">
@@ -64,13 +68,16 @@ const _StatisticModal: React.FC<IStatsModal> = ({
                   {stats.averageDamage.toFixed(1)}
                 </Text>
               </View>
+              <View style={styles.itemContainer}>
+                <Text style={styles.itemText}>{`Boss Beaten: `}</Text>
+                <Text style={styles.itemText}>{stats.totalBossBeaten}</Text>
+              </View>
               {showResetButton && (
                 <>
                   {!confirmReset ? (
                     <TouchableOpacity
                       style={styles.resetContainer}
-                      onPress={changeToConfirm}
-                    >
+                      onPress={changeToConfirm}>
                       <Text style={styles.resetText}>Reset</Text>
                     </TouchableOpacity>
                   ) : (
@@ -81,14 +88,12 @@ const _StatisticModal: React.FC<IStatsModal> = ({
                       <View style={{ flexDirection: 'row', gap: 24 }}>
                         <TouchableOpacity
                           style={styles.resetContainer}
-                          onPress={onApplyReset}
-                        >
+                          onPress={onApplyReset}>
                           <Text style={styles.resetText}>Yes!</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           style={styles.resetContainer}
-                          onPress={revertConfirm}
-                        >
+                          onPress={revertConfirm}>
                           <Text style={styles.resetText}>No!</Text>
                         </TouchableOpacity>
                       </View>

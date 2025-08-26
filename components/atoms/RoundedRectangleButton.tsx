@@ -51,19 +51,19 @@ const SIZE_STYLES = {
     height: 50,
     minWidth: 150,
     paddingHorizontal: 16,
-    fontSize: 18
+    fontSize: 16
   },
   md: {
     height: 45,
     minWidth: 120,
     paddingHorizontal: 12,
-    fontSize: 15
+    fontSize: 14
   },
   sm: {
     height: 40,
     minWidth: 90,
     paddingHorizontal: 10,
-    fontSize: 13
+    fontSize: 12
   }
 };
 

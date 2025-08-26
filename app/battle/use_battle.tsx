@@ -9,7 +9,8 @@ import { damageBreakdown } from 'app/utils/damageBreakdown';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
 import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
 import { getDamageModifier } from 'app/utils/getDamageModifier';
-import { setStats } from 'app/utils/Statistic/setStatistic';
+import { setBossBeatenStatistic } from 'app/utils/Statistic/setBossBeaten';
+import { setWordsStatistic } from 'app/utils/Statistic/setWords';
 import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
@@ -199,7 +200,7 @@ export default function UseBattle() {
       );
       setLetters(newLetters);
 
-      setStats(currentWord, damage);
+      setWordsStatistic(currentWord, damage);
 
       enemyHitBack();
     } else {
@@ -236,6 +237,13 @@ export default function UseBattle() {
       }, 1500);
     }
   }, [enemyHP, playerHP]);
+
+  // for analytic total boss beaten
+  useEffect(() => {
+    if (enemyHP === 0 && step === 7) {
+      setBossBeatenStatistic();
+    }
+  }, [enemyHP, step]);
 
   useEffect(() => {
     setLetters(generateRandomLettersWithVowels());

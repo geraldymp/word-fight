@@ -24,9 +24,9 @@ import {
   getLowestHighscore,
   isHighscoreFilled
 } from 'app/lib/highscoreFunctions';
-import { IStatistic } from 'app/types/IStatistic';
-import { getStats } from 'app/utils/Statistic/getStatistic';
-import { resetStats } from 'app/utils/Statistic/resetStatistic';
+import { IShowedStats } from 'app/types/IShowedStats';
+import { getAllStats } from 'app/utils/Statistic/getAllStatistics';
+import { resetAllStats } from 'app/utils/Statistic/resetAllStatistics';
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -36,18 +36,20 @@ export default function HomeScreen() {
   const { setLowestHighScore, setHighScoreFilled } = useGameStore();
   const bgMusic = useAudioPlayer(homeBgMusic);
 
-  const [stats, setStats] = useState<IStatistic>({
+  const [stats, setStats] = useState<IShowedStats>({
     averageLength: 0,
-    averageDamage: 0
+    averageDamage: 0,
+    totalBossBeaten: 0
   });
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
   const [visibleStatsModal, setVisibleStatsModal] = useState<boolean>(false);
 
   async function loadStats() {
-    const stats = await getStats();
+    const stats = await getAllStats();
     setStats({
       averageDamage: stats?.averageDamage,
-      averageLength: stats?.averageLength
+      averageLength: stats?.averageLength,
+      totalBossBeaten: stats?.totalBossBeaten
     });
   }
 
@@ -138,7 +140,7 @@ export default function HomeScreen() {
         stats={stats}
         visible={visibleStatsModal}
         onClose={() => setVisibleStatsModal(false)}
-        onReset={resetStats}
+        onReset={resetAllStats}
       />
       <AboutModal
         visible={visibleAboutModal}
