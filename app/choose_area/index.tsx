@@ -1,4 +1,5 @@
 // app/choose_area.tsx
+import Colors from 'app/foundation/colors';
 import {
   ImageBackground,
   StyleSheet,
@@ -14,30 +15,21 @@ export default function ChooseAreaScreen() {
   const { onPress } = actions;
   return (
     <View style={styles.container}>
-      <Text
-        style={{
-          color: 'white',
-          alignSelf: 'center',
-          fontSize: 20,
-          marginVertical: 16,
-          fontFamily: 'ArchitectsDaughter_400Regular'
-        }}
-      >
-        Choose your path
-      </Text>
+      <Text style={styles.titleText}>Choose your path</Text>
       {choices.map(option => (
         <TouchableOpacity
           key={option.id}
           style={styles.card}
           onPress={() => onPress(option.id)}
-          testID={`select-area-btn-${option.id}`}
-        >
-          <ImageBackground style={styles.cardInner} source={option.image}>
-            <Text style={styles.optionName}>{option.name}</Text>
-            <View style={styles.descriptionWrapper}>
-              <Text style={styles.descriptionText}>{option.description}</Text>
-            </View>
-          </ImageBackground>
+          testID={`select-area-btn-${option.id}`}>
+          <View style={styles.cardMiddleBorder}>
+            <ImageBackground style={styles.cardInner} source={option.image}>
+              <Text style={styles.optionName}>{option.name}</Text>
+              <View style={styles.descriptionWrapper}>
+                <Text style={styles.descriptionText}>{option.description}</Text>
+              </View>
+            </ImageBackground>
+          </View>
         </TouchableOpacity>
       ))}
     </View>
@@ -48,33 +40,41 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#000'
+    backgroundColor: '#A2B06D'
+  },
+  titleText: {
+    color: Colors.neutralDark,
+    alignSelf: 'center',
+    fontSize: 20,
+    marginVertical: 16,
+    fontFamily: 'Candal_400Regular',
+    textTransform: 'uppercase'
   },
   card: {
     flex: 1,
     backgroundColor: '#2d2d44',
-    borderRadius: 16,
     marginBottom: 16,
+    borderRadius: 20,
     borderWidth: 2,
     borderColor: '#555',
+    overflow: 'hidden'
+  },
+  cardMiddleBorder: {
+    flex: 1,
+    borderRadius: 16,
+    borderWidth: 5,
+    borderColor: Colors.primary,
     overflow: 'hidden'
   },
   cardInner: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 32
-  },
-  image: {
-    width: 80,
-    height: 80,
-    marginBottom: 12,
-    borderRadius: 10
-  },
-  imagePlaceholder: {
-    fontSize: 50,
-    marginBottom: 12,
-    color: '#ccc'
+    padding: 32,
+    borderRadius: 12,
+    borderWidth: 2,
+    borderColor: '#555',
+    overflow: 'hidden'
   },
   optionName: {
     fontSize: 26,
@@ -82,20 +82,24 @@ const styles = StyleSheet.create({
     color: '#ffe08a',
     textAlign: 'center',
     marginBottom: 32,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    backgroundColor: 'red',
-    borderRadius: 12
+    textShadowColor: 'black',
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: 15,
+    textDecorationStyle: 'solid',
+    overflow: 'hidden'
   },
   descriptionWrapper: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: Colors.primary,
     borderRadius: 12,
     paddingVertical: 6,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
+    borderWidth: 3,
+    borderColor: Colors.neutralDark
   },
   descriptionText: {
     fontSize: 16,
     color: 'black',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontFamily: 'SourGummy_400Regular'
   }
 });
