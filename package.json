@@ -22,6 +22,7 @@
     "@expo-google-fonts/cinzel": "^0.4.1",
     "@expo-google-fonts/goblin-one": "^0.4.0",
     "@expo-google-fonts/sour-gummy": "^0.4.1",
+    "@expo-google-fonts/tinos": "^0.4.0",
     "@expo/vector-icons": "^14.1.0",
     "@react-native-async-storage/async-storage": "2.1.2",
     "@react-native/metro-config": "^0.79.2",
