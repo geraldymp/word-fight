@@ -121,12 +121,14 @@ export default function HomeScreen() {
       <RoundedButton
         onPress={() => setVisibleStatsModal(true)}
         customStyle={[styles.topButtonsContainer, { left: 24 }]}
-        icon={<SvgGraph width={20} height={20} color={Colors.primary} />}
+        icon={<SvgGraph width={20} height={20} color={Colors.neutralDark} />}
       />
       <RoundedButton
         onPress={() => setVisibleAboutModal(true)}
         customStyle={[styles.topButtonsContainer, { right: 24 }]}
-        icon={<SvgInformation width={36} height={36} color={Colors.primary} />}
+        icon={
+          <SvgInformation width={36} height={36} color={Colors.neutralDark} />
+        }
       />
       <AnimatedImage
         source={require('@assets/word_fight_title.png')}
@@ -155,17 +157,19 @@ export default function HomeScreen() {
       <View style={styles.bottomButtonsContainer}>
         <RoundedButton
           onPress={() => router.push('/help')}
-          icon={<SvgHelp width={24} height={24} color={Colors.primary} />}
+          icon={<SvgHelp width={24} height={24} color={Colors.neutralDark} />}
         />
         <RoundedButton
           onPress={() => router.push('/leaderboard')}
           icon={
-            <SvgAchievement width={24} height={24} color={Colors.primary} />
+            <SvgAchievement width={24} height={24} color={Colors.neutralDark} />
           }
         />
         <RoundedButton
           onPress={() => router.push('/settings')}
-          icon={<SvgSetting width={24} height={24} color={Colors.primary} />}
+          icon={
+            <SvgSetting width={24} height={24} color={Colors.neutralDark} />
+          }
         />
       </View>
       <StatisticModal
@@ -185,7 +189,6 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
-    backgroundColor: '#1B263B',
     alignItems: 'center'
   },
   topButtonsContainer: {
