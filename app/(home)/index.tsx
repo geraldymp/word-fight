@@ -9,7 +9,6 @@ import {
 import { AboutModal } from '@components/AboutModal';
 import { useSettingsStore } from '@store/useSettingStore';
 import { useGameStore } from 'app/store/useGameStore';
-import { useAudioPlayer } from 'expo-audio';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, ImageBackground, StyleSheet, View } from 'react-native';
@@ -23,7 +22,6 @@ import Animated, {
 } from 'react-native-reanimated';
 
 // @ts-ignore
-import homeBgMusic from '@assets/sounds/home_screen.mp3';
 import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { StatisticModal } from 'app/components/StatisticModal';
@@ -35,8 +33,10 @@ import {
 import { IShowedStats } from 'app/types/IShowedStats';
 import { getAllStats } from 'app/utils/Statistic/getAllStatistics';
 import { resetAllStats } from 'app/utils/Statistic/resetAllStatistics';
+import { Audio } from 'expo-av';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
+const homeBgMusic = require('@assets/sounds/home_screen.mp3');
 
 export default function HomeScreen() {
   const router = useRouter();
@@ -44,7 +44,6 @@ export default function HomeScreen() {
   const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, stop } =
     useSettingsStore();
   const { setLowestHighScore, setHighScoreFilled } = useGameStore();
-  const bgMusic = useAudioPlayer(null);
 
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({
@@ -58,6 +57,15 @@ export default function HomeScreen() {
   });
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
   const [visibleStatsModal, setVisibleStatsModal] = useState<boolean>(false);
+  const [homeBgMusicState, setHomeBgMusicState] = useState<Audio.Sound>();
+
+  async function playSound() {
+    const { sound } = await Audio.Sound.createAsync(homeBgMusic, {
+      isLooping: true
+    });
+    setHomeBgMusicState(sound);
+    await sound.playAsync();
+  }
 
   async function loadStats() {
     const stats = await getAllStats();
@@ -102,12 +110,19 @@ export default function HomeScreen() {
 
   useEffect(() => {
     if (currentSrc === homeBgMusic && shouldPlay && !muteMusic) {
-      bgMusic.loop = true;
-      bgMusic.play();
+      playSound();
     } else {
-      bgMusic.pause();
+      homeBgMusicState?.pauseAsync();
     }
-  }, [currentSrc, shouldPlay, muteMusic, bgMusic]);
+  }, [currentSrc, shouldPlay, muteMusic]);
+
+  useEffect(() => {
+    return homeBgMusicState
+      ? () => {
+          homeBgMusicState.unloadAsync();
+        }
+      : undefined;
+  }, [homeBgMusicState]);
 
   useEffect(() => {
     loadStats();
