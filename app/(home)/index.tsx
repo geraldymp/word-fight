@@ -44,7 +44,7 @@ export default function HomeScreen() {
   const { muteMusic, loadSettings, currentSrc, shouldPlay, setAudio, stop } =
     useSettingsStore();
   const { setLowestHighScore, setHighScoreFilled } = useGameStore();
-  const bgMusic = useAudioPlayer(homeBgMusic);
+  const bgMusic = useAudioPlayer(null);
 
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({
