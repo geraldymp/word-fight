@@ -16,12 +16,14 @@ export default {
       bundleIdentifier: 'com.germp24.wordfight'
     },
     android: {
+      versionCode: 4,
+      package: "com.germp24.wordfight",
       adaptiveIcon: {
         foregroundImage: './assets/word_fight_logo.png',
         backgroundColor: '#ffffff'
       },
       edgeToEdgeEnabled: true,
-      package: 'com.germp24.wordfight'
+      blockedPermissions: ["android.permission.RECORD_AUDIO"]
     },
     web: {
       bundler: 'metro',
@@ -54,6 +56,16 @@ export default {
             './assets/fonts/MightySouly.ttf',
             './assets/fonts/TechnoRaceItalic.otf'
           ]
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          android: {
+            compileSdkVersion: 35,
+            targetSdkVersion: 34,
+            minSdkVersion: 24
+          }
         }
       ]
     ],

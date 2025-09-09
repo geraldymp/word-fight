@@ -20,8 +20,8 @@ export async function getLowestHighscore() {
   const { data, error } = await supabase
     .from('high_scores')
     .select('*')
-    .order('score', { ascending: true })
-    .limit(1);
+    .order('score', { ascending: false })
+    .range(19, 19);
   if (error) {
     console.error('Failed to get Highscore Limit', error);
     return null;
@@ -47,6 +47,7 @@ export async function getHighscore() {
     .from('high_scores')
     .select('*')
     .order('score', { ascending: false })
+    .order('created_at', { ascending: false })
     .limit(20);
   if (error) {
     console.error('Failed to get Highscore data', error);

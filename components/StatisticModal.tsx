@@ -1,16 +1,17 @@
-import { IStatistic } from 'app/types/IStatistic';
+import Colors from 'app/foundation/colors';
+import { IShowedStats } from 'app/types/IShowedStats';
 import React, { useMemo, useState } from 'react';
 import {
   Modal,
+  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
   View
 } from 'react-native';
 
 interface IStatsModal {
-  stats: IStatistic;
+  stats: IShowedStats;
   visible: boolean;
   onClose: () => void;
   onReset: () => void;
@@ -39,17 +40,26 @@ const _StatisticModal: React.FC<IStatsModal> = ({
   }
 
   const showResetButton = useMemo(() => {
-    if (stats.averageDamage === 0 && stats.averageLength === 0) {
+    if (
+      stats.averageDamage === 0 &&
+      stats.averageLength === 0 &&
+      stats.totalBossBeaten === 0
+    ) {
       return false;
     }
     return true;
-  }, [stats.averageDamage, stats.averageLength]);
+  }, [stats]);
 
   return (
-    <Modal visible={visible} transparent animationType="none">
-      <TouchableOpacity style={{ flex: 1 }} onPress={onClose}>
-        <View style={styles.modalOverlay}>
-          <TouchableWithoutFeedback>
+    <Modal
+      visible={visible}
+      transparent
+      presentationStyle="overFullScreen"
+      animationType="fade"
+      onRequestClose={onClose}>
+      <Pressable style={styles.overlay} onPress={onClose}>
+        <View style={styles.dialog} pointerEvents="box-none">
+          <Pressable style={styles.card} onPress={e => e.stopPropagation()}>
             <View style={styles.modalContainer}>
               <Text style={styles.modalTitleText}>Statistic</Text>
               <View style={styles.itemContainer}>
@@ -64,13 +74,16 @@ const _StatisticModal: React.FC<IStatsModal> = ({
                   {stats.averageDamage.toFixed(1)}
                 </Text>
               </View>
+              <View style={styles.itemContainer}>
+                <Text style={styles.itemText}>{`Boss Beaten: `}</Text>
+                <Text style={styles.itemText}>{stats.totalBossBeaten}</Text>
+              </View>
               {showResetButton && (
                 <>
                   {!confirmReset ? (
                     <TouchableOpacity
                       style={styles.resetContainer}
-                      onPress={changeToConfirm}
-                    >
+                      onPress={changeToConfirm}>
                       <Text style={styles.resetText}>Reset</Text>
                     </TouchableOpacity>
                   ) : (
@@ -81,14 +94,12 @@ const _StatisticModal: React.FC<IStatsModal> = ({
                       <View style={{ flexDirection: 'row', gap: 24 }}>
                         <TouchableOpacity
                           style={styles.resetContainer}
-                          onPress={onApplyReset}
-                        >
+                          onPress={onApplyReset}>
                           <Text style={styles.resetText}>Yes!</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           style={styles.resetContainer}
-                          onPress={revertConfirm}
-                        >
+                          onPress={revertConfirm}>
                           <Text style={styles.resetText}>No!</Text>
                         </TouchableOpacity>
                       </View>
@@ -97,22 +108,16 @@ const _StatisticModal: React.FC<IStatsModal> = ({
                 </>
               )}
             </View>
-          </TouchableWithoutFeedback>
+          </Pressable>
         </View>
-      </TouchableOpacity>
+      </Pressable>
     </Modal>
   );
 };
 
 const styles = StyleSheet.create({
-  modalOverlay: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
   modalContainer: {
-    backgroundColor: '#7d2abd',
+    backgroundColor: Colors.secondary,
     padding: 16,
     borderRadius: 12,
     gap: 12,
@@ -120,12 +125,12 @@ const styles = StyleSheet.create({
     width: '80%'
   },
   modalTitleText: {
-    fontFamily: 'MightySouly',
+    fontFamily: 'ArchitectsDaughter_400Regular',
     color: 'white',
     fontSize: 24
   },
   itemContainer: {
-    backgroundColor: '#2ec75c',
+    backgroundColor: Colors.tertiary,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 8,
@@ -134,19 +139,34 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   itemText: {
-    fontFamily: 'TechnoRaceItalic',
-    color: 'white',
+    fontFamily: 'SourGummy_800ExtraBold',
+    color: Colors.textWhite,
     fontSize: 18
   },
   resetContainer: {
-    backgroundColor: 'red',
+    backgroundColor: Colors.danger,
     borderRadius: 8,
     padding: 4
   },
   resetText: {
     fontFamily: 'TechnoRaceItalic',
-    color: 'white',
+    color: Colors.textWhite,
     fontSize: 12
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  dialog: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  card: {
+    borderRadius: 16,
+    padding: 20
   }
 });
 
