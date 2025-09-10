@@ -147,11 +147,12 @@ export default function UseBattle() {
     }
   };
 
-  const damageBreakdowns = damageBreakdown(currentWord, damageModifier);
+  const damageBreakdowns = useMemo(
+    () => damageBreakdown(currentWord, damageModifier),
+    [currentWord, damageModifier]
+  );
 
   const handleSubmit = () => {
-    if (currentWord.length === 0) return;
-
     if (isValidWord(currentWord) && currentWord.length > 3) {
       const damage =
         calculateBaseLetterDamage(currentWord) +
@@ -195,9 +196,7 @@ export default function UseBattle() {
   useEffect(() => {
     if (enemyHP === 0) {
       setTimeout(() => {
-        enemyRotation.value = withTiming(720, { duration: 1000 });
-        enemyScale.value = withTiming(0, { duration: 1000 });
-        enemyOpacity.value = withTiming(0, { duration: 1000 });
+        enemyOpacity.value = withTiming(0, { duration: 1500 });
         increaseMana(manaGained);
       }, 500);
       setTimeout(() => {
