@@ -11,6 +11,8 @@ import {
   SourGummy_800ExtraBold
 } from '@expo-google-fonts/sour-gummy';
 import { useSettingsStore } from 'app/store/useSettingStore';
+import { MusicPlayer } from 'app/utils/musicPlayer';
+import { SfxPlayer } from 'app/utils/sfxPlayer';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
@@ -49,6 +51,8 @@ export default function Layout() {
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
         <Stack screenOptions={{ headerShown: false }} />
+        <MusicPlayer />
+        <SfxPlayer />
       </SafeAreaView>
     </SafeAreaProvider>
   );

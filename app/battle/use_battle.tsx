@@ -1,5 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import { useIsFocused } from '@react-navigation/native';
 import { useGameStore } from '@store/useGameStore';
+import { useMusicStore } from '@store/useMusicStore';
+import { useSfxStore } from '@store/useSFXStore';
 import { calculateBaseLetterDamage } from '@utils/calculateDamage';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
@@ -23,7 +26,10 @@ import {
 
 export default function UseBattle() {
   const router = useRouter();
+  const isFocused = useIsFocused();
 
+  const { playMusic, stopMusic } = useMusicStore();
+  const { playSfx } = useSfxStore();
   const {
     selectedEnemy,
     setEnemyHP,
@@ -142,6 +148,7 @@ export default function UseBattle() {
           { id: Date.now(), amount: enemyDamage, type: 'player' }
         ]);
         reducePlayerHP(enemyDamage);
+        playSfx('playerHit');
         triggerQuickShake(playerShakeAnim);
       }, 1200);
     }
@@ -164,6 +171,7 @@ export default function UseBattle() {
       ]);
 
       reduceEnemyHP(damage + dmgModifier);
+      playSfx('enemyHit');
       triggerQuickShake(enemyShakeAnim);
 
       // Submit highscore to supabase if in top 20
@@ -196,6 +204,7 @@ export default function UseBattle() {
   useEffect(() => {
     if (enemyHP === 0) {
       setTimeout(() => {
+        playSfx('enemyBeaten');
         enemyOpacity.value = withTiming(0, { duration: 1500 });
         increaseMana(manaGained);
       }, 500);
@@ -304,6 +313,15 @@ export default function UseBattle() {
   function onGiveUp() {
     setShowConfirmModal(true);
   }
+
+  useEffect(() => {
+    if (isFocused) {
+      playMusic('battle');
+    }
+    return () => {
+      stopMusic();
+    };
+  }, [isFocused]);
 
   useEffect(() => {
     const backAction = () => {

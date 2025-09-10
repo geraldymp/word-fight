@@ -1,11 +1,11 @@
-import { useSettingsStore } from '@store/useSettingStore';
+import { useMusicStore } from 'app/store/useMusicStore';
+import { useSfxStore } from 'app/store/useSFXStore';
 import React from 'react';
 import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 
 const SettingsScreen = () => {
-  const { muteMusic, muteSound, setMuteMusic, setMuteSound } =
-    useSettingsStore();
-
+  const { muted: mutedSfx, setMuted: setMutedSfx } = useSfxStore();
+  const { muted: mutedMusic, setMuted: setMutedMusic } = useMusicStore();
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <Text style={styles.header}>Settings</Text>
@@ -17,9 +17,9 @@ const SettingsScreen = () => {
             <Text style={styles.settingDesc}>Turn off background music</Text>
           </View>
           <Switch
-            value={muteMusic}
-            onValueChange={setMuteMusic}
-            thumbColor={muteMusic ? '#ffb347' : '#3eab5e'}
+            value={mutedMusic}
+            onValueChange={setMutedMusic}
+            thumbColor={mutedMusic ? '#ffb347' : '#3eab5e'}
             trackColor={{ false: '#444', true: '#ffe08a' }}
           />
         </View>
@@ -29,9 +29,9 @@ const SettingsScreen = () => {
             <Text style={styles.settingDesc}>Mute sound effects</Text>
           </View>
           <Switch
-            value={muteSound}
-            onValueChange={setMuteSound}
-            thumbColor={muteSound ? '#ffb347' : '#3eab5e'}
+            value={mutedSfx}
+            onValueChange={setMutedSfx}
+            thumbColor={mutedSfx ? '#ffb347' : '#3eab5e'}
             trackColor={{ false: '#444', true: '#ffe08a' }}
           />
         </View>

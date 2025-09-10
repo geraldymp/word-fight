@@ -7,6 +7,7 @@ import {
   SvgSetting
 } from '@assets/icons/svgs';
 import { AboutModal } from '@components/AboutModal';
+import { useMusicStore } from '@store/useMusicStore';
 import { useGameStore } from 'app/store/useGameStore';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
@@ -21,6 +22,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 // @ts-ignore
+import { useIsFocused } from '@react-navigation/native';
 import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { StatisticModal } from 'app/components/StatisticModal';
@@ -37,8 +39,11 @@ const AnimatedImage = Animated.createAnimatedComponent(Image);
 
 export default function HomeScreen() {
   const router = useRouter();
+  const isFocused = useIsFocused();
 
   const { setLowestHighScore, setHighScoreFilled } = useGameStore();
+
+  const { playMusic, stopMusic } = useMusicStore();
 
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({
@@ -96,6 +101,12 @@ export default function HomeScreen() {
     loadStats();
   }, [visibleStatsModal]);
 
+  useEffect(() => {
+    if (isFocused) {
+      playMusic('home');
+    }
+  }, [isFocused]);
+
   return (
     <ImageBackground
       style={styles.mainContainer}
@@ -130,6 +141,7 @@ export default function HomeScreen() {
         testID="home-start-btn"
         title="PLAY"
         onPress={() => {
+          stopMusic();
           router.replace('/loading');
         }}
         type="primary"
