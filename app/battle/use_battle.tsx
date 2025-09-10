@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useGameStore } from '@store/useGameStore';
-import { useSettingsStore } from '@store/useSettingStore';
 import { calculateBaseLetterDamage } from '@utils/calculateDamage';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
@@ -11,7 +10,6 @@ import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
 import { getDamageModifier } from 'app/utils/getDamageModifier';
 import { setBossBeatenStatistic } from 'app/utils/Statistic/setBossBeaten';
 import { setWordsStatistic } from 'app/utils/Statistic/setWords';
-import { Audio } from 'expo-av';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { BackHandler } from 'react-native';
@@ -22,11 +20,6 @@ import {
   withSequence,
   withTiming
 } from 'react-native-reanimated';
-
-const enemyHit = require('@assets/sounds/enemy_hit.mp3');
-const enemyBeaten = require('@assets/sounds/enemy_beaten.mp3');
-const playerHit = require('@assets/sounds/player_hit.mp3');
-const battleBgMusic = require('@assets/sounds/battle_screen.mp3');
 
 export default function UseBattle() {
   const router = useRouter();
@@ -58,16 +51,6 @@ export default function UseBattle() {
   const { name, image, baseHp, minDmg, maxDmg, minManaBounty, maxManaBounty } =
     selectedEnemy;
 
-  const {
-    muteMusic,
-    loadSettings,
-    currentSrc,
-    shouldPlay,
-    setAudio,
-    play,
-    stop
-  } = useSettingsStore();
-
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
   const enemyDamage = getRandomInt(minDmg, maxDmg);
@@ -94,38 +77,6 @@ export default function UseBattle() {
     image: null
   });
   const [mapVisible, setMapVisible] = useState(false);
-
-  const [battleBgMusicState, setBattleBgMusicState] = useState<Audio.Sound>();
-  const [enemyHitSoundState, setEnemyHitSoundState] = useState<Audio.Sound>();
-  const [playerHitSoundState, setPlayerHitSoundState] = useState<Audio.Sound>();
-  const [enemyBeatenSoundState, setEnemyBeatenSoundState] =
-    useState<Audio.Sound>();
-
-  async function playBgMusic() {
-    const { sound } = await Audio.Sound.createAsync(battleBgMusic, {
-      isLooping: true
-    });
-    setBattleBgMusicState(sound);
-    await sound.playAsync();
-  }
-
-  async function playEnemyHitSound() {
-    const { sound } = await Audio.Sound.createAsync(enemyHit);
-    setEnemyHitSoundState(sound);
-    await sound.playAsync();
-  }
-
-  async function playPlayerHitSound() {
-    const { sound } = await Audio.Sound.createAsync(playerHit);
-    setPlayerHitSoundState(sound);
-    await sound.playAsync();
-  }
-
-  async function playEnemyBeatenSound() {
-    const { sound } = await Audio.Sound.createAsync(enemyBeaten);
-    setEnemyBeatenSoundState(sound);
-    await sound.playAsync();
-  }
 
   // Shake when damage is done (for enemy or player)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
@@ -191,7 +142,6 @@ export default function UseBattle() {
           { id: Date.now(), amount: enemyDamage, type: 'player' }
         ]);
         reducePlayerHP(enemyDamage);
-        playPlayerHitSound();
         triggerQuickShake(playerShakeAnim);
       }, 1200);
     }
@@ -213,7 +163,6 @@ export default function UseBattle() {
       ]);
 
       reduceEnemyHP(damage + dmgModifier);
-      playEnemyHitSound();
       triggerQuickShake(enemyShakeAnim);
 
       // Submit highscore to supabase if in top 20
@@ -246,7 +195,6 @@ export default function UseBattle() {
   useEffect(() => {
     if (enemyHP === 0) {
       setTimeout(() => {
-        playEnemyBeatenSound();
         enemyRotation.value = withTiming(720, { duration: 1000 });
         enemyScale.value = withTiming(0, { duration: 1000 });
         enemyOpacity.value = withTiming(0, { duration: 1000 });
@@ -257,7 +205,6 @@ export default function UseBattle() {
       }, 3000);
     } else if (playerHP === 0) {
       setTimeout(() => {
-        stop();
         setShowGameOverModal(true);
       }, 1500);
     }
@@ -335,7 +282,6 @@ export default function UseBattle() {
 
   function onPressBackToHome() {
     setShowGameOverModal(false);
-    stop();
     router.replace('/');
   }
 
@@ -345,7 +291,6 @@ export default function UseBattle() {
 
   function onCancel() {
     setShowConfirmModal(false);
-    play();
   }
 
   function onCloseMap() {
@@ -358,35 +303,11 @@ export default function UseBattle() {
   }
 
   function onGiveUp() {
-    stop();
     setShowConfirmModal(true);
   }
 
   useEffect(() => {
-    loadSettings();
-    setAudio(battleBgMusic, true);
-    playBgMusic();
-  }, []);
-
-  useEffect(() => {
-    if (currentSrc === battleBgMusic && shouldPlay && !muteMusic) {
-      battleBgMusicState?.playAsync();
-    } else {
-      battleBgMusicState?.pauseAsync();
-    }
-  }, [currentSrc, shouldPlay, muteMusic]);
-
-  useEffect(() => {
-    return battleBgMusicState
-      ? () => {
-          battleBgMusicState.unloadAsync();
-        }
-      : undefined;
-  }, [battleBgMusicState]);
-
-  useEffect(() => {
     const backAction = () => {
-      stop();
       setShowConfirmModal(true);
       return true;
     };

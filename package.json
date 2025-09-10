@@ -32,7 +32,6 @@
     "@supabase/supabase-js": "^2.49.4",
     "expo": "53.0.20",
     "expo-asset": "~11.1.4",
-    "expo-audio": "~0.4.8",
     "expo-blur": "~14.1.5",
     "expo-build-properties": "~0.14.8",
     "expo-constants": "~17.1.5",
@@ -63,8 +62,7 @@
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
     "redux": "^5.0.1",
-    "zustand": "^5.0.4",
-    "expo-av": "~15.1.7"
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@babel/core": "^7.25.2",
