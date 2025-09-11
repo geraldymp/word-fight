@@ -6,6 +6,7 @@ import { JourneyMapModal } from '@components/JourneyMapModal';
 import { SvgHeart, SvgMana, SvgSword } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
+import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import BottomHUD from 'app/components/BottomHUD';
 import Colors from 'app/foundation/colors';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -163,23 +164,10 @@ export default function BattleScreen() {
         </Text>
 
         {/* Damage breakdown */}
-        {/* {currentWord.length > 3 && (
-          <View style={{ marginBottom: 8, paddingHorizontal: 12 }}>
-            <Text style={styles.damagePreview}>
-              {getDmgBreakdown.map((val, idx) => (
-                <Text key={idx}>
-                  {val}
-                  {idx < getDmgBreakdown.length - 1 ? ' + ' : ''}
-                </Text>
-              ))}
-              {` = ${getDmgBreakdown.reduce((a, b) => a + b)}`}
-            </Text>
-            <Text
-              style={
-                styles.damagePreviewLabel
-              }>{`(letters + length bonus + modifier)`}</Text>
-          </View>
-        )} */}
+        <DamageBreakdown
+          currentWord={currentWord}
+          damageBreakdownNums={getDmgBreakdown}
+        />
 
         {feedback === 'invalid' && (
           <Text style={styles.invalid}>Invalid word</Text>
@@ -389,16 +377,5 @@ const styles = StyleSheet.create({
     height: 25,
     backgroundColor: Colors.danger,
     borderRadius: 10
-  },
-  damagePreview: {
-    color: Colors.primary,
-    fontSize: 12,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  damagePreviewLabel: {
-    color: Colors.neutralLight,
-    fontSize: 12,
-    textAlign: 'center'
   }
 });

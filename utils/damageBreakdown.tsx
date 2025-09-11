@@ -7,17 +7,20 @@ export function damageBreakdown(
   word: string,
   mod: GameStoreType['damageModifier']
 ) {
-  // Get letter base damages
-  const letterDamages = word
-    .split('')
-    .map(letter => calculateBaseLetterDamage(letter));
+  const letterDamages = word.split('').map(letter => ({
+    type: 'letter' as const,
+    value: calculateBaseLetterDamage(letter)
+  }));
 
-  // Length bonus
-  const lengthBonus = getBonusDamageFromLength(word);
+  const lengthBonus = {
+    type: 'length' as const,
+    value: getBonusDamageFromLength(word)
+  };
 
-  // Damage modifier
-  const dmgMod = getDamageModifier(word, mod);
+  const dmgMod = {
+    type: 'modifier' as const,
+    value: getDamageModifier(word, mod)
+  };
 
-  // Build breakdown array
   return [...letterDamages, lengthBonus, dmgMod];
 }
