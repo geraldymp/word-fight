@@ -65,8 +65,6 @@ export default function UseBattle() {
   const enemyShakeAnim = useSharedValue(0);
   const wrongWordShakeAnim = useSharedValue(0);
 
-  const enemyRotation = useSharedValue(0);
-  const enemyScale = useSharedValue(1);
   const enemyOpacity = useSharedValue(1);
 
   const [enemyMaxHp, setEnemyMaxHP] = useState(0);
@@ -95,10 +93,6 @@ export default function UseBattle() {
 
   const enemyStyle = useAnimatedStyle(() => {
     return {
-      transform: [
-        { rotate: `${enemyRotation.value}deg` },
-        { scale: enemyScale.value }
-      ],
       opacity: enemyOpacity.value
     };
   });
@@ -277,8 +271,6 @@ export default function UseBattle() {
     setSelectedIndices([]);
     setFeedback(null);
     setShowGameOverModal(false);
-    enemyRotation.value = 1;
-    enemyScale.value = 1;
     enemyOpacity.value = 1;
   }
 
