@@ -1,3 +1,4 @@
+import Colors from 'app/foundation/colors';
 import { IHelperContent } from 'app/types/IHelperContent';
 import React, { memo, useRef, useState } from 'react';
 import {
@@ -19,6 +20,7 @@ type Props = {
 
 const { width } = Dimensions.get('window');
 const { height } = Dimensions.get('window');
+const MODAL_CONTENT_HEIGHT = height * 0.8 - (32 + 120);
 
 const HelpModal: React.FC<Props> = ({ visible, onClose, slides }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -51,36 +53,40 @@ const HelpModal: React.FC<Props> = ({ visible, onClose, slides }) => {
           <Carousel
             ref={carouselRef}
             width={width * 0.8}
-            height={420}
+            height={MODAL_CONTENT_HEIGHT}
             data={slides}
             renderItem={renderItem}
             onSnapToItem={setActiveIndex}
             loop={false}
           />
 
-          {/* Dots */}
-          <View style={styles.dots}>
-            {slides.map((_, i) => (
-              <View
-                key={i}
-                style={[styles.dot, activeIndex === i && styles.dotActive]}
-              />
-            ))}
-          </View>
+          <View style={{ alignItems: 'center' }}>
+            {/* Dots */}
+            <View style={styles.dots}>
+              {slides.map((_, i) => (
+                <View
+                  key={i}
+                  style={[styles.dot, activeIndex === i && styles.dotActive]}
+                />
+              ))}
+            </View>
+            {/* TODO: Update styling below */}
+            {/* Bottom Controls */}
+            <View style={styles.controls}>
+              <Pressable style={styles.btn} onPress={goPrev}>
+                <Text style={styles.btnText}>←</Text>
+              </Pressable>
 
-          {/* Bottom Controls */}
-          <View style={styles.controls}>
-            <Pressable style={styles.btn} onPress={goPrev}>
-              <Text style={styles.btnText}>←</Text>
-            </Pressable>
+              <Pressable
+                style={[styles.btn, styles.btnClose]}
+                onPress={onClose}>
+                <Text style={styles.btnText}>X</Text>
+              </Pressable>
 
-            <Pressable style={[styles.btn, styles.btnClose]} onPress={onClose}>
-              <Text style={styles.btnText}>X</Text>
-            </Pressable>
-
-            <Pressable style={styles.btn} onPress={goNext}>
-              <Text style={styles.btnText}>→</Text>
-            </Pressable>
+              <Pressable style={styles.btn} onPress={goNext}>
+                <Text style={styles.btnText}>→</Text>
+              </Pressable>
+            </View>
           </View>
         </View>
       </View>
@@ -99,12 +105,13 @@ const styles = StyleSheet.create({
   },
   container: {
     width: '90%',
-    height: '65%',
-    backgroundColor: '#fafafa',
+    height: '80%',
+    backgroundColor: Colors.secondary,
     borderRadius: 20,
-    paddingVertical: 20,
+    paddingVertical: 16,
     paddingHorizontal: 12,
     alignItems: 'center',
+    justifyContent: 'space-between',
     shadowColor: '#000',
     shadowOpacity: 0.2,
     shadowRadius: 8,
@@ -119,38 +126,42 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 220,
     marginBottom: 16,
-    borderRadius: 12
+    borderRadius: 12,
+    borderWidth: 4,
+    borderColor: Colors.borderBlack,
+    backgroundColor: Colors.neutralLight
   },
   title: {
     fontSize: 22,
     fontWeight: 'bold',
     marginBottom: 8,
-    color: '#333',
+    color: Colors.textWhite,
     textAlign: 'center'
   },
   description: {
-    fontSize: 16,
-    color: '#555',
-    textAlign: 'center',
-    lineHeight: 22
+    width: '100%',
+    fontSize: 14,
+    color: Colors.neutralLight,
+    textAlign: 'left',
+    lineHeight: 20
   },
   dots: {
     flexDirection: 'row',
-    marginVertical: 14,
+    marginBottom: 14,
     alignItems: 'center'
   },
   dot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: '#bbb',
+    backgroundColor: Colors.neutralLight,
     marginHorizontal: 4
   },
   dotActive: {
     width: 12,
     height: 12,
     borderRadius: 6,
-    backgroundColor: '#333'
+    backgroundColor: Colors.primary
   },
   controls: {
     flexDirection: 'row',

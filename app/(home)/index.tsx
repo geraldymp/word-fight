@@ -27,7 +27,7 @@ import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import HelpModal from 'app/components/HelpModal';
 import { StatisticModal } from 'app/components/StatisticModal';
-import { helper_contents } from 'app/constants/helper_contents';
+import { HelperContents } from 'app/constants/helper_contents';
 import Colors from 'app/foundation/colors';
 import {
   getLowestHighscore,
@@ -182,7 +182,7 @@ export default function HomeScreen() {
       <HelpModal
         visible={visibleHelpModal}
         onClose={() => setVisibleHelpModal(false)}
-        slides={helper_contents}
+        slides={HelperContents}
       />
     </ImageBackground>
   );
