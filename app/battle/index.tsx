@@ -6,7 +6,6 @@ import { JourneyMapModal } from '@components/JourneyMapModal';
 import { SvgHeart, SvgMana, SvgSword } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
-import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import BottomHUD from 'app/components/BottomHUD';
 import Colors from 'app/foundation/colors';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -164,10 +163,10 @@ export default function BattleScreen() {
         </Text>
 
         {/* Damage breakdown */}
-        <DamageBreakdown
+        {/* <DamageBreakdown
           currentWord={currentWord}
           damageBreakdownNums={getDmgBreakdown}
-        />
+        /> */}
 
         {feedback === 'invalid' && (
           <Text style={styles.invalid}>Invalid word</Text>
