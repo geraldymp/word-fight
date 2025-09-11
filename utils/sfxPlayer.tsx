@@ -21,8 +21,6 @@ export function SfxPlayer() {
       paused={false}
       repeat={false}
       muted={muted}
-      playInBackground
-      ignoreSilentSwitch="ignore"
       style={{ width: 0, height: 0 }}
       onEnd={clearSfx}
     />

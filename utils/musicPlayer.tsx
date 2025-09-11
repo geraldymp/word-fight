@@ -22,11 +22,8 @@ export function MusicPlayer() {
     <Video
       source={source}
       repeat
-      paused={false}
       muted={muted}
       disableFocus={true}
-      playInBackground
-      ignoreSilentSwitch="ignore"
       style={{ width: 0, height: 0 }}
     />
   );
