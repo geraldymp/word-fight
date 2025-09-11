@@ -84,7 +84,7 @@ export default function BattleScreen() {
     <ImageBackground
       style={styles.container}
       source={areaDetail?.battleBackground}>
-      {/* Enemy Display */}
+      {/* Top Button + Area Progress + Enemy Detail */}
       <View style={styles.enemyArea}>
         <RoundedRectButton
           title="Give up"
@@ -157,7 +157,7 @@ export default function BattleScreen() {
         </Animated.View>
       </View>
 
-      {/* Letters + Word Builder */}
+      {/* Word Builder + Damage Breakdown + HUD */}
       <View style={styles.playerArea}>
         <Text style={styles.currentWord}>
           {currentWord ? currentWord.toUpperCase() : '-'}
@@ -176,6 +176,7 @@ export default function BattleScreen() {
           <Text style={styles.invalid}>At least 4 letter</Text>
         )}
 
+        {/* Word Builder */}
         <Animated.FlatList
           data={letters}
           keyExtractor={(_, i) => i.toString()}
@@ -210,6 +211,7 @@ export default function BattleScreen() {
             { transform: [{ translateX: wrongWordShakeAnim }] }
           ]}
         />
+
         <BottomHUD
           characterImage={require('@assets/hero_icon.png')}
           playerShakeAnim={playerShakeAnim}
