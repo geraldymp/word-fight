@@ -59,8 +59,15 @@ export default function UseBattle() {
 
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
-  const enemyDamage = getRandomInt(minDmg, maxDmg);
-  const manaGained = getRandomInt(minManaBounty, maxManaBounty);
+
+  const enemyDamage = useMemo(() => {
+    return getRandomInt(minDmg, maxDmg);
+  }, [minDmg, maxDmg]);
+
+  const manaGained = useMemo(() => {
+    return getRandomInt(minManaBounty, maxManaBounty);
+  }, [minManaBounty, maxManaBounty]);
+
   const playerShakeAnim = useSharedValue(0);
   const enemyShakeAnim = useSharedValue(0);
   const wrongWordShakeAnim = useSharedValue(0);
@@ -134,6 +141,7 @@ export default function UseBattle() {
   }
 
   const enemyHitBack = () => {
+    // using getState to get most updated value
     const currentEnemyHp = useGameStore.getState().enemyHP;
     if (currentEnemyHp > 0) {
       setTimeout(() => {
@@ -228,6 +236,7 @@ export default function UseBattle() {
     setEnemyHP(baseHp);
     setEnemyMaxHP(baseHp);
     setEnemyView({ name, image });
+    // Give 1 reshuffle at Stage 1
     if (reshuffle < maxReshuffle && stage === 1) {
       setReshuffle(reshuffle + 1);
     }
