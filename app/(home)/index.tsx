@@ -25,7 +25,9 @@ import Animated, {
 import { useIsFocused } from '@react-navigation/native';
 import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
+import HelpModal from 'app/components/HelpModal';
 import { StatisticModal } from 'app/components/StatisticModal';
+import { helper_contents } from 'app/constants/helper_contents';
 import Colors from 'app/foundation/colors';
 import {
   getLowestHighscore,
@@ -57,6 +59,7 @@ export default function HomeScreen() {
   });
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
   const [visibleStatsModal, setVisibleStatsModal] = useState<boolean>(false);
+  const [visibleHelpModal, setVisibleHelpModal] = useState<boolean>(false);
 
   async function loadStats() {
     const stats = await getAllStats();
@@ -150,7 +153,7 @@ export default function HomeScreen() {
 
       <View style={styles.bottomButtonsContainer}>
         <RoundedButton
-          onPress={() => router.push('/help')}
+          onPress={() => setVisibleHelpModal(true)}
           icon={<SvgHelp width={24} height={24} color={Colors.neutralDark} />}
         />
         <RoundedButton
@@ -175,6 +178,11 @@ export default function HomeScreen() {
       <AboutModal
         visible={visibleAboutModal}
         onClose={() => setVisibleAboutModal(false)}
+      />
+      <HelpModal
+        visible={visibleHelpModal}
+        onClose={() => setVisibleHelpModal(false)}
+        slides={helper_contents}
       />
     </ImageBackground>
   );
