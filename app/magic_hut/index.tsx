@@ -12,6 +12,7 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import UseMagicHut from './use_magic_hut';
@@ -93,9 +94,14 @@ export default function MagicHutScreen() {
               Let see how much magic you have gathered
             </Text>
           </View>
-          <View style={styles.manaWrapper}>
-            <Text style={styles.manaText}>{states.mana}</Text>
-            <SvgMana height={20} width={20} color={Colors.primary} />
+          <View style={styles.manaAndAdWrapper}>
+            <TouchableOpacity style={styles.manaWrapper}>
+              <Text>ADS</Text>
+            </TouchableOpacity>
+            <View style={styles.manaWrapper}>
+              <Text style={styles.manaText}>{states.mana}</Text>
+              <SvgMana height={20} width={20} color={Colors.primary} />
+            </View>
           </View>
         </ImageBackground>
       </View>
@@ -181,10 +187,14 @@ const styles = StyleSheet.create({
     padding: 20,
     textAlign: 'center'
   },
-  manaWrapper: {
+  manaAndAdWrapper: {
     position: 'absolute',
     bottom: 4,
     right: 24,
+    flexDirection: 'row',
+    gap: 6
+  },
+  manaWrapper: {
     flexDirection: 'row',
     backgroundColor: Colors.neutralDark,
     paddingVertical: 4,
