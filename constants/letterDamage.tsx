@@ -15,7 +15,7 @@ export const letterDamageMap: Record<string, number> = {
   N: 2,
   O: 1,
   P: 3,
-  Q: 6,
+  Q: 8,
   R: 2,
   S: 1,
   T: 2,
