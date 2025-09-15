@@ -1,3 +1,4 @@
+import { SvgArrowLeft, SvgArrowRight } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { IHelperContent } from 'app/types/IHelperContent';
 import React, { memo, useRef, useState } from 'react';
@@ -70,11 +71,10 @@ const HelpModal: React.FC<Props> = ({ visible, onClose, slides }) => {
                 />
               ))}
             </View>
-            {/* TODO: Update styling below */}
             {/* Bottom Controls */}
             <View style={styles.controls}>
               <Pressable style={styles.btn} onPress={goPrev}>
-                <Text style={styles.btnText}>←</Text>
+                <SvgArrowLeft height={20} width={20} />
               </Pressable>
 
               <Pressable
@@ -84,7 +84,7 @@ const HelpModal: React.FC<Props> = ({ visible, onClose, slides }) => {
               </Pressable>
 
               <Pressable style={styles.btn} onPress={goNext}>
-                <Text style={styles.btnText}>→</Text>
+                <SvgArrowRight height={20} width={20} />
               </Pressable>
             </View>
           </View>
@@ -173,10 +173,8 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 18,
     borderRadius: 30,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 3
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   btnClose: {
     backgroundColor: '#ff6666'

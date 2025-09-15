@@ -1,4 +1,6 @@
 export { default as SvgAchievement } from './achievement';
+export { default as SvgArrowLeft } from './arrow_left';
+export { default as SvgArrowRight } from './arrow_right';
 export { default as SvgBubbleChat } from './bubble_chat';
 export { default as SvgChevronRight } from './chevron_right';
 export { default as SvgCoins } from './coins';
