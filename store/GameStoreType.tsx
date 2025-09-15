@@ -21,11 +21,11 @@ export interface GameStoreType {
   decreaseMana: (manaLost: number) => void;
 
   // Progress section
-  step: number;
+  step: number; // Journey step of player. Start with Step 1 (fight enemy) -> Step 2 (Magic Hut) -> *Repeat* -> Step 7 (Boss)
   increaseStep: () => void;
-  area?: IContent;
+  area?: IContent; // Content of Area (like fighting place, firecamp or magic hut)
   setArea?: (selectedArea: IContent) => void;
-  stage: number;
+  stage: number; // Position of player while fighting. There are 3 stage in battle area
   setStage: (stage: number) => void;
   increaseStage: () => void;
   selectedEnemy: IEnemy;
