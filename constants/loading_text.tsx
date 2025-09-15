@@ -1,25 +1,19 @@
 export const loadingTexts = [
   'Waking up the monster...',
-  //   'Sharpening the hero’s blade...',
-  //   'Feeding the potion pet...',
-  'Recalculating highscore...',
+  'Prepare the highscore board...',
   'Cleaning up the last battlefield...',
-  'Convincing the boss to behave...',
-  //   'Untangling the wizard’s beard...',
-  //   'Reanimating skeletons...',
-  //   'Calming down the dragon...',
+  'Convincing the boss to be patient...',
+  'Arranging the letter tiles...',
   'Balancing loot economy...'
 ];
 
 export const tips = [
-  'You get 1 reshuffle every battle. Don’t forget to use it!',
+  'You get 1 reshuffle every Area. Don’t forget to use it!',
   'Enemies won’t hit if you beat them first.',
   'Choosing the right path matters.',
-  //   'You can only heal with potions — use them wisely!',
-  //   'Booster tiles help. Try to hit them!',
-  //   'Some enemies are weak to logic... others to luck.',
-  //   'Watch for patterns in damage.',
-  'Each choice leads to a different journey.'
-  //   'Use your brain, not just your sword!',
-  //   'Tap fast, but think faster!'
+  'Each choice leads to a different journey.',
+  'Firecamp is important when you have few mana.',
+  'Longer word give greater damage.',
+  'Common letter (e.g. AIUEOS) only dealing small damage.',
+  'Magic Hut have secret potion which can only be used twice in a run.'
 ];
