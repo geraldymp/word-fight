@@ -66,6 +66,13 @@ export default {
             minSdkVersion: 24
           }
         }
+      ],
+      [
+        "react-native-google-mobile-ads",
+        {
+          "androidAppId": process.env.ADMOB_APPID,
+          "iosAppId": process.env.ADMOB_APPID
+        }
       ]
     ],
     experiments: {
