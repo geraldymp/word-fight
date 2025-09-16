@@ -16,7 +16,7 @@ export default {
       bundleIdentifier: 'com.germp24.wordfight'
     },
     android: {
-      versionCode: 5,
+      versionCode: 6,
       package: "com.germp24.wordfight",
       adaptiveIcon: {
         foregroundImage: './assets/word_fight_logo.png',
@@ -62,7 +62,7 @@ export default {
         {
           android: {
             compileSdkVersion: 35,
-            targetSdkVersion: 34,
+            targetSdkVersion: 35,
             minSdkVersion: 24
           }
         }

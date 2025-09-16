@@ -31,3 +31,6 @@ expo-update-preview:
 
 expo-update-bmt:
 	eas update --platform ${PLAT} --message "${MSG}" --channel build-and-maestro-test
+
+bundle-release:
+	cd android && ./gradlew clean && ./gradlew bundleRelease
