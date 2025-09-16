@@ -1,6 +1,7 @@
 import { SvgBubbleChat, SvgMana } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { BoosterCard } from 'app/components/BoosterCard';
+import { DialogModal } from 'app/components/DialogModal';
 import { boosters } from 'app/constants/boosters';
 import Colors from 'app/foundation/colors';
 import { IBooster } from 'app/types/IBooster';
@@ -95,9 +96,14 @@ export default function MagicHutScreen() {
             </Text>
           </View>
           <View style={styles.manaAndAdWrapper}>
-            <TouchableOpacity style={styles.manaWrapper}>
-              <Text>ADS</Text>
-            </TouchableOpacity>
+            {states.visibleAdPotion && (
+              <TouchableOpacity onPress={actions.onPressAdButton}>
+                <Image
+                  source={require('@assets/icons/shop/ad_potion.png')}
+                  style={styles.adPotionWrapper}
+                />
+              </TouchableOpacity>
+            )}
             <View style={styles.manaWrapper}>
               <Text style={styles.manaText}>{states.mana}</Text>
               <SvgMana height={20} width={20} color={Colors.primary} />
@@ -136,6 +142,14 @@ export default function MagicHutScreen() {
           customStyle={{ marginBottom: 8 }}
         />
       </ImageBackground>
+      <DialogModal
+        visible={states.visibleAdConfirmationModal}
+        title="Watch AD to restore 20 HP?"
+        cancelationText="No"
+        confirmationText="Yes"
+        onCancel={actions.onCancelToWatchAd}
+        onConfirm={actions.onConfirmToWatchAd}
+      />
     </View>
   );
 }
@@ -194,10 +208,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 6
   },
+  adPotionWrapper: {
+    height: 40,
+    width: 40,
+    borderRadius: 8,
+    backgroundColor: Colors.secondary
+  },
   manaWrapper: {
+    height: 40,
+    alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: Colors.neutralDark,
-    paddingVertical: 4,
     paddingHorizontal: 9,
     borderColor: Colors.borderBlack,
     borderWidth: 2,

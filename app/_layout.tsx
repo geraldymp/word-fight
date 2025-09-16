@@ -17,6 +17,7 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
+import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
@@ -41,6 +42,17 @@ export default function Layout() {
 
   useEffect(() => {
     loadSettings();
+  }, []);
+
+  // initiate ads
+  useEffect(() => {
+    mobileAds()
+      .setRequestConfiguration({
+        maxAdContentRating: MaxAdContentRating.G,
+        tagForChildDirectedTreatment: false,
+        tagForUnderAgeOfConsent: false
+      })
+      .then(() => mobileAds().initialize());
   }, []);
 
   if (!loaded && !error) {

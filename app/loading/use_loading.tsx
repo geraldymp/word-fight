@@ -2,6 +2,7 @@ import { loadingTexts, tips } from '@constants/loading_text';
 import { useGameStore } from '@store/useGameStore';
 import { getRandomInt } from '@utils/getRandomInt';
 import { getLowestHighscore } from 'app/lib/highscoreFunctions';
+import { useAdStore } from 'app/store/useAdStore';
 import { useHighscoreStore } from 'app/store/useHighscoreStore';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
@@ -11,6 +12,9 @@ export default function UseLoading() {
   const router = useRouter();
   const { setLowestHighscore } = useHighscoreStore();
   const resetGame = useGameStore(state => state.resetGame);
+  const resetPotionUsed = useAdStore(
+    state => state.magicHutPotion.resetPotionUsed
+  );
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const getRandomText = (arr: string[]) =>
     arr[Math.floor(Math.random() * arr.length)];
@@ -49,6 +53,7 @@ export default function UseLoading() {
 
     const timeout = setTimeout(() => {
       resetGame();
+      resetPotionUsed();
       router.replace('/choose_area'); // Replace with your actual game screen route
     }, randomizedTime);
 
