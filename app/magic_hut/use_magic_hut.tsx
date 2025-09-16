@@ -23,6 +23,7 @@ export default function UseMagicHut() {
   const [visibleAdPotion, setVisibleAdPotion] = useState(true);
   const [visibleAdConfirmationModal, setVisibleAdConfirmationModal] =
     useState(false);
+  const [visibleAdDoneModal, setVisibleAdDoneModal] = useState(false);
 
   const rewardedRef = useRef<RewardedAd>(
     RewardedAd.createForAdRequest(REWARDED_UNIT_ID, {
@@ -42,6 +43,10 @@ export default function UseMagicHut() {
 
   function onCancelToWatchAd() {
     setVisibleAdConfirmationModal(false);
+  }
+
+  function onCloseAdDoneModal() {
+    setVisibleAdDoneModal(false);
   }
 
   useEffect(() => {
@@ -73,8 +78,8 @@ export default function UseMagicHut() {
       // Try to prepare next time and inform user
       rewardedRef.current.load();
       Alert.alert(
-        'Blessing not ready',
-        'The ritual is being prepared. Try again in a moment.'
+        'Ad not ready',
+        'The Ad is being prepared. Try again in a few seconds.'
       );
       return false;
     }
@@ -87,6 +92,7 @@ export default function UseMagicHut() {
           increasePlayerHP(20);
           setVisibleAdPotion(false);
           increasePotionUsed();
+          setVisibleAdDoneModal(true);
         } catch {}
       }
     );
@@ -147,12 +153,14 @@ export default function UseMagicHut() {
       handleSelect,
       onPressAdButton,
       onConfirmToWatchAd,
-      onCancelToWatchAd
+      onCancelToWatchAd,
+      onCloseAdDoneModal
     },
     states: {
       mana,
       visibleAdPotion,
-      visibleAdConfirmationModal
+      visibleAdConfirmationModal,
+      visibleAdDoneModal
     }
   };
 }

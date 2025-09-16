@@ -2,6 +2,7 @@ import { SvgBubbleChat, SvgMana } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
+import { SingleModal } from 'app/components/SingleModal';
 import { boosters } from 'app/constants/boosters';
 import Colors from 'app/foundation/colors';
 import { IBooster } from 'app/types/IBooster';
@@ -149,6 +150,12 @@ export default function MagicHutScreen() {
         confirmationText="Yes"
         onCancel={actions.onCancelToWatchAd}
         onConfirm={actions.onConfirmToWatchAd}
+      />
+      <SingleModal
+        visible={states.visibleAdDoneModal}
+        title="Your HP restored by 20"
+        onConfirm={actions.onCloseAdDoneModal}
+        confirmationText="OK"
       />
     </View>
   );

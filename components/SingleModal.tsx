@@ -8,24 +8,20 @@ import {
   View
 } from 'react-native';
 
-interface IDialogModal {
+interface ISingleModal {
   visible: boolean;
   title: string;
   confirmationText: string;
-  cancelationText: string;
   onConfirm: () => void;
-  onCancel: () => void;
 }
 
 const { width } = Dimensions.get('window');
 
-export const _DialogModal: React.FC<IDialogModal> = ({
+export const _SingleModal: React.FC<ISingleModal> = ({
   visible,
   title,
-  confirmationText = 'Yes',
-  cancelationText = 'No',
-  onConfirm,
-  onCancel
+  confirmationText = 'OK',
+  onConfirm
 }) => {
   return (
     <Modal visible={visible} transparent animationType="fade">
@@ -34,11 +30,6 @@ export const _DialogModal: React.FC<IDialogModal> = ({
           <Text style={styles.title}>{title}</Text>
           <TouchableOpacity style={styles.button} onPress={onConfirm}>
             <Text style={styles.buttonText}>{confirmationText}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.button, styles.secondaryButton]}
-            onPress={onCancel}>
-            <Text style={styles.buttonText}>{cancelationText}</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -96,4 +87,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export const DialogModal = React.memo(_DialogModal);
+export const SingleModal = React.memo(_SingleModal);
