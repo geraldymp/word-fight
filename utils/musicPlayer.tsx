@@ -22,7 +22,7 @@ export function MusicPlayer() {
     <Video
       source={source}
       repeat
-      muted={muted}
+      paused={muted}
       disableFocus={true}
       style={{ width: 0, height: 0 }}
     />
