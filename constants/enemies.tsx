@@ -14,7 +14,7 @@ export const enemies: IEnemies[] = [
       {
         name: 'Junior Mage',
         image: require('../assets/enemies/forest/junior_mage.png'),
-        baseHp: 40,
+        baseHp: 36,
         minDmg: 3,
         maxDmg: 5,
         minManaBounty: 5,
@@ -23,7 +23,7 @@ export const enemies: IEnemies[] = [
       {
         name: 'Living Tree',
         image: require('../assets/enemies/forest/living_tree.png'),
-        baseHp: 42,
+        baseHp: 38,
         minDmg: 3,
         maxDmg: 5,
         minManaBounty: 6,
@@ -32,7 +32,7 @@ export const enemies: IEnemies[] = [
       {
         name: 'Old Warlock',
         image: require('../assets/enemies/forest/old_warlock.png'),
-        baseHp: 45,
+        baseHp: 40,
         minDmg: 5,
         maxDmg: 7,
         minManaBounty: 7,
@@ -45,27 +45,27 @@ export const enemies: IEnemies[] = [
     area: 'goblin_camp',
     content: [
       {
-        name: 'Big Ear Goblin',
-        image: require('../assets/enemies/goblin_camp/big_ear_goblin.png'),
-        baseHp: 55,
+        name: 'Scarred Goblin',
+        image: require('../assets/enemies/goblin_camp/scarred_goblin.png'),
+        baseHp: 45,
         minDmg: 1,
         maxDmg: 3,
         minManaBounty: 4,
         maxManaBounty: 9
       },
       {
-        name: 'Mad Goblin',
-        image: require('../assets/enemies/goblin_camp/mad_goblin.png'),
-        baseHp: 55,
+        name: 'One-eyed Goblin',
+        image: require('../assets/enemies/goblin_camp/one_eyed_goblin.png'),
+        baseHp: 48,
         minDmg: 2,
         maxDmg: 3,
         minManaBounty: 5,
         maxManaBounty: 10
       },
       {
-        name: 'Scarred Goblin',
-        image: require('../assets/enemies/goblin_camp/scarred_goblin.png'),
-        baseHp: 60,
+        name: 'Mad Goblin',
+        image: require('../assets/enemies/goblin_camp/mad_goblin.png'),
+        baseHp: 50,
         minDmg: 3,
         maxDmg: 5,
         minManaBounty: 6,
@@ -80,7 +80,7 @@ export const enemies: IEnemies[] = [
       {
         name: 'Cracked Skull',
         image: require('../assets/enemies/graveyard/cracked_skull.png'),
-        baseHp: 40,
+        baseHp: 41,
         minDmg: 3,
         maxDmg: 5,
         minManaBounty: 5,
@@ -111,8 +111,8 @@ export const enemies: IEnemies[] = [
     area: 'witch_swamp',
     content: [
       {
-        name: 'Smilling Pumpkin',
-        image: require('../assets/enemies/witch_swamp/smilling_pumpkin.png'),
+        name: 'White Moss',
+        image: require('../assets/enemies/witch_swamp/white_moss.png'),
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
@@ -146,7 +146,7 @@ export const enemies: IEnemies[] = [
       {
         name: 'Metal Knight',
         image: require('../assets/enemies/ancient_kingdom/metal_knight.png'),
-        baseHp: 65,
+        baseHp: 60,
         minDmg: 2,
         maxDmg: 3,
         minManaBounty: 8,
@@ -210,7 +210,7 @@ export const enemies: IEnemies[] = [
     area: 'boss',
     content: [
       {
-        name: 'The Death',
+        name: 'Azazel the Archmage',
         image: require('../assets/enemies/the_death.png'),
         baseHp: 70,
         minDmg: 10,

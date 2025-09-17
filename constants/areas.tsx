@@ -53,8 +53,7 @@ export const areas: IArea[] = [
         name: 'Witch Swamp',
         image: require('@assets/areas/witch_swamp.jpg'),
         battleBackground: require('@assets/backgrounds/graveyard.png'),
-        description:
-          'What will happen if magicians can not control their own creation and let them run? You will find the answer here'
+        description: 'A place where a weirdest creatures belong to'
       },
       {
         id: 'graveyard',
@@ -96,7 +95,8 @@ export const areas: IArea[] = [
         name: 'Futuristic City',
         image: require('@assets/areas/futuristic_city.jpg'),
         battleBackground: require('@assets/backgrounds/futuristic_city.png'),
-        description: 'You think the future will be kind? Not really'
+        description:
+          'Robots with the best mechanical weapons are gathering here'
       },
       {
         id: 'ancient_kingdom',
@@ -104,7 +104,7 @@ export const areas: IArea[] = [
         image: require('@assets/areas/ancient_kingdom.jpg'),
         battleBackground: require('@assets/backgrounds/futuristic_city.png'),
         description:
-          'The past is in the past. Yet, this time, the past will come to get you!'
+          'Old place that should have been a ruin, but a magical being revive it'
       }
     ]
   },
@@ -117,8 +117,7 @@ export const areas: IArea[] = [
         name: 'Shop',
         image: undefined,
         battleBackground: undefined,
-        description:
-          'This is the last reminder from me. Buy something or the gold might gone to waste!'
+        description: 'Those mana will be worthless if you dont spent it now'
       },
       {
         id: 'fire_camp',
@@ -135,10 +134,10 @@ export const areas: IArea[] = [
     content: [
       {
         id: 'boss',
-        name: 'Boss',
+        name: 'Final Stage',
         image: require('../assets/areas/boss.jpg'),
         battleBackground: require('@assets/backgrounds/graveyard.png'),
-        description: 'Finally, my journey will come to an end (?)'
+        description: 'Finally, my journey will come to an end...'
       }
     ]
   }
