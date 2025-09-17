@@ -89,7 +89,7 @@ export default function UseMagicHut() {
       RewardedAdEventType.EARNED_REWARD,
       () => {
         try {
-          increasePlayerHP(20);
+          increasePlayerHP(10);
           setVisibleAdPotion(false);
           increasePotionUsed();
           setVisibleAdDoneModal(true);
