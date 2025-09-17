@@ -1,4 +1,4 @@
-// utils/calculateDamage.ts
+// TODO: Remove this after nothing use this
 import { letterDamageMap } from '@constants/letterDamage';
 
 export const calculateBaseLetterDamage = (word: string): number => {

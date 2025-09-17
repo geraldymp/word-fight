@@ -3,6 +3,7 @@ import { calculateBaseLetterDamage } from './calculateDamage';
 import { getDamageModifier } from './getDamageModifier';
 import { getBonusDamageFromLength } from './wordLengthDamageMap';
 
+// TODO: Be independent from calculateBaseLetterDamage
 export function damageBreakdown(
   word: string,
   mod: GameStoreType['damageModifier']
