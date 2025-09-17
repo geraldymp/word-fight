@@ -4,7 +4,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-interface INormalTile {
+interface INumberedTile {
   item: ILetter;
   index: number;
   handleLetterPress: (i: number) => void;
@@ -16,7 +16,7 @@ const diceSize = screenHeight / 20;
 const diceTextSize = (diceSize * 3) / 6;
 const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const; // light gold gradient for buttons
 
-const _NormalTile: React.FC<INormalTile> = ({
+const _NumberedTile: React.FC<INumberedTile> = ({
   item,
   index,
   handleLetterPress,
@@ -38,12 +38,13 @@ const _NormalTile: React.FC<INormalTile> = ({
           selectedIndices.includes(index) && styles.selectedTile
         ]}>
         <Text style={styles.letter}>{item.letter.toUpperCase()}</Text>
+        <Text style={styles.number}>{item.value}</Text>
       </LinearGradient>
     </TouchableOpacity>
   );
 };
 
-export const NormalTile = React.memo(_NormalTile);
+export const NumberedTile = React.memo(_NumberedTile);
 
 const styles = StyleSheet.create({
   letterTile: {
@@ -64,5 +65,13 @@ const styles = StyleSheet.create({
     fontSize: diceTextSize,
     color: Colors.neutralDark,
     fontFamily: 'SourGummy_800ExtraBold'
+  },
+  number: {
+    fontSize: 10,
+    color: Colors.neutralDark,
+    fontFamily: 'SourGummy_800ExtraBold',
+    position: 'absolute',
+    right: 3,
+    bottom: 2
   }
 });
