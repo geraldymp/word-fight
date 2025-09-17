@@ -1,3 +1,6 @@
+// A function to generate random letters when starting the battle or when reshuffle.
+// Guarantee a certain amount of vowels generated
+
 const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
 const VOWELS = 'aeiou';
 
