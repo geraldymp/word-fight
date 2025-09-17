@@ -1,0 +1,30 @@
+import { ILetter } from 'app/types/ILetter';
+
+export const alphabets: ILetter[] = [
+  { letter: 'A', value: 1 },
+  { letter: 'B', value: 3 },
+  { letter: 'C', value: 3 },
+  { letter: 'D', value: 2 },
+  { letter: 'E', value: 1 },
+  { letter: 'F', value: 4 },
+  { letter: 'G', value: 2 },
+  { letter: 'H', value: 4 },
+  { letter: 'I', value: 1 },
+  { letter: 'J', value: 5 },
+  { letter: 'K', value: 5 },
+  { letter: 'L', value: 2 },
+  { letter: 'M', value: 3 },
+  { letter: 'N', value: 2 },
+  { letter: 'O', value: 1 },
+  { letter: 'P', value: 3 },
+  { letter: 'Q', value: 8 },
+  { letter: 'R', value: 2 },
+  { letter: 'S', value: 1 },
+  { letter: 'T', value: 2 },
+  { letter: 'U', value: 1 },
+  { letter: 'V', value: 4 },
+  { letter: 'W', value: 4 },
+  { letter: 'X', value: 5 },
+  { letter: 'Y', value: 4 },
+  { letter: 'Z', value: 6 }
+];
