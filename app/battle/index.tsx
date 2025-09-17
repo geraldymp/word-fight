@@ -7,8 +7,8 @@ import { SvgHeart, SvgMana, SvgSword } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import BottomHUD from 'app/components/BottomHUD';
+import { NormalTile } from 'app/components/LetterTile';
 import Colors from 'app/foundation/colors';
-import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
   Dimensions,
@@ -16,7 +16,6 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
-  TouchableOpacity,
   View
 } from 'react-native';
 import Animated from 'react-native-reanimated';
@@ -29,8 +28,6 @@ const diceSize = screenHeight / 20;
 const diceTextSize = (diceSize * 3) / 6;
 
 const bottomIconSize = screenWidth / 12;
-
-const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const; // light gold gradient for buttons
 
 export default function BattleScreen() {
   const { actions, states } = UseBattle();
@@ -195,23 +192,12 @@ export default function BattleScreen() {
           keyExtractor={(_, i) => i.toString()}
           numColumns={6}
           renderItem={({ item, index }) => (
-            <TouchableOpacity
-              style={[
-                styles.letterTile,
-                { backgroundColor: Colors.neutralDark } // There is View inside to make shadowing effect
-              ]}
-              onPress={() => handleLetterPress(index)}
-              testID={`letter-${item}`}>
-              <LinearGradient
-                colors={BUTTON_GRADIENT}
-                style={[
-                  styles.letterTile,
-                  { bottom: 2 },
-                  selectedIndices.includes(index) && styles.selectedTile
-                ]}>
-                <Text style={styles.letter}>{item.toUpperCase()}</Text>
-              </LinearGradient>
-            </TouchableOpacity>
+            <NormalTile
+              item={item}
+              index={index}
+              handleLetterPress={handleLetterPress}
+              selectedIndices={selectedIndices}
+            />
           )}
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}
@@ -340,25 +326,6 @@ const styles = StyleSheet.create({
     paddingVertical: 4,
     borderWidth: 2,
     borderColor: Colors.borderBlue
-  },
-  letterTile: {
-    width: diceSize,
-    height: diceSize,
-    margin: 3,
-    backgroundColor: Colors.primary,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8
-  },
-  selectedTile: {
-    borderWidth: 3,
-    borderColor: Colors.borderBlue,
-    bottom: 0
-  },
-  letter: {
-    fontSize: diceTextSize,
-    color: Colors.neutralDark,
-    fontFamily: 'SourGummy_800ExtraBold'
   },
   bottomBarContainer: {
     width: '100%',
