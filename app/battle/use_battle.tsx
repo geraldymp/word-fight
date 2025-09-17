@@ -3,10 +3,10 @@ import { useIsFocused } from '@react-navigation/native';
 import { useGameStore } from '@store/useGameStore';
 import { useMusicStore } from '@store/useMusicStore';
 import { useSfxStore } from '@store/useSFXStore';
-import { calculateBaseLetterDamage } from '@utils/calculateDamage';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
+import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
 import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
@@ -75,8 +75,8 @@ export default function UseBattle() {
   const enemyOpacity = useSharedValue(1);
 
   const [enemyMaxHp, setEnemyMaxHP] = useState(0);
-  const [letters, setLetters] = useState<string[]>([]);
-  const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
+  const [letters, setLetters] = useState<ILetter[]>([]); // Letters in word builder
+  const [selectedIndices, setSelectedIndices] = useState<number[]>([]); // Indexes of selected letters
   const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
   const [showGameOverModal, setShowGameOverModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
@@ -118,7 +118,7 @@ export default function UseBattle() {
     setLetters(shuffled);
   };
 
-  const currentWord = selectedIndices.map(i => letters[i]).join('');
+  const currentWord = selectedIndices.map(i => letters[i].letter).join('');
 
   const handleLetterPress = (index: number) => {
     if (!selectedIndices.includes(index)) {
@@ -162,22 +162,29 @@ export default function UseBattle() {
   );
 
   const handleSubmit = () => {
-    if (isValidWord(currentWord) && currentWord.length > 3) {
-      const damage =
-        calculateBaseLetterDamage(currentWord) +
-        getBonusDamageFromLength(currentWord);
+    if (isValidWord(currentWord) && currentWord.length >= 3) {
+      const baseDamage = selectedIndices.reduce(
+        (sum, i) => sum + letters[i].value,
+        0
+      );
+      const lengthDamage = getBonusDamageFromLength(currentWord);
       const dmgModifier = getDamageModifier(currentWord, damageModifier);
+
+      const nonModifiedDamage = baseDamage + lengthDamage;
+      const totalDamage = baseDamage + lengthDamage + dmgModifier;
       setDamageEvents(prev => [
         ...prev,
-        { id: Date.now(), amount: damage + dmgModifier, type: 'enemy' }
+        { id: Date.now(), amount: totalDamage, type: 'enemy' }
       ]);
 
-      reduceEnemyHP(damage + dmgModifier);
+      reduceEnemyHP(totalDamage);
       playSfx('enemyHit');
       triggerQuickShake(enemyShakeAnim);
 
       // Submit highscore to supabase if in top 20
-      setHiScore(currentWord, damage);
+      setHiScore(currentWord, nonModifiedDamage);
+      // Update submitted word to statistic
+      setWordsStatistic(currentWord, nonModifiedDamage);
 
       // Replace used letters
       const newLetters = generateSomeLettersWithVowels(
@@ -186,11 +193,9 @@ export default function UseBattle() {
       );
       setLetters(newLetters);
 
-      setWordsStatistic(currentWord, damage);
-
       enemyHitBack();
     } else {
-      if (currentWord.length <= 3) {
+      if (currentWord.length < 3) {
         setFeedback('short');
         triggerQuickShake(wrongWordShakeAnim);
       } else if (!isValidWord(currentWord)) {

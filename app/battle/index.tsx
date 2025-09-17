@@ -183,7 +183,7 @@ export default function BattleScreen() {
           <Text style={styles.invalid}>Invalid word</Text>
         )}
         {feedback === 'short' && (
-          <Text style={styles.invalid}>At least 4 letter</Text>
+          <Text style={styles.invalid}>At least 3 letters</Text>
         )}
 
         {/* Word Builder */}
