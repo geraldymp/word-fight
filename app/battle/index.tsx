@@ -123,10 +123,17 @@ export default function BattleScreen() {
           <View style={styles.enemyStatusWrapper}>
             <View style={styles.enemyStatusItemWrapper}>
               <SvgSword height={20} width={20} color={Colors.borderBlack} />
-              <Text
-                style={
-                  styles.enemyStatusText
-                }>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
+              {enemyMinDmg === enemyMaxDmg ? (
+                <Text
+                  style={
+                    styles.enemyStatusText
+                  }>{`${enemyMinDmg} Damage`}</Text>
+              ) : (
+                <Text
+                  style={
+                    styles.enemyStatusText
+                  }>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
+              )}
             </View>
             <View
               style={[
@@ -134,10 +141,17 @@ export default function BattleScreen() {
                 { justifyContent: 'flex-end' }
               ]}>
               <SvgMana height={20} width={20} color={Colors.primary} />
-              <Text
-                style={
-                  styles.enemyStatusText
-                }>{`${enemyMinManaBounty} - ${enemyMaxManaBounty} Mana bounty`}</Text>
+              {enemyMinManaBounty === enemyMaxManaBounty ? (
+                <Text
+                  style={
+                    styles.enemyStatusText
+                  }>{`${enemyMinManaBounty} Mana bounty`}</Text>
+              ) : (
+                <Text
+                  style={
+                    styles.enemyStatusText
+                  }>{`${enemyMinManaBounty} - ${enemyMaxManaBounty} Mana bounty`}</Text>
+              )}
             </View>
           </View>
         </View>
