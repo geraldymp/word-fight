@@ -1,4 +1,5 @@
 // app/leaderboard.tsx
+import Colors from 'app/foundation/colors';
 import { getHighscore } from 'app/lib/highscoreFunctions';
 import { useEffect, useState } from 'react';
 import {
@@ -14,6 +15,7 @@ interface HighScore {
   word: string;
   score: number;
   created_at: string;
+  submitted_by: string;
 }
 
 export default function LeaderboardScreen() {
@@ -34,7 +36,10 @@ export default function LeaderboardScreen() {
     <View style={styles.item}>
       <Text style={styles.rank}>{index + 1}.</Text>
       <View style={styles.wordAndScoreWrapper}>
-        <Text style={styles.word}>{item.word}</Text>
+        <View>
+          <Text style={styles.word}>{item.word}</Text>
+          <Text style={styles.submitBy}>By: {item.submitted_by}</Text>
+        </View>
         <Text style={styles.score}>{item.score}</Text>
       </View>
     </View>
@@ -100,6 +105,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     paddingHorizontal: 12,
+    alignItems: 'center',
     justifyContent: 'space-between'
   },
   word: {
@@ -109,9 +115,15 @@ const styles = StyleSheet.create({
     textTransform: 'uppercase',
     fontWeight: '600'
   },
+  submitBy: {
+    color: Colors.borderBlue,
+    fontSize: 10,
+    flex: 1,
+    fontWeight: 'light'
+  },
   score: {
     color: '#3eab5e',
-    fontSize: 18,
+    fontSize: 24,
     fontWeight: 'bold'
   },
   noData: {

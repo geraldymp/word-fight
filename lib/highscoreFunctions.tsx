@@ -1,3 +1,4 @@
+import { getUsername } from 'app/utils/usernameManager';
 import { supabase } from './supabase';
 
 export async function isHighscoreFilled() {
@@ -31,9 +32,10 @@ export async function getLowestHighscore() {
 }
 
 export async function submitHighscore(word: string, score: number) {
+  const username = await getUsername();
   const { error } = await supabase
     .from('high_scores')
-    .insert([{ word, score }]);
+    .insert([{ word, score, submitted_by: username }]);
 
   if (error) {
     console.error('Failed to insert new score:', error);

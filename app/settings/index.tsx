@@ -1,14 +1,82 @@
+import { ChangeNameModal } from 'app/components/ChangeNameModal';
 import { useMusicStore } from 'app/store/useMusicStore';
 import { useSfxStore } from 'app/store/useSFXStore';
-import React from 'react';
-import { ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
+import {
+  canChangeUsername,
+  getNextChangeDate,
+  getUsername,
+  setUsername as setUsernameStorage
+} from 'app/utils/usernameManager';
+import React, { useEffect, useState } from 'react';
+import {
+  Alert,
+  ScrollView,
+  StyleSheet,
+  Switch,
+  Text,
+  TouchableOpacity,
+  View
+} from 'react-native';
 
 const SettingsScreen = () => {
   const { muted: mutedSfx, setMuted: setMutedSfx } = useSfxStore();
   const { muted: mutedMusic, setMuted: setMutedMusic } = useMusicStore();
+
+  const [username, setUsername] = useState('');
+  const [visibleChangeNameModal, setVisibleChangeNameModal] = useState(false);
+
+  async function onPressChangeUsername() {
+    const allowed = await canChangeUsername();
+    if (allowed) {
+      setVisibleChangeNameModal(true);
+    } else {
+      const nextDate = await getNextChangeDate();
+      Alert.alert(
+        `Name changeable every 7 days`,
+        `You can change your name again on ${nextDate?.toLocaleDateString(
+          'en-GB',
+          {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric'
+          }
+        )}`
+      );
+    }
+  }
+
+  async function onConfirmChange(updatedName: string) {
+    setUsername(updatedName);
+    setVisibleChangeNameModal(false);
+    await setUsernameStorage(updatedName);
+  }
+
+  function onCloseModal() {
+    setVisibleChangeNameModal(false);
+  }
+
+  useEffect(() => {
+    (async () => {
+      const current = await getUsername();
+      setUsername(current);
+    })();
+  }, []);
+
   return (
     <ScrollView contentContainerStyle={styles.scrollContainer}>
       <Text style={styles.header}>Settings</Text>
+      <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Profile</Text>
+        <View style={styles.settingRow}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.settingText}>{username}</Text>
+            <Text style={styles.settingDesc}>Name for global highscore</Text>
+          </View>
+          <TouchableOpacity onPress={onPressChangeUsername}>
+            <Text style={{ color: 'white' }}>Change</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
       <View style={styles.card}>
         <Text style={styles.sectionTitle}>Audio</Text>
         <View style={styles.settingRow}>
@@ -36,6 +104,13 @@ const SettingsScreen = () => {
           />
         </View>
       </View>
+      <ChangeNameModal
+        visible={visibleChangeNameModal}
+        onConfirm={onConfirmChange}
+        title="Input user name"
+        confirmationText="OK"
+        onClose={onCloseModal}
+      />
     </ScrollView>
   );
 };
