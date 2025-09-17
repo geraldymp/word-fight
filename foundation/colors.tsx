@@ -7,6 +7,7 @@ const Colors = {
   danger: '#E63946', // Crimson Red - enemy HP, damage
   warning: '#F4C542', // Gold (same as primary, for warning)
   calm: 'violet',
+  disabled: '#eeeae0aa',
 
   neutralLight: '#F7E7C6', // Parchment Beige - backgrounds, soft UI
   neutralDark: '#2E2E2E', // Charcoal Gray - borders, outlines, text shadows
