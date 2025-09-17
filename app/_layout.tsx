@@ -10,7 +10,6 @@ import {
   SourGummy_400Regular,
   SourGummy_800ExtraBold
 } from '@expo-google-fonts/sour-gummy';
-import { useSettingsStore } from 'app/store/useSettingStore';
 import { MusicPlayer } from 'app/utils/musicPlayer';
 import { SfxPlayer } from 'app/utils/sfxPlayer';
 import { Stack } from 'expo-router';
@@ -32,17 +31,11 @@ export default function Layout() {
     SourGummy_800ExtraBold
   });
 
-  const { loadSettings } = useSettingsStore();
-
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
-
-  useEffect(() => {
-    loadSettings();
-  }, []);
 
   // initiate ads
   useEffect(() => {
