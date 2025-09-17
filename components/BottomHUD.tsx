@@ -1,10 +1,10 @@
 import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
 import { SvgHeart, SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useMemo } from 'react';
 import {
-  Dimensions,
   StyleProp,
   StyleSheet,
   Text,
@@ -22,12 +22,11 @@ const BUTTON_GRADIENT_SECONDARY_DISABLED = [
   'rgba(127, 133, 150, 1)'
 ] as const;
 
-const screenWidth = Dimensions.get('window').width;
-const IMAGE_SIZE = screenWidth / 7.5;
-const STROKE_WIDTH = IMAGE_SIZE / 7.5;
+const IMAGE_SIZE = scale(50);
+const STROKE_WIDTH = IMAGE_SIZE * 0.12;
 const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
 const CIRCUM = 2 * Math.PI * RADIUS;
-const ACTION_ICON_SIZE = IMAGE_SIZE / 3.5;
+const ACTION_ICON_SIZE = IMAGE_SIZE * 0.28;
 
 interface IBottomHUD {
   characterImage: any;
@@ -112,7 +111,12 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
 
       <View style={stylesBtm.playerHpWrapper}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <SvgHeart color="red" stroke="black" height={36} width={36} />
+          <SvgHeart
+            color="red"
+            stroke="black"
+            height={scale(36)}
+            width={scale(36)}
+          />
           <Text style={stylesBtm.playerHPText}>{playerHP}</Text>
         </View>
       </View>
@@ -120,7 +124,11 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
       <View style={stylesBtm.sectionWrapper}>
         <View style={stylesBtm.manaWrapper}>
           <Text style={stylesBtm.manaText}>{mana}</Text>
-          <SvgMana height={20} width={20} color={Colors.primary} />
+          <SvgMana
+            height={scale(20)}
+            width={scale(20)}
+            color={Colors.primary}
+          />
         </View>
         <View style={stylesBtm.buttonsWrapper}>
           {/* Reshuffle button */}
@@ -184,7 +192,7 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
             <LinearGradient
               colors={BUTTON_GRADIENT}
               style={[stylesBtm.playButtonWrapper, { bottom: 4 }]}>
-              <IcFight width={24} height={24} />
+              <IcFight width={scale(20)} height={scale(20)} />
             </LinearGradient>
           </TouchableOpacity>
         </View>
@@ -197,10 +205,10 @@ const stylesBtm = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingVertical: 4,
-    borderTopLeftRadius: 18,
-    borderTopRightRadius: 18,
+    paddingHorizontal: scale(16),
+    paddingVertical: verticalScale(4),
+    borderTopLeftRadius: moderateScale(18),
+    borderTopRightRadius: moderateScale(18),
     shadowColor: Colors.neutralDark,
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.12,
@@ -213,7 +221,7 @@ const stylesBtm = StyleSheet.create({
   },
   playerHPText: {
     color: Colors.textWhite,
-    fontSize: 17,
+    fontSize: moderateScale(17),
     fontFamily: 'SourGummy_800ExtraBold',
     position: 'absolute'
   },
@@ -225,13 +233,13 @@ const stylesBtm = StyleSheet.create({
   manaWrapper: {
     flexDirection: 'row',
     backgroundColor: Colors.neutralDark,
-    paddingVertical: 4,
-    paddingHorizontal: 9,
-    marginHorizontal: 10,
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(9),
+    marginHorizontal: scale(10),
     borderColor: Colors.borderBlack,
     borderWidth: 2,
-    borderRadius: 4,
-    gap: 4
+    borderRadius: moderateScale(4),
+    gap: scale(4)
   },
   manaText: {
     color: Colors.neutralLight,
@@ -247,10 +255,10 @@ const stylesBtm = StyleSheet.create({
     marginRight: 4
   },
   reshuffleDot: {
-    width: 7,
-    height: 7,
-    borderRadius: 4,
-    marginVertical: 0.8,
+    width: scale(7),
+    height: scale(7),
+    borderRadius: scale(4),
+    marginVertical: verticalScale(0.8),
     backgroundColor: Colors.neutralDark,
     borderWidth: 1,
     borderColor: Colors.borderBlack,
@@ -281,14 +289,14 @@ const stylesBtm = StyleSheet.create({
   },
   playButtonWrapper: {
     backgroundColor: Colors.primary,
-    height: 30,
-    width: 70,
+    height: verticalScale(30),
+    width: scale(70),
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: moderateScale(10),
     borderColor: Colors.borderBlack,
     borderWidth: 0.5,
-    marginTop: 2
+    marginTop: verticalScale(2)
   },
   buttonParent3DEffect: {
     backgroundColor: Colors.neutralDark
