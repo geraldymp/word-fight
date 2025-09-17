@@ -236,8 +236,8 @@ export default function UseBattle() {
     setEnemyHP(baseHp);
     setEnemyMaxHP(baseHp);
     setEnemyView({ name, image });
-    // Give 1 reshuffle at Stage 1
-    if (reshuffle < maxReshuffle && stage === 1) {
+    // Give 1 reshuffle at Stage 1 and not Magic Hut
+    if (reshuffle < maxReshuffle && stage === 1 && step % 2 !== 0) {
       setReshuffle(reshuffle + 1);
     }
   }, [stage, step]);
