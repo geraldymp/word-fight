@@ -7,24 +7,26 @@
 
 // TODO: update to proper one
 
-const ALPHABET = 'abcdefghijklmnopqrstuvwxyz';
-const VOWELS = 'aeiou';
+import { alphabets, vowels } from 'app/constants/lettersAndValues';
+import { ILetter } from 'app/types/ILetter';
+
+function getRandomAlphabet(): ILetter {
+  return alphabets[Math.floor(Math.random() * alphabets.length)];
+}
+
+function getRandomVowel(): ILetter {
+  return vowels[Math.floor(Math.random() * vowels.length)];
+}
+
 export function generateSomeLettersWithVowels(
-  letters: string[],
+  letters: ILetter[],
   selectedIndices: number[], // Array of used tiles
   vowelsNeeded: number = 1
-): string[] {
-  function getRandomAlphabet() {
-    return ALPHABET[Math.floor(Math.random() * ALPHABET.length)];
-  }
-
-  function getRandomVowel() {
-    return VOWELS[Math.floor(Math.random() * VOWELS.length)];
-  }
-
+): ILetter[] {
   let minimumVowels = vowelsNeeded;
   let newLetters = [...letters];
-  let replacements: string[] = [];
+  let replacements: ILetter[] = [];
+
   for (let i = 0; i < selectedIndices.length; i++) {
     if (minimumVowels > 0) {
       replacements.push(getRandomVowel());
