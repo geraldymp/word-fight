@@ -16,22 +16,49 @@ export default function ChooseAreaScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.titleText}>Choose your path</Text>
-      {choices.map(option => (
-        <TouchableOpacity
-          key={option.id}
-          style={styles.card}
-          onPress={() => onPress(option.id)}
-          testID={`select-area-btn-${option.id}`}>
-          <View style={styles.cardMiddleBorder}>
-            <ImageBackground style={styles.cardInner} source={option.image}>
-              <Text style={styles.optionName}>{option.name}</Text>
-              <View style={styles.descriptionWrapper}>
-                <Text style={styles.descriptionText}>{option.description}</Text>
+      {choices.length === 1 ? (
+        <View style={{ flex: 1, justifyContent: 'center' }}>
+          <TouchableOpacity
+            key={choices[0].id}
+            style={styles.cardOfSingleItem}
+            onPress={() => onPress(choices[0].id)}
+            testID={`select-area-btn-${choices[0].id}`}>
+            <View style={styles.cardMiddleBorder}>
+              <ImageBackground
+                style={styles.cardInner}
+                source={choices[0].image}>
+                <Text style={styles.optionName}>{choices[0].name}</Text>
+                <View style={styles.descriptionWrapper}>
+                  <Text style={styles.descriptionText}>
+                    {choices[0].description}
+                  </Text>
+                </View>
+              </ImageBackground>
+            </View>
+          </TouchableOpacity>
+        </View>
+      ) : (
+        <>
+          {choices.map(option => (
+            <TouchableOpacity
+              key={option.id}
+              style={styles.card}
+              onPress={() => onPress(option.id)}
+              testID={`select-area-btn-${option.id}`}>
+              <View style={styles.cardMiddleBorder}>
+                <ImageBackground style={styles.cardInner} source={option.image}>
+                  <Text style={styles.optionName}>{option.name}</Text>
+                  <View style={styles.descriptionWrapper}>
+                    <Text style={styles.descriptionText}>
+                      {option.description}
+                    </Text>
+                  </View>
+                </ImageBackground>
               </View>
-            </ImageBackground>
-          </View>
-        </TouchableOpacity>
-      ))}
+            </TouchableOpacity>
+          ))}
+        </>
+      )}
     </View>
   );
 }
@@ -49,6 +76,15 @@ const styles = StyleSheet.create({
     marginVertical: 16,
     fontFamily: 'Candal_400Regular',
     textTransform: 'uppercase'
+  },
+  cardOfSingleItem: {
+    height: '50%',
+    backgroundColor: '#2d2d44',
+    marginBottom: 16,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: '#555',
+    overflow: 'hidden'
   },
   card: {
     flex: 1,
