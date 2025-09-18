@@ -4,6 +4,7 @@ import { getRandomInt } from '@utils/getRandomInt';
 import { getLowestHighscore } from 'app/lib/highscoreFunctions';
 import { useAdStore } from 'app/store/useAdStore';
 import { useHighscoreStore } from 'app/store/useHighscoreStore';
+import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Animated } from 'react-native';
@@ -16,8 +17,6 @@ export default function UseLoading() {
     state => state.magicHutPotion.resetPotionUsed
   );
   const fadeAnim = useRef(new Animated.Value(0)).current;
-  const getRandomText = (arr: string[]) =>
-    arr[Math.floor(Math.random() * arr.length)];
 
   const randomizedTime = getRandomInt(1500, 4000);
 
