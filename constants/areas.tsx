@@ -9,7 +9,7 @@ export const areas: IArea[] = [
         id: 'forest',
         name: 'Forest',
         image: require('@assets/areas/forest.jpg'),
-        battleBackground: require('@assets/backgrounds/forest.png'),
+        battleBackground: require('@assets/backgrounds/forest.jpg'),
         description:
           'A place where magic happened. Most of magician will fleed here to deepen their magic.'
       },
@@ -17,7 +17,7 @@ export const areas: IArea[] = [
         id: 'goblin_camp',
         name: 'Goblin Camp',
         image: require('@assets/areas/goblin_camp.jpg'),
-        battleBackground: require('@assets/backgrounds/forest.png'),
+        battleBackground: require('@assets/backgrounds/forest.jpg'),
         description:
           'Dangerous place, yet some people still gone to test their own strength'
       }
@@ -52,14 +52,14 @@ export const areas: IArea[] = [
         id: 'witch_swamp',
         name: 'Witch Swamp',
         image: require('@assets/areas/witch_swamp.jpg'),
-        battleBackground: require('@assets/backgrounds/graveyard.png'),
+        battleBackground: require('@assets/backgrounds/witch_swamp.jpg'),
         description: 'A place where a weirdest creatures belong to'
       },
       {
         id: 'graveyard',
         name: 'Graveyard',
         image: require('@assets/areas/graveyard.jpg'),
-        battleBackground: require('@assets/backgrounds/graveyard.png'),
+        battleBackground: require('@assets/backgrounds/graveyard.jpg'),
         description:
           'They said `Silent as a grave`, yet this one full of lively creatures!'
       }
@@ -94,7 +94,7 @@ export const areas: IArea[] = [
         id: 'futuristic_city',
         name: 'Futuristic City',
         image: require('@assets/areas/futuristic_city.jpg'),
-        battleBackground: require('@assets/backgrounds/futuristic_city.png'),
+        battleBackground: require('@assets/backgrounds/futuristic_city.jpg'),
         description:
           'Robots with the best mechanical weapons are gathering here'
       },
@@ -102,7 +102,7 @@ export const areas: IArea[] = [
         id: 'ancient_kingdom',
         name: 'Ancient Kingdom',
         image: require('@assets/areas/ancient_kingdom.jpg'),
-        battleBackground: require('@assets/backgrounds/futuristic_city.png'),
+        battleBackground: require('@assets/backgrounds/futuristic_city.jpg'),
         description:
           'Old place that should have been a ruin, but a magical being revive it'
       }
@@ -136,7 +136,7 @@ export const areas: IArea[] = [
         id: 'boss',
         name: 'Final Stage',
         image: require('../assets/areas/boss.jpg'),
-        battleBackground: require('@assets/backgrounds/graveyard.png'),
+        battleBackground: require('@assets/backgrounds/graveyard.jpg'),
         description: 'Finally, my journey will come to an end...'
       }
     ]

@@ -1,4 +1,4 @@
-import { SvgBubbleChat, SvgMana } from 'app/assets/icons/svgs';
+import { SvgMana } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
@@ -26,8 +26,6 @@ const TOP_AREA_FLEX = 1;
 const BOTTOM_AREA_FLEX = 2;
 
 const MAGE_SIZE = screenWidth * 0.55;
-const BUBBLE_CHAT_WIDTH = screenWidth * 0.5;
-const BUBBLE_CHAT_HEIGHT = screenHeight * 0.15;
 
 const CARD_AREA_HEIGHT = screenHeight * 0.65;
 const CARD_AREA_PADDING_VERTICAL = screenHeight / 30;
@@ -77,25 +75,23 @@ export default function MagicHutScreen() {
           <Text style={styles.titleText}>Magic Hut</Text>
         </View>
         <ImageBackground
-          source={require('@assets/backgrounds/half_bg.png')}
+          source={require('@assets/backgrounds/half_bg.jpg')}
           resizeMode="stretch"
           style={{ flex: 1 }}>
+          {/* Magician */}
           <Image
             source={require('@assets/icons/shop/magician.png')}
             style={styles.mageImage}
             resizeMode="cover"
           />
+          {/* Bubble Chat */}
           <View style={styles.bubbleChatWrapper}>
-            <SvgBubbleChat
-              height={BUBBLE_CHAT_HEIGHT}
-              width={BUBBLE_CHAT_WIDTH}
-              color={Colors.neutralDark}
-              preserveAspectRatio="none"
-            />
-            <Text style={styles.bubbleChatText}>
-              Let see how much magic you have gathered
-            </Text>
+            <View style={styles.bubble}>
+              <Text style={styles.bubbleText}>{states.magicianText}</Text>
+              <View style={styles.bubbleTail} />
+            </View>
           </View>
+
           <View style={styles.manaAndAdWrapper}>
             {states.visibleAdPotion && (
               <TouchableOpacity onPress={actions.onPressAdButton}>
@@ -145,7 +141,7 @@ export default function MagicHutScreen() {
       </ImageBackground>
       <DialogModal
         visible={states.visibleAdConfirmationModal}
-        title="Watch AD to restore 20 HP?"
+        title="Watch AD to restore 10 HP?"
         cancelationText="No"
         confirmationText="Yes"
         onCancel={actions.onCancelToWatchAd}
@@ -153,7 +149,7 @@ export default function MagicHutScreen() {
       />
       <SingleModal
         visible={states.visibleAdDoneModal}
-        title="Your HP restored by 20"
+        title="Your HP restored by 10"
         onConfirm={actions.onCloseAdDoneModal}
         confirmationText="OK"
       />
@@ -201,12 +197,33 @@ const styles = StyleSheet.create({
   bubbleChatWrapper: {
     position: 'absolute',
     right: 16,
-    top: MAGE_SIZE / 3.5
+    top: MAGE_SIZE / 2.5,
+    maxWidth: screenWidth * 0.5
   },
-  bubbleChatText: {
-    position: 'absolute',
-    padding: 20,
+  bubble: {
+    backgroundColor: Colors.neutralLight,
+    borderRadius: 16,
+    padding: 12,
+    borderWidth: 2,
+    borderColor: Colors.neutralDark
+  },
+  bubbleText: {
+    fontSize: 16,
+    color: Colors.neutralDark,
     textAlign: 'center'
+  },
+  bubbleTail: {
+    position: 'absolute',
+    top: 30,
+    left: -9.5,
+    width: 0,
+    height: 0,
+    borderLeftWidth: 10,
+    borderLeftColor: 'transparent',
+    borderRightWidth: 10,
+    borderRightColor: 'transparent',
+    borderBottomWidth: 10,
+    borderBottomColor: Colors.neutralLight
   },
   manaAndAdWrapper: {
     position: 'absolute',

@@ -1,7 +1,9 @@
+import { HutDialog } from 'app/constants/hut_dialog';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
 import { useAdStore } from 'app/store/useAdStore';
 import { useGameStore } from 'app/store/useGameStore';
 import { IBooster } from 'app/types/IBooster';
+import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, BackHandler } from 'react-native';
@@ -19,6 +21,7 @@ export default function UseMagicHut() {
     magicHutPotion: { potionLimit, currentPotionUsed, increasePotionUsed }
   } = useAdStore();
 
+  const [magicianText, setMagicianText] = useState('');
   const [isLoaded, setLoaded] = useState(false);
   const [visibleAdPotion, setVisibleAdPotion] = useState(true);
   const [visibleAdConfirmationModal, setVisibleAdConfirmationModal] =
@@ -137,6 +140,10 @@ export default function UseMagicHut() {
     return () => backHandler.remove();
   }, [router]);
 
+  useEffect(() => {
+    setMagicianText(getRandomText(HutDialog));
+  }, []);
+
   const handleSelect = (booster?: IBooster) => {
     if (booster !== undefined) {
       // apply booster effect and decrease mana
@@ -157,6 +164,7 @@ export default function UseMagicHut() {
       onCloseAdDoneModal
     },
     states: {
+      magicianText,
       mana,
       visibleAdPotion,
       visibleAdConfirmationModal,
