@@ -3,6 +3,7 @@ import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
 import { SingleModal } from 'app/components/SingleModal';
+import { KeyValues } from 'app/constants/key_values';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
@@ -16,6 +17,8 @@ import {
   View
 } from 'react-native';
 import UseMagicHut from './use_magic_hut';
+
+const { ad } = KeyValues;
 
 const TOP_AREA_FLEX = 1;
 const BOTTOM_AREA_FLEX = 2;
@@ -108,7 +111,7 @@ export default function MagicHutScreen() {
       </ImageBackground>
       <DialogModal
         visible={states.visibleAdConfirmationModal}
-        title="Watch AD to restore 10 HP?"
+        title={`Watch AD to restore ${ad.restore_hp} HP ?`}
         cancelationText="No"
         confirmationText="Yes"
         onCancel={actions.onCancelToWatchAd}
@@ -116,7 +119,7 @@ export default function MagicHutScreen() {
       />
       <SingleModal
         visible={states.visibleAdDoneModal}
-        title="Your HP restored by 10"
+        title={`Your HP restored by ${ad.restore_hp}`}
         onConfirm={actions.onCloseAdDoneModal}
         confirmationText="OK"
       />

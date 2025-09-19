@@ -21,5 +21,8 @@ export const KeyValues = {
     book_of_working: 25,
     scroll_of_saint: 4,
     book_of_saint: 10
+  },
+  ad: {
+    restore_hp: 10
   }
 };

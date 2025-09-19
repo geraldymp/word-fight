@@ -1,5 +1,6 @@
 import { boosters } from 'app/constants/boosters';
 import { HutDialog } from 'app/constants/hut_dialog';
+import { KeyValues } from 'app/constants/key_values';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
 import { useAdStore } from 'app/store/useAdStore';
 import { useGameStore } from 'app/store/useGameStore';
@@ -18,6 +19,8 @@ function getRandomPowerups(list: IBooster[], amount: number = 4) {
   const shuffled = [...list].sort(() => 0.5 - Math.random());
   return shuffled.slice(0, amount);
 }
+
+const { ad } = KeyValues;
 
 export default function UseMagicHut() {
   const router = useRouter();
@@ -100,7 +103,7 @@ export default function UseMagicHut() {
       RewardedAdEventType.EARNED_REWARD,
       () => {
         try {
-          increasePlayerHP(10);
+          increasePlayerHP(ad.restore_hp);
           setVisibleAdPotion(false);
           increasePotionUsed();
           setVisibleAdDoneModal(true);
