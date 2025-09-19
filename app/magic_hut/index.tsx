@@ -3,10 +3,8 @@ import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
 import { SingleModal } from 'app/components/SingleModal';
-import { boosters } from 'app/constants/boosters';
 import Colors from 'app/foundation/colors';
-import { IBooster } from 'app/types/IBooster';
-import React, { useMemo, useState } from 'react';
+import React from 'react';
 import {
   Dimensions,
   FlatList,
@@ -32,40 +30,8 @@ const CARD_AREA_PADDING_VERTICAL = screenHeight / 30;
 const CARD_WIDTH = screenWidth / 2 - 30;
 const CARD_HEIGHT = CARD_AREA_HEIGHT / 2 - CARD_AREA_PADDING_VERTICAL * 2;
 
-function getRandomPowerups(list: IBooster[], amount: number = 4) {
-  const shuffled = [...list].sort(() => 0.5 - Math.random());
-  return shuffled.slice(0, amount);
-}
-
 export default function MagicHutScreen() {
-  const [selectedItem, setSelectedItem] = useState<IBooster>();
-
   const { actions, states } = UseMagicHut();
-  const { handleSelect } = actions;
-
-  function onClickItem(item: IBooster) {
-    if (item.id === selectedItem?.id) {
-      setSelectedItem(undefined);
-    } else {
-      setSelectedItem(item);
-    }
-  }
-
-  function onConfirmShopping() {
-    handleSelect(selectedItem);
-  }
-
-  const randomPowerups = useMemo(() => {
-    return getRandomPowerups(boosters);
-  }, []);
-
-  const confirmButtonTitle = useMemo(() => {
-    if (selectedItem === undefined) {
-      return 'Skip Ahead';
-    } else {
-      return 'Buy & Resume';
-    }
-  }, [selectedItem]);
 
   return (
     <View style={styles.container}>
@@ -113,13 +79,13 @@ export default function MagicHutScreen() {
         resizeMode="cover"
         style={styles.bottomWrapper}>
         <FlatList
-          data={randomPowerups}
+          data={states.randomPowerups}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <BoosterCard
               item={item}
-              onPress={onClickItem}
-              selected={selectedItem === item}
+              onPress={actions.onClickItem}
+              selected={states.selectedItem === item}
               cardHeight={CARD_HEIGHT}
               cardWidth={CARD_WIDTH}
               disabled={item.price > states.mana}
@@ -132,10 +98,10 @@ export default function MagicHutScreen() {
           scrollEnabled={false}
         />
         <RoundedRectButton
-          onPress={onConfirmShopping}
+          onPress={actions.onConfirmShopping}
           type="tertiary"
           size="md"
-          title={confirmButtonTitle}
+          title={states.confirmButtonTitle}
           customStyle={{ marginBottom: 8 }}
         />
       </ImageBackground>

@@ -1,3 +1,4 @@
+import { boosters } from 'app/constants/boosters';
 import { HutDialog } from 'app/constants/hut_dialog';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
 import { useAdStore } from 'app/store/useAdStore';
@@ -5,13 +6,18 @@ import { useGameStore } from 'app/store/useGameStore';
 import { IBooster } from 'app/types/IBooster';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, BackHandler } from 'react-native';
 import {
   AdEventType,
   RewardedAd,
   RewardedAdEventType
 } from 'react-native-google-mobile-ads';
+
+function getRandomPowerups(list: IBooster[], amount: number = 4) {
+  const shuffled = [...list].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, amount);
+}
 
 export default function UseMagicHut() {
   const router = useRouter();
@@ -22,6 +28,8 @@ export default function UseMagicHut() {
   } = useAdStore();
 
   const [magicianText, setMagicianText] = useState('');
+
+  const [selectedItem, setSelectedItem] = useState<IBooster>();
   const [isLoaded, setLoaded] = useState(false);
   const [visibleAdPotion, setVisibleAdPotion] = useState(true);
   const [visibleAdConfirmationModal, setVisibleAdConfirmationModal] =
@@ -155,20 +163,49 @@ export default function UseMagicHut() {
     router.replace('/choose_area');
   };
 
+  function onClickItem(item: IBooster) {
+    if (item.id === selectedItem?.id) {
+      setSelectedItem(undefined);
+    } else {
+      setSelectedItem(item);
+    }
+  }
+
+  function onConfirmShopping() {
+    handleSelect(selectedItem);
+  }
+
+  const randomPowerups = useMemo(() => {
+    return getRandomPowerups(boosters);
+  }, []);
+
+  const confirmButtonTitle = useMemo(() => {
+    if (selectedItem === undefined) {
+      return 'Skip Ahead';
+    } else {
+      return 'Buy & Resume';
+    }
+  }, [selectedItem]);
+
   return {
     actions: {
       handleSelect,
       onPressAdButton,
       onConfirmToWatchAd,
       onCancelToWatchAd,
-      onCloseAdDoneModal
+      onCloseAdDoneModal,
+      onClickItem,
+      onConfirmShopping
     },
     states: {
       magicianText,
       mana,
       visibleAdPotion,
       visibleAdConfirmationModal,
-      visibleAdDoneModal
+      visibleAdDoneModal,
+      randomPowerups,
+      selectedItem,
+      confirmButtonTitle
     }
   };
 }
