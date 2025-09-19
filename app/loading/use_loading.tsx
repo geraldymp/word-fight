@@ -4,6 +4,7 @@ import { getRandomInt } from '@utils/getRandomInt';
 import { getLowestHighscore } from 'app/lib/highscoreFunctions';
 import { useAdStore } from 'app/store/useAdStore';
 import { useHighscoreStore } from 'app/store/useHighscoreStore';
+import { useMagicHutStore } from 'app/store/useMagicHutStore';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
@@ -16,6 +17,10 @@ export default function UseLoading() {
   const resetPotionUsed = useAdStore(
     state => state.magicHutPotion.resetPotionUsed
   );
+  const resetPurchasedItems = useMagicHutStore(
+    state => state.resetPurchasedItems
+  );
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const randomizedTime = getRandomInt(1500, 4000);
@@ -53,6 +58,7 @@ export default function UseLoading() {
     const timeout = setTimeout(() => {
       resetGame();
       resetPotionUsed();
+      resetPurchasedItems();
       router.replace('/choose_area'); // Replace with your actual game screen route
     }, randomizedTime);
 

@@ -4,6 +4,7 @@ import { KeyValues } from 'app/constants/key_values';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
 import { useAdStore } from 'app/store/useAdStore';
 import { useGameStore } from 'app/store/useGameStore';
+import { useMagicHutStore } from 'app/store/useMagicHutStore';
 import { IBooster } from 'app/types/IBooster';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
@@ -29,6 +30,7 @@ export default function UseMagicHut() {
   const {
     magicHutPotion: { potionLimit, currentPotionUsed, increasePotionUsed }
   } = useAdStore();
+  const { purchasedItemIds, addPurchasedItemId } = useMagicHutStore();
 
   const [magicianText, setMagicianText] = useState('');
 
@@ -155,11 +157,12 @@ export default function UseMagicHut() {
     setMagicianText(getRandomText(HutDialog));
   }, []);
 
-  const handleSelect = (booster?: IBooster) => {
-    if (booster !== undefined) {
+  const onConfirmShopping = () => {
+    if (selectedItem !== undefined) {
       // apply booster effect and decrease mana
-      booster.action(useGameStore.getState());
-      decreaseMana(booster.price);
+      selectedItem.action(useGameStore.getState());
+      addPurchasedItemId(selectedItem.id);
+      decreaseMana(selectedItem.price);
     }
 
     increaseStep();
@@ -174,12 +177,11 @@ export default function UseMagicHut() {
     }
   }
 
-  function onConfirmShopping() {
-    handleSelect(selectedItem);
-  }
-
   const randomPowerups = useMemo(() => {
-    return getRandomPowerups(boosters);
+    const filteredBooster = boosters.filter(
+      booster => !purchasedItemIds.includes(booster.id)
+    );
+    return getRandomPowerups(filteredBooster);
   }, []);
 
   const confirmButtonTitle = useMemo(() => {
@@ -192,7 +194,6 @@ export default function UseMagicHut() {
 
   return {
     actions: {
-      handleSelect,
       onPressAdButton,
       onConfirmToWatchAd,
       onCancelToWatchAd,
