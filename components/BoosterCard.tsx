@@ -1,6 +1,7 @@
 import { SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { IBooster } from 'app/types/IBooster';
+import { scale, verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -26,7 +27,7 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
   disabled
 }) => {
   const iconHeight = (cardHeight * 40) / 100;
-  const iconWidth = (cardWidth * 75) / 100;
+  const iconWidth = (cardWidth * 50) / 100;
   const iconSize = { height: iconHeight, width: iconWidth };
   const cardSize = { height: cardHeight, width: cardWidth };
 
@@ -54,7 +55,7 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
           <Image
             source={item.image}
             style={[styles.icon, iconSize]}
-            resizeMode="contain"
+            resizeMode="cover"
           />
           <Text style={styles.desc}>{item.description}</Text>
           <View
@@ -62,7 +63,11 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
               disabled ? styles.priceWrapperDisabled : styles.priceWrapper
             }>
             <Text style={styles.priceText}>{item.price}</Text>
-            <SvgMana height={20} width={20} color={Colors.primary} />
+            <SvgMana
+              height={scale(20)}
+              width={scale(20)}
+              color={Colors.primary}
+            />
           </View>
         </LinearGradient>
       </View>
@@ -76,12 +81,13 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     overflow: 'hidden',
     borderRadius: 16,
-    padding: 12,
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(12),
     alignItems: 'center',
     backgroundColor: Colors.secondaryBg50,
-    marginBottom: 6,
-    marginTop: 3,
-    marginHorizontal: 3
+    marginBottom: verticalScale(6),
+    marginTop: verticalScale(3),
+    marginHorizontal: scale(3)
   },
   selectedCardStyle: {
     borderColor: Colors.borderBlue,
@@ -92,9 +98,10 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     overflow: 'hidden',
     borderRadius: 16,
-    padding: 12,
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(12),
     alignItems: 'center',
-    bottom: 3,
+    bottom: verticalScale(3),
     position: 'absolute'
   },
   selectedGradStyle: {
@@ -111,37 +118,37 @@ const styles = StyleSheet.create({
     marginBottom: 8
   },
   name: {
-    fontSize: 14,
+    fontSize: scale(14),
     color: Colors.neutralDark,
     fontWeight: 'bold',
-    marginBottom: 4,
+    marginBottom: verticalScale(4),
     textAlign: 'center'
   },
   desc: {
     color: Colors.neutralDark,
-    fontSize: 10,
+    fontSize: scale(10),
     textAlign: 'center'
   },
   priceWrapper: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 12,
+    bottom: verticalScale(12),
     alignItems: 'center'
   },
   priceWrapperDisabled: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 12,
+    bottom: verticalScale(12),
     alignItems: 'center',
     borderColor: 'red',
     borderWidth: 1,
-    paddingVertical: 2,
-    paddingHorizontal: 8,
+    paddingVertical: verticalScale(2),
+    paddingHorizontal: scale(8),
     borderRadius: 6
   },
   priceText: {
     color: Colors.neutralDark,
-    fontSize: 12,
+    fontSize: scale(12),
     textAlign: 'center',
     fontFamily: 'ArchitectsDaughter_400Regular'
   }

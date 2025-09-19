@@ -4,9 +4,9 @@ import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
 import { SingleModal } from 'app/components/SingleModal';
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import {
-  Dimensions,
   FlatList,
   Image,
   ImageBackground,
@@ -17,18 +17,15 @@ import {
 } from 'react-native';
 import UseMagicHut from './use_magic_hut';
 
-const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
-
 const TOP_AREA_FLEX = 1;
 const BOTTOM_AREA_FLEX = 2;
 
-const MAGE_SIZE = screenWidth * 0.55;
+// Mage size relative to width
+const MAGE_SIZE = scale(220);
 
-const CARD_AREA_HEIGHT = screenHeight * 0.65;
-const CARD_AREA_PADDING_VERTICAL = screenHeight / 30;
-const CARD_WIDTH = screenWidth / 2 - 30;
-const CARD_HEIGHT = CARD_AREA_HEIGHT / 2 - CARD_AREA_PADDING_VERTICAL * 2;
+// Card area is still flexed, so only card size is scaled
+const CARD_WIDTH = scale(150);
+const CARD_HEIGHT = verticalScale(200);
 
 export default function MagicHutScreen() {
   const { actions, states } = UseMagicHut();
@@ -69,7 +66,11 @@ export default function MagicHutScreen() {
             )}
             <View style={styles.manaWrapper}>
               <Text style={styles.manaText}>{states.mana}</Text>
-              <SvgMana height={20} width={20} color={Colors.primary} />
+              <SvgMana
+                height={moderateScale(20)}
+                width={moderateScale(20)}
+                color={Colors.primary}
+              />
             </View>
           </View>
         </ImageBackground>
@@ -102,7 +103,7 @@ export default function MagicHutScreen() {
           type="tertiary"
           size="md"
           title={states.confirmButtonTitle}
-          customStyle={{ marginBottom: 8 }}
+          customStyle={{ marginBottom: verticalScale(8) }}
         />
       </ImageBackground>
       <DialogModal
@@ -133,89 +134,90 @@ const styles = StyleSheet.create({
   },
   titleWrapper: {
     position: 'absolute',
-    top: 16,
+    top: verticalScale(16),
     backgroundColor: Colors.secondaryBg70,
     borderColor: Colors.borderBlack,
-    borderWidth: 0.5,
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-    borderRadius: 12,
+    borderWidth: StyleSheet.hairlineWidth,
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(6),
+    borderRadius: moderateScale(12),
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     zIndex: 2
   },
   titleText: {
-    fontSize: 20,
+    fontSize: moderateScale(20),
     color: Colors.textWhite,
     textAlign: 'center',
     textShadowColor: Colors.primary,
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 10,
+    textShadowRadius: scale(10),
     fontFamily: 'ArchitectsDaughter_400Regular'
   },
   mageImage: {
     height: MAGE_SIZE,
     width: MAGE_SIZE,
     position: 'absolute',
-    bottom: -20
+    bottom: verticalScale(-20)
   },
   bubbleChatWrapper: {
     position: 'absolute',
-    right: 16,
+    right: scale(16),
     top: MAGE_SIZE / 2.5,
-    maxWidth: screenWidth * 0.5
+    maxWidth: '50%'
   },
   bubble: {
     backgroundColor: Colors.neutralLight,
-    borderRadius: 16,
-    padding: 12,
+    borderRadius: moderateScale(16),
+    padding: moderateScale(12),
     borderWidth: 2,
     borderColor: Colors.neutralDark
   },
   bubbleText: {
-    fontSize: 16,
+    fontSize: moderateScale(14),
     color: Colors.neutralDark,
     textAlign: 'center'
   },
   bubbleTail: {
     position: 'absolute',
-    top: 30,
-    left: -9.5,
+    top: '50%',
+    left: scale(-9.5),
     width: 0,
     height: 0,
-    borderLeftWidth: 10,
+    borderLeftWidth: scale(10),
     borderLeftColor: 'transparent',
-    borderRightWidth: 10,
+    borderRightWidth: scale(10),
     borderRightColor: 'transparent',
-    borderBottomWidth: 10,
+    borderBottomWidth: verticalScale(10),
     borderBottomColor: Colors.neutralLight
   },
   manaAndAdWrapper: {
     position: 'absolute',
-    bottom: 4,
-    right: 24,
+    bottom: verticalScale(4),
+    right: scale(24),
     flexDirection: 'row',
-    gap: 6
+    gap: scale(6)
   },
   adPotionWrapper: {
-    height: 40,
-    width: 40,
-    borderRadius: 8,
+    height: moderateScale(40),
+    width: moderateScale(40),
+    borderRadius: moderateScale(8),
     backgroundColor: Colors.secondary
   },
   manaWrapper: {
-    height: 40,
+    height: moderateScale(40),
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: Colors.neutralDark,
-    paddingHorizontal: 9,
+    paddingHorizontal: scale(9),
     borderColor: Colors.borderBlack,
     borderWidth: 2,
-    borderRadius: 4,
-    gap: 4
+    borderRadius: moderateScale(4),
+    gap: scale(4)
   },
   manaText: {
+    fontSize: moderateScale(16),
     color: Colors.neutralLight,
     fontFamily: 'ArchitectsDaughter_400Regular'
   },
@@ -230,7 +232,8 @@ const styles = StyleSheet.create({
   },
   flatListStyle: {
     flexGrow: 0,
-    paddingVertical: CARD_AREA_PADDING_VERTICAL,
-    paddingHorizontal: 12
+    paddingTop: verticalScale(28),
+    paddingBottom: verticalScale(14),
+    paddingHorizontal: scale(12)
   }
 });
