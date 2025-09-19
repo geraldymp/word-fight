@@ -58,10 +58,7 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
             resizeMode="cover"
           />
           <Text style={styles.desc}>{item.description}</Text>
-          <View
-            style={
-              disabled ? styles.priceWrapperDisabled : styles.priceWrapper
-            }>
+          <View style={styles.priceWrapper}>
             <Text style={styles.priceText}>{item.price}</Text>
             <SvgMana
               height={scale(20)}
@@ -135,20 +132,9 @@ const styles = StyleSheet.create({
     bottom: verticalScale(12),
     alignItems: 'center'
   },
-  priceWrapperDisabled: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: verticalScale(12),
-    alignItems: 'center',
-    borderColor: 'red',
-    borderWidth: 1,
-    paddingVertical: verticalScale(2),
-    paddingHorizontal: scale(8),
-    borderRadius: 6
-  },
   priceText: {
     color: Colors.neutralDark,
-    fontSize: scale(12),
+    fontSize: scale(14),
     textAlign: 'center',
     fontFamily: 'ArchitectsDaughter_400Regular'
   }
