@@ -79,7 +79,7 @@ export default function MagicHutScreen() {
         </ImageBackground>
       </View>
       <ImageBackground
-        source={require('@assets/backgrounds/table_bg.png')}
+        source={require('@assets/backgrounds/table_bg.jpg')}
         resizeMode="cover"
         style={styles.bottomWrapper}>
         <FlatList
