@@ -177,8 +177,8 @@ export const enemies: IEnemies[] = [
     area: 'futuristic_city',
     content: [
       {
-        name: 'Revamped Android',
-        image: require('../assets/enemies/futuristic_city/revamped_android.png'),
+        name: 'Half Cyborg',
+        image: require('../assets/enemies/futuristic_city/half_cyborg.png'),
         baseHp: 46,
         minDmg: 5,
         maxDmg: 7,
@@ -186,8 +186,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 11
       },
       {
-        name: 'Half Cyborg',
-        image: require('../assets/enemies/futuristic_city/half_cyborg.png'),
+        name: 'Gunner Machine',
+        image: require('../assets/enemies/futuristic_city/gunner_machine.png'),
         baseHp: 48,
         minDmg: 5,
         maxDmg: 7,
@@ -195,8 +195,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 12
       },
       {
-        name: 'Ancient Machine',
-        image: require('../assets/enemies/futuristic_city/ancient_machine.png'),
+        name: 'Flying Android',
+        image: require('../assets/enemies/futuristic_city/flying_android.png'),
         baseHp: 50,
         minDmg: 9,
         maxDmg: 9,
@@ -211,7 +211,7 @@ export const enemies: IEnemies[] = [
     content: [
       {
         name: 'Azazel the Archmage',
-        image: require('../assets/enemies/the_death.png'),
+        image: require('../assets/enemies/boss/azazel_the_archmage.png'),
         baseHp: 70,
         minDmg: 10,
         maxDmg: 15,
