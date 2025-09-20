@@ -108,7 +108,11 @@ export const _ChangeNameModal: React.FC<IChangeNameModal> = ({
   }, [visible]);
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onBgPress}>
       <Pressable style={styles.overlay} onPress={onBgPress}>
         <Pressable style={styles.modalContainer}>
           <Text style={styles.title}>{title}</Text>

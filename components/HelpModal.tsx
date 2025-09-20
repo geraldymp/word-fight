@@ -48,7 +48,11 @@ const HelpModal: React.FC<Props> = ({ visible, onClose, slides }) => {
   };
 
   return (
-    <Modal visible={visible} transparent animationType="fade">
+    <Modal
+      visible={visible}
+      transparent
+      animationType="fade"
+      onRequestClose={onClose}>
       <View style={styles.overlay}>
         <View style={styles.container}>
           <Carousel
