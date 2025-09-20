@@ -3,12 +3,13 @@ import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { JourneyMapModal } from '@components/JourneyMapModal';
-import { SvgHeart, SvgMana, SvgSword } from 'app/assets/icons/svgs';
-import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
+import { Ionicons } from '@expo/vector-icons';
 import AreaProgress from 'app/components/Battle/AreaProgress';
+import { EnemyStatus } from 'app/components/Battle/EnemyStatus';
 import BottomHUD from 'app/components/BottomHUD';
 import { NormalTile } from 'app/components/LetterTile';
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import {
   Dimensions,
@@ -16,18 +17,16 @@ import {
   ImageBackground,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View
 } from 'react-native';
 import Animated from 'react-native-reanimated';
 import UseBattle from './use_battle';
 
 const screenHeight = Dimensions.get('window').height;
-const screenWidth = Dimensions.get('window').width;
 
 const diceSize = screenHeight / 20;
 const diceTextSize = (diceSize * 3) / 6;
-
-const bottomIconSize = screenWidth / 12;
 
 export default function BattleScreen() {
   const { actions, states } = UseBattle();
@@ -82,82 +81,38 @@ export default function BattleScreen() {
       source={areaDetail?.battleBackground}>
       {/* Top Button + Area Progress + Enemy Detail */}
       <View style={styles.enemyArea}>
-        <RoundedRectButton
-          title="Give up"
-          customStyle={{ position: 'absolute', top: 8, left: 8 }}
-          onPress={onGiveUp}
-          type="warning"
-          size="sm"
-        />
+        <TouchableOpacity style={styles.exitButton} onPress={onGiveUp}>
+          <Text style={{ fontSize: moderateScale(14) }}>Exit</Text>
+          <Ionicons name="exit-outline" size={scale(20)} color="black" />
+        </TouchableOpacity>
         <AreaProgress
           area={areaDetail?.name}
           stage={stage}
-          customStyle={{
-            position: 'absolute',
-            top: 8,
-            right: 8
-          }}
+          customStyle={styles.areaProgressCustom}
         />
-        <View style={styles.enemyNameWrapper}>
+        <View
+          style={[styles.enemyNameWrapper, { marginTop: verticalScale(55) }]}>
           <Text style={styles.enemyName}>{enemyView.name}</Text>
         </View>
 
-        <View style={styles.enemyNameWrapper}>
-          <View style={styles.enemyStatusContainer}>
-            <SvgHeart color="red" stroke="black" height={32} width={32} />
-            <View style={styles.enemyMaxHealthBar}>
-              <View
-                style={[
-                  styles.enemyCurrentHealthBar,
-                  { width: `${Math.max(0, (enemyHP / enemyMaxHp) * 100)}%` }
-                ]}
-              />
-              <Text style={styles.enemyHPText}>
-                {enemyHP} / {enemyMaxHp}
-              </Text>
-            </View>
-          </View>
-          <View style={styles.enemyStatusWrapper}>
-            <View style={styles.enemyStatusItemWrapper}>
-              <SvgSword height={20} width={20} color={Colors.borderBlack} />
-              {enemyMinDmg === enemyMaxDmg ? (
-                <Text
-                  style={
-                    styles.enemyStatusText
-                  }>{`${enemyMinDmg} Damage`}</Text>
-              ) : (
-                <Text
-                  style={
-                    styles.enemyStatusText
-                  }>{`${enemyMinDmg} - ${enemyMaxDmg} Damage`}</Text>
-              )}
-            </View>
-            <View
-              style={[
-                styles.enemyStatusItemWrapper,
-                { justifyContent: 'flex-end' }
-              ]}>
-              <SvgMana height={20} width={20} color={Colors.primary} />
-              {enemyMinManaBounty === enemyMaxManaBounty ? (
-                <Text
-                  style={
-                    styles.enemyStatusText
-                  }>{`${enemyMinManaBounty} Mana bounty`}</Text>
-              ) : (
-                <Text
-                  style={
-                    styles.enemyStatusText
-                  }>{`${enemyMinManaBounty} - ${enemyMaxManaBounty} Mana bounty`}</Text>
-              )}
-            </View>
-          </View>
-        </View>
+        <EnemyStatus
+          enemyHP={enemyHP}
+          enemyMaxHp={enemyMaxHp}
+          enemyMinDmg={enemyMinDmg}
+          enemyMaxDmg={enemyMaxDmg}
+          enemyMinManaBounty={enemyMinManaBounty}
+          enemyMaxManaBounty={enemyMaxManaBounty}
+        />
 
         <Animated.View
           style={[
             enemyStyle,
             { transform: [{ translateX: enemyShakeAnim }] },
-            { width: '60%', height: '60%', marginVertical: 8 }
+            {
+              flex: 1,
+              width: '65%',
+              marginBottom: verticalScale(8)
+            }
           ]}>
           <Image
             source={enemyView.image}
@@ -179,13 +134,6 @@ export default function BattleScreen() {
           damageBreakdownNums={getDmgBreakdown}
         /> */}
 
-        {feedback === 'invalid' && (
-          <Text style={styles.invalid}>Invalid word</Text>
-        )}
-        {feedback === 'short' && (
-          <Text style={styles.invalid}>At least 3 letters</Text>
-        )}
-
         {/* Word Builder */}
         <Animated.FlatList
           data={letters}
@@ -203,13 +151,18 @@ export default function BattleScreen() {
           scrollEnabled={false}
           style={[
             {
-              flexGrow: 0,
-              position: 'absolute',
-              bottom: bottomIconSize + 42
+              flexGrow: 0
             },
             { transform: [{ translateX: wrongWordShakeAnim }] }
           ]}
         />
+
+        {feedback === 'invalid' && (
+          <Text style={styles.invalid}>Invalid word</Text>
+        )}
+        {feedback === 'short' && (
+          <Text style={styles.invalid}>At least 3 letters</Text>
+        )}
 
         <BottomHUD
           characterImage={require('@assets/hero_icon.png')}
@@ -258,25 +211,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  exitButton: {
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(8),
+    backgroundColor: 'red',
+    borderRadius: 8,
+    borderColor: Colors.borderBlack,
+    borderWidth: 2,
+    position: 'absolute',
+    top: verticalScale(8),
+    left: scale(8),
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: scale(4)
+  },
+  areaProgressCustom: {
+    position: 'absolute',
+    top: verticalScale(8),
+    right: scale(8)
+  },
   enemyArea: {
     flex: 3,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
-    paddingBottom: 12
+    alignItems: 'center'
   },
   enemyNameWrapper: {
     backgroundColor: Colors.secondaryBg70,
     borderColor: Colors.borderBlack,
     borderWidth: 0.5,
-    paddingVertical: 4,
-    paddingHorizontal: 6,
-    borderRadius: 12,
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(6),
+    borderRadius: moderateScale(12),
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 4
+    marginBottom: verticalScale(4)
   },
   enemyName: {
-    fontSize: 20,
+    fontSize: moderateScale(18),
     color: Colors.textWhite,
     textAlign: 'center',
     textShadowColor: Colors.primary,
@@ -284,80 +254,40 @@ const styles = StyleSheet.create({
     textShadowRadius: 10,
     fontFamily: 'ArchitectsDaughter_400Regular'
   },
-  enemyHPText: {
-    color: Colors.textWhite,
-    textShadowColor: Colors.borderBlack,
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 4,
-    position: 'absolute',
-    alignSelf: 'center',
-    fontSize: 18,
-    fontFamily: 'SourGummy_800ExtraBold'
-  },
   playerArea: {
     flex: 2,
     alignItems: 'center',
-    paddingTop: 16
-  },
-  enemyStatusWrapper: {
-    flexDirection: 'row',
-    width: '75%',
-    justifyContent: 'space-between'
-  },
-  enemyStatusItemWrapper: {
-    flex: 1,
-    gap: 6,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  enemyStatusText: {
-    color: Colors.neutralLight,
-    fontFamily: 'SourGummy_400Regular'
+    paddingTop: verticalScale(16)
   },
   currentWord: {
     fontSize: diceTextSize,
     fontFamily: 'SourGummy_400Regular',
     color: Colors.accent,
-    marginBottom: 8,
+    marginBottom: verticalScale(16),
     letterSpacing: 2,
     backgroundColor: Colors.blackBg50,
     borderRadius: 8,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    paddingHorizontal: scale(10),
+    paddingVertical: verticalScale(4),
     borderWidth: 2,
     borderColor: Colors.borderBlue
+  },
+  invalid: {
+    color: Colors.danger,
+    backgroundColor: Colors.neutralLight,
+    borderRadius: 10,
+    borderWidth: 2,
+    borderColor: Colors.danger,
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(8),
+    marginTop: verticalScale(12),
+    fontWeight: 'bold',
+    fontSize: moderateScale(12)
   },
   bottomBarContainer: {
     width: '100%',
     position: 'absolute',
     bottom: 0,
     left: 0
-  },
-  invalid: {
-    color: Colors.danger,
-    marginTop: 10,
-    fontWeight: 'bold',
-    fontSize: 16
-  },
-  enemyStatusContainer: {
-    width: '60%',
-    gap: 6,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  enemyMaxHealthBar: {
-    flex: 1,
-    height: 25,
-    backgroundColor: Colors.neutralLight,
-    borderRadius: 15,
-    borderWidth: 2,
-    borderColor: Colors.borderBlack,
-    overflow: 'hidden',
-    justifyContent: 'center'
-  },
-  enemyCurrentHealthBar: {
-    height: 25,
-    backgroundColor: Colors.danger,
-    borderRadius: 10
   }
 });
