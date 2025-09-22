@@ -81,17 +81,15 @@ export default function BattleScreen() {
       source={areaDetail?.battleBackground}>
       {/* Top Button + Area Progress + Enemy Detail */}
       <View style={styles.enemyArea}>
-        <TouchableOpacity style={styles.exitButton} onPress={onGiveUp}>
-          <Text style={{ fontSize: moderateScale(14) }}>Exit</Text>
-          <Ionicons name="exit-outline" size={scale(20)} color="black" />
-        </TouchableOpacity>
-        <AreaProgress
-          area={areaDetail?.name}
-          stage={stage}
-          customStyle={styles.areaProgressCustom}
-        />
+        <View style={styles.exitAndAreaWrapper}>
+          <TouchableOpacity style={styles.exitButton} onPress={onGiveUp}>
+            <Text style={{ fontSize: moderateScale(14) }}>Exit</Text>
+            <Ionicons name="exit-outline" size={scale(20)} color="black" />
+          </TouchableOpacity>
+          <AreaProgress area={areaDetail?.name} stage={stage} />
+        </View>
         <View
-          style={[styles.enemyNameWrapper, { marginTop: verticalScale(55) }]}>
+          style={[styles.enemyNameWrapper, { marginTop: verticalScale(12) }]}>
           <Text style={styles.enemyName}>{enemyView.name}</Text>
         </View>
 
@@ -211,6 +209,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1
   },
+  exitAndAreaWrapper: {
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: verticalScale(8),
+    paddingHorizontal: scale(8),
+    justifyContent: 'space-between'
+  },
   exitButton: {
     paddingVertical: verticalScale(4),
     paddingHorizontal: scale(8),
@@ -218,17 +223,9 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     borderColor: Colors.borderBlack,
     borderWidth: 2,
-    position: 'absolute',
-    top: verticalScale(8),
-    left: scale(8),
     flexDirection: 'row',
     alignItems: 'center',
     gap: scale(4)
-  },
-  areaProgressCustom: {
-    position: 'absolute',
-    top: verticalScale(8),
-    right: scale(8)
   },
   enemyArea: {
     flex: 3,
