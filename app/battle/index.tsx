@@ -2,7 +2,6 @@
 import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
-import { JourneyMapModal } from '@components/JourneyMapModal';
 import { Ionicons } from '@expo/vector-icons';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
@@ -36,7 +35,6 @@ export default function BattleScreen() {
     handleReshuffle,
     handleSubmit,
     onCancel,
-    onCloseMap,
     onCompleteFloatingDamage,
     onConfirm,
     onPressBackToHome,
@@ -47,9 +45,10 @@ export default function BattleScreen() {
   const {
     areaDetail,
     stage,
-    enemyView,
     enemyStyle,
     enemyShakeAnim,
+    enemyName,
+    enemyImage,
     enemyHP,
     enemyMaxHp,
     enemyMinDmg,
@@ -65,11 +64,9 @@ export default function BattleScreen() {
     selectedIndices,
     wrongWordShakeAnim,
     feedback,
-    showGameOverModal,
+    showGameProgressModal,
     modalContent,
     showConfirmModal,
-    mapVisible,
-    journeyPath,
     damageEvents,
     maxReshuffle,
     reshuffleCount,
@@ -89,7 +86,7 @@ export default function BattleScreen() {
           <AreaProgress area={areaDetail?.name} stage={stage} />
         </View>
         <EnemyStatusBar
-          name={enemyView.name}
+          name={enemyName}
           maxHealth={enemyMaxHp}
           currentHealth={enemyHP}
           minDmg={enemyMinDmg}
@@ -103,12 +100,12 @@ export default function BattleScreen() {
             { transform: [{ translateX: enemyShakeAnim }] },
             {
               flex: 1,
-              width: '65%',
+              width: '60%',
               marginBottom: verticalScale(8)
             }
           ]}>
           <Image
-            source={enemyView.image}
+            source={enemyImage}
             resizeMode="contain"
             style={{ width: '100%', height: '100%' }}
           />
@@ -172,7 +169,7 @@ export default function BattleScreen() {
         />
       </View>
       <GameProgressModal
-        showModal={showGameOverModal}
+        showModal={showGameProgressModal}
         modalContent={modalContent}
         onPressNextStage={onPressNextStage}
         onPressNextArea={onPressNextArea}
@@ -182,11 +179,6 @@ export default function BattleScreen() {
         visible={showConfirmModal}
         onConfirm={onConfirm}
         onCancel={onCancel}
-      />
-      <JourneyMapModal
-        visible={mapVisible}
-        onClose={onCloseMap}
-        journey={journeyPath}
       />
       {damageEvents.map(event => (
         <FloatingDamage

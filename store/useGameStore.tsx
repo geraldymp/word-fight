@@ -56,7 +56,7 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
   setSelectedEnemies: enemies => {
     set(state => ({
       selectedEnemies: enemies,
-      selectedEnemy: enemies[state.stage - 1],
+      selectedEnemy: enemies[state.stage - 1], // -1 because its array, duh!
       enemyHP: enemies[state.stage - 1].baseHp
     }));
   },

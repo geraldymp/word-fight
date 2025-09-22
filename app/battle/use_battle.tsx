@@ -54,19 +54,20 @@ export default function UseBattle() {
     setReshuffle,
     damageModifier
   } = useGameStore();
-  const { name, image, baseHp, minDmg, maxDmg, minManaBounty, maxManaBounty } =
-    selectedEnemy;
 
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
 
   const enemyDamage = useMemo(() => {
-    return getRandomInt(minDmg, maxDmg);
-  }, [minDmg, maxDmg]);
+    return getRandomInt(selectedEnemy.minDmg, selectedEnemy.maxDmg);
+  }, [selectedEnemy.minDmg, selectedEnemy.maxDmg]);
 
   const manaGained = useMemo(() => {
-    return getRandomInt(minManaBounty, maxManaBounty);
-  }, [minManaBounty, maxManaBounty]);
+    return getRandomInt(
+      selectedEnemy.minManaBounty,
+      selectedEnemy.maxManaBounty
+    );
+  }, [selectedEnemy.minManaBounty, selectedEnemy.maxManaBounty]);
 
   const playerShakeAnim = useSharedValue(0);
   const enemyShakeAnim = useSharedValue(0);
@@ -78,16 +79,11 @@ export default function UseBattle() {
   const [letters, setLetters] = useState<ILetter[]>([]); // Letters in word builder
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]); // Indexes of selected letters
   const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
-  const [showGameOverModal, setShowGameOverModal] = useState(false);
+  const [showGameProgressModal, setShowGameProgressModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [damageEvents, setDamageEvents] = useState<
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
-  const [enemyView, setEnemyView] = useState<{ name: string; image: any }>({
-    name: '',
-    image: null
-  });
-  const [mapVisible, setMapVisible] = useState(false);
 
   // Shake when damage is done (for enemy or player)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
@@ -202,12 +198,12 @@ export default function UseBattle() {
         setFeedback('invalid');
         triggerQuickShake(wrongWordShakeAnim);
       }
+      setTimeout(() => setFeedback(null), 2000); // hide feedback after 2
     }
-
     setSelectedIndices([]);
-    setTimeout(() => setFeedback(null), 2000); // hide feedback after 2
   };
 
+  // Enemy beaten
   useEffect(() => {
     if (enemyHP === 0) {
       setTimeout(() => {
@@ -216,14 +212,19 @@ export default function UseBattle() {
         increaseMana(manaGained);
       }, 500);
       setTimeout(() => {
-        setShowGameOverModal(true);
+        setShowGameProgressModal(true);
       }, 3000);
-    } else if (playerHP === 0) {
+    }
+  }, [enemyHP]);
+
+  // Player beaten
+  useEffect(() => {
+    if (playerHP === 0) {
       setTimeout(() => {
-        setShowGameOverModal(true);
+        setShowGameProgressModal(true);
       }, 1500);
     }
-  }, [enemyHP, playerHP]);
+  }, [playerHP]);
 
   // for analytic total boss beaten
   useEffect(() => {
@@ -232,15 +233,16 @@ export default function UseBattle() {
     }
   }, [enemyHP, step]);
 
+  // generate random letters when the game start (called once)
   useEffect(() => {
     setLetters(generateRandomLettersWithVowels());
   }, []);
 
   useEffect(() => {
-    // On mount or stage up, set enemy HP
-    setEnemyHP(baseHp);
-    setEnemyMaxHP(baseHp);
-    setEnemyView({ name, image });
+    // When game start or stage up, set enemy HP
+    setEnemyHP(selectedEnemy.baseHp);
+    setEnemyMaxHP(selectedEnemy.baseHp);
+
     // Give 1 reshuffle at Stage 1 and not Magic Hut
     if (reshuffle < maxReshuffle && stage === 1 && step % 2 !== 0) {
       setReshuffle(reshuffle + 1);
@@ -260,13 +262,13 @@ export default function UseBattle() {
       };
     } else if (enemyHP === 0 && stage === 3) {
       return {
-        modalText: 'You beat the area!',
+        modalText: 'You clear the area!',
         showNextStageBtn: false,
         showNextAreaBtn: true
       };
     } else if (enemyHP === 0) {
       return {
-        modalText: 'You win the fight!',
+        modalText: 'You beat the enemy!',
         showNextStageBtn: true,
         showNextAreaBtn: false
       };
@@ -284,18 +286,18 @@ export default function UseBattle() {
     setLetters(generateRandomLettersWithVowels());
     setSelectedIndices([]);
     setFeedback(null);
-    setShowGameOverModal(false);
+    setShowGameProgressModal(false);
     enemyOpacity.value = 1;
   }
 
   function onPressNextArea() {
     increaseStep();
-    setShowGameOverModal(false);
+    setShowGameProgressModal(false);
     router.replace('/choose_area');
   }
 
   function onPressBackToHome() {
-    setShowGameOverModal(false);
+    setShowGameProgressModal(false);
     router.replace('/');
   }
 
@@ -305,10 +307,6 @@ export default function UseBattle() {
 
   function onCancel() {
     setShowConfirmModal(false);
-  }
-
-  function onCloseMap() {
-    setMapVisible(false);
   }
 
   // TODO: define proper type
@@ -350,7 +348,6 @@ export default function UseBattle() {
       handleReshuffle,
       handleSubmit,
       onCancel,
-      onCloseMap,
       onCompleteFloatingDamage,
       onConfirm,
       onPressBackToHome,
@@ -361,15 +358,16 @@ export default function UseBattle() {
     states: {
       areaDetail: area,
       stage,
-      enemyView,
       enemyStyle,
       enemyShakeAnim,
+      enemyName: selectedEnemy.name,
+      enemyImage: selectedEnemy.image,
       enemyHP,
       enemyMaxHp,
-      enemyMinDmg: minDmg,
-      enemyMaxDmg: maxDmg,
-      enemyMinManaBounty: minManaBounty,
-      enemyMaxManaBounty: maxManaBounty,
+      enemyMinDmg: selectedEnemy.minDmg,
+      enemyMaxDmg: selectedEnemy.maxDmg,
+      enemyMinManaBounty: selectedEnemy.minManaBounty,
+      enemyMaxManaBounty: selectedEnemy.maxManaBounty,
       playerShakeAnim,
       playerMaxHP,
       playerHP,
@@ -379,11 +377,9 @@ export default function UseBattle() {
       selectedIndices,
       wrongWordShakeAnim,
       feedback,
-      showGameOverModal,
+      showGameProgressModal,
       modalContent,
       showConfirmModal,
-      mapVisible,
-      journeyPath,
       damageEvents,
       maxReshuffle,
       reshuffleCount: reshuffle,
