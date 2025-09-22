@@ -5,7 +5,7 @@ import { FloatingDamage } from '@components/FloatingDamage';
 import { JourneyMapModal } from '@components/JourneyMapModal';
 import { Ionicons } from '@expo/vector-icons';
 import AreaProgress from 'app/components/Battle/AreaProgress';
-import { EnemyStatus } from 'app/components/Battle/EnemyStatus';
+import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import BottomHUD from 'app/components/BottomHUD';
 import { NormalTile } from 'app/components/LetterTile';
 import Colors from 'app/foundation/colors';
@@ -88,20 +88,15 @@ export default function BattleScreen() {
           </TouchableOpacity>
           <AreaProgress area={areaDetail?.name} stage={stage} />
         </View>
-        <View
-          style={[styles.enemyNameWrapper, { marginTop: verticalScale(12) }]}>
-          <Text style={styles.enemyName}>{enemyView.name}</Text>
-        </View>
-
-        <EnemyStatus
-          enemyHP={enemyHP}
-          enemyMaxHp={enemyMaxHp}
-          enemyMinDmg={enemyMinDmg}
-          enemyMaxDmg={enemyMaxDmg}
-          enemyMinManaBounty={enemyMinManaBounty}
-          enemyMaxManaBounty={enemyMaxManaBounty}
+        <EnemyStatusBar
+          name={enemyView.name}
+          maxHealth={enemyMaxHp}
+          currentHealth={enemyHP}
+          minDmg={enemyMinDmg}
+          maxDmg={enemyMaxDmg}
+          minMana={enemyMinManaBounty}
+          maxMana={enemyMaxManaBounty}
         />
-
         <Animated.View
           style={[
             enemyStyle,
@@ -230,26 +225,6 @@ const styles = StyleSheet.create({
   enemyArea: {
     flex: 3,
     alignItems: 'center'
-  },
-  enemyNameWrapper: {
-    backgroundColor: Colors.secondaryBg70,
-    borderColor: Colors.borderBlack,
-    borderWidth: 0.5,
-    paddingVertical: verticalScale(4),
-    paddingHorizontal: scale(6),
-    borderRadius: moderateScale(12),
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginBottom: verticalScale(4)
-  },
-  enemyName: {
-    fontSize: moderateScale(18),
-    color: Colors.textWhite,
-    textAlign: 'center',
-    textShadowColor: Colors.primary,
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 10,
-    fontFamily: 'ArchitectsDaughter_400Regular'
   },
   playerArea: {
     flex: 2,

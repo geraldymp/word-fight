@@ -8,9 +8,12 @@ const Colors = {
   warning: '#F4C542', // Gold (same as primary, for warning)
   calm: 'violet',
   disabled: '#eeeae0aa',
+  blueMana: '#4A6CF7',
+  redHealth: '#E53935',
 
   neutralLight: '#F7E7C6', // Parchment Beige - backgrounds, soft UI
   neutralDark: '#2E2E2E', // Charcoal Gray - borders, outlines, text shadows
+  neutralMedium: '#D9D9D9',
 
   textWhite: '#FFFFFF', // White - text/icons (with outline/shadow)
 
