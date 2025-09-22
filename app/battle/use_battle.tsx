@@ -14,8 +14,8 @@ import { getDamageModifier } from 'app/utils/getDamageModifier';
 import { setBossBeatenStatistic } from 'app/utils/Statistic/setBossBeaten';
 import { setWordsStatistic } from 'app/utils/Statistic/setWords';
 import { useRouter } from 'expo-router';
-import { useEffect, useMemo, useState } from 'react';
-import { BackHandler } from 'react-native';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { BackHandler, Text, View } from 'react-native';
 import {
   runOnJS,
   SharedValue,
@@ -25,36 +25,58 @@ import {
   withTiming
 } from 'react-native-reanimated';
 
+// FLOW OF SETTIMEOUT USAGE AND ANIMATION DURATION
+//
+// DR = DURATION
+// DL = DELAY
+//
+// START: SUBMIT => PROJECTION LAUNCHED (350 DR) => ENEMY SHOOK (50 DR) => (A / B)
+//
+// A (ENEMY HAVE HP) ATTACK BACK (1200 DL) => ENEMY ATTACK ANIMATION (200 DR) => (C / D)
+// B (ENEMY NO HP) REMOVE ENEMY IMAGE, GET MANA (500 DL) => SHOW PROGRESS MODAL (3000 DL)
+//
+// C (PLAYER HAVE HP) PLAYER SHOOK (50 DR) => DONE
+// D (PLAYER NO HP) SHOW PROGRESS MODAL (1500 DL) => DONE
+
 export default function UseBattle() {
   const router = useRouter();
   const isFocused = useIsFocused();
 
   const { playMusic, stopMusic } = useMusicStore();
   const { playSfx } = useSfxStore();
-  const {
-    selectedEnemy,
-    setEnemyHP,
-    journeyPath,
-    stage,
-    increaseStage,
-    area,
-    step,
-    increaseStep,
-    enemyHP,
-    reduceEnemyHP,
-    playerMaxHP,
-    playerHP,
-    reducePlayerHP,
-    mana,
-    increaseMana,
-    lowestHighscore,
-    highScoreFilled,
-    setHighScoreFilled,
-    maxReshuffle,
-    reshuffle,
-    setReshuffle,
-    damageModifier
-  } = useGameStore();
+
+  // --- Enemy ---
+  const selectedEnemy = useGameStore(s => s.selectedEnemy);
+  const enemyHP = useGameStore(s => s.enemyHP);
+  const setEnemyHP = useGameStore(s => s.setEnemyHP);
+  const reduceEnemyHP = useGameStore(s => s.reduceEnemyHP);
+
+  // --- Player ---
+  const playerHP = useGameStore(s => s.playerHP);
+  const playerMaxHP = useGameStore(s => s.playerMaxHP);
+  const reducePlayerHP = useGameStore(s => s.reducePlayerHP);
+  const damageModifier = useGameStore(s => s.damageModifier);
+
+  // --- Stage / Progress ---
+  const stage = useGameStore(s => s.stage);
+  const increaseStage = useGameStore(s => s.increaseStage);
+  const area = useGameStore(s => s.area);
+  const step = useGameStore(s => s.step);
+  const increaseStep = useGameStore(s => s.increaseStep);
+
+  // --- Mana ---
+  const mana = useGameStore(s => s.mana);
+  const increaseMana = useGameStore(s => s.increaseMana);
+
+  // --- Reshuffle ---
+  const reshuffle = useGameStore(s => s.reshuffle);
+  const setReshuffle = useGameStore(s => s.setReshuffle);
+  const maxReshuffle = useGameStore(s => s.maxReshuffle);
+
+  // --- Highscore / Meta ---
+  const lowestHighscore = useGameStore(s => s.lowestHighscore);
+  const highScoreFilled = useGameStore(s => s.highScoreFilled);
+  const setHighScoreFilled = useGameStore(s => s.setHighScoreFilled);
 
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
@@ -77,6 +99,12 @@ export default function UseBattle() {
 
   const enemyOpacity = useSharedValue(1);
 
+  const projectionX = useSharedValue(0);
+  const projectionY = useSharedValue(0);
+
+  const playerWordRef = useRef<Text>(null);
+  const enemyImageRef = useRef<View>(null);
+
   const [enemyMaxHp, setEnemyMaxHP] = useState(0);
   const [letters, setLetters] = useState<ILetter[]>([]); // Letters in word builder
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]); // Indexes of selected letters
@@ -86,6 +114,7 @@ export default function UseBattle() {
   const [damageEvents, setDamageEvents] = useState<
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
+  const [showProjection, setShowProjection] = useState(false);
 
   // Shake when damage is done (for enemy, player and word builder)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
@@ -96,6 +125,7 @@ export default function UseBattle() {
     );
   };
 
+  // Move back, lunge forward, attack the player, then back to initial position
   const triggerEnemyAttack = () => {
     enemyAttackAnim.value = withSequence(
       withTiming(-25, { duration: 100 }), // anticipation (move up/back)
@@ -115,6 +145,32 @@ export default function UseBattle() {
     reducePlayerHP(enemyDamage);
     playSfx('playerHit');
     triggerQuickShake(playerShakeAnim);
+  }
+
+  function enemyAttacked() {
+    const baseDamage = selectedIndices.reduce(
+      (sum, i) => sum + letters[i].value,
+      0
+    );
+    const lengthDamage = getBonusDamageFromLength(currentWord);
+    const dmgModifier = getDamageModifier(currentWord, damageModifier);
+    const totalDamage = baseDamage + lengthDamage + dmgModifier;
+    setShowProjection(false);
+    reduceEnemyHP(totalDamage);
+    playSfx('enemyHit');
+    triggerQuickShake(enemyShakeAnim);
+    setDamageEvents(prev => [
+      ...prev,
+      { id: Date.now(), amount: totalDamage, type: 'enemy' }
+    ]);
+
+    // Enemy hit back if not beaten
+    const currentEnemyHp = useGameStore.getState().enemyHP;
+    if (currentEnemyHp > 0) {
+      setTimeout(() => {
+        triggerEnemyAttack();
+      }, 1200);
+    }
   }
 
   const enemyStyle = useAnimatedStyle(() => {
@@ -163,20 +219,48 @@ export default function UseBattle() {
     }
   }
 
-  const enemyHitBack = () => {
-    // using getState to get most updated value
-    const currentEnemyHp = useGameStore.getState().enemyHP;
-    if (currentEnemyHp > 0) {
-      setTimeout(() => {
-        triggerEnemyAttack();
-      }, 1200);
-    }
-  };
-
   const damageBreakdowns = useMemo(
     () => damageBreakdown(currentWord, damageModifier),
     [currentWord, damageModifier]
   );
+
+  const projectionStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { translateX: projectionX.value },
+        { translateY: projectionY.value }
+      ]
+    };
+  });
+
+  function launchProjection() {
+    if (!playerWordRef.current || !enemyImageRef.current) return;
+
+    // Set starting point for animation, selected word position
+    // 50 is half of the projection image H and W (if size change, this MUST changed as well)
+    // Reduce the point to make sure it hit the middle part of all images
+    playerWordRef.current.measure((x, y, width, height, pageX, pageY) => {
+      const startX = pageX + width / 2 - 50;
+      const startY = pageY + height / 2 - 50;
+
+      // Set ending point for animation, enemy position
+      enemyImageRef?.current?.measure((ex, ey, ew, eh, ePageX, ePageY) => {
+        const targetX = ePageX + ew / 2 - 50;
+        const targetY = ePageY + eh / 2 - 50;
+
+        // reset position + show
+        runOnJS(setShowProjection)(true);
+        projectionX.value = startX;
+        projectionY.value = startY;
+
+        // animate toward enemy
+        projectionX.value = withTiming(targetX, { duration: 350 });
+        projectionY.value = withTiming(targetY, { duration: 350 }, () => {
+          runOnJS(enemyAttacked)();
+        });
+      });
+    });
+  }
 
   const handleSubmit = () => {
     if (isValidWord(currentWord) && currentWord.length >= 3) {
@@ -185,18 +269,9 @@ export default function UseBattle() {
         0
       );
       const lengthDamage = getBonusDamageFromLength(currentWord);
-      const dmgModifier = getDamageModifier(currentWord, damageModifier);
-
       const nonModifiedDamage = baseDamage + lengthDamage;
-      const totalDamage = baseDamage + lengthDamage + dmgModifier;
-      setDamageEvents(prev => [
-        ...prev,
-        { id: Date.now(), amount: totalDamage, type: 'enemy' }
-      ]);
 
-      reduceEnemyHP(totalDamage);
-      playSfx('enemyHit');
-      triggerQuickShake(enemyShakeAnim);
+      launchProjection();
 
       // Submit highscore to supabase if in top 20
       setHiScore(currentWord, nonModifiedDamage);
@@ -209,8 +284,6 @@ export default function UseBattle() {
         selectedIndices
       );
       setLetters(newLetters);
-
-      enemyHitBack();
     } else {
       if (currentWord.length < 3) {
         setFeedback('short');
@@ -380,6 +453,7 @@ export default function UseBattle() {
       areaDetail: area,
       stage,
       enemyStyle,
+      enemyImageRef,
       enemyShakeAnim,
       enemyAttackAnim,
       enemyName: selectedEnemy.name,
@@ -390,6 +464,9 @@ export default function UseBattle() {
       enemyMaxDmg: selectedEnemy.maxDmg,
       enemyMinManaBounty: selectedEnemy.minManaBounty,
       enemyMaxManaBounty: selectedEnemy.maxManaBounty,
+      showProjection,
+      projectionStyle,
+      playerWordRef,
       playerShakeAnim,
       playerMaxHP,
       playerHP,

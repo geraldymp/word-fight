@@ -104,7 +104,9 @@ export default function BattleScreen() {
           minMana={enemyMinManaBounty}
           maxMana={enemyMaxManaBounty}
         />
-        <Animated.View style={[enemyStyle, styles.enemyImage]}>
+        <Animated.View
+          ref={states.enemyImageRef}
+          style={[enemyStyle, styles.enemyImage]}>
           <Image
             source={enemyImage}
             resizeMode="contain"
@@ -126,7 +128,7 @@ export default function BattleScreen() {
               onComplete={() => onCompleteFloatingDamage(event)}
             />
           ))}
-        <Text style={styles.currentWord}>
+        <Text ref={states.playerWordRef} style={styles.currentWord}>
           {currentWord ? currentWord.toUpperCase() : '-'}
         </Text>
 
@@ -192,6 +194,19 @@ export default function BattleScreen() {
         onConfirm={onConfirm}
         onCancel={onCancel}
       />
+      {states.showProjection && (
+        <Animated.Image
+          source={require('@assets/magic_projection.png')}
+          style={[
+            {
+              position: 'absolute',
+              width: 100,
+              height: 100
+            },
+            states.projectionStyle
+          ]}
+        />
+      )}
     </ImageBackground>
   );
 }
