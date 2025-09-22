@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     paddingVertical: verticalScale(2),
     borderRadius: moderateScale(4),
     borderColor: Colors.borderBlack,
-    borderWidth: moderateScale(4),
+    borderWidth: moderateScale(2.5),
     borderBottomWidth: 0,
     borderBottomLeftRadius: 0,
     borderBottomRightRadius: 0,
@@ -92,7 +92,7 @@ const styles = StyleSheet.create({
     height: verticalScale(25),
     backgroundColor: Colors.neutralLight,
     borderRadius: moderateScale(4),
-    borderWidth: moderateScale(4),
+    borderWidth: moderateScale(2.5),
     borderColor: Colors.borderBlack,
     justifyContent: 'center',
     overflow: 'hidden'
@@ -124,7 +124,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondaryBg70,
     paddingHorizontal: scale(6),
     paddingVertical: verticalScale(2),
-    borderWidth: moderateScale(4),
+    borderWidth: moderateScale(2.5),
     borderRadius: moderateScale(4),
     borderTopWidth: 0,
     borderTopLeftRadius: 0,
@@ -134,6 +134,6 @@ const styles = StyleSheet.create({
   statText: {
     color: Colors.neutralLight,
     fontSize: moderateScale(12),
-    fontWeight: 'bold'
+    fontFamily: 'SourGummy_800ExtraBold'
   }
 });

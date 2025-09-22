@@ -104,15 +104,7 @@ export default function BattleScreen() {
           minMana={enemyMinManaBounty}
           maxMana={enemyMaxManaBounty}
         />
-        <Animated.View
-          style={[
-            enemyStyle,
-            {
-              flex: 1,
-              width: '60%',
-              marginBottom: verticalScale(8)
-            }
-          ]}>
+        <Animated.View style={[enemyStyle, styles.enemyImage]}>
           <Image
             source={enemyImage}
             resizeMode="contain"
@@ -229,6 +221,12 @@ const styles = StyleSheet.create({
   enemyArea: {
     flex: 3,
     alignItems: 'center'
+  },
+  enemyImage: {
+    marginTop: verticalScale(12),
+    flex: 0.85,
+    width: '55%',
+    marginBottom: verticalScale(8)
   },
   playerArea: {
     flex: 2,
