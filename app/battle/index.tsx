@@ -46,7 +46,6 @@ export default function BattleScreen() {
     areaDetail,
     stage,
     enemyStyle,
-    enemyShakeAnim,
     enemyName,
     enemyImage,
     enemyHP,
@@ -78,6 +77,17 @@ export default function BattleScreen() {
       source={areaDetail?.battleBackground}>
       {/* Top Button + Area Progress + Enemy Detail */}
       <View style={styles.enemyArea}>
+        {/* For damage number animation */}
+        {damageEvents
+          .filter(e => e.type === 'enemy')
+          .map(event => (
+            <FloatingDamage
+              key={event.id}
+              amount={event.amount}
+              type={event.type}
+              onComplete={() => onCompleteFloatingDamage(event)}
+            />
+          ))}
         <View style={styles.exitAndAreaWrapper}>
           <TouchableOpacity style={styles.exitButton} onPress={onGiveUp}>
             <Text style={{ fontSize: moderateScale(14) }}>Exit</Text>
@@ -97,7 +107,6 @@ export default function BattleScreen() {
         <Animated.View
           style={[
             enemyStyle,
-            { transform: [{ translateX: enemyShakeAnim }] },
             {
               flex: 1,
               width: '60%',
@@ -114,6 +123,17 @@ export default function BattleScreen() {
 
       {/* Word Builder + Damage Breakdown + HUD */}
       <View style={styles.playerArea}>
+        {/* For damage number animation */}
+        {damageEvents
+          .filter(e => e.type === 'player')
+          .map(event => (
+            <FloatingDamage
+              key={event.id}
+              amount={event.amount}
+              type={event.type}
+              onComplete={() => onCompleteFloatingDamage(event)}
+            />
+          ))}
         <Text style={styles.currentWord}>
           {currentWord ? currentWord.toUpperCase() : '-'}
         </Text>
@@ -180,14 +200,6 @@ export default function BattleScreen() {
         onConfirm={onConfirm}
         onCancel={onCancel}
       />
-      {damageEvents.map(event => (
-        <FloatingDamage
-          key={event.id}
-          amount={event.amount}
-          type={event.type}
-          onComplete={() => onCompleteFloatingDamage(event)}
-        />
-      ))}
     </ImageBackground>
   );
 }

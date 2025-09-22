@@ -17,6 +17,7 @@ import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useState } from 'react';
 import { BackHandler } from 'react-native';
 import {
+  runOnJS,
   SharedValue,
   useAnimatedStyle,
   useSharedValue,
@@ -71,6 +72,7 @@ export default function UseBattle() {
 
   const playerShakeAnim = useSharedValue(0);
   const enemyShakeAnim = useSharedValue(0);
+  const enemyAttackAnim = useSharedValue(0);
   const wrongWordShakeAnim = useSharedValue(0);
 
   const enemyOpacity = useSharedValue(1);
@@ -85,7 +87,7 @@ export default function UseBattle() {
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
 
-  // Shake when damage is done (for enemy or player)
+  // Shake when damage is done (for enemy, player and word builder)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
     animRef.value = withSequence(
       withTiming(10, { duration: 50 }),
@@ -94,9 +96,34 @@ export default function UseBattle() {
     );
   };
 
+  const triggerEnemyAttack = () => {
+    enemyAttackAnim.value = withSequence(
+      withTiming(-25, { duration: 100 }), // anticipation (move up/back)
+      withTiming(50, { duration: 200 }, () => {
+        // impact moment → player shakes
+        runOnJS(playerAttacked)();
+      }),
+      withTiming(0, { duration: 150 })
+    );
+  };
+
+  function playerAttacked() {
+    setDamageEvents(prev => [
+      ...prev,
+      { id: Date.now(), amount: enemyDamage, type: 'player' }
+    ]);
+    reducePlayerHP(enemyDamage);
+    playSfx('playerHit');
+    triggerQuickShake(playerShakeAnim);
+  }
+
   const enemyStyle = useAnimatedStyle(() => {
     return {
-      opacity: enemyOpacity.value
+      opacity: enemyOpacity.value,
+      transform: [
+        { translateX: enemyShakeAnim.value }, // shake when hit
+        { translateY: enemyAttackAnim.value } // vertical attack
+      ]
     };
   });
 
@@ -141,13 +168,7 @@ export default function UseBattle() {
     const currentEnemyHp = useGameStore.getState().enemyHP;
     if (currentEnemyHp > 0) {
       setTimeout(() => {
-        setDamageEvents(prev => [
-          ...prev,
-          { id: Date.now(), amount: enemyDamage, type: 'player' }
-        ]);
-        reducePlayerHP(enemyDamage);
-        playSfx('playerHit');
-        triggerQuickShake(playerShakeAnim);
+        triggerEnemyAttack();
       }, 1200);
     }
   };
@@ -360,6 +381,7 @@ export default function UseBattle() {
       stage,
       enemyStyle,
       enemyShakeAnim,
+      enemyAttackAnim,
       enemyName: selectedEnemy.name,
       enemyImage: selectedEnemy.image,
       enemyHP,

@@ -1,6 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import React, { useEffect, useRef } from 'react';
-import { Animated, StyleSheet } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet } from 'react-native';
+import Animated, {
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from 'react-native-reanimated';
 
 interface Props {
   amount: number;
@@ -9,36 +15,31 @@ interface Props {
 }
 
 export const FloatingDamage = ({ amount, type, onComplete }: Props) => {
-  const translateY = useRef(new Animated.Value(0)).current;
-  const opacity = useRef(new Animated.Value(1)).current;
+  const translateY = useSharedValue(0);
+  const opacity = useSharedValue(1);
 
   useEffect(() => {
-    Animated.parallel([
-      Animated.timing(translateY, {
-        toValue: -40,
-        duration: 2000,
-        useNativeDriver: true
-      }),
-      Animated.timing(opacity, {
-        toValue: 0,
-        duration: 2000,
-        useNativeDriver: true
-      })
-    ]).start(onComplete);
+    translateY.value = withTiming(-40, { duration: 2000 });
+    opacity.value = withTiming(0, { duration: 2000 }, () => {
+      runOnJS(onComplete)();
+    });
   }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }],
+    opacity: opacity.value
+  }));
 
   return (
     <Animated.Text
       style={[
         styles.floating,
+        animatedStyle,
         {
-          transform: [{ translateY }],
-          opacity,
-          top: type === 'enemy' ? 100 : 500,
-          left: type === 'enemy' ? 200 : 100
+          top: type === 'enemy' ? 100 : 50,
+          left: type === 'enemy' ? 200 : 50
         }
-      ]}
-    >
+      ]}>
       -{amount}
     </Animated.Text>
   );
@@ -51,6 +52,7 @@ const styles = StyleSheet.create({
     fontSize: 72,
     fontWeight: 'bold',
     textShadowColor: 'white',
-    textShadowRadius: 16
+    textShadowRadius: 16,
+    zIndex: 2
   }
 });
