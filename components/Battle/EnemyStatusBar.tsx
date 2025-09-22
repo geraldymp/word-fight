@@ -1,6 +1,6 @@
 import { SvgMana, SvgSword } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors'; // adjust path to your Colors
-import { moderateScale, verticalScale } from 'app/utils/sizeScaling';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
@@ -67,31 +67,32 @@ export default React.memo(EnemyStatusBar);
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginVertical: 12,
+    marginVertical: verticalScale(12),
     width: '75%'
   },
   nameWrapper: {
     backgroundColor: Colors.primary,
-    paddingHorizontal: 12,
-    paddingVertical: 2,
-    borderRadius: 4,
+    paddingHorizontal: scale(12),
+    paddingVertical: verticalScale(2),
+    borderRadius: moderateScale(4),
     borderColor: Colors.borderBlack,
-    borderWidth: 4,
+    borderWidth: moderateScale(4),
     borderBottomWidth: 0,
     borderBottomLeftRadius: 0,
-    borderBottomRightRadius: 0
+    borderBottomRightRadius: 0,
+    marginBottom: -0.5 //to close a gap, dont know why there is a gap tho
   },
   name: {
     color: Colors.neutralDark,
-    fontSize: 16,
+    fontSize: moderateScale(16),
     fontFamily: 'SourGummy_800ExtraBold'
   },
   maxHealthBar: {
     width: '100%',
     height: verticalScale(25),
     backgroundColor: Colors.neutralLight,
-    borderRadius: 4,
-    borderWidth: 4,
+    borderRadius: moderateScale(4),
+    borderWidth: moderateScale(4),
     borderColor: Colors.borderBlack,
     justifyContent: 'center',
     overflow: 'hidden'
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
     color: Colors.textWhite,
     textShadowColor: Colors.borderBlack,
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 4,
+    textShadowRadius: moderateScale(4),
     position: 'absolute',
     alignSelf: 'center',
     fontSize: moderateScale(16),
@@ -121,18 +122,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.secondaryBg70,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderWidth: 4,
-    borderRadius: 4,
+    paddingHorizontal: scale(6),
+    paddingVertical: verticalScale(2),
+    borderWidth: moderateScale(4),
+    borderRadius: moderateScale(4),
     borderTopWidth: 0,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    gap: 4
+    gap: scale(4)
   },
   statText: {
     color: Colors.neutralLight,
-    fontSize: 12,
+    fontSize: moderateScale(12),
     fontWeight: 'bold'
   }
 });
