@@ -1,6 +1,13 @@
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { ChangeNameModal } from 'app/components/ChangeNameModal';
 import { useMusicStore } from 'app/store/useMusicStore';
 import { useSfxStore } from 'app/store/useSFXStore';
+import {
+  getBattleTutorial,
+  getMagicHutTutorial,
+  setBattleTutorial,
+  setMagicHutTutorial
+} from 'app/utils/tutorialManager';
 import {
   canChangeUsername,
   getNextChangeDate,
@@ -24,6 +31,9 @@ const SettingsScreen = () => {
 
   const [username, setUsername] = useState('');
   const [visibleChangeNameModal, setVisibleChangeNameModal] = useState(false);
+
+  const [battleTutorEnabled, setBattleTutorEnabled] = useState(true);
+  const [magicHutTutorEnabled, setMagicHutTutorEnabled] = useState(true);
 
   async function onPressChangeUsername() {
     const allowed = await canChangeUsername();
@@ -55,10 +65,24 @@ const SettingsScreen = () => {
     setVisibleChangeNameModal(false);
   }
 
+  const toggleBattleTutor = async (value: boolean) => {
+    setBattleTutorEnabled(value);
+    await setBattleTutorial(value);
+  };
+
+  const toggleMagicHutTutor = async (value: boolean) => {
+    setMagicHutTutorEnabled(value);
+    await setMagicHutTutorial(value);
+  };
+
   useEffect(() => {
     (async () => {
-      const current = await getUsername();
-      setUsername(current);
+      const currentName = await getUsername();
+      const battleTutorialEnabled = await getBattleTutorial();
+      const magicHutTutorialEnabled = await getMagicHutTutorial();
+      setUsername(currentName);
+      setBattleTutorEnabled(battleTutorialEnabled);
+      setMagicHutTutorEnabled(magicHutTutorialEnabled);
     })();
   }, []);
 
@@ -73,7 +97,11 @@ const SettingsScreen = () => {
             <Text style={styles.settingDesc}>Name for global highscore</Text>
           </View>
           <TouchableOpacity onPress={onPressChangeUsername}>
-            <Text style={{ color: 'white' }}>Change</Text>
+            <MaterialIcons
+              name="drive-file-rename-outline"
+              size={24}
+              color="white"
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -99,6 +127,33 @@ const SettingsScreen = () => {
           <Switch
             value={mutedSfx}
             onValueChange={setMutedSfx}
+            thumbColor={mutedSfx ? '#ffb347' : '#3eab5e'}
+            trackColor={{ false: '#444', true: '#ffe08a' }}
+          />
+        </View>
+      </View>
+      <View style={styles.card}>
+        <Text style={styles.sectionTitle}>Tutorial</Text>
+        <View style={styles.settingRow}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.settingText}>Battle screen</Text>
+            <Text style={styles.settingDesc}>Enable tutorial</Text>
+          </View>
+          <Switch
+            value={battleTutorEnabled}
+            onValueChange={toggleBattleTutor}
+            thumbColor={mutedSfx ? '#ffb347' : '#3eab5e'}
+            trackColor={{ false: '#444', true: '#ffe08a' }}
+          />
+        </View>
+        <View style={styles.settingRow}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.settingText}>Magic Hut screen</Text>
+            <Text style={styles.settingDesc}>Enable tutorial</Text>
+          </View>
+          <Switch
+            value={magicHutTutorEnabled}
+            onValueChange={toggleMagicHutTutor}
             thumbColor={mutedSfx ? '#ffb347' : '#3eab5e'}
             trackColor={{ false: '#444', true: '#ffe08a' }}
           />
