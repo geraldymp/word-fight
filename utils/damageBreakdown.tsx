@@ -1,16 +1,17 @@
 import { GameStoreType } from 'app/store/GameStoreType';
-import { calculateBaseLetterDamage } from './calculateDamage';
+import { ILetter } from 'app/types/ILetter';
 import { getDamageModifier } from './getDamageModifier';
 import { getBonusDamageFromLength } from './wordLengthDamageMap';
 
 // TODO: Be independent from calculateBaseLetterDamage
 export function damageBreakdown(
-  word: string,
+  letters: ILetter[],
   mod: GameStoreType['damageModifier']
 ) {
-  const letterDamages = word.split('').map(letter => ({
+  const word = letters.map(l => l.letter).join('');
+  const letterDamages = letters.map(letter => ({
     type: 'letter' as const,
-    value: calculateBaseLetterDamage(letter)
+    value: letter.value
   }));
 
   const lengthBonus = {

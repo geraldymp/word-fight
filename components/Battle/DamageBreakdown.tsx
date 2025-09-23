@@ -1,51 +1,53 @@
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
 interface DamageBreakdown {
   currentWord: string;
   damageBreakdownNums: { type: string; value: number }[];
+  customStyle: StyleProp<ViewStyle>;
 }
 
 const _DamageBreakdown: React.FC<DamageBreakdown> = ({
   currentWord,
-  damageBreakdownNums
+  damageBreakdownNums,
+  customStyle
 }) => {
   return (
     <>
-      {currentWord.length > 3 && (
-        <>
-          <Text style={styles.damagePreviewWrapper}>
-            {damageBreakdownNums.map((item, idx) => (
-              <Text
-                key={idx}
-                style={
-                  item.type === 'letter'
-                    ? styles.letter
-                    : item.type === 'length'
-                      ? styles.lengthBonus
-                      : styles.modifier
-                }>
-                {item.value}
-                {idx < damageBreakdownNums.length - 1 ? ' + ' : ''}
-              </Text>
-            ))}
-            {` = `}
-            <Text style={styles.total}>
-              {damageBreakdownNums.reduce((a, b) => a + b.value, 0)}
+      <>
+        <View style={[styles.damagePreviewWrapper, customStyle]}>
+          {damageBreakdownNums.map((item, idx) => (
+            <Text
+              key={idx}
+              style={
+                item.type === 'letter'
+                  ? styles.letter
+                  : item.type === 'length'
+                    ? styles.lengthBonus
+                    : styles.modifier
+              }>
+              {item.value}
+              {idx < damageBreakdownNums.length - 1 ? ' + ' : ''}
             </Text>
+          ))}
+          <Text style={styles.letter}>{` = `}</Text>
+
+          <Text style={styles.total}>
+            {damageBreakdownNums.reduce((a, b) => a + b.value, 0)}
           </Text>
-          <Text style={styles.damagePreviewLabel}>
+        </View>
+        {/* <Text style={styles.damagePreviewLabel}>
             <Text style={styles.letter}>Letters</Text>
 
             {` + `}
-            <Text style={styles.lengthBonus}>Length bonus</Text>
+            <Text style={styles.lengthBonus}>Length</Text>
 
             {` + `}
             <Text style={styles.modifier}>Modifier</Text>
-          </Text>
-        </>
-      )}
+          </Text> */}
+      </>
     </>
   );
 };
@@ -56,33 +58,40 @@ export default DamageBreakdown;
 const styles = StyleSheet.create({
   damagePreviewWrapper: {
     color: Colors.primary,
-    fontSize: 12,
-    fontWeight: 'bold',
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(8),
     borderRadius: 6,
-    backgroundColor: Colors.blackBg50
+    backgroundColor: Colors.blackBg50,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: verticalScale(4)
   },
   damagePreviewLabel: {
     color: Colors.neutralLight,
-    fontSize: 12,
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 24,
+    fontSize: moderateScale(9),
+    paddingVertical: verticalScale(4),
+    paddingHorizontal: scale(8),
+    borderRadius: moderateScale(24),
     backgroundColor: Colors.blackBg50
   },
   letter: {
-    color: Colors.textWhite
+    color: Colors.textWhite,
+    fontSize: moderateScale(9),
+    fontWeight: 'bold'
   },
   lengthBonus: {
-    color: Colors.borderBlue
+    color: Colors.borderBlue,
+    fontSize: moderateScale(9),
+    fontWeight: 'bold'
   },
   modifier: {
-    color: Colors.borderGold
+    color: Colors.borderGold,
+    fontSize: moderateScale(9),
+    fontWeight: 'bold'
   },
   total: {
     color: Colors.primary,
     fontWeight: 'bold',
-    fontSize: 13
+    fontSize: moderateScale(11)
   }
 });

@@ -116,6 +116,10 @@ export default function UseBattle() {
   >([]);
   const [showProjection, setShowProjection] = useState(false);
 
+  // filtered from letters, this only get the word (no value)
+  const currentWord = selectedIndices.map(i => letters[i].letter).join('');
+  const currentWordWithValue = selectedIndices.map(i => letters[i]);
+
   // Shake when damage is done (for enemy, player and word builder)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
     animRef.value = withSequence(
@@ -197,8 +201,6 @@ export default function UseBattle() {
     setLetters(shuffled);
   };
 
-  const currentWord = selectedIndices.map(i => letters[i].letter).join('');
-
   const handleLetterPress = (index: number) => {
     if (!selectedIndices.includes(index)) {
       setSelectedIndices([...selectedIndices, index]);
@@ -220,8 +222,8 @@ export default function UseBattle() {
   }
 
   const damageBreakdowns = useMemo(
-    () => damageBreakdown(currentWord, damageModifier),
-    [currentWord, damageModifier]
+    () => damageBreakdown(currentWordWithValue, damageModifier),
+    [currentWordWithValue, damageModifier]
   );
 
   const projectionStyle = useAnimatedStyle(() => {

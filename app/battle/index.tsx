@@ -128,15 +128,18 @@ export default function BattleScreen() {
               onComplete={() => onCompleteFloatingDamage(event)}
             />
           ))}
-        <Text ref={states.playerWordRef} style={styles.currentWord}>
-          {currentWord ? currentWord.toUpperCase() : '-'}
-        </Text>
+        <View style={{ alignItems: 'center' }}>
+          <Text ref={states.playerWordRef} style={styles.currentWord}>
+            {currentWord ? currentWord.toUpperCase() : '-'}
+          </Text>
 
-        {/* Damage breakdown */}
-        {/* <DamageBreakdown
-          currentWord={currentWord}
-          damageBreakdownNums={getDmgBreakdown}
-        /> */}
+          {/* Damage breakdown */}
+          {/* <DamageBreakdown
+            currentWord={currentWord}
+            damageBreakdownNums={getDmgBreakdown}
+            customStyle={{ opacity: states.showBr ? 1 : 0 }}
+          /> */}
+        </View>
 
         {/* Word Builder */}
         <Animated.FlatList
@@ -155,7 +158,8 @@ export default function BattleScreen() {
           scrollEnabled={false}
           style={[
             {
-              flexGrow: 0
+              flexGrow: 0,
+              marginTop: verticalScale(10)
             },
             { transform: [{ translateX: wrongWordShakeAnim }] }
           ]}
@@ -200,7 +204,7 @@ export default function BattleScreen() {
           style={[
             {
               position: 'absolute',
-              width: 100,
+              width: 100, // if W & H changed, projection movement need some change as well
               height: 100
             },
             states.projectionStyle
@@ -246,13 +250,12 @@ const styles = StyleSheet.create({
   playerArea: {
     flex: 2,
     alignItems: 'center',
-    paddingTop: verticalScale(16)
+    paddingTop: verticalScale(8)
   },
   currentWord: {
     fontSize: diceTextSize,
     fontFamily: 'SourGummy_400Regular',
     color: Colors.accent,
-    marginBottom: verticalScale(16),
     letterSpacing: 2,
     backgroundColor: Colors.blackBg50,
     borderRadius: 8,
