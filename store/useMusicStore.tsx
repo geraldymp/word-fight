@@ -1,8 +1,10 @@
 // useMusicStore.ts
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { STORAGE_KEYS } from 'app/constants/storageKeys';
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
+const { MUSIC_STATE } = STORAGE_KEYS;
 export type TrackKey = 'home' | 'battle';
 
 type MusicStore = {
@@ -23,7 +25,7 @@ export const useMusicStore = create<MusicStore>()(
       setMuted: v => set({ muted: v })
     }),
     {
-      name: 'music-store',
+      name: MUSIC_STATE,
       storage: createJSONStorage(() => AsyncStorage),
       partialize: state => ({ muted: state.muted })
     }
