@@ -1,5 +1,5 @@
 // utils/wordValidator.ts
-import wordList from '../assets/words_alpha.json';
+import wordList from '../assets/dictionary/words_alpha.json';
 
 const wordListTyped: string[] = wordList as unknown as string[];
 
