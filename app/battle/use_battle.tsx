@@ -13,6 +13,10 @@ import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
 import { getDamageModifier } from 'app/utils/getDamageModifier';
 import { setBossBeatenStatistic } from 'app/utils/Statistic/setBossBeaten';
 import { setWordsStatistic } from 'app/utils/Statistic/setWords';
+import {
+  getBattleTutorial,
+  setBattleTutorial
+} from 'app/utils/tutorialManager';
 import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, Text, View } from 'react-native';
@@ -115,6 +119,7 @@ export default function UseBattle() {
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
   const [showProjection, setShowProjection] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   // filtered from letters, this only get the word (no value)
   const currentWord: string = selectedIndices
@@ -417,6 +422,22 @@ export default function UseBattle() {
     setShowConfirmModal(true);
   }
 
+  const handleCloseTutorial = async () => {
+    setShowTutorial(false);
+    await setBattleTutorial(false); // disable after shown once
+  };
+
+  useEffect(() => {
+    (async () => {
+      const enabled = await getBattleTutorial();
+      if (enabled) {
+        setTimeout(() => {
+          setShowTutorial(true);
+        }, 350);
+      }
+    })();
+  }, []);
+
   useEffect(() => {
     if (isFocused) {
       playMusic('battle');
@@ -452,7 +473,8 @@ export default function UseBattle() {
       onPressBackToHome,
       onPressNextArea,
       onPressNextStage,
-      onGiveUp
+      onGiveUp,
+      handleCloseTutorial
     },
     states: {
       areaDetail: area,
@@ -487,7 +509,8 @@ export default function UseBattle() {
       damageEvents,
       maxReshuffle,
       reshuffleCount: reshuffle,
-      getDmgBreakdown: damageBreakdowns
+      getDmgBreakdown: damageBreakdowns,
+      showTutorial
     }
   };
 }

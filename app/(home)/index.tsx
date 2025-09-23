@@ -113,7 +113,7 @@ export default function HomeScreen() {
   return (
     <ImageBackground
       style={styles.mainContainer}
-      source={require('@assets/home_background.jpg')}
+      source={require('@assets/backgrounds/home_background.jpg')}
       resizeMode="cover">
       <RoundedButton
         onPress={() => setVisibleStatsModal(true)}

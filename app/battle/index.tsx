@@ -7,6 +7,8 @@ import AreaProgress from 'app/components/Battle/AreaProgress';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import BottomHUD from 'app/components/BottomHUD';
 import { NormalTile } from 'app/components/LetterTile';
+import TutorialModal from 'app/components/TutorialModal';
+import { TutorialContents } from 'app/constants/tutorial_contents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
@@ -197,6 +199,11 @@ export default function BattleScreen() {
         visible={showConfirmModal}
         onConfirm={onConfirm}
         onCancel={onCancel}
+      />
+      <TutorialModal
+        visible={states.showTutorial}
+        onClose={actions.handleCloseTutorial}
+        slides={TutorialContents}
       />
       {states.showProjection && (
         <Animated.Image
