@@ -4,7 +4,9 @@ import {
   useFonts
 } from '@expo-google-fonts/architects-daughter';
 import { Candal_400Regular } from '@expo-google-fonts/candal';
+import { Chilanka_400Regular } from '@expo-google-fonts/chilanka';
 import { Cinzel_400Regular } from '@expo-google-fonts/cinzel';
+import { DaysOne_400Regular } from '@expo-google-fonts/days-one';
 import { GoblinOne_400Regular } from '@expo-google-fonts/goblin-one';
 import {
   SourGummy_400Regular,
@@ -28,7 +30,9 @@ export default function Layout() {
     Cinzel_400Regular,
     GoblinOne_400Regular,
     SourGummy_400Regular,
-    SourGummy_800ExtraBold
+    SourGummy_800ExtraBold,
+    DaysOne_400Regular,
+    Chilanka_400Regular
   });
 
   useEffect(() => {
