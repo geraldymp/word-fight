@@ -6,7 +6,7 @@ import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 interface DamageBreakdown {
   currentWord: string;
   damageBreakdownNums: { type: string; value: number }[];
-  customStyle: StyleProp<ViewStyle>;
+  customStyle?: StyleProp<ViewStyle>;
 }
 
 const _DamageBreakdown: React.FC<DamageBreakdown> = ({

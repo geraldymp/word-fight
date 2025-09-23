@@ -1,4 +1,6 @@
-export function getBonusDamageFromLength(word: string): number {
+import { ILetter } from 'app/types/ILetter';
+
+export function getBonusDamageFromLength(word: ILetter[]): number {
   const length = word.length;
 
   if (length < 4) return 0;
@@ -11,6 +13,6 @@ export function getBonusDamageFromLength(word: string): number {
   if (length === 10) return 28;
   if (length === 11) return 35;
 
-  // For words with 12 letter, give 25 bonus damage
+  // For words with 12 letter, give 40 bonus damage
   return 40;
 }

@@ -34,7 +34,8 @@ export function getDamageModifier(
   }
 
   if (STModifier) {
-    if (word.toLowerCase().includes('st')) modifier += STModifier;
+    const st = word.match(/[st]/gi);
+    if (st) modifier += st.length * STModifier;
   }
 
   return modifier;

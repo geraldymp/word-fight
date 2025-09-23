@@ -117,8 +117,11 @@ export default function UseBattle() {
   const [showProjection, setShowProjection] = useState(false);
 
   // filtered from letters, this only get the word (no value)
-  const currentWord = selectedIndices.map(i => letters[i].letter).join('');
-  const currentWordWithValue = selectedIndices.map(i => letters[i]);
+  const currentWord: string = selectedIndices
+    .map(i => letters[i].letter)
+    .join('');
+  // array of created word, with each letter value
+  const currentWordWithValue: ILetter[] = selectedIndices.map(i => letters[i]);
 
   // Shake when damage is done (for enemy, player and word builder)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
@@ -156,7 +159,7 @@ export default function UseBattle() {
       (sum, i) => sum + letters[i].value,
       0
     );
-    const lengthDamage = getBonusDamageFromLength(currentWord);
+    const lengthDamage = getBonusDamageFromLength(currentWordWithValue);
     const dmgModifier = getDamageModifier(currentWord, damageModifier);
     const totalDamage = baseDamage + lengthDamage + dmgModifier;
     setShowProjection(false);
@@ -270,7 +273,7 @@ export default function UseBattle() {
         (sum, i) => sum + letters[i].value,
         0
       );
-      const lengthDamage = getBonusDamageFromLength(currentWord);
+      const lengthDamage = getBonusDamageFromLength(currentWordWithValue);
       const nonModifiedDamage = baseDamage + lengthDamage;
 
       launchProjection();
