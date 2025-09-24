@@ -12,6 +12,7 @@ import {
   SourGummy_400Regular,
   SourGummy_800ExtraBold
 } from '@expo-google-fonts/sour-gummy';
+import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { MusicPlayer } from 'app/utils/musicPlayer';
 import { SfxPlayer } from 'app/utils/sfxPlayer';
 import { Stack } from 'expo-router';
@@ -19,6 +20,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
+import Purchases from 'react-native-purchases';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
@@ -35,13 +37,15 @@ export default function Layout() {
     Chilanka_400Regular
   });
 
+  const setFromCustomerInfo = useSubscriptionStore(s => s.setFromCustomerInfo);
+
   useEffect(() => {
     if (loaded || error) {
       SplashScreen.hideAsync();
     }
   }, [loaded, error]);
 
-  // initiate ads
+  // initiate Ads
   useEffect(() => {
     mobileAds()
       .setRequestConfiguration({
@@ -50,6 +54,20 @@ export default function Layout() {
         tagForUnderAgeOfConsent: false
       })
       .then(() => mobileAds().initialize());
+  }, []);
+
+  useEffect(() => {
+    Purchases.configure({ apiKey: 'goog_BEXkLJEyXiWjowRmFmAcZETYydM' });
+
+    // Initial fetch
+    Purchases.getCustomerInfo().then(setFromCustomerInfo);
+
+    // Listen for changes
+    Purchases.addCustomerInfoUpdateListener(setFromCustomerInfo);
+
+    return () => {
+      Purchases.removeCustomerInfoUpdateListener(setFromCustomerInfo);
+    };
   }, []);
 
   if (!loaded && !error) {
