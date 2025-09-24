@@ -4,6 +4,7 @@ import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { Ionicons } from '@expo/vector-icons';
 import AreaProgress from 'app/components/Battle/AreaProgress';
+import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import BottomHUD from 'app/components/BottomHUD';
 import { NormalTile } from 'app/components/LetterTile';
@@ -135,12 +136,11 @@ export default function BattleScreen() {
             {currentWord ? currentWord.toUpperCase() : '-'}
           </Text>
 
-          {/* Damage breakdown */}
-          {/* <DamageBreakdown
+          <DamageBreakdown
             currentWord={currentWord}
             damageBreakdownNums={getDmgBreakdown}
-            customStyle={{ opacity: states.showBr ? 1 : 0 }}
-          /> */}
+            customStyle={{ opacity: 0 }} // turn to 1 if subscribing later
+          />
         </View>
 
         {/* Word Builder */}

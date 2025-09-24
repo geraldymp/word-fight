@@ -102,7 +102,7 @@ export const areas: IArea[] = [
         id: 'ancient_kingdom',
         name: 'Ancient Kingdom',
         image: require('@assets/areas/ancient_kingdom.jpg'),
-        battleBackground: require('@assets/backgrounds/futuristic_city.jpg'),
+        battleBackground: require('@assets/backgrounds/ancient_kingdom.jpg'),
         description:
           'Old place that should have been a ruin, but a magical being revive it'
       }
