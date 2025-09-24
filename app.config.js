@@ -23,7 +23,8 @@ export default {
         backgroundColor: '#ffffff'
       },
       edgeToEdgeEnabled: true,
-      blockedPermissions: ["android.permission.RECORD_AUDIO"]
+      blockedPermissions: ["android.permission.RECORD_AUDIO"],
+      permissions: ["com.android.vending.BILLING"]
     },
     web: {
       bundler: 'metro',
