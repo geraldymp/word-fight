@@ -1,6 +1,6 @@
 import Colors from 'app/foundation/colors';
 import { IHelperContent } from 'app/types/IHelperContent';
-import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
+import { moderateScale, verticalScale } from 'app/utils/sizeScaling';
 import React, { memo, useRef, useState } from 'react';
 import {
   Dimensions,
@@ -23,7 +23,7 @@ type Props = {
 const { width, height } = Dimensions.get('window');
 const MODAL_WIDTH = width * 0.9;
 const MODAL_HEIGHT = height * 0.7;
-const CAROUSEL_HEIGHT = MODAL_HEIGHT * 0.65;
+const CAROUSEL_HEIGHT = MODAL_HEIGHT * 0.75;
 
 const TutorialModal: React.FC<Props> = ({ visible, onClose, slides }) => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -31,7 +31,7 @@ const TutorialModal: React.FC<Props> = ({ visible, onClose, slides }) => {
 
   const renderItem = ({ item }: { item: IHelperContent }) => (
     <View style={styles.slide}>
-      <Image source={item.image} style={styles.image} resizeMode="cover" />
+      <Image source={item.image} style={styles.image} resizeMode="contain" />
       <Text style={styles.description}>{item.description}</Text>
     </View>
   );
@@ -110,19 +110,15 @@ const styles = StyleSheet.create({
   },
   image: {
     width: '100%',
-    height: verticalScale(180),
-    marginBottom: verticalScale(12),
-    borderRadius: moderateScale(12),
-    borderWidth: scale(3),
-    borderColor: Colors.borderBlack,
-    backgroundColor: Colors.neutralLight
+    height: verticalScale(220),
+    marginBottom: verticalScale(12)
   },
   description: {
     width: '90%',
-    fontSize: moderateScale(20),
+    fontSize: moderateScale(18),
     color: Colors.neutralLight,
     textAlign: 'center',
-    lineHeight: verticalScale(24),
+    lineHeight: verticalScale(25),
     fontFamily: 'Chilanka_400Regular'
   },
   nextBtn: {

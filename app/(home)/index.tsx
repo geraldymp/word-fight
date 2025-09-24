@@ -34,6 +34,7 @@ import {
   isHighscoreFilled
 } from 'app/lib/highscoreFunctions';
 import { IShowedStats } from 'app/types/IShowedStats';
+import { scale as scaling, verticalScale } from 'app/utils/sizeScaling';
 import { getAllStats } from 'app/utils/Statistic/getAllStatistics';
 import { resetAllStats } from 'app/utils/Statistic/resetAllStatistics';
 
@@ -51,6 +52,8 @@ export default function HomeScreen() {
   const animatedStyle = useAnimatedStyle(() => ({
     transform: [{ scale: scale.value }]
   }));
+
+  const BottomIconSize = scaling(24);
 
   const [stats, setStats] = useState<IShowedStats>({
     averageLength: 0,
@@ -117,14 +120,24 @@ export default function HomeScreen() {
       resizeMode="cover">
       <RoundedButton
         onPress={() => setVisibleStatsModal(true)}
-        customStyle={[styles.topButtonsContainer, { left: 24 }]}
-        icon={<SvgGraph width={20} height={20} color={Colors.neutralDark} />}
+        customStyle={[styles.topButtonsContainer, { left: scaling(24) }]}
+        icon={
+          <SvgGraph
+            width={scaling(20)}
+            height={scaling(20)}
+            color={Colors.neutralDark}
+          />
+        }
       />
       <RoundedButton
         onPress={() => setVisibleAboutModal(true)}
-        customStyle={[styles.topButtonsContainer, { right: 24 }]}
+        customStyle={[styles.topButtonsContainer, { right: scaling(24) }]}
         icon={
-          <SvgInformation width={36} height={36} color={Colors.neutralDark} />
+          <SvgInformation
+            width={scaling(36)}
+            height={scaling(36)}
+            color={Colors.neutralDark}
+          />
         }
       />
       <AnimatedImage
@@ -132,8 +145,8 @@ export default function HomeScreen() {
         style={[
           {
             width: '80%',
-            height: 200,
-            marginTop: 120
+            height: verticalScale(200),
+            marginTop: verticalScale(120)
           },
           animatedStyle
         ]}
@@ -154,18 +167,32 @@ export default function HomeScreen() {
       <View style={styles.bottomButtonsContainer}>
         <RoundedButton
           onPress={() => setVisibleHelpModal(true)}
-          icon={<SvgHelp width={24} height={24} color={Colors.neutralDark} />}
+          icon={
+            <SvgHelp
+              width={BottomIconSize}
+              height={BottomIconSize}
+              color={Colors.neutralDark}
+            />
+          }
         />
         <RoundedButton
           onPress={() => router.push('/leaderboard')}
           icon={
-            <SvgAchievement width={24} height={24} color={Colors.neutralDark} />
+            <SvgAchievement
+              width={BottomIconSize}
+              height={BottomIconSize}
+              color={Colors.neutralDark}
+            />
           }
         />
         <RoundedButton
           onPress={() => router.push('/settings')}
           icon={
-            <SvgSetting width={24} height={24} color={Colors.neutralDark} />
+            <SvgSetting
+              width={BottomIconSize}
+              height={BottomIconSize}
+              color={Colors.neutralDark}
+            />
           }
         />
       </View>
@@ -194,13 +221,13 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   topButtonsContainer: {
-    top: 24,
+    top: verticalScale(24),
     position: 'absolute'
   },
   bottomButtonsContainer: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: 42,
-    gap: 32
+    bottom: verticalScale(42),
+    gap: scaling(32)
   }
 });

@@ -274,14 +274,14 @@ const styles = StyleSheet.create({
   invalid: {
     color: Colors.danger,
     backgroundColor: Colors.neutralLight,
-    borderRadius: 10,
-    borderWidth: 2,
+    borderRadius: moderateScale(10),
+    borderWidth: moderateScale(2),
     borderColor: Colors.danger,
-    paddingVertical: verticalScale(4),
+    paddingVertical: verticalScale(3),
     paddingHorizontal: scale(8),
-    marginTop: verticalScale(12),
+    marginTop: verticalScale(3),
     fontWeight: 'bold',
-    fontSize: moderateScale(12)
+    fontSize: moderateScale(8)
   },
   bottomBarContainer: {
     width: '100%',
