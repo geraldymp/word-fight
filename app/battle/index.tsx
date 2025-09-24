@@ -139,7 +139,7 @@ export default function BattleScreen() {
           <DamageBreakdown
             currentWord={currentWord}
             damageBreakdownNums={getDmgBreakdown}
-            customStyle={{ opacity: 0 }} // turn to 1 if subscribing later
+            customStyle={{ opacity: states.isPremium ? 1 : 0 }} // turn to 1 if subscribing later
           />
         </View>
 

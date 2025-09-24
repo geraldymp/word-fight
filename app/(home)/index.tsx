@@ -22,10 +22,12 @@ import Animated, {
 } from 'react-native-reanimated';
 
 // @ts-ignore
+import { Entypo } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import HelpModal from 'app/components/HelpModal';
+import PremiumModal from 'app/components/PremiumModal';
 import { StatisticModal } from 'app/components/StatisticModal';
 import { HelperContents } from 'app/constants/helper_contents';
 import Colors from 'app/foundation/colors';
@@ -33,6 +35,7 @@ import {
   getLowestHighscore,
   isHighscoreFilled
 } from 'app/lib/highscoreFunctions';
+import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { IShowedStats } from 'app/types/IShowedStats';
 import { scale as scaling, verticalScale } from 'app/utils/sizeScaling';
 import { getAllStats } from 'app/utils/Statistic/getAllStatistics';
@@ -43,6 +46,9 @@ const AnimatedImage = Animated.createAnimatedComponent(Image);
 export default function HomeScreen() {
   const router = useRouter();
   const isFocused = useIsFocused();
+
+  const isPremium = useSubscriptionStore(s => s.isPremium);
+  const [showModal, setShowModal] = useState(false);
 
   const { setLowestHighScore, setHighScoreFilled } = useGameStore();
 
@@ -163,7 +169,6 @@ export default function HomeScreen() {
         type="primary"
         size="lg"
       />
-
       <View style={styles.bottomButtonsContainer}>
         <RoundedButton
           onPress={() => setVisibleHelpModal(true)}
@@ -195,6 +200,10 @@ export default function HomeScreen() {
             />
           }
         />
+        <RoundedButton
+          onPress={() => setShowModal(true)}
+          icon={<Entypo name="shop" size={BottomIconSize} />}
+        />
       </View>
       <StatisticModal
         stats={stats}
@@ -211,6 +220,7 @@ export default function HomeScreen() {
         onClose={() => setVisibleHelpModal(false)}
         slides={HelperContents}
       />
+      <PremiumModal visible={showModal} onClose={() => setShowModal(false)} />
     </ImageBackground>
   );
 }
@@ -227,7 +237,7 @@ const styles = StyleSheet.create({
   bottomButtonsContainer: {
     flexDirection: 'row',
     position: 'absolute',
-    bottom: verticalScale(42),
-    gap: scaling(32)
+    bottom: verticalScale(36),
+    gap: scaling(28)
   }
 });
