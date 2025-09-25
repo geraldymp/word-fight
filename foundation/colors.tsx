@@ -10,6 +10,8 @@ const Colors = {
   disabled: '#eeeae0aa',
   blueMana: '#4A6CF7',
   redHealth: '#E53935',
+  deeperDark: '#121212',
+  shallowBlue: '#23233a',
 
   neutralLight: '#F7E7C6', // Parchment Beige - backgrounds, soft UI
   neutralDark: '#2E2E2E', // Charcoal Gray - borders, outlines, text shadows
