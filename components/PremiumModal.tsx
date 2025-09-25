@@ -19,6 +19,8 @@ type Props = {
 export default function PremiumModal({ visible, onClose }: Props) {
   const [loading, setLoading] = useState(false);
   const [offer, setOffer] = useState<PurchasesPackage | null>(null);
+
+  const isPremium = useSubscriptionStore(s => s.isPremium);
   const setFromCustomerInfo = useSubscriptionStore(s => s.setFromCustomerInfo);
 
   useEffect(() => {
@@ -74,11 +76,19 @@ export default function PremiumModal({ visible, onClose }: Props) {
                 <Text style={styles.benefit}>✔ Access to valued Tile</Text>
                 <Text style={styles.benefit}>✔ Free refresh at Magic Hut</Text>
               </View>
-              <TouchableOpacity
-                style={[styles.buttonWrapper, { marginBottom: 8 }]}
-                onPress={handleSubscribe}>
-                <Text style={styles.buttonText}>Subscribe</Text>
-              </TouchableOpacity>
+
+              {isPremium ? (
+                <Text style={styles.subscribedText}>
+                  You already subscribed
+                </Text>
+              ) : (
+                <TouchableOpacity
+                  style={[styles.buttonWrapper, { marginBottom: 8 }]}
+                  onPress={handleSubscribe}>
+                  <Text style={styles.buttonText}>Subscribe</Text>
+                </TouchableOpacity>
+              )}
+
               <TouchableOpacity style={styles.buttonWrapper} onPress={onClose}>
                 <Text style={styles.buttonText}>Close</Text>
               </TouchableOpacity>
@@ -121,7 +131,6 @@ const styles = StyleSheet.create({
     fontSize: moderateScale(18),
     fontWeight: 'bold',
     marginBottom: verticalScale(8),
-
     color: '#fff'
   },
   cost: {
@@ -157,5 +166,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: moderateScale(16),
     fontWeight: '600'
+  },
+  subscribedText: {
+    fontSize: moderateScale(16),
+    fontWeight: '600',
+    color: 'lightgreen',
+    textAlign: 'center',
+    marginBottom: verticalScale(8)
   }
 });
