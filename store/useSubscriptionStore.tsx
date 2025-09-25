@@ -12,7 +12,7 @@ export const useSubscriptionStore = create<SubscriptionState>(set => ({
   isPremium: false,
 
   setFromCustomerInfo: info => {
-    const premiumActive = info.entitlements.active['monthly_pro'] !== undefined;
+    const premiumActive = info.entitlements.active['Monthly Pro'] !== undefined;
     set({ isPremium: premiumActive });
   },
 
@@ -20,7 +20,7 @@ export const useSubscriptionStore = create<SubscriptionState>(set => ({
     try {
       const info = await Purchases.getCustomerInfo();
       const premiumActive =
-        info.entitlements.active['monthly_pro'] !== undefined;
+        info.entitlements.active['Monthly Pro'] !== undefined;
       set({ isPremium: premiumActive });
     } catch (e) {
       console.warn('Failed to refresh subscription', e);

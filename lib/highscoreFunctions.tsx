@@ -40,7 +40,7 @@ export async function submitHighscore(word: string, score: number) {
   if (error) {
     console.error('Failed to insert new score:', error);
   } else {
-    console.log('New high score submitted!');
+    console.log('New high score submitted!', score);
   }
 }
 

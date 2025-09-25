@@ -20,7 +20,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
-import Purchases from 'react-native-purchases';
+import Purchases, { CustomerInfo } from 'react-native-purchases';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 SplashScreen.preventAutoHideAsync();
@@ -60,13 +60,19 @@ export default function Layout() {
     Purchases.configure({ apiKey: 'goog_BEXkLJEyXiWjowRmFmAcZETYydM' });
 
     // Initial fetch
-    Purchases.getCustomerInfo().then(setFromCustomerInfo);
+    Purchases.getCustomerInfo().then(info => {
+      setFromCustomerInfo(info);
+    });
 
     // Listen for changes
-    Purchases.addCustomerInfoUpdateListener(setFromCustomerInfo);
+    const listener = (info: CustomerInfo) => {
+      setFromCustomerInfo(info);
+    };
+
+    Purchases.addCustomerInfoUpdateListener(listener);
 
     return () => {
-      Purchases.removeCustomerInfoUpdateListener(setFromCustomerInfo);
+      Purchases.removeCustomerInfoUpdateListener(listener);
     };
   }, []);
 
