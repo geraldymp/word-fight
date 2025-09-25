@@ -6,7 +6,7 @@ import { useSfxStore } from '@store/useSFXStore';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
-import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
+import { usePremiumStore } from 'app/store/usePremiumStore';
 import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
@@ -47,7 +47,8 @@ export default function UseBattle() {
   const router = useRouter();
   const isFocused = useIsFocused();
 
-  const isPremium = useSubscriptionStore(s => s.isPremium);
+  const showDamageBreakdown = usePremiumStore(s => s.showDamageBreakdown);
+  const showNumberedTiles = usePremiumStore(s => s.showNumberedTiles);
 
   const { playMusic, stopMusic } = useMusicStore();
   const { playSfx } = useSfxStore();
@@ -514,7 +515,8 @@ export default function UseBattle() {
       reshuffleCount: reshuffle,
       getDmgBreakdown: damageBreakdowns,
       showTutorial,
-      isPremium
+      showDamageBreakdown,
+      showNumberedTiles
     }
   };
 }

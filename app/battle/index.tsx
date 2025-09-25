@@ -7,7 +7,7 @@ import AreaProgress from 'app/components/Battle/AreaProgress';
 import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import BottomHUD from 'app/components/BottomHUD';
-import { NormalTile } from 'app/components/LetterTile';
+import { NormalTile, NumberedTile } from 'app/components/LetterTile';
 import TutorialModal from 'app/components/TutorialModal';
 import { TutorialContents } from 'app/constants/tutorial_contents';
 import Colors from 'app/foundation/colors';
@@ -139,7 +139,7 @@ export default function BattleScreen() {
           <DamageBreakdown
             currentWord={currentWord}
             damageBreakdownNums={getDmgBreakdown}
-            customStyle={{ opacity: states.isPremium ? 1 : 0 }} // turn to 1 if subscribing later
+            customStyle={{ opacity: states.showDamageBreakdown ? 1 : 0 }} // turn to 1 if subscribing later
           />
         </View>
 
@@ -149,12 +149,23 @@ export default function BattleScreen() {
           keyExtractor={(_, i) => i.toString()}
           numColumns={6}
           renderItem={({ item, index }) => (
-            <NormalTile
-              item={item}
-              index={index}
-              handleLetterPress={handleLetterPress}
-              selectedIndices={selectedIndices}
-            />
+            <>
+              {states.showNumberedTiles ? (
+                <NumberedTile
+                  item={item}
+                  index={index}
+                  handleLetterPress={handleLetterPress}
+                  selectedIndices={selectedIndices}
+                />
+              ) : (
+                <NormalTile
+                  item={item}
+                  index={index}
+                  handleLetterPress={handleLetterPress}
+                  selectedIndices={selectedIndices}
+                />
+              )}
+            </>
           )}
           showsVerticalScrollIndicator={false}
           scrollEnabled={false}

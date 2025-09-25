@@ -12,6 +12,7 @@ import {
   SourGummy_400Regular,
   SourGummy_800ExtraBold
 } from '@expo-google-fonts/sour-gummy';
+import { usePremiumStore } from 'app/store/usePremiumStore';
 import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { MusicPlayer } from 'app/utils/musicPlayer';
 import { SfxPlayer } from 'app/utils/sfxPlayer';
@@ -38,6 +39,7 @@ export default function Layout() {
   });
 
   const setFromCustomerInfo = useSubscriptionStore(s => s.setFromCustomerInfo);
+  const loadSettings = usePremiumStore(s => s.loadSettings);
 
   useEffect(() => {
     if (loaded || error) {
@@ -62,11 +64,13 @@ export default function Layout() {
     // Initial fetch
     Purchases.getCustomerInfo().then(info => {
       setFromCustomerInfo(info);
+      loadSettings();
     });
 
     // Listen for changes
     const listener = (info: CustomerInfo) => {
       setFromCustomerInfo(info);
+      loadSettings();
     };
 
     Purchases.addCustomerInfoUpdateListener(listener);

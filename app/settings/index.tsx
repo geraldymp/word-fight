@@ -1,9 +1,12 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { ChangeNameModal } from 'app/components/ChangeNameModal';
+import SettingCardSwitch from 'app/components/SettingCardSwitch';
 import SettingHeader from 'app/components/SettingHeader';
 import Colors from 'app/foundation/colors';
 import { useMusicStore } from 'app/store/useMusicStore';
+import { usePremiumStore } from 'app/store/usePremiumStore';
 import { useSfxStore } from 'app/store/useSFXStore';
+import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { scale } from 'app/utils/sizeScaling';
 import {
   getBattleTutorial,
@@ -22,7 +25,6 @@ import {
   Alert,
   ScrollView,
   StyleSheet,
-  Switch,
   Text,
   TouchableOpacity,
   View
@@ -31,6 +33,15 @@ import {
 const SettingsScreen = () => {
   const { muted: mutedSfx, setMuted: setMutedSfx } = useSfxStore();
   const { muted: mutedMusic, setMuted: setMutedMusic } = useMusicStore();
+
+  const isPremium = useSubscriptionStore(s => s.isPremium);
+
+  const {
+    showNumberedTiles,
+    toggleNumberedTiles,
+    showDamageBreakdown,
+    toggleDamageBreakdown
+  } = usePremiumStore();
 
   const [username, setUsername] = useState('');
   const [visibleChangeNameModal, setVisibleChangeNameModal] = useState(false);
@@ -53,6 +64,22 @@ const SettingsScreen = () => {
       return 'Sound Enabled';
     }
   }, [mutedSfx]);
+
+  const tileState = useMemo(() => {
+    if (showNumberedTiles) {
+      return 'Numbered tile';
+    } else {
+      return 'Default tile';
+    }
+  }, [showNumberedTiles]);
+
+  const dmgBreakdownState = useMemo(() => {
+    if (showDamageBreakdown) {
+      return 'Breakdown Visible';
+    } else {
+      return 'Breakdown hidden';
+    }
+  }, [showDamageBreakdown]);
 
   const battleTutorState = useMemo(() => {
     if (battleTutorEnabled) {
@@ -141,67 +168,59 @@ const SettingsScreen = () => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Audio</Text>
-          <View style={styles.settingRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.settingText}>{musicState}</Text>
-              <Text style={styles.settingDesc}>Background Music</Text>
-            </View>
-            <Switch
-              value={!mutedMusic}
-              onValueChange={v => setMutedMusic(!v)}
-              thumbColor={mutedMusic ? Colors.neutralMedium : Colors.primary}
-              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
-            />
-          </View>
-          <View style={styles.settingRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.settingText}>{soundState}</Text>
-              <Text
-                style={
-                  styles.settingDesc
-                }>{`Sound effects (hit or beaten sound)`}</Text>
-            </View>
-            <Switch
-              value={!mutedSfx}
-              onValueChange={v => setMutedSfx(!v)}
-              thumbColor={mutedSfx ? Colors.neutralMedium : Colors.primary}
-              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
-            />
-          </View>
-        </View>
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Tutorial</Text>
-          <View style={styles.settingRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.settingText}>{battleTutorState}</Text>
-              <Text style={styles.settingDesc}>Tutorial in battle screen</Text>
-            </View>
-            <Switch
-              value={battleTutorEnabled}
-              onValueChange={toggleBattleTutor}
-              thumbColor={
-                !battleTutorEnabled ? Colors.neutralMedium : Colors.primary
+        {isPremium && (
+          <SettingCardSwitch
+            title="Premium Settings"
+            contents={[
+              {
+                title: tileState,
+                description: 'Type of tile in Battle screen',
+                value: showNumberedTiles,
+                onPress: toggleNumberedTiles
+              },
+              {
+                title: dmgBreakdownState,
+                description: `Damage breakdown visibility`,
+                value: showDamageBreakdown,
+                onPress: toggleDamageBreakdown
               }
-              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
-            />
-          </View>
-          <View style={styles.settingRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.settingText}>{shopTutorState}</Text>
-              <Text style={styles.settingDesc}>Tutorial in Magic Hut</Text>
-            </View>
-            <Switch
-              value={magicHutTutorEnabled}
-              onValueChange={toggleMagicHutTutor}
-              thumbColor={
-                !magicHutTutorEnabled ? Colors.neutralMedium : Colors.primary
-              }
-              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
-            />
-          </View>
-        </View>
+            ]}
+          />
+        )}
+        <SettingCardSwitch
+          title="Audio"
+          contents={[
+            {
+              title: musicState,
+              description: 'Background Music',
+              value: !mutedMusic,
+              onPress: v => setMutedMusic(!v)
+            },
+            {
+              title: soundState,
+              description: `Sound effects (hit or beaten sound)`,
+              value: !mutedSfx,
+              onPress: v => setMutedSfx(!v)
+            }
+          ]}
+        />
+        <SettingCardSwitch
+          title="Tutorial"
+          contents={[
+            {
+              title: battleTutorState,
+              description: 'Tutorial in battle screen',
+              value: battleTutorEnabled,
+              onPress: toggleBattleTutor
+            },
+            {
+              title: shopTutorState,
+              description: `Tutorial in Magic Hut`,
+              value: magicHutTutorEnabled,
+              onPress: toggleMagicHutTutor
+            }
+          ]}
+        />
         <ChangeNameModal
           visible={visibleChangeNameModal}
           onConfirm={onConfirmChange}
@@ -225,6 +244,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     backgroundColor: Colors.deeperDark,
     padding: 0,
+    paddingBottom: 12,
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginTop: scale(8)
