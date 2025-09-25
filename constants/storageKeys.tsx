@@ -8,5 +8,8 @@ export const STORAGE_KEYS = {
   MAGIC_HUT_TUTORIAL_ENABLED: 'hgutisps',
 
   SFX_STATE: 'sfx-store',
-  MUSIC_STATE: 'music-store'
+  MUSIC_STATE: 'music-store',
+
+  SHOW_NUMBERED_TILE: 'bhvfplws',
+  SHOW_DAMAGE_BREAKDOWN: 'ggslwkfs'
 };
