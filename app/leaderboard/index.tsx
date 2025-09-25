@@ -1,6 +1,8 @@
 // app/leaderboard.tsx
+import SettingHeader from 'app/components/SettingHeader';
 import Colors from 'app/foundation/colors';
 import { getHighscore } from 'app/lib/highscoreFunctions';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -47,7 +49,7 @@ export default function LeaderboardScreen() {
 
   return (
     <View style={styles.scrollContainer}>
-      <Text style={styles.header}>Leaderboard</Text>
+      <SettingHeader title="Leaderboard" />
       {loading ? (
         <ActivityIndicator size="large" color="#ffe08a" />
       ) : (
@@ -56,7 +58,7 @@ export default function LeaderboardScreen() {
           keyExtractor={item => item.id}
           renderItem={renderItem}
           ListEmptyComponent={() => <Text style={styles.noData}>No Data</Text>}
-          contentContainerStyle={{ paddingHorizontal: 2, paddingBottom: 24 }}
+          contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24 }}
           showsVerticalScrollIndicator={false}
         />
       )}
@@ -67,69 +69,54 @@ export default function LeaderboardScreen() {
 const styles = StyleSheet.create({
   scrollContainer: {
     flex: 1,
-    paddingVertical: 48,
-    paddingHorizontal: 16,
-    backgroundColor: '#121212'
-  },
-  header: {
-    fontSize: 32,
-    color: '#ffe08a',
-    fontWeight: 'bold',
-    marginBottom: 24,
-    letterSpacing: 1.5,
-    textAlign: 'center'
+    backgroundColor: Colors.deeperDark
   },
   item: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    backgroundColor: '#23233a',
-    paddingVertical: 14,
-    paddingHorizontal: 10,
-    borderRadius: 12,
-    marginBottom: 10,
-    alignItems: 'center',
-    shadowColor: '#ffe08a',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 2
+    backgroundColor: Colors.shallowBlue,
+    paddingVertical: verticalScale(14),
+    paddingHorizontal: scale(10),
+    borderRadius: scale(12),
+    marginBottom: verticalScale(10),
+    alignItems: 'center'
   },
   rank: {
-    color: '#ffe08a',
-    fontSize: 18,
-    width: 30,
+    color: Colors.primary,
+    fontSize: moderateScale(18),
+    width: scale(30),
     fontWeight: 'bold',
     textAlign: 'center'
   },
   wordAndScoreWrapper: {
     flexDirection: 'row',
     flex: 1,
-    paddingHorizontal: 12,
+    paddingHorizontal: scale(12),
     alignItems: 'center',
     justifyContent: 'space-between'
   },
   word: {
-    color: '#fff',
-    fontSize: 18,
+    color: Colors.textWhite,
+    fontSize: moderateScale(18),
     flex: 1,
     textTransform: 'uppercase',
     fontWeight: '600'
   },
   submitBy: {
     color: Colors.borderBlue,
-    fontSize: 10,
+    fontSize: moderateScale(10),
     flex: 1,
-    fontWeight: 'light'
+    fontWeight: '500'
   },
   score: {
-    color: '#3eab5e',
-    fontSize: 24,
+    color: Colors.accent,
+    fontSize: moderateScale(24),
     fontWeight: 'bold'
   },
   noData: {
-    color: '#ccc',
-    fontSize: 16,
+    color: Colors.primary,
+    fontSize: moderateScale(16),
     textAlign: 'center',
-    marginVertical: 20
+    marginVertical: verticalScale(20)
   }
 });

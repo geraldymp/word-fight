@@ -1,7 +1,10 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { ChangeNameModal } from 'app/components/ChangeNameModal';
+import SettingHeader from 'app/components/SettingHeader';
+import Colors from 'app/foundation/colors';
 import { useMusicStore } from 'app/store/useMusicStore';
 import { useSfxStore } from 'app/store/useSFXStore';
+import { scale } from 'app/utils/sizeScaling';
 import {
   getBattleTutorial,
   getMagicHutTutorial,
@@ -14,7 +17,7 @@ import {
   getUsername,
   setUsername as setUsernameStorage
 } from 'app/utils/usernameManager';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
   ScrollView,
@@ -35,9 +38,41 @@ const SettingsScreen = () => {
   const [battleTutorEnabled, setBattleTutorEnabled] = useState(true);
   const [magicHutTutorEnabled, setMagicHutTutorEnabled] = useState(true);
 
+  const musicState = useMemo(() => {
+    if (mutedMusic) {
+      return 'Music Muted';
+    } else {
+      return 'Music Enabled';
+    }
+  }, [mutedMusic]);
+
+  const soundState = useMemo(() => {
+    if (mutedSfx) {
+      return 'Sound Muted';
+    } else {
+      return 'Sound Enabled';
+    }
+  }, [mutedSfx]);
+
+  const battleTutorState = useMemo(() => {
+    if (battleTutorEnabled) {
+      return 'Tutorial Enabled';
+    } else {
+      return 'Tutorial Disabled';
+    }
+  }, [battleTutorEnabled]);
+
+  const shopTutorState = useMemo(() => {
+    if (magicHutTutorEnabled) {
+      return 'Tutorial Enabled';
+    } else {
+      return 'Tutorial Disabled';
+    }
+  }, [magicHutTutorEnabled]);
+
   async function onPressChangeUsername() {
-    const allowed = await canChangeUsername();
-    if (allowed) {
+    const allowedToChangeName = await canChangeUsername();
+    if (allowedToChangeName) {
       setVisibleChangeNameModal(true);
     } else {
       const nextDate = await getNextChangeDate();
@@ -87,143 +122,140 @@ const SettingsScreen = () => {
   }, []);
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollContainer}>
-      <Text style={styles.header}>Settings</Text>
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>Profile</Text>
-        <View style={styles.settingRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.settingText}>{username}</Text>
-            <Text style={styles.settingDesc}>Name for global highscore</Text>
+    <View style={styles.container}>
+      <SettingHeader title="Settings" />
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Profile</Text>
+          <View style={styles.settingRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.settingText}>{username}</Text>
+              <Text style={styles.settingDesc}>Name for global highscore</Text>
+            </View>
+            <TouchableOpacity onPress={onPressChangeUsername}>
+              <MaterialIcons
+                name="drive-file-rename-outline"
+                size={24}
+                color={Colors.primary}
+              />
+            </TouchableOpacity>
           </View>
-          <TouchableOpacity onPress={onPressChangeUsername}>
-            <MaterialIcons
-              name="drive-file-rename-outline"
-              size={24}
-              color="white"
+        </View>
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Audio</Text>
+          <View style={styles.settingRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.settingText}>{musicState}</Text>
+              <Text style={styles.settingDesc}>Background Music</Text>
+            </View>
+            <Switch
+              value={!mutedMusic}
+              onValueChange={v => setMutedMusic(!v)}
+              thumbColor={mutedMusic ? Colors.neutralMedium : Colors.primary}
+              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
             />
-          </TouchableOpacity>
-        </View>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>Audio</Text>
-        <View style={styles.settingRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.settingText}>Mute Music</Text>
-            <Text style={styles.settingDesc}>Turn off background music</Text>
           </View>
-          <Switch
-            value={mutedMusic}
-            onValueChange={setMutedMusic}
-            thumbColor={mutedMusic ? '#ffb347' : '#3eab5e'}
-            trackColor={{ false: '#444', true: '#ffe08a' }}
-          />
-        </View>
-        <View style={styles.settingRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.settingText}>Mute Sound</Text>
-            <Text style={styles.settingDesc}>Mute sound effects</Text>
+          <View style={styles.settingRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.settingText}>{soundState}</Text>
+              <Text
+                style={
+                  styles.settingDesc
+                }>{`Sound effects (hit or beaten sound)`}</Text>
+            </View>
+            <Switch
+              value={!mutedSfx}
+              onValueChange={v => setMutedSfx(!v)}
+              thumbColor={mutedSfx ? Colors.neutralMedium : Colors.primary}
+              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
+            />
           </View>
-          <Switch
-            value={mutedSfx}
-            onValueChange={setMutedSfx}
-            thumbColor={mutedSfx ? '#ffb347' : '#3eab5e'}
-            trackColor={{ false: '#444', true: '#ffe08a' }}
-          />
         </View>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.sectionTitle}>Tutorial</Text>
-        <View style={styles.settingRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.settingText}>Battle screen</Text>
-            <Text style={styles.settingDesc}>Enable tutorial</Text>
+        <View style={styles.card}>
+          <Text style={styles.sectionTitle}>Tutorial</Text>
+          <View style={styles.settingRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.settingText}>{battleTutorState}</Text>
+              <Text style={styles.settingDesc}>Tutorial in battle screen</Text>
+            </View>
+            <Switch
+              value={battleTutorEnabled}
+              onValueChange={toggleBattleTutor}
+              thumbColor={
+                !battleTutorEnabled ? Colors.neutralMedium : Colors.primary
+              }
+              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
+            />
           </View>
-          <Switch
-            value={battleTutorEnabled}
-            onValueChange={toggleBattleTutor}
-            thumbColor={mutedSfx ? '#ffb347' : '#3eab5e'}
-            trackColor={{ false: '#444', true: '#ffe08a' }}
-          />
-        </View>
-        <View style={styles.settingRow}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.settingText}>Magic Hut screen</Text>
-            <Text style={styles.settingDesc}>Enable tutorial</Text>
+          <View style={styles.settingRow}>
+            <View style={{ flex: 1 }}>
+              <Text style={styles.settingText}>{shopTutorState}</Text>
+              <Text style={styles.settingDesc}>Tutorial in Magic Hut</Text>
+            </View>
+            <Switch
+              value={magicHutTutorEnabled}
+              onValueChange={toggleMagicHutTutor}
+              thumbColor={
+                !magicHutTutorEnabled ? Colors.neutralMedium : Colors.primary
+              }
+              trackColor={{ false: Colors.neutralMedium, true: Colors.primary }}
+            />
           </View>
-          <Switch
-            value={magicHutTutorEnabled}
-            onValueChange={toggleMagicHutTutor}
-            thumbColor={mutedSfx ? '#ffb347' : '#3eab5e'}
-            trackColor={{ false: '#444', true: '#ffe08a' }}
-          />
         </View>
-      </View>
-      <ChangeNameModal
-        visible={visibleChangeNameModal}
-        onConfirm={onConfirmChange}
-        title="Input user name"
-        confirmationText="OK"
-        onClose={onCloseModal}
-      />
-    </ScrollView>
+        <ChangeNameModal
+          visible={visibleChangeNameModal}
+          onConfirm={onConfirmChange}
+          title="Input user name"
+          confirmationText="OK"
+          onClose={onCloseModal}
+        />
+      </ScrollView>
+    </View>
   );
 };
 
 export default SettingsScreen;
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: Colors.deeperDark
+  },
   scrollContainer: {
     flexGrow: 1,
-    backgroundColor: '#121212',
+    backgroundColor: Colors.deeperDark,
     padding: 0,
     alignItems: 'center',
-    justifyContent: 'flex-start'
-  },
-  header: {
-    fontSize: 32,
-    color: '#ffe08a',
-    fontWeight: 'bold',
-    marginTop: 40,
-    marginBottom: 24,
-    fontFamily: 'KnightWarrior',
-    letterSpacing: 1.5
+    justifyContent: 'flex-start',
+    marginTop: scale(8)
   },
   card: {
-    backgroundColor: '#1e1e2f',
-    borderRadius: 18,
-    padding: 24,
+    backgroundColor: Colors.shallowBlue,
+    borderRadius: scale(18),
+    padding: scale(18),
     width: '90%',
-    shadowColor: '#ffe08a',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 8,
-    marginBottom: 32
+    marginBottom: scale(16)
   },
   sectionTitle: {
-    fontSize: 20,
-    color: '#ffe08a',
-    fontWeight: '600',
-    marginBottom: 18,
-    fontFamily: 'KnightWarrior'
+    fontSize: scale(24),
+    color: Colors.primary,
+    fontWeight: 'bold',
+    marginBottom: scale(18)
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 24
+    marginBottom: scale(12)
   },
   settingText: {
-    color: '#fff',
-    fontSize: 18,
-    fontFamily: 'MightySouly',
+    color: Colors.textWhite,
+    fontSize: scale(18),
     fontWeight: '600'
   },
   settingDesc: {
-    color: '#ffe08a',
-    fontSize: 13,
-    fontFamily: 'SpaceMono-Regular',
-    marginTop: 2,
-    marginBottom: 0
+    color: Colors.borderBlue,
+    fontSize: scale(10),
+    marginTop: scale(4),
+    marginBottom: scale(0)
   }
 });
