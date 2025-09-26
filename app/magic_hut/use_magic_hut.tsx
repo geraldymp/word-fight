@@ -5,6 +5,7 @@ import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
 import { useAdStore } from 'app/store/useAdStore';
 import { useGameStore } from 'app/store/useGameStore';
 import { useMagicHutStore } from 'app/store/useMagicHutStore';
+import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { IBooster } from 'app/types/IBooster';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
@@ -31,15 +32,26 @@ export default function UseMagicHut() {
     magicHutPotion: { potionLimit, currentPotionUsed, increasePotionUsed }
   } = useAdStore();
   const { purchasedItemIds, addPurchasedItemId } = useMagicHutStore();
+  const { isPremium } = useSubscriptionStore();
+
+  const filteredBooster = boosters.filter(
+    booster => !purchasedItemIds.includes(booster.id)
+  );
 
   const [magicianText, setMagicianText] = useState('');
 
+  const [randomizedItems, setRandomizedItems] = useState<IBooster[]>(
+    getRandomPowerups(filteredBooster)
+  );
   const [selectedItem, setSelectedItem] = useState<IBooster>();
   const [isLoaded, setLoaded] = useState(false);
+
   const [visibleAdPotion, setVisibleAdPotion] = useState(true);
   const [visibleAdConfirmationModal, setVisibleAdConfirmationModal] =
     useState(false);
   const [visibleAdDoneModal, setVisibleAdDoneModal] = useState(false);
+
+  const [totalReload, setTotalReload] = useState(2);
 
   const rewardedRef = useRef<RewardedAd>(
     RewardedAd.createForAdRequest(REWARDED_UNIT_ID, {
@@ -177,13 +189,6 @@ export default function UseMagicHut() {
     }
   }
 
-  const randomPowerups = useMemo(() => {
-    const filteredBooster = boosters.filter(
-      booster => !purchasedItemIds.includes(booster.id)
-    );
-    return getRandomPowerups(filteredBooster);
-  }, []);
-
   const confirmButtonTitle = useMemo(() => {
     if (selectedItem === undefined) {
       return 'Skip Ahead';
@@ -192,6 +197,21 @@ export default function UseMagicHut() {
     }
   }, [selectedItem]);
 
+  const isReloadVisible: boolean = useMemo(() => {
+    if (!isPremium) {
+      return false;
+    } else if (totalReload > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }, [totalReload, isPremium]);
+
+  function onRefreshItems() {
+    setRandomizedItems(getRandomPowerups(filteredBooster));
+    setTotalReload(prev => prev - 1);
+  }
+
   return {
     actions: {
       onPressAdButton,
@@ -199,7 +219,8 @@ export default function UseMagicHut() {
       onCancelToWatchAd,
       onCloseAdDoneModal,
       onClickItem,
-      onConfirmShopping
+      onConfirmShopping,
+      onRefreshItems
     },
     states: {
       magicianText,
@@ -207,9 +228,10 @@ export default function UseMagicHut() {
       visibleAdPotion,
       visibleAdConfirmationModal,
       visibleAdDoneModal,
-      randomPowerups,
+      randomizedItems,
       selectedItem,
-      confirmButtonTitle
+      confirmButtonTitle,
+      isReloadVisible
     }
   };
 }

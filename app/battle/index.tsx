@@ -9,7 +9,7 @@ import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import BottomHUD from 'app/components/BottomHUD';
 import { NormalTile, NumberedTile } from 'app/components/LetterTile';
 import TutorialModal from 'app/components/TutorialModal';
-import { TutorialContents } from 'app/constants/tutorial_contents';
+import { BattleTutorialContents } from 'app/constants/battle_tutorial_contents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
@@ -214,7 +214,7 @@ export default function BattleScreen() {
       <TutorialModal
         visible={states.showTutorial}
         onClose={actions.handleCloseTutorial}
-        slides={TutorialContents}
+        slides={BattleTutorialContents}
       />
       {states.showProjection && (
         <Animated.Image

@@ -2,6 +2,7 @@ import { SvgMana } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
+import MagicalReload from 'app/components/MagicReload';
 import { SingleModal } from 'app/components/SingleModal';
 import { KeyValues } from 'app/constants/key_values';
 import Colors from 'app/foundation/colors';
@@ -25,6 +26,8 @@ const BOTTOM_AREA_FLEX = 2;
 
 // Mage size relative to width
 const MAGE_SIZE = scale(220);
+
+const MAGE_RELOAD_SIZE = MAGE_SIZE / 2.5;
 
 // Card area is still flexed, so only card size is scaled
 const CARD_WIDTH = scale(150);
@@ -50,6 +53,13 @@ export default function MagicHutScreen() {
             style={styles.mageImage}
             resizeMode="cover"
           />
+          {states.isReloadVisible && (
+            <MagicalReload
+              source={require('@assets/icons/shop/magician_reload.png')}
+              customStyle={styles.mageReloadImage}
+              onPress={actions.onRefreshItems}
+            />
+          )}
           {/* Bubble Chat */}
           <View style={styles.bubbleChatWrapper}>
             <View style={styles.bubble}>
@@ -83,7 +93,7 @@ export default function MagicHutScreen() {
         resizeMode="cover"
         style={styles.bottomWrapper}>
         <FlatList
-          data={states.randomPowerups}
+          data={states.randomizedItems}
           keyExtractor={item => item.id}
           renderItem={({ item }) => (
             <BoosterCard
@@ -164,6 +174,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: verticalScale(-20)
   },
+  mageReloadImage: {
+    height: MAGE_RELOAD_SIZE,
+    width: MAGE_RELOAD_SIZE,
+    position: 'absolute',
+    bottom: verticalScale(-12),
+    left: MAGE_SIZE / 2 - MAGE_RELOAD_SIZE / 2
+  },
   bubbleChatWrapper: {
     position: 'absolute',
     right: scale(16),
@@ -198,7 +215,7 @@ const styles = StyleSheet.create({
   manaAndAdWrapper: {
     position: 'absolute',
     bottom: verticalScale(4),
-    right: scale(24),
+    right: scale(16),
     flexDirection: 'row',
     gap: scale(6)
   },
@@ -213,14 +230,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: Colors.neutralDark,
-    paddingHorizontal: scale(9),
+    paddingHorizontal: scale(4),
     borderColor: Colors.borderBlack,
     borderWidth: 2,
-    borderRadius: moderateScale(4),
-    gap: scale(4)
+    borderRadius: moderateScale(4)
   },
   manaText: {
-    fontSize: moderateScale(16),
+    fontSize: moderateScale(18),
     color: Colors.neutralLight,
     fontFamily: 'ArchitectsDaughter_400Regular'
   },
