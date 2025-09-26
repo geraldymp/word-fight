@@ -1,4 +1,4 @@
-export const TutorialContents = [
+export const BattleTutorialContents = [
   {
     id: 'how',
     title: 'How to play',
