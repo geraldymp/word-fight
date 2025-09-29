@@ -4,7 +4,9 @@ import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
 import MagicalReload from 'app/components/MagicReload';
 import { SingleModal } from 'app/components/SingleModal';
+import TutorialModal from 'app/components/TutorialModal';
 import { KeyValues } from 'app/constants/key_values';
+import { ShopTutorialContents } from 'app/constants/shop_tutorial_contents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
@@ -132,6 +134,11 @@ export default function MagicHutScreen() {
         title={`Your HP restored by ${ad.restore_hp}`}
         onConfirm={actions.onCloseAdDoneModal}
         confirmationText="OK"
+      />
+      <TutorialModal
+        visible={states.showTutorial}
+        onClose={actions.handleCloseTutorial}
+        slides={ShopTutorialContents}
       />
     </View>
   );

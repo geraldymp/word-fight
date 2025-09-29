@@ -8,6 +8,10 @@ import { useMagicHutStore } from 'app/store/useMagicHutStore';
 import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { IBooster } from 'app/types/IBooster';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
+import {
+  getMagicHutTutorial,
+  setMagicHutTutorial
+} from 'app/utils/tutorialManager';
 import { useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, BackHandler } from 'react-native';
@@ -50,8 +54,14 @@ export default function UseMagicHut() {
   const [visibleAdConfirmationModal, setVisibleAdConfirmationModal] =
     useState(false);
   const [visibleAdDoneModal, setVisibleAdDoneModal] = useState(false);
+  const [showTutorial, setShowTutorial] = useState(false);
 
   const [totalReload, setTotalReload] = useState(2);
+
+  async function handleCloseTutorial() {
+    setShowTutorial(false);
+    await setMagicHutTutorial(false);
+  }
 
   const rewardedRef = useRef<RewardedAd>(
     RewardedAd.createForAdRequest(REWARDED_UNIT_ID, {
@@ -212,6 +222,17 @@ export default function UseMagicHut() {
     setTotalReload(prev => prev - 1);
   }
 
+  useEffect(() => {
+    (async () => {
+      const enabled = await getMagicHutTutorial();
+      if (enabled) {
+        setTimeout(() => {
+          setShowTutorial(true);
+        }, 350);
+      }
+    })();
+  }, []);
+
   return {
     actions: {
       onPressAdButton,
@@ -220,7 +241,8 @@ export default function UseMagicHut() {
       onCloseAdDoneModal,
       onClickItem,
       onConfirmShopping,
-      onRefreshItems
+      onRefreshItems,
+      handleCloseTutorial
     },
     states: {
       magicianText,
@@ -231,7 +253,8 @@ export default function UseMagicHut() {
       randomizedItems,
       selectedItem,
       confirmButtonTitle,
-      isReloadVisible
+      isReloadVisible,
+      showTutorial
     }
   };
 }
