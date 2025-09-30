@@ -14,7 +14,7 @@ export const boosters: IBooster[] = [
     price: 25
   },
   {
-    id: 'restoration_spell',
+    id: 'restorationSpell',
     name: 'Restoration Spell',
     description: `Restore HP by ${shop.restorationSpell}`,
     image: require('@assets/icons/shop/restoration.png'),
@@ -23,7 +23,7 @@ export const boosters: IBooster[] = [
     price: 20
   },
   {
-    id: 'full_heal_magic',
+    id: 'fullHealMagic',
     name: 'Full Heal Magic',
     description: `Restore HP 100%`,
     image: require('@assets/icons/shop/restoration.png'),
@@ -32,7 +32,7 @@ export const boosters: IBooster[] = [
     price: 40
   },
   {
-    id: 'intelligence_scroll',
+    id: 'intelligenceScroll',
     name: 'Intelligence Scroll',
     description: `Increase total damage by +${shop.intelligenceScroll}`,
     image: require('@assets/icons/shop/scroll_1.png'),
@@ -41,7 +41,7 @@ export const boosters: IBooster[] = [
     price: 25
   },
   {
-    id: 'intelligence_book',
+    id: 'intelligenceBook',
     name: 'Intelligence Book',
     description: `Increase total damage by +${shop.intelligenceBook}`,
     image: require('@assets/icons/shop/book_1.png'),
@@ -50,7 +50,7 @@ export const boosters: IBooster[] = [
     price: 45
   },
   {
-    id: 'vowel_scroll',
+    id: 'vowelScroll',
     name: 'Vowel Scroll',
     description: `Every Vowel will deal +${shop.vowelScroll} more damage`,
     image: require('@assets/icons/shop/scroll_1.png'),
@@ -59,7 +59,7 @@ export const boosters: IBooster[] = [
     price: 25
   },
   {
-    id: 'vowel_book',
+    id: 'vowelBook',
     name: 'Vowel Book',
     description: `Every Vowel will deal +${shop.vowelBook} more damage`,
     image: require('@assets/icons/shop/book_1.png'),
@@ -68,7 +68,7 @@ export const boosters: IBooster[] = [
     price: 45
   },
   {
-    id: 'genesis_scroll',
+    id: 'genesisScroll',
     name: 'Genesis Scroll',
     description: `Every ABCDE letter will deal +${shop.genesisScroll} more damage`,
     image: require('@assets/icons/shop/scroll_1.png'),
@@ -77,7 +77,7 @@ export const boosters: IBooster[] = [
     price: 25
   },
   {
-    id: 'genesis_book',
+    id: 'genesisBook',
     name: 'Genesis Book',
     description: `Every ABCDE letter will deal +${shop.genesisBook} more damage`,
     image: require('@assets/icons/shop/book_1.png'),
@@ -86,7 +86,7 @@ export const boosters: IBooster[] = [
     price: 45
   },
   {
-    id: 'omega_scroll',
+    id: 'omegaScroll',
     name: 'Omega Scroll',
     description: `Every VWXYZ letter will deal +${shop.omegaScroll} more damage`,
     image: require('@assets/icons/shop/scroll_2.png'),
@@ -95,7 +95,7 @@ export const boosters: IBooster[] = [
     price: 20
   },
   {
-    id: 'omega_book',
+    id: 'omegaBook',
     name: 'Omega Book',
     description: `Every VWXYZ letter will deal +${shop.omegaBook} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
@@ -104,7 +104,7 @@ export const boosters: IBooster[] = [
     price: 40
   },
   {
-    id: 'scroll_of_working',
+    id: 'scrollOfWorking',
     name: 'Scroll of Working',
     description: `Word with ING will deal +${shop.scrollOfWorking} more damage`,
     image: require('@assets/icons/shop/scroll_2.png'),
@@ -113,7 +113,7 @@ export const boosters: IBooster[] = [
     price: 20
   },
   {
-    id: 'book_of_working',
+    id: 'bookOfWorking',
     name: 'Book of Working',
     description: `Word with ING will deal +${shop.bookOfWorking} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
@@ -122,7 +122,7 @@ export const boosters: IBooster[] = [
     price: 40
   },
   {
-    id: 'scroll_of_saint',
+    id: 'scrollOfSaint',
     name: 'Scroll of Saint',
     description: `Every S and T letter will deal +${shop.scrollOfSaint} more damage`,
     image: require('@assets/icons/shop/scroll_3.png'),
@@ -131,7 +131,7 @@ export const boosters: IBooster[] = [
     price: 25
   },
   {
-    id: 'book_of_saint',
+    id: 'bookOfSaint',
     name: 'Book of Saint',
     description: `Every S and T letter will deal +${shop.bookOfSaint} more damage`,
     image: require('@assets/icons/shop/book_2.png'),

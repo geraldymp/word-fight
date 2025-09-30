@@ -29,7 +29,7 @@ import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import HelpModal from 'app/components/HelpModal';
 import PremiumModal from 'app/components/PremiumModal';
 import { StatisticModal } from 'app/components/StatisticModal';
-import { HelperContents } from 'app/constants/helper_contents';
+import { HelperContents } from 'app/constants/helperContents';
 import Colors from 'app/foundation/colors';
 import {
   getLowestHighscore,

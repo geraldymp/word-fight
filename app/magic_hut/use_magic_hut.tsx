@@ -1,5 +1,5 @@
 import { boosters } from 'app/constants/boosters';
-import { HutDialog } from 'app/constants/hut_dialog';
+import { HutDialog } from 'app/constants/hutDialog';
 import { KeyValues } from 'app/constants/keyValues';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
 import { useAdStore } from 'app/store/useAdStore';

@@ -6,7 +6,7 @@ import MagicalReload from 'app/components/MagicReload';
 import { SingleModal } from 'app/components/SingleModal';
 import TutorialModal from 'app/components/TutorialModal';
 import { KeyValues } from 'app/constants/keyValues';
-import { ShopTutorialContents } from 'app/constants/shop_tutorial_contents';
+import { ShopTutorialContents } from 'app/constants/shopTutorialContents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';

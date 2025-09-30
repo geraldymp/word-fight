@@ -42,7 +42,7 @@ export const enemies: IEnemies[] = [
   },
   {
     step: 1,
-    area: 'goblin_camp',
+    area: 'goblinCamp',
     content: [
       {
         name: 'Scarred Goblin',
@@ -108,7 +108,7 @@ export const enemies: IEnemies[] = [
   },
   {
     step: 3,
-    area: 'witch_swamp',
+    area: 'witchSwamp',
     content: [
       {
         name: 'White Moss',
@@ -141,7 +141,7 @@ export const enemies: IEnemies[] = [
   },
   {
     step: 5,
-    area: 'ancient_kingdom',
+    area: 'ancientKingdom',
     content: [
       {
         name: 'Metal Knight',
@@ -174,7 +174,7 @@ export const enemies: IEnemies[] = [
   },
   {
     step: 5,
-    area: 'futuristic_city',
+    area: 'futuristicCity',
     content: [
       {
         name: 'Half Cyborg',

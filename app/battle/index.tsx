@@ -9,7 +9,7 @@ import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import BottomHUD from 'app/components/BottomHUD';
 import { NormalTile, NumberedTile } from 'app/components/LetterTile';
 import TutorialModal from 'app/components/TutorialModal';
-import { BattleTutorialContents } from 'app/constants/battle_tutorial_contents';
+import { BattleTutorialContents } from 'app/constants/battleTutorialContents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';

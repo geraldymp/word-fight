@@ -1,6 +1,6 @@
-import { loadingTexts, tips } from '@constants/loading_text';
 import { useGameStore } from '@store/useGameStore';
 import { getRandomInt } from '@utils/getRandomInt';
+import { LoadingTexts, Tips } from 'app/constants/loadingText';
 import { getLowestHighscore } from 'app/lib/highscoreFunctions';
 import { useAdStore } from 'app/store/useAdStore';
 import { useHighscoreStore } from 'app/store/useHighscoreStore';
@@ -35,8 +35,8 @@ export default function UseLoading() {
 
   useEffect(() => {
     setHighscoreLowerLimit();
-    setLoadingText(getRandomText(loadingTexts));
-    setTipText(getRandomText(tips));
+    setLoadingText(getRandomText(LoadingTexts));
+    setTipText(getRandomText(Tips));
   }, []);
 
   useEffect(() => {

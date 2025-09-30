@@ -14,7 +14,7 @@ export const areas: IArea[] = [
           'A place where magic happened. Most of magician will fleed here to deepen their magic.'
       },
       {
-        id: 'goblin_camp',
+        id: 'goblinCamp',
         name: 'Goblin Camp',
         image: require('@assets/areas/goblin_camp.jpg'),
         battleBackground: require('@assets/backgrounds/forest.jpg'),
@@ -36,7 +36,7 @@ export const areas: IArea[] = [
           'Spent some gold here, Hero! No need to save it all if your journey end!'
       },
       {
-        id: 'fire_camp',
+        id: 'fireCamp',
         name: 'Fire camp',
         image: undefined,
         battleBackground: undefined,
@@ -49,7 +49,7 @@ export const areas: IArea[] = [
     type: 'dungeon',
     content: [
       {
-        id: 'witch_swamp',
+        id: 'witchSwamp',
         name: 'Witch Swamp',
         image: require('@assets/areas/witch_swamp.jpg'),
         battleBackground: require('@assets/backgrounds/witch_swamp.jpg'),
@@ -78,7 +78,7 @@ export const areas: IArea[] = [
           'Spent some gold here, Hero! No need to save it all if your journey end!'
       },
       {
-        id: 'fire_camp',
+        id: 'fireCamp',
         name: 'Fire camp',
         image: undefined,
         battleBackground: undefined,
@@ -91,7 +91,7 @@ export const areas: IArea[] = [
     type: 'dungeon',
     content: [
       {
-        id: 'futuristic_city',
+        id: 'futuristicCity',
         name: 'Futuristic City',
         image: require('@assets/areas/futuristic_city.jpg'),
         battleBackground: require('@assets/backgrounds/futuristic_city.jpg'),
@@ -99,7 +99,7 @@ export const areas: IArea[] = [
           'Robots with the best mechanical weapons are gathering here'
       },
       {
-        id: 'ancient_kingdom',
+        id: 'ancientKingdom',
         name: 'Ancient Kingdom',
         image: require('@assets/areas/ancient_kingdom.jpg'),
         battleBackground: require('@assets/backgrounds/ancient_kingdom.jpg'),
@@ -120,7 +120,7 @@ export const areas: IArea[] = [
         description: 'Those mana will be worthless if you dont spent it now'
       },
       {
-        id: 'fire_camp',
+        id: 'fireCamp',
         name: 'Fire camp',
         image: undefined,
         battleBackground: undefined,

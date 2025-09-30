@@ -1,4 +1,4 @@
-export const loadingTexts = [
+export const LoadingTexts = [
   'Waking up the monster...',
   'Prepare the highscore board...',
   'Cleaning up the last battlefield...',
@@ -7,7 +7,7 @@ export const loadingTexts = [
   'Balancing loot economy...'
 ];
 
-export const tips = [
+export const Tips = [
   'You get 1 reshuffle every Area. Don’t forget to use it!',
   'Enemies won’t hit if you beat them first.',
   'Choosing the right path matters.',
