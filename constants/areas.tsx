@@ -29,7 +29,7 @@ export const areas: IArea[] = [
     content: [
       {
         id: 'shop',
-        name: 'Shop',
+        name: 'Magic Hut',
         image: undefined,
         battleBackground: undefined,
         description:
@@ -71,7 +71,7 @@ export const areas: IArea[] = [
     content: [
       {
         id: 'shop',
-        name: 'Shop',
+        name: 'Magic Hut',
         image: undefined,
         battleBackground: undefined,
         description:
