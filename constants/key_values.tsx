@@ -24,5 +24,9 @@ export const KeyValues = {
   },
   ad: {
     restore_hp: 10
+  },
+  fireCamp: {
+    restoreHp: 5,
+    increaseDamage: 2
   }
 };

@@ -1,4 +1,5 @@
 // stores/useGameStore.ts
+import { KeyValues } from 'app/constants/key_values';
 import { create } from 'zustand';
 import { GameStoreType } from './GameStoreType';
 
@@ -152,8 +153,8 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
     })),
 
   setFirecampHeal: () => {
-    get().increasePlayerHP(5);
-    get().setBonusDamage(2);
+    get().increasePlayerHP(KeyValues.fireCamp.restoreHp);
+    get().setBonusDamage(KeyValues.fireCamp.increaseDamage);
   },
 
   lowestHighscore: 0,
