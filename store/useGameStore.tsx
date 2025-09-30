@@ -1,5 +1,5 @@
 // stores/useGameStore.ts
-import { KeyValues } from 'app/constants/key_values';
+import { KeyValues } from 'app/constants/keyValues';
 import { create } from 'zustand';
 import { GameStoreType } from './GameStoreType';
 

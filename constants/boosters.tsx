@@ -1,5 +1,5 @@
-import { KeyValues } from '@constants/key_values';
 import { IBooster } from '@customTypes/IBooster';
+import { KeyValues } from 'app/constants/keyValues';
 
 const { shop } = KeyValues;
 
@@ -16,10 +16,10 @@ export const boosters: IBooster[] = [
   {
     id: 'restoration_spell',
     name: 'Restoration Spell',
-    description: `Restore HP by ${shop.restoration_spell}`,
+    description: `Restore HP by ${shop.restorationSpell}`,
     image: require('@assets/icons/shop/restoration.png'),
     type: 'lower',
-    action: store => store.increasePlayerHP(shop.restoration_spell),
+    action: store => store.increasePlayerHP(shop.restorationSpell),
     price: 20
   },
   {
@@ -28,115 +28,115 @@ export const boosters: IBooster[] = [
     description: `Restore HP 100%`,
     image: require('@assets/icons/shop/restoration.png'),
     type: 'higher',
-    action: store => store.increasePlayerHP(shop.full_heal_magic),
+    action: store => store.increasePlayerHP(shop.fullHealMagic),
     price: 40
   },
   {
     id: 'intelligence_scroll',
     name: 'Intelligence Scroll',
-    description: `Increase total damage by +${shop.intelligence_scroll}`,
+    description: `Increase total damage by +${shop.intelligenceScroll}`,
     image: require('@assets/icons/shop/scroll_1.png'),
     type: 'lower',
-    action: store => store.setBonusDamage(shop.intelligence_scroll),
+    action: store => store.setBonusDamage(shop.intelligenceScroll),
     price: 25
   },
   {
     id: 'intelligence_book',
     name: 'Intelligence Book',
-    description: `Increase total damage by +${shop.intelligence_book}`,
+    description: `Increase total damage by +${shop.intelligenceBook}`,
     image: require('@assets/icons/shop/book_1.png'),
     type: 'higher',
-    action: store => store.setBonusDamage(shop.intelligence_book),
+    action: store => store.setBonusDamage(shop.intelligenceBook),
     price: 45
   },
   {
     id: 'vowel_scroll',
     name: 'Vowel Scroll',
-    description: `Every Vowel will deal +${shop.vowel_scroll} more damage`,
+    description: `Every Vowel will deal +${shop.vowelScroll} more damage`,
     image: require('@assets/icons/shop/scroll_1.png'),
     type: 'lower',
-    action: store => store.setVowelModifier(shop.vowel_scroll),
+    action: store => store.setVowelModifier(shop.vowelScroll),
     price: 25
   },
   {
     id: 'vowel_book',
     name: 'Vowel Book',
-    description: `Every Vowel will deal +${shop.vowel_book} more damage`,
+    description: `Every Vowel will deal +${shop.vowelBook} more damage`,
     image: require('@assets/icons/shop/book_1.png'),
     type: 'higher',
-    action: store => store.setVowelModifier(shop.vowel_book),
+    action: store => store.setVowelModifier(shop.vowelBook),
     price: 45
   },
   {
     id: 'genesis_scroll',
     name: 'Genesis Scroll',
-    description: `Every ABCDE letter will deal +${shop.genesis_scroll} more damage`,
+    description: `Every ABCDE letter will deal +${shop.genesisScroll} more damage`,
     image: require('@assets/icons/shop/scroll_1.png'),
     type: 'lower',
-    action: store => store.setABCDEModifier(shop.genesis_scroll),
+    action: store => store.setABCDEModifier(shop.genesisScroll),
     price: 25
   },
   {
     id: 'genesis_book',
     name: 'Genesis Book',
-    description: `Every ABCDE letter will deal +${shop.genesis_book} more damage`,
+    description: `Every ABCDE letter will deal +${shop.genesisBook} more damage`,
     image: require('@assets/icons/shop/book_1.png'),
     type: 'higher',
-    action: store => store.setABCDEModifier(shop.genesis_book),
+    action: store => store.setABCDEModifier(shop.genesisBook),
     price: 45
   },
   {
     id: 'omega_scroll',
     name: 'Omega Scroll',
-    description: `Every VWXYZ letter will deal +${shop.omega_scroll} more damage`,
+    description: `Every VWXYZ letter will deal +${shop.omegaScroll} more damage`,
     image: require('@assets/icons/shop/scroll_2.png'),
     type: 'lower',
-    action: store => store.setVWXYZRModifier(shop.omega_scroll),
+    action: store => store.setVWXYZRModifier(shop.omegaScroll),
     price: 20
   },
   {
     id: 'omega_book',
     name: 'Omega Book',
-    description: `Every VWXYZ letter will deal +${shop.omega_book} more damage`,
+    description: `Every VWXYZ letter will deal +${shop.omegaBook} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
     type: 'higher',
-    action: store => store.setVWXYZRModifier(shop.omega_book),
+    action: store => store.setVWXYZRModifier(shop.omegaBook),
     price: 40
   },
   {
     id: 'scroll_of_working',
     name: 'Scroll of Working',
-    description: `Word with ING will deal +${shop.scroll_of_working} more damage`,
+    description: `Word with ING will deal +${shop.scrollOfWorking} more damage`,
     image: require('@assets/icons/shop/scroll_2.png'),
     type: 'lower',
-    action: store => store.setIngModifier(shop.scroll_of_working),
+    action: store => store.setIngModifier(shop.scrollOfWorking),
     price: 20
   },
   {
     id: 'book_of_working',
     name: 'Book of Working',
-    description: `Word with ING will deal +${shop.book_of_working} more damage`,
+    description: `Word with ING will deal +${shop.bookOfWorking} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
     type: 'higher',
-    action: store => store.setIngModifier(shop.book_of_working),
+    action: store => store.setIngModifier(shop.bookOfWorking),
     price: 40
   },
   {
     id: 'scroll_of_saint',
     name: 'Scroll of Saint',
-    description: `Every S and T letter will deal +${shop.scroll_of_saint} more damage`,
+    description: `Every S and T letter will deal +${shop.scrollOfSaint} more damage`,
     image: require('@assets/icons/shop/scroll_3.png'),
     type: 'lower',
-    action: store => store.setSTModifier(shop.scroll_of_saint),
+    action: store => store.setSTModifier(shop.scrollOfSaint),
     price: 25
   },
   {
     id: 'book_of_saint',
     name: 'Book of Saint',
-    description: `Every S and T letter will deal +${shop.book_of_saint} more damage`,
+    description: `Every S and T letter will deal +${shop.bookOfSaint} more damage`,
     image: require('@assets/icons/shop/book_2.png'),
     type: 'higher',
-    action: store => store.setSTModifier(shop.book_of_saint),
+    action: store => store.setSTModifier(shop.bookOfSaint),
     price: 40
   }
 ];

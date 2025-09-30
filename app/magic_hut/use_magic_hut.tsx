@@ -1,6 +1,6 @@
 import { boosters } from 'app/constants/boosters';
 import { HutDialog } from 'app/constants/hut_dialog';
-import { KeyValues } from 'app/constants/key_values';
+import { KeyValues } from 'app/constants/keyValues';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
 import { useAdStore } from 'app/store/useAdStore';
 import { useGameStore } from 'app/store/useGameStore';
@@ -127,7 +127,7 @@ export default function UseMagicHut() {
       RewardedAdEventType.EARNED_REWARD,
       () => {
         try {
-          increasePlayerHP(ad.restore_hp);
+          increasePlayerHP(ad.restoreHp);
           setVisibleAdPotion(false);
           increasePotionUsed();
           setVisibleAdDoneModal(true);

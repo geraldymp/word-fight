@@ -5,7 +5,7 @@ import { DialogModal } from 'app/components/DialogModal';
 import MagicalReload from 'app/components/MagicReload';
 import { SingleModal } from 'app/components/SingleModal';
 import TutorialModal from 'app/components/TutorialModal';
-import { KeyValues } from 'app/constants/key_values';
+import { KeyValues } from 'app/constants/keyValues';
 import { ShopTutorialContents } from 'app/constants/shop_tutorial_contents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
@@ -123,7 +123,7 @@ export default function MagicHutScreen() {
       </ImageBackground>
       <DialogModal
         visible={states.visibleAdConfirmationModal}
-        title={`Watch AD to restore ${ad.restore_hp} HP ?`}
+        title={`Watch AD to restore ${ad.restoreHp} HP ?`}
         cancelationText="No"
         confirmationText="Yes"
         onCancel={actions.onCancelToWatchAd}
@@ -131,7 +131,7 @@ export default function MagicHutScreen() {
       />
       <SingleModal
         visible={states.visibleAdDoneModal}
-        title={`Your HP restored by ${ad.restore_hp}`}
+        title={`Your HP restored by ${ad.restoreHp}`}
         onConfirm={actions.onCloseAdDoneModal}
         confirmationText="OK"
       />
