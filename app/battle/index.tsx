@@ -6,9 +6,8 @@ import { Ionicons } from '@expo/vector-icons';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
-import BlinkingText from 'app/components/BlinkingText';
+import { LetterTile } from 'app/components/Battle/LetterTiles';
 import BottomHUD from 'app/components/BottomHUD';
-import { NormalTile, NumberedTile } from 'app/components/LetterTile';
 import TutorialModal from 'app/components/TutorialModal';
 import { BattleTutorialContents } from 'app/constants/battleTutorialContents';
 import Colors from 'app/foundation/colors';
@@ -145,58 +144,13 @@ export default function BattleScreen() {
         </View>
 
         {/* Word Builder */}
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <Animated.FlatList
-            data={letters}
-            keyExtractor={(_, i) => i.toString()}
-            renderItem={({ item, index }) => (
-              <>
-                {states.showNumberedTiles ? (
-                  <NumberedTile
-                    item={item}
-                    index={index}
-                    handleLetterPress={handleLetterPress}
-                    selectedIndices={selectedIndices}
-                  />
-                ) : (
-                  <NormalTile
-                    item={item}
-                    index={index}
-                    handleLetterPress={handleLetterPress}
-                    selectedIndices={selectedIndices}
-                  />
-                )}
-              </>
-            )}
-            style={[
-              {
-                flexGrow: 0,
-                marginTop: verticalScale(10),
-                opacity: states.isReshuffling ? 0 : 1
-              },
-              { transform: [{ translateX: wrongWordShakeAnim }] }
-            ]}
-            numColumns={6}
-            initialNumToRender={18}
-            showsVerticalScrollIndicator={false}
-            showsHorizontalScrollIndicator={false}
-            scrollEnabled={false}
-          />
-          {states.isReshuffling && (
-            <View
-              style={{
-                ...StyleSheet.absoluteFillObject,
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: Colors.secondaryBg70,
-                borderRadius: 6
-              }}
-              pointerEvents="none" // so clicks pass through
-            >
-              <BlinkingText text="Preparing new set of letters..." />
-            </View>
-          )}
-        </View>
+        <LetterTile
+          letters={letters}
+          states={states}
+          selectedIndices={selectedIndices}
+          handleLetterPress={handleLetterPress}
+          wrongWordShakeAnim={wrongWordShakeAnim}
+        />
 
         {feedback === 'invalid' && (
           <Text style={styles.invalid}>Invalid word</Text>

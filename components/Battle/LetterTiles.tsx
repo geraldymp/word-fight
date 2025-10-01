@@ -1,0 +1,85 @@
+import BlinkingText from 'app/components/BlinkingText';
+import { NormalTile } from 'app/components/LetterTile/NormalTile';
+import { NumberedTile } from 'app/components/LetterTile/NumberedTile';
+import Colors from 'app/foundation/colors';
+import { ILetter } from 'app/types/ILetter';
+import { verticalScale } from 'app/utils/sizeScaling';
+import React, { memo } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Animated, { SharedValue } from 'react-native-reanimated';
+
+interface Props {
+  letters: ILetter[];
+  states: {
+    showNumberedTiles: boolean;
+    isReshuffling: boolean;
+  };
+  selectedIndices: number[];
+  handleLetterPress: (i: number) => void;
+  wrongWordShakeAnim: SharedValue<number>;
+}
+
+const _LetterTile: React.FC<Props> = ({
+  letters,
+  states,
+  selectedIndices,
+  handleLetterPress,
+  wrongWordShakeAnim
+}) => {
+  return (
+    <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <Animated.FlatList
+        data={letters}
+        keyExtractor={(_, i) => i.toString()}
+        renderItem={({ item, index }) =>
+          states.showNumberedTiles ? (
+            <NumberedTile
+              item={item}
+              index={index}
+              handleLetterPress={handleLetterPress}
+              selectedIndices={selectedIndices}
+            />
+          ) : (
+            <NormalTile
+              item={item}
+              index={index}
+              handleLetterPress={handleLetterPress}
+              selectedIndices={selectedIndices}
+            />
+          )
+        }
+        style={[
+          {
+            flexGrow: 0,
+            marginTop: verticalScale(10),
+            opacity: states.isReshuffling ? 0 : 1
+          },
+          { transform: [{ translateX: wrongWordShakeAnim }] }
+        ]}
+        numColumns={6}
+        initialNumToRender={18}
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        scrollEnabled={false}
+      />
+
+      {states.isReshuffling && (
+        <View style={styles.overlay} pointerEvents="none">
+          <BlinkingText text="Preparing new set of letters..." />
+        </View>
+      )}
+    </View>
+  );
+};
+
+export const LetterTile = memo(_LetterTile);
+
+const styles = StyleSheet.create({
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.secondaryBg70,
+    borderRadius: 6
+  }
+});
