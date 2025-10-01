@@ -124,6 +124,7 @@ export default function UseBattle() {
   >([]);
   const [showProjection, setShowProjection] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
+  const [isReshuffling, setIsReshuffling] = useState(false);
 
   // filtered from letters, this only get the word (no value)
   const currentWord: string = selectedIndices
@@ -201,9 +202,13 @@ export default function UseBattle() {
 
   const handleReshuffle = () => {
     if (reshuffle > 0) {
-      setLetters(generateRandomLettersWithVowels());
-      setSelectedIndices([]);
-      setReshuffle(reshuffle - 1);
+      setIsReshuffling(true);
+      setTimeout(() => {
+        setLetters(generateRandomLettersWithVowels());
+        setSelectedIndices([]);
+        setReshuffle(reshuffle - 1);
+        setIsReshuffling(false);
+      }, 1250);
     }
   };
 
@@ -516,7 +521,8 @@ export default function UseBattle() {
       getDmgBreakdown: damageBreakdowns,
       showTutorial,
       showDamageBreakdown,
-      showNumberedTiles
+      showNumberedTiles,
+      isReshuffling
     }
   };
 }

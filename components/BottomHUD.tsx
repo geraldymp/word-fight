@@ -36,6 +36,7 @@ interface IBottomHUD {
   mana: number;
   maxReshuffle: number;
   currentReshuffle: number;
+  disabledReshuffle: boolean;
   onReshuffle: () => void;
   onRearrange: () => void;
   onPlay: () => void;
@@ -50,6 +51,7 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   mana,
   maxReshuffle,
   currentReshuffle,
+  disabledReshuffle,
   onReshuffle,
   onRearrange,
   onPlay,
@@ -60,8 +62,13 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   }, [playerHP, playerMaxHP]);
 
   const disableReshuffle = useMemo(() => {
-    return currentReshuffle === 0;
-  }, [currentReshuffle]);
+    if (disabledReshuffle) {
+      return true;
+    } else if (currentReshuffle === 0) {
+      return true;
+    }
+    return false;
+  }, [currentReshuffle, disabledReshuffle]);
 
   const reshuffleStyle = useMemo(() => {
     if (disableReshuffle) {

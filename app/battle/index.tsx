@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
+import BlinkingText from 'app/components/BlinkingText';
 import BottomHUD from 'app/components/BottomHUD';
 import { NormalTile, NumberedTile } from 'app/components/LetterTile';
 import TutorialModal from 'app/components/TutorialModal';
@@ -144,39 +145,58 @@ export default function BattleScreen() {
         </View>
 
         {/* Word Builder */}
-        <Animated.FlatList
-          data={letters}
-          keyExtractor={(_, i) => i.toString()}
-          numColumns={6}
-          renderItem={({ item, index }) => (
-            <>
-              {states.showNumberedTiles ? (
-                <NumberedTile
-                  item={item}
-                  index={index}
-                  handleLetterPress={handleLetterPress}
-                  selectedIndices={selectedIndices}
-                />
-              ) : (
-                <NormalTile
-                  item={item}
-                  index={index}
-                  handleLetterPress={handleLetterPress}
-                  selectedIndices={selectedIndices}
-                />
-              )}
-            </>
+        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
+          <Animated.FlatList
+            data={letters}
+            keyExtractor={(_, i) => i.toString()}
+            renderItem={({ item, index }) => (
+              <>
+                {states.showNumberedTiles ? (
+                  <NumberedTile
+                    item={item}
+                    index={index}
+                    handleLetterPress={handleLetterPress}
+                    selectedIndices={selectedIndices}
+                  />
+                ) : (
+                  <NormalTile
+                    item={item}
+                    index={index}
+                    handleLetterPress={handleLetterPress}
+                    selectedIndices={selectedIndices}
+                  />
+                )}
+              </>
+            )}
+            style={[
+              {
+                flexGrow: 0,
+                marginTop: verticalScale(10),
+                opacity: states.isReshuffling ? 0 : 1
+              },
+              { transform: [{ translateX: wrongWordShakeAnim }] }
+            ]}
+            numColumns={6}
+            initialNumToRender={18}
+            showsVerticalScrollIndicator={false}
+            showsHorizontalScrollIndicator={false}
+            scrollEnabled={false}
+          />
+          {states.isReshuffling && (
+            <View
+              style={{
+                ...StyleSheet.absoluteFillObject,
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: Colors.secondaryBg70,
+                borderRadius: 6
+              }}
+              pointerEvents="none" // so clicks pass through
+            >
+              <BlinkingText text="Preparing new set of letters..." />
+            </View>
           )}
-          showsVerticalScrollIndicator={false}
-          scrollEnabled={false}
-          style={[
-            {
-              flexGrow: 0,
-              marginTop: verticalScale(10)
-            },
-            { transform: [{ translateX: wrongWordShakeAnim }] }
-          ]}
-        />
+        </View>
 
         {feedback === 'invalid' && (
           <Text style={styles.invalid}>Invalid word</Text>
@@ -193,6 +213,7 @@ export default function BattleScreen() {
           mana={mana}
           maxReshuffle={maxReshuffle}
           currentReshuffle={reshuffleCount}
+          disabledReshuffle={states.isReshuffling}
           onPlay={handleSubmit}
           onRearrange={handleRearrange}
           onReshuffle={handleReshuffle}
