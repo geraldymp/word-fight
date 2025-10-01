@@ -4,6 +4,7 @@ import { NumberedTile } from 'app/components/LetterTile/NumberedTile';
 import Colors from 'app/foundation/colors';
 import { ILetter } from 'app/types/ILetter';
 import { verticalScale } from 'app/utils/sizeScaling';
+import LottieView from 'lottie-react-native';
 import React, { memo } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, { SharedValue } from 'react-native-reanimated';
@@ -65,7 +66,18 @@ const _LetterTile: React.FC<Props> = ({
 
       {states.isReshuffling && (
         <View style={styles.overlay} pointerEvents="none">
-          <BlinkingText text="Preparing new set of letters..." />
+          <View style={{ height: '80%', width: '100%' }}>
+            <LottieView
+              source={require('@assets/lottie/reshuffle_loading.json')}
+              autoPlay
+              loop
+              style={{ height: '100%', width: '100%' }}
+              resizeMode="contain"
+            />
+          </View>
+          <View style={{ height: '20%' }}>
+            <BlinkingText text="Preparing new set of letters..." />
+          </View>
         </View>
       )}
     </View>
@@ -80,6 +92,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.secondaryBg70,
+    padding: 16,
     borderRadius: 6
   }
 });
