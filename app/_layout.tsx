@@ -59,6 +59,11 @@ export default function Layout() {
   }, []);
 
   useEffect(() => {
+    if (__DEV__) {
+      console.log('Skipping RevenueCat in development mode');
+      return;
+    }
+
     Purchases.configure({ apiKey: 'goog_BEXkLJEyXiWjowRmFmAcZETYydM' });
 
     // Initial fetch
