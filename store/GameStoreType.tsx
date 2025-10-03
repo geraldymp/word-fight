@@ -22,6 +22,7 @@ export interface GameStoreType {
 
   // Progress section
   step: number; // Journey step of player. Start with Step 1 (fight enemy) -> Step 2 (Magic Hut) -> *Repeat* -> Step 7 (Boss)
+  setStep: (step: number) => void;
   increaseStep: () => void;
   area?: IContent; // Content of Area (like fighting place, firecamp or magic hut)
   setArea?: (selectedArea: IContent) => void;
@@ -35,6 +36,7 @@ export interface GameStoreType {
 
   // Menu section
   maxReshuffle: number;
+  setMaxReshuffle: (maxReshuffle: number) => void;
   increaseMaxReshuffleAndFill: (addMaxRes: number) => void;
   reshuffle: number;
   setReshuffle: (res: number) => void;
@@ -56,6 +58,14 @@ export interface GameStoreType {
     IngModifier: number;
     STModifier: number;
   };
+  setDamageModifier: (modifiers: {
+    bonusDamage: number;
+    vowelModifier: number;
+    ABCDEModifier: number;
+    VWXYZModifier: number;
+    IngModifier: number;
+    STModifier: number;
+  }) => void;
   setBonusDamage: (modifier: number) => void;
   setVowelModifier: (modifier: number) => void;
   setABCDEModifier: (modifier: number) => void;

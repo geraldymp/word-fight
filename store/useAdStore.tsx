@@ -5,6 +5,13 @@ export const useAdStore = create<AdStoreType>((set, get) => ({
   magicHutPotion: {
     potionLimit: 2,
     currentPotionUsed: 0,
+    setPotionUsed: (potionUsed: number) =>
+      set(state => ({
+        magicHutPotion: {
+          ...state.magicHutPotion,
+          currentPotionUsed: potionUsed
+        }
+      })),
     increasePotionUsed: () =>
       set(state => ({
         magicHutPotion: {

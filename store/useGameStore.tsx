@@ -28,6 +28,7 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
   decreaseMana: manaLost => set(state => ({ mana: state.mana - manaLost })),
 
   step: 1,
+  setStep: step => set({ step: step }),
   increaseStep: () =>
     set(state => ({
       step: state.step + 1,
@@ -64,6 +65,7 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
 
   maxReshuffle: 2,
   // try to limit max shuffle to 4, to prevent UI problem
+  setMaxReshuffle: maxReshuffle => set({ maxReshuffle: maxReshuffle }),
   increaseMaxReshuffleAndFill: addMaxRes => {
     set(state => {
       const newMax = state.maxReshuffle + addMaxRes;
@@ -109,6 +111,14 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
     IngModifier: 0,
     STModifier: 0
   },
+  setDamageModifier: (modifiers: {
+    bonusDamage: number;
+    vowelModifier: number;
+    ABCDEModifier: number;
+    VWXYZModifier: number;
+    IngModifier: number;
+    STModifier: number;
+  }) => set({ damageModifier: modifiers }),
   setBonusDamage: (modifier: number) =>
     set(state => ({
       damageModifier: {
