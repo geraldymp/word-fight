@@ -1,4 +1,11 @@
-// app/_layout.tsx
+import { Stack } from 'expo-router';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, StyleSheet, Text } from 'react-native';
+import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
+import Purchases, { CustomerInfo } from 'react-native-purchases';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
+
+// fonts
 import {
   ArchitectsDaughter_400Regular,
   useFonts
@@ -12,22 +19,20 @@ import {
   SourGummy_400Regular,
   SourGummy_800ExtraBold
 } from '@expo-google-fonts/sour-gummy';
+
+// stores
 import { usePremiumStore } from 'app/store/usePremiumStore';
 import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
+
+// utils
+import Colors from 'app/foundation/colors';
 import { MusicPlayer } from 'app/utils/musicPlayer';
 import { SfxPlayer } from 'app/utils/sfxPlayer';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import { StyleSheet } from 'react-native';
-import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
-import Purchases, { CustomerInfo } from 'react-native-purchases';
-import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-
-SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-  const [loaded, error] = useFonts({
+  const [ready, setReady] = useState(false);
+
+  const [fontsLoaded, fontError] = useFonts({
     ArchitectsDaughter_400Regular,
     Candal_400Regular,
     Cinzel_400Regular,
@@ -42,51 +47,64 @@ export default function Layout() {
   const loadSettings = usePremiumStore(s => s.loadSettings);
 
   useEffect(() => {
-    if (loaded || error) {
-      SplashScreen.hideAsync();
+    async function init() {
+      try {
+        // 1. Fonts
+        await new Promise((resolve, reject) => {
+          if (fontsLoaded || fontError) resolve(true);
+          // watch for font change
+          const interval = setInterval(() => {
+            if (fontsLoaded || fontError) {
+              clearInterval(interval);
+              resolve(true);
+            }
+          }, 1000);
+        });
+
+        // 2. Ads
+        await mobileAds()
+          .setRequestConfiguration({
+            maxAdContentRating: MaxAdContentRating.G,
+            tagForChildDirectedTreatment: false,
+            tagForUnderAgeOfConsent: false
+          })
+          .then(() => mobileAds().initialize());
+
+        // 3. RevenueCat
+        if (!__DEV__) {
+          Purchases.configure({ apiKey: 'goog_BEXkLJEyXiWjowRmFmAcZETYydM' });
+          const info = await Purchases.getCustomerInfo();
+          setFromCustomerInfo(info);
+          loadSettings();
+
+          Purchases.addCustomerInfoUpdateListener((info: CustomerInfo) => {
+            setFromCustomerInfo(info);
+            loadSettings();
+          });
+        }
+
+        // all process done
+        setTimeout(() => {
+          setReady(true);
+        }, 3000);
+      } catch (err) {
+        console.warn('Init error', err);
+        setReady(true);
+      }
     }
-  }, [loaded, error]);
 
-  // initiate Ads
-  useEffect(() => {
-    mobileAds()
-      .setRequestConfiguration({
-        maxAdContentRating: MaxAdContentRating.G,
-        tagForChildDirectedTreatment: false,
-        tagForUnderAgeOfConsent: false
-      })
-      .then(() => mobileAds().initialize());
-  }, []);
+    init();
+  }, [fontsLoaded, fontError]);
 
-  useEffect(() => {
-    if (__DEV__) {
-      console.log('Skipping RevenueCat in development mode');
-      return;
-    }
-
-    Purchases.configure({ apiKey: 'goog_BEXkLJEyXiWjowRmFmAcZETYydM' });
-
-    // Initial fetch
-    Purchases.getCustomerInfo().then(info => {
-      setFromCustomerInfo(info);
-      loadSettings();
-    });
-
-    // Listen for changes
-    const listener = (info: CustomerInfo) => {
-      setFromCustomerInfo(info);
-      loadSettings();
-    };
-
-    Purchases.addCustomerInfoUpdateListener(listener);
-
-    return () => {
-      Purchases.removeCustomerInfoUpdateListener(listener);
-    };
-  }, []);
-
-  if (!loaded && !error) {
-    return null;
+  if (!ready) {
+    return (
+      <SafeAreaProvider>
+        <SafeAreaView style={[styles.container, styles.loader]}>
+          <ActivityIndicator size="large" color="#fff" />
+          <Text style={styles.text}>Sharpening swords...</Text>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    );
   }
 
   return (
@@ -103,5 +121,14 @@ export default function Layout() {
 const styles = StyleSheet.create({
   container: {
     flex: 1
+  },
+  loader: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: Colors.borderBlack
+  },
+  text: {
+    color: '#fff',
+    marginTop: 12
   }
 });
