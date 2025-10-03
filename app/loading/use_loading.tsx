@@ -8,7 +8,7 @@ import { useMagicHutStore } from 'app/store/useMagicHutStore';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Animated } from 'react-native';
+import { Animated, BackHandler } from 'react-native';
 
 export default function UseLoading() {
   const router = useRouter();
@@ -44,12 +44,12 @@ export default function UseLoading() {
       Animated.sequence([
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 1000,
+          duration: 1500,
           useNativeDriver: true
         }),
         Animated.timing(fadeAnim, {
           toValue: 0,
-          duration: 1000,
+          duration: 350,
           useNativeDriver: true
         })
       ])
@@ -63,7 +63,19 @@ export default function UseLoading() {
     }, randomizedTime);
 
     return () => clearTimeout(timeout);
-  }, [fadeAnim, resetGame, router, randomizedTime]); // dep from Copilot
+  }, [fadeAnim, resetGame, router, randomizedTime]);
+
+  useEffect(() => {
+    const backAction = () => {
+      router.replace('/');
+      return true;
+    };
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      backAction
+    );
+    return () => backHandler.remove();
+  }, [router]);
 
   return {
     states: {
