@@ -1,10 +1,12 @@
+import { resumeGame } from '@store/savedGame/onResumingGame';
+import { onLoadGame } from '@store/savedGame/useSavedGame';
+import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
+import { useHighscoreStore } from '@store/useHighscoreStore';
+import { useMagicHutStore } from '@store/useMagicHutStore';
 import { getRandomInt } from '@utils/getRandomInt';
 import { LoadingTexts, Tips } from 'app/constants/loadingText';
 import { getLowestHighscore } from 'app/lib/highscoreFunctions';
-import { useAdStore } from 'app/store/useAdStore';
-import { useHighscoreStore } from 'app/store/useHighscoreStore';
-import { useMagicHutStore } from 'app/store/useMagicHutStore';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
@@ -21,6 +23,9 @@ export default function UseLoading() {
     state => state.resetPurchasedItems
   );
 
+  const playerMaxHP = useGameStore(s => s.playerMaxHP);
+  const setPlayerHP = useGameStore(s => s.setPlayerHP);
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const randomizedTime = getRandomInt(1500, 4000);
@@ -32,12 +37,6 @@ export default function UseLoading() {
     const lowestHS = await getLowestHighscore();
     setLowestHighscore(lowestHS);
   }
-
-  useEffect(() => {
-    setHighscoreLowerLimit();
-    setLoadingText(getRandomText(LoadingTexts));
-    setTipText(getRandomText(Tips));
-  }, []);
 
   useEffect(() => {
     Animated.loop(
@@ -54,16 +53,30 @@ export default function UseLoading() {
         })
       ])
     ).start();
+    setHighscoreLowerLimit();
+    setLoadingText(getRandomText(LoadingTexts));
+    setTipText(getRandomText(Tips));
+  }, []);
 
-    const timeout = setTimeout(() => {
-      resetGame();
-      resetPotionUsed();
-      resetPurchasedItems();
-      router.replace('/choose_area'); // Replace with your actual game screen route
-    }, randomizedTime);
-
-    return () => clearTimeout(timeout);
-  }, [fadeAnim, resetGame, router, randomizedTime]);
+  useEffect(() => {
+    const checkSave = async () => {
+      await new Promise(resolve => setTimeout(resolve, randomizedTime));
+      const savedGame = await onLoadGame();
+      if (savedGame) {
+        // set battle store to last saved then enter battle screen
+        await resumeGame(savedGame);
+        router.replace('/battle');
+      } else {
+        // reset all progress, set playerHP then enter choose area screen
+        resetGame();
+        resetPotionUsed();
+        resetPurchasedItems();
+        setPlayerHP(playerMaxHP);
+        router.replace('/choose_area');
+      }
+    };
+    checkSave();
+  }, [router]);
 
   useEffect(() => {
     const backAction = () => {
