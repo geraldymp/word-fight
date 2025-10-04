@@ -37,9 +37,9 @@ export default function BattleScreen() {
     handleRearrange,
     handleReshuffle,
     handleSubmit,
-    onCancel,
+    onCancelToHome,
     onCompleteFloatingDamage,
-    onConfirm,
+    onConfirmToHome,
     onPressBackToHome,
     onPressNextArea,
     onPressNextStage,
@@ -183,8 +183,8 @@ export default function BattleScreen() {
       />
       <ConfirmBackHomeModal
         visible={showConfirmModal}
-        onConfirm={onConfirm}
-        onCancel={onCancel}
+        onConfirm={onConfirmToHome}
+        onCancel={onCancelToHome}
       />
       <TutorialModal
         visible={states.showTutorial}

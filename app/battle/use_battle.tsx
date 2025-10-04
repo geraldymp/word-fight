@@ -1,12 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useIsFocused } from '@react-navigation/native';
+import { onSaveGame } from '@store/savedGame/useSavedGame';
+import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
+import { useMagicHutStore } from '@store/useMagicHutStore';
 import { useMusicStore } from '@store/useMusicStore';
+import { usePremiumStore } from '@store/usePremiumStore';
 import { useSfxStore } from '@store/useSFXStore';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
-import { usePremiumStore } from 'app/store/usePremiumStore';
 import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
@@ -54,6 +57,7 @@ export default function UseBattle() {
   const { playSfx } = useSfxStore();
 
   // --- Enemy ---
+  const selectedEnemies = useGameStore(s => s.selectedEnemies);
   const selectedEnemy = useGameStore(s => s.selectedEnemy);
   const enemyHP = useGameStore(s => s.enemyHP);
   const setEnemyHP = useGameStore(s => s.setEnemyHP);
@@ -86,6 +90,12 @@ export default function UseBattle() {
   const highScoreFilled = useGameStore(s => s.highScoreFilled);
   const setHighScoreFilled = useGameStore(s => s.setHighScoreFilled);
 
+  // -- Shop Progress --
+  const currentPotionUsed = useAdStore(
+    state => state.magicHutPotion.currentPotionUsed
+  );
+  const purchasedItemIds = useMagicHutStore(state => state.purchasedItemIds);
+
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
 
@@ -113,7 +123,7 @@ export default function UseBattle() {
   const playerWordRef = useRef<Text>(null);
   const enemyImageRef = useRef<View>(null);
 
-  const [enemyMaxHp, setEnemyMaxHP] = useState(0);
+  const [enemyMaxHp, setEnemyMaxHP] = useState(selectedEnemy.baseHp);
   const [letters, setLetters] = useState<ILetter[]>([]); // Letters in word builder
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]); // Indexes of selected letters
   const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
@@ -162,6 +172,11 @@ export default function UseBattle() {
     reducePlayerHP(enemyDamage);
     playSfx('playerHit');
     triggerQuickShake(playerShakeAnim);
+    if (playerHP === 0) {
+      setTimeout(() => {
+        setShowGameProgressModal(true);
+      }, 1500);
+    }
   }
 
   function enemyAttacked() {
@@ -181,12 +196,23 @@ export default function UseBattle() {
       { id: Date.now(), amount: totalDamage, type: 'enemy' }
     ]);
 
-    // Enemy hit back if not beaten
     const currentEnemyHp = useGameStore.getState().enemyHP;
+
+    // Enemy hit back if not beaten
     if (currentEnemyHp > 0) {
       setTimeout(() => {
         triggerEnemyAttack();
       }, 1200);
+    } else {
+      // Enemy beaten
+      setTimeout(() => {
+        playSfx('enemyBeaten');
+        enemyOpacity.value = withTiming(0, { duration: 1500 });
+        increaseMana(manaGained);
+      }, 500);
+      setTimeout(() => {
+        setShowGameProgressModal(true);
+      }, 3000);
     }
   }
 
@@ -316,29 +342,6 @@ export default function UseBattle() {
     setSelectedIndices([]);
   };
 
-  // Enemy beaten
-  useEffect(() => {
-    if (enemyHP === 0) {
-      setTimeout(() => {
-        playSfx('enemyBeaten');
-        enemyOpacity.value = withTiming(0, { duration: 1500 });
-        increaseMana(manaGained);
-      }, 500);
-      setTimeout(() => {
-        setShowGameProgressModal(true);
-      }, 3000);
-    }
-  }, [enemyHP]);
-
-  // Player beaten
-  useEffect(() => {
-    if (playerHP === 0) {
-      setTimeout(() => {
-        setShowGameProgressModal(true);
-      }, 1500);
-    }
-  }, [playerHP]);
-
   // for analytic total boss beaten
   useEffect(() => {
     if (enemyHP === 0 && step === 7) {
@@ -350,17 +353,6 @@ export default function UseBattle() {
   useEffect(() => {
     setLetters(generateRandomLettersWithVowels());
   }, []);
-
-  useEffect(() => {
-    // When game start or stage up, set enemy HP
-    setEnemyHP(selectedEnemy.baseHp);
-    setEnemyMaxHP(selectedEnemy.baseHp);
-
-    // Give 1 reshuffle at Stage 1 and not Magic Hut
-    if (reshuffle < maxReshuffle && stage === 1 && step % 2 !== 0) {
-      setReshuffle(reshuffle + 1);
-    }
-  }, [stage, step]);
 
   const modalContent: {
     modalText: string;
@@ -396,6 +388,8 @@ export default function UseBattle() {
 
   function onPressNextStage() {
     increaseStage();
+    setEnemyHP(useGameStore.getState().selectedEnemy.baseHp);
+    setEnemyMaxHP(useGameStore.getState().selectedEnemy.baseHp);
     setLetters(generateRandomLettersWithVowels());
     setSelectedIndices([]);
     setFeedback(null);
@@ -405,6 +399,9 @@ export default function UseBattle() {
 
   function onPressNextArea() {
     increaseStep();
+    if (reshuffle < maxReshuffle) {
+      setReshuffle(reshuffle + 1);
+    }
     setShowGameProgressModal(false);
     router.replace('/choose_area');
   }
@@ -414,11 +411,29 @@ export default function UseBattle() {
     router.replace('/');
   }
 
-  function onConfirm() {
+  async function onConfirmToHome() {
+    if (!(step !== 1 && stage !== 1)) {
+      await onSaveGame({
+        enemyHP: enemyHP,
+        playerMaxHP: playerMaxHP,
+        playerHP: playerHP,
+        mana: mana,
+        step: step,
+        area: JSON.stringify(area),
+        stage: stage,
+        selectedEnemy: JSON.stringify(selectedEnemy),
+        selectedEnemies: JSON.stringify(selectedEnemies),
+        maxReshuffle: maxReshuffle,
+        reshuffle: reshuffle,
+        damageModifier: JSON.stringify(damageModifier),
+        currentPotionUsed: currentPotionUsed,
+        purchasedItem: JSON.stringify(purchasedItemIds)
+      });
+    }
     router.replace('/');
   }
 
-  function onCancel() {
+  function onCancelToHome() {
     setShowConfirmModal(false);
   }
 
@@ -476,9 +491,9 @@ export default function UseBattle() {
       handleRearrange,
       handleReshuffle,
       handleSubmit,
-      onCancel,
+      onCancelToHome,
       onCompleteFloatingDamage,
-      onConfirm,
+      onConfirmToHome,
       onPressBackToHome,
       onPressNextArea,
       onPressNextStage,
