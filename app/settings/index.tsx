@@ -1,12 +1,12 @@
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useMusicStore } from '@store/useMusicStore';
+import { usePremiumStore } from '@store/usePremiumStore';
+import { useSfxStore } from '@store/useSFXStore';
+import { useSubscriptionStore } from '@store/useSubscriptionStore';
 import { ChangeNameModal } from 'app/components/ChangeNameModal';
 import SettingCardSwitch from 'app/components/SettingCardSwitch';
 import SettingHeader from 'app/components/SettingHeader';
 import Colors from 'app/foundation/colors';
-import { useMusicStore } from 'app/store/useMusicStore';
-import { usePremiumStore } from 'app/store/usePremiumStore';
-import { useSfxStore } from 'app/store/useSFXStore';
-import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { scale } from 'app/utils/sizeScaling';
 import {
   getBattleTutorial,

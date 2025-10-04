@@ -1,4 +1,4 @@
-import { GameStoreType } from 'app/store/GameStoreType';
+import { GameStoreType } from '@store/GameStoreType';
 import { ILetter } from 'app/types/ILetter';
 import { getDamageModifier } from './getDamageModifier';
 import { getBonusDamageFromLength } from './wordLengthDamageMap';

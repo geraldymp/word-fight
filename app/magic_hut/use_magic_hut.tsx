@@ -1,11 +1,11 @@
+import { useAdStore } from '@store/useAdStore';
+import { useGameStore } from '@store/useGameStore';
+import { useMagicHutStore } from '@store/useMagicHutStore';
+import { useSubscriptionStore } from '@store/useSubscriptionStore';
 import { boosters } from 'app/constants/boosters';
 import { HutDialog } from 'app/constants/hutDialog';
 import { KeyValues } from 'app/constants/keyValues';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
-import { useAdStore } from 'app/store/useAdStore';
-import { useGameStore } from 'app/store/useGameStore';
-import { useMagicHutStore } from 'app/store/useMagicHutStore';
-import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { IBooster } from 'app/types/IBooster';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import {

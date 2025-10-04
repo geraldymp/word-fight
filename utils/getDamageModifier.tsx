@@ -1,4 +1,4 @@
-import { GameStoreType } from 'app/store/GameStoreType';
+import { GameStoreType } from '@store/GameStoreType';
 
 export function getDamageModifier(
   word: string,

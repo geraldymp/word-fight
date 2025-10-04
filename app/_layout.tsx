@@ -21,8 +21,8 @@ import {
 } from '@expo-google-fonts/sour-gummy';
 
 // stores
-import { usePremiumStore } from 'app/store/usePremiumStore';
-import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
+import { usePremiumStore } from '@store/usePremiumStore';
+import { useSubscriptionStore } from '@store/useSubscriptionStore';
 
 // utils
 import Colors from 'app/foundation/colors';

@@ -1,6 +1,6 @@
+import { useGameStore } from '@store/useGameStore';
 import { areas } from 'app/constants/areas';
 import { enemies } from 'app/constants/enemies';
-import { useGameStore } from 'app/store/useGameStore';
 import { IArea } from 'app/types/IArea';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';

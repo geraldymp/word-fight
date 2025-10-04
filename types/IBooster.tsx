@@ -1,4 +1,4 @@
-import { GameStoreType } from 'app/store/GameStoreType';
+import { GameStoreType } from '@store/GameStoreType';
 import { ImageSourcePropType } from 'react-native';
 
 export interface IBooster {
