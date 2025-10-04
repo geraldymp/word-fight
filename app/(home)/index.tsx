@@ -7,8 +7,8 @@ import {
   SvgSetting
 } from '@assets/icons/svgs';
 import { AboutModal } from '@components/AboutModal';
+import { useGameStore } from '@store/useGameStore';
 import { useMusicStore } from '@store/useMusicStore';
-import { useGameStore } from 'app/store/useGameStore';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { Image, ImageBackground, StyleSheet, View } from 'react-native';
@@ -24,6 +24,8 @@ import Animated, {
 // @ts-ignore
 import { Entypo } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
+import { onClearResume, onLoadGame } from '@store/savedGame/useSavedGame';
+import { useSubscriptionStore } from '@store/useSubscriptionStore';
 import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import HelpModal from 'app/components/HelpModal';
@@ -35,7 +37,6 @@ import {
   getLowestHighscore,
   isHighscoreFilled
 } from 'app/lib/highscoreFunctions';
-import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { IShowedStats } from 'app/types/IShowedStats';
 import { scale as scaling, verticalScale } from 'app/utils/sizeScaling';
 import { getAllStats } from 'app/utils/Statistic/getAllStatistics';
@@ -69,6 +70,7 @@ export default function HomeScreen() {
   const [visibleAboutModal, setVisibleAboutModal] = useState<boolean>(false);
   const [visibleStatsModal, setVisibleStatsModal] = useState<boolean>(false);
   const [visibleHelpModal, setVisibleHelpModal] = useState<boolean>(false);
+  const [hasSavedGame, setHasSavedGame] = useState<boolean>(false);
 
   async function loadStats() {
     const stats = await getAllStats();
@@ -116,6 +118,11 @@ export default function HomeScreen() {
   useEffect(() => {
     if (isFocused) {
       playMusic('home');
+      const checkSave = async () => {
+        const saved = await onLoadGame();
+        setHasSavedGame(!!saved);
+      };
+      checkSave();
     }
   }, [isFocused]);
 
@@ -162,13 +169,26 @@ export default function HomeScreen() {
       <RoundedRectButton
         testID="home-start-btn"
         title="PLAY"
-        onPress={() => {
+        onPress={async () => {
+          await onClearResume();
           stopMusic();
           router.replace('/loading');
         }}
         type="primary"
         size="lg"
       />
+      {hasSavedGame && (
+        <RoundedRectButton
+          testID="home-resume-btn"
+          title="RESUME"
+          onPress={() => {
+            stopMusic();
+            router.replace('/loading');
+          }}
+          type="primary"
+          size="lg"
+        />
+      )}
       <View style={styles.bottomButtonsContainer}>
         <RoundedButton
           onPress={() => setVisibleHelpModal(true)}
