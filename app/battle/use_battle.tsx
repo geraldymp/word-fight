@@ -358,30 +358,35 @@ export default function UseBattle() {
     modalText: string;
     showNextStageBtn: boolean;
     showNextAreaBtn: boolean;
+    showHomeBtn: boolean;
   } = useMemo(() => {
     if (enemyHP === 0 && step === 7) {
       return {
         modalText: 'Congratulations, you beat the game!',
         showNextStageBtn: false,
-        showNextAreaBtn: false
+        showNextAreaBtn: false,
+        showHomeBtn: true
       };
     } else if (enemyHP === 0 && stage === 3) {
       return {
         modalText: 'You clear the area!',
         showNextStageBtn: false,
-        showNextAreaBtn: true
+        showNextAreaBtn: true,
+        showHomeBtn: false
       };
     } else if (enemyHP === 0) {
       return {
         modalText: 'You beat the enemy!',
         showNextStageBtn: true,
-        showNextAreaBtn: false
+        showNextAreaBtn: false,
+        showHomeBtn: false
       };
     } else {
       return {
         modalText: 'You lose!',
         showNextStageBtn: false,
-        showNextAreaBtn: false
+        showNextAreaBtn: false,
+        showHomeBtn: true
       };
     }
   }, [step, stage, enemyHP]);

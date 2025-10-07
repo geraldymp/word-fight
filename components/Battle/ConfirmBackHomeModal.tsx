@@ -25,14 +25,13 @@ export const _ConfirmBackHomeModal: React.FC<IConfirmBackHomeModal> = ({
     <Modal visible={visible} transparent animationType="slide">
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
-          <Text style={styles.title}>Back to Home?</Text>
+          <Text style={styles.title}>Back to Home and save progress?</Text>
           <TouchableOpacity style={styles.button} onPress={onConfirm}>
             <Text style={styles.buttonText}>Yes</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.button, styles.secondaryButton]}
-            onPress={onCancel}
-          >
+            onPress={onCancel}>
             <Text style={styles.buttonText}>Cancel</Text>
           </TouchableOpacity>
         </View>

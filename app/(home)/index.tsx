@@ -187,6 +187,7 @@ export default function HomeScreen() {
           }}
           type="primary"
           size="lg"
+          customStyle={{ marginTop: verticalScale(16) }}
         />
       )}
       <View style={styles.bottomButtonsContainer}>

@@ -14,6 +14,7 @@ interface IGameProgressModal {
     modalText: string;
     showNextStageBtn: boolean;
     showNextAreaBtn: boolean;
+    showHomeBtn: boolean;
   };
   onPressNextStage: () => void;
   onPressNextArea: () => void;
@@ -29,7 +30,8 @@ const _GameProgressModal: React.FC<IGameProgressModal> = ({
   onPressNextStage,
   onPressBackToHome
 }) => {
-  const { modalText, showNextStageBtn, showNextAreaBtn } = modalContent;
+  const { modalText, showNextStageBtn, showNextAreaBtn, showHomeBtn } =
+    modalContent;
   return (
     <Modal visible={showModal} transparent animationType="slide">
       <View
@@ -38,8 +40,7 @@ const _GameProgressModal: React.FC<IGameProgressModal> = ({
           justifyContent: 'center',
           alignItems: 'center',
           backgroundColor: 'rgba(0,0,0,0.6)'
-        }}
-      >
+        }}>
         <View style={styles.modalContainer}>
           <Text style={styles.title}>{modalText}</Text>
 
@@ -55,12 +56,13 @@ const _GameProgressModal: React.FC<IGameProgressModal> = ({
             </TouchableOpacity>
           )}
 
-          <TouchableOpacity
-            style={[styles.button, styles.secondaryButton]}
-            onPress={onPressBackToHome}
-          >
-            <Text style={styles.buttonText}>Back to Home</Text>
-          </TouchableOpacity>
+          {showHomeBtn && (
+            <TouchableOpacity
+              style={[styles.button, styles.secondaryButton]}
+              onPress={onPressBackToHome}>
+              <Text style={styles.buttonText}>Back to Home</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     </Modal>
