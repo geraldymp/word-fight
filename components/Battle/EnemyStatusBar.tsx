@@ -23,6 +23,8 @@ const EnemyStatusBar: React.FC<EnemyStatusBarProps> = ({
   minMana,
   maxMana
 }) => {
+  const sameDmg = minDmg === maxDmg;
+  const sameMana = minMana === maxMana;
   return (
     <View style={styles.container}>
       {/* Name */}
@@ -47,15 +49,23 @@ const EnemyStatusBar: React.FC<EnemyStatusBarProps> = ({
       <View style={styles.statusWrapper}>
         <View style={styles.statusItemBox}>
           <SvgSword width={18} height={18} />
-          <Text style={styles.statText}>
-            {minDmg} - {maxDmg} Damage
-          </Text>
+          {sameDmg ? (
+            <Text style={styles.statText}>{minDmg} Damage</Text>
+          ) : (
+            <Text style={styles.statText}>
+              {minDmg} - {maxDmg} Damage
+            </Text>
+          )}
         </View>
         <View style={styles.statusItemBox}>
           <SvgMana width={18} height={18} color={Colors.primary} />
-          <Text style={styles.statText}>
-            {minMana} - {maxMana} Mana
-          </Text>
+          {sameMana ? (
+            <Text style={styles.statText}>{minMana} Mana</Text>
+          ) : (
+            <Text style={styles.statText}>
+              {minMana} - {maxMana} Mana
+            </Text>
+          )}
         </View>
       </View>
     </View>
