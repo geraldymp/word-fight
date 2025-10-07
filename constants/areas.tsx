@@ -135,7 +135,7 @@ export const areas: IArea[] = [
       {
         id: 'boss',
         name: 'Final Stage',
-        image: require('../assets/areas/boss.jpg'),
+        image: require('@assets/areas/boss.jpg'),
         battleBackground: require('@assets/backgrounds/graveyard.jpg'),
         description: 'Finally, my journey will come to an end...'
       }
