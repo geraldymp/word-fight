@@ -40,7 +40,7 @@ export default function UseChooseArea() {
     if (step % 2 === 0) {
       if (option === 'shop') {
         router.replace('/magic_hut');
-      } else if (option === 'fire_camp') {
+      } else if (option === 'fireCamp') {
         router.replace('/fire_camp');
       }
     } else {
