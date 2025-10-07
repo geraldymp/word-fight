@@ -101,7 +101,7 @@ export default function Layout() {
       <SafeAreaProvider>
         <SafeAreaView style={[styles.container, styles.loader]}>
           <ActivityIndicator size="large" color="#fff" />
-          <Text style={styles.text}>Sharpening swords...</Text>
+          <Text style={styles.text}>Starting the game...</Text>
         </SafeAreaView>
       </SafeAreaProvider>
     );
