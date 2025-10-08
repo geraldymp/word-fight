@@ -146,7 +146,8 @@ export default function BattleScreen() {
         {/* Word Builder */}
         <LetterTile
           letters={letters}
-          states={states}
+          showNumberedTiles={states.showNumberedTiles}
+          isReshuffling={states.isReshuffling}
           selectedIndices={selectedIndices}
           handleLetterPress={handleLetterPress}
           wrongWordShakeAnim={wrongWordShakeAnim}

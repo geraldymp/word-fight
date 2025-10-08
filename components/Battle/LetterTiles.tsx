@@ -11,10 +11,8 @@ import Animated, { SharedValue } from 'react-native-reanimated';
 
 interface Props {
   letters: ILetter[];
-  states: {
-    showNumberedTiles: boolean;
-    isReshuffling: boolean;
-  };
+  showNumberedTiles: boolean;
+  isReshuffling: boolean;
   selectedIndices: number[];
   handleLetterPress: (i: number) => void;
   wrongWordShakeAnim: SharedValue<number>;
@@ -22,7 +20,8 @@ interface Props {
 
 const _LetterTile: React.FC<Props> = ({
   letters,
-  states,
+  showNumberedTiles,
+  isReshuffling,
   selectedIndices,
   handleLetterPress,
   wrongWordShakeAnim
@@ -33,7 +32,7 @@ const _LetterTile: React.FC<Props> = ({
         data={letters}
         keyExtractor={(_, i) => i.toString()}
         renderItem={({ item, index }) =>
-          states.showNumberedTiles ? (
+          showNumberedTiles ? (
             <NumberedTile
               item={item}
               index={index}
@@ -53,7 +52,7 @@ const _LetterTile: React.FC<Props> = ({
           {
             flexGrow: 0,
             marginTop: verticalScale(10),
-            opacity: states.isReshuffling ? 0 : 1
+            opacity: isReshuffling ? 0 : 1
           },
           { transform: [{ translateX: wrongWordShakeAnim }] }
         ]}
@@ -64,7 +63,7 @@ const _LetterTile: React.FC<Props> = ({
         scrollEnabled={false}
       />
 
-      {states.isReshuffling && (
+      {isReshuffling && (
         <View style={styles.overlay} pointerEvents="none">
           <View style={{ height: '80%', width: '100%' }}>
             <LottieView
