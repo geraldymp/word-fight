@@ -87,78 +87,117 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
       playerHP: state.playerMaxHP,
       maxReshuffle: 2,
       reshuffle: 2,
-      journeyPath: [],
       damageModifier: {
-        bonusDamage: 0,
-        vowelModifier: 0,
-        ABCDEModifier: 0,
-        VWXYZModifier: 0,
-        IngModifier: 0,
-        STModifier: 0
+        bonusDamage: {
+          ...state.damageModifier.bonusDamage,
+          value: 0
+        },
+        vowelModifier: {
+          ...state.damageModifier.vowelModifier,
+          value: 0
+        },
+        ABCDEModifier: {
+          ...state.damageModifier.ABCDEModifier,
+          value: 0
+        },
+        VWXYZModifier: {
+          ...state.damageModifier.VWXYZModifier,
+          value: 0
+        },
+        IngModifier: {
+          ...state.damageModifier.IngModifier,
+          value: 0
+        },
+        STModifier: {
+          ...state.damageModifier.STModifier,
+          value: 0
+        }
       }
     })),
-
-  journeyPath: [],
-  addToJourney: node =>
-    set(state => ({ journeyPath: [...state.journeyPath, node] })),
-  resetJourney: () => set({ journeyPath: [] }),
-
   damageModifier: {
-    bonusDamage: 0,
-    vowelModifier: 0,
-    ABCDEModifier: 0,
-    VWXYZModifier: 0,
-    IngModifier: 0,
-    STModifier: 0
+    bonusDamage: {
+      value: 0,
+      description: ''
+    },
+    vowelModifier: {
+      value: 0,
+      description: ''
+    },
+    ABCDEModifier: {
+      value: 0,
+      description: ''
+    },
+    VWXYZModifier: {
+      value: 0,
+      description: ''
+    },
+    IngModifier: {
+      value: 0,
+      description: ''
+    },
+    STModifier: {
+      value: 0,
+      description: ''
+    }
   },
-  setDamageModifier: (modifiers: {
-    bonusDamage: number;
-    vowelModifier: number;
-    ABCDEModifier: number;
-    VWXYZModifier: number;
-    IngModifier: number;
-    STModifier: number;
-  }) => set({ damageModifier: modifiers }),
   setBonusDamage: (modifier: number) =>
     set(state => ({
       damageModifier: {
         ...state.damageModifier,
-        bonusDamage: state.damageModifier.bonusDamage + modifier
+        bonusDamage: {
+          ...state.damageModifier.bonusDamage,
+          value: state.damageModifier.bonusDamage.value + modifier
+        }
       }
     })),
   setVowelModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
         ...state.damageModifier,
-        vowelModifier: state.damageModifier.vowelModifier + modifier
+        vowelModifier: {
+          ...state.damageModifier.vowelModifier,
+          value: state.damageModifier.vowelModifier.value + modifier
+        }
       }
     })),
   setABCDEModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
         ...state.damageModifier,
-        ABCDEModifier: state.damageModifier.ABCDEModifier + modifier
+        ABCDEModifier: {
+          ...state.damageModifier.ABCDEModifier,
+          value: state.damageModifier.ABCDEModifier.value + modifier
+        }
       }
     })),
   setVWXYZRModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
         ...state.damageModifier,
-        VWXYZModifier: state.damageModifier.VWXYZModifier + modifier
+        VWXYZModifier: {
+          ...state.damageModifier.VWXYZModifier,
+          value: state.damageModifier.VWXYZModifier.value + modifier
+        }
       }
     })),
   setIngModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
         ...state.damageModifier,
-        IngModifier: state.damageModifier.IngModifier + modifier
+        IngModifier: {
+          ...state.damageModifier.IngModifier,
+          value: state.damageModifier.IngModifier.value + modifier
+        }
       }
     })),
   setSTModifier: (modifier: number) =>
     set(state => ({
       damageModifier: {
         ...state.damageModifier,
-        STModifier: state.damageModifier.STModifier + modifier
+        STModifier: {
+          ...state.damageModifier.STModifier,
+          value: state.damageModifier.STModifier.value + modifier
+        }
       }
     })),
 

@@ -1,6 +1,6 @@
 import { IEnemy } from '@customTypes/IEnemy';
-import { INode } from '@customTypes/INode';
 import { IContent } from 'app/types/IArea';
+import { IDamageModifier } from 'app/types/IDamageModifier';
 
 export interface GameStoreType {
   // Enemy section
@@ -44,28 +44,8 @@ export interface GameStoreType {
   // Reset Game
   resetGame: () => void;
 
-  // Map section (unused)
-  journeyPath: INode[][];
-  addToJourney: (node: INode[]) => void;
-  resetJourney: () => void;
-
   // Damage modifier
-  damageModifier: {
-    bonusDamage: number;
-    vowelModifier: number;
-    ABCDEModifier: number;
-    VWXYZModifier: number;
-    IngModifier: number;
-    STModifier: number;
-  };
-  setDamageModifier: (modifiers: {
-    bonusDamage: number;
-    vowelModifier: number;
-    ABCDEModifier: number;
-    VWXYZModifier: number;
-    IngModifier: number;
-    STModifier: number;
-  }) => void;
+  damageModifier: IDamageModifier;
   setBonusDamage: (modifier: number) => void;
   setVowelModifier: (modifier: number) => void;
   setABCDEModifier: (modifier: number) => void;

@@ -12,31 +12,31 @@ export function getDamageModifier(
     IngModifier,
     STModifier
   } = mod;
-  let modifier = bonusDamage;
+  let totalModifier = bonusDamage.value;
 
-  if (vowelModifier) {
+  if (vowelModifier.value > 0) {
     const vowels = word.match(/[aeiou]/gi);
-    if (vowels) modifier += vowels.length * vowelModifier;
+    if (vowels) totalModifier += vowels.length * vowelModifier.value;
   }
 
-  if (ABCDEModifier) {
+  if (ABCDEModifier.value > 0) {
     const abcde = word.match(/[abcde]/gi);
-    if (abcde) modifier += abcde.length * ABCDEModifier;
+    if (abcde) totalModifier += abcde.length * ABCDEModifier.value;
   }
 
-  if (VWXYZModifier) {
+  if (VWXYZModifier.value > 0) {
     const vwxyz = word.match(/[vwxyz]/gi);
-    if (vwxyz) modifier += vwxyz.length * VWXYZModifier;
+    if (vwxyz) totalModifier += vwxyz.length * VWXYZModifier.value;
   }
 
-  if (IngModifier) {
-    if (word.toLowerCase().includes('ing')) modifier += IngModifier;
+  if (IngModifier.value > 0) {
+    if (word.toLowerCase().includes('ing')) totalModifier += IngModifier.value;
   }
 
-  if (STModifier) {
+  if (STModifier.value > 0) {
     const st = word.match(/[st]/gi);
-    if (st) modifier += st.length * STModifier;
+    if (st) totalModifier += st.length * STModifier.value;
   }
 
-  return modifier;
+  return totalModifier;
 }

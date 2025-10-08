@@ -5,6 +5,6 @@ export const openRealm = async () => {
   return await Realm.open({
     path: 'wordfight.realm',
     schema: [SavedGameSchema],
-    schemaVersion: 3
+    schemaVersion: 4
   });
 };
