@@ -8,6 +8,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import {
   Image,
   ImageSourcePropType,
+  LayoutChangeEvent,
   StyleProp,
   StyleSheet,
   Text,
@@ -31,6 +32,7 @@ const STROKE_WIDTH = IMAGE_SIZE * 0.12;
 const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
 const CIRCUM = 2 * Math.PI * RADIUS;
 const ACTION_ICON_SIZE = IMAGE_SIZE * 0.28;
+const MOD_ICON_SIZE = scale(20);
 
 interface IBottomHUD {
   characterImage: any;
@@ -73,6 +75,12 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   customStyle
 }) => {
   const [activeModifier, setActiveModifier] = useState<string | null>(null);
+  const [hudHeight, setHudHeight] = useState(0);
+
+  const onLayoutHud = (e: LayoutChangeEvent) => {
+    const { height } = e.nativeEvent.layout;
+    setHudHeight(height);
+  };
 
   useEffect(() => {
     if (activeModifier) {
@@ -102,7 +110,11 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   }, [disableReshuffle]);
 
   return (
-    <View style={[styles.container, customStyle]}>
+    <View
+      style={[styles.container, customStyle]}
+      onLayout={event => {
+        onLayoutHud(event);
+      }}>
       {/* Health ring */}
       <View style={styles.ringWrapper}>
         <Svg
@@ -140,7 +152,11 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
         />
       </View>
 
-      <View style={styles.dmgModsContainer}>
+      <View
+        style={[
+          styles.dmgModsContainer,
+          { top: verticalScale(-hudHeight / 2) }
+        ]}>
         {Object.entries(damageModifiers).map(([key, mod]) => {
           if (mod.value === 0) return null;
           const source = modifierImages[key as keyof typeof modifierImages];
@@ -377,14 +393,13 @@ const styles = StyleSheet.create({
   },
   dmgModsContainer: {
     position: 'absolute',
-    left: IMAGE_SIZE + scale(30),
-    top: verticalScale(-24),
+    left: IMAGE_SIZE + scale(28),
     flexDirection: 'row',
     gap: scale(6)
   },
   rectangle: {
-    height: scale(20),
-    width: scale(20),
+    height: MOD_ICON_SIZE,
+    width: MOD_ICON_SIZE,
     borderRadius: 6
   }
 });

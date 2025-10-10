@@ -77,7 +77,7 @@ const SettingsScreen = () => {
     if (showDamageBreakdown) {
       return 'Breakdown Visible';
     } else {
-      return 'Breakdown hidden';
+      return 'Breakdown Hidden';
     }
   }, [showDamageBreakdown]);
 
