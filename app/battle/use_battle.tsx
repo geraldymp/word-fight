@@ -542,7 +542,8 @@ export default function UseBattle() {
       showTutorial,
       showDamageBreakdown,
       showNumberedTiles,
-      isReshuffling
+      isReshuffling,
+      damageModifier
     }
   };
 }

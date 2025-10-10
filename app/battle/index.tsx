@@ -172,6 +172,7 @@ export default function BattleScreen() {
           onPlay={handleSubmit}
           onRearrange={handleRearrange}
           onReshuffle={handleReshuffle}
+          damageModifiers={states.damageModifier}
           customStyle={styles.bottomBarContainer}
         />
       </View>

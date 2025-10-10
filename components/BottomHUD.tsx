@@ -1,10 +1,13 @@
 import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
 import { SvgHeart, SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
+import { IDamageModifier } from 'app/types/IDamageModifier';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useMemo } from 'react';
 import {
+  Image,
+  ImageSourcePropType,
   StyleProp,
   StyleSheet,
   Text,
@@ -40,8 +43,39 @@ interface IBottomHUD {
   onReshuffle: () => void;
   onRearrange: () => void;
   onPlay: () => void;
+  damageModifiers: IDamageModifier;
   customStyle?: StyleProp<ViewStyle>;
 }
+
+const DamageModifierIndicator: React.FC<{ modifier: IDamageModifier }> = ({
+  modifier
+}) => {
+  const modifierImages: Record<keyof IDamageModifier, ImageSourcePropType> = {
+    bonusDamage: require('@assets/icons/battle/damageModifier/bonusDamage.jpg'),
+    vowelModifier: require('@assets/icons/battle/damageModifier/vowel.jpg'),
+    ABCDEModifier: require('@assets/icons/battle/damageModifier/abcde.png'),
+    VWXYZModifier: require('@assets/icons/battle/damageModifier/vwxyz.png'),
+    IngModifier: require('@assets/icons/battle/damageModifier/ing.png'),
+    STModifier: require('@assets/icons/battle/damageModifier/st.png')
+  };
+
+  return (
+    <View style={styles.dmgModsContainer}>
+      {Object.entries(modifier).map(([key, mod]) => {
+        if (mod.value <= 0) return null;
+        const source = modifierImages[key as keyof IDamageModifier];
+        return (
+          <Image
+            key={key}
+            source={source}
+            style={styles.rectangle}
+            resizeMode="cover"
+          />
+        );
+      })}
+    </View>
+  );
+};
 
 const _BottomHUD: React.FC<IBottomHUD> = ({
   characterImage,
@@ -55,6 +89,7 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   onReshuffle,
   onRearrange,
   onPlay,
+  damageModifiers,
   customStyle
 }) => {
   const healthPercent = useMemo(() => {
@@ -78,9 +113,9 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   }, [disableReshuffle]);
 
   return (
-    <View style={[stylesBtm.container, customStyle]}>
+    <View style={[styles.container, customStyle]}>
       {/* Health ring */}
-      <View style={stylesBtm.ringWrapper}>
+      <View style={styles.ringWrapper}>
         <Svg
           width={IMAGE_SIZE + STROKE_WIDTH * 2}
           height={IMAGE_SIZE + STROKE_WIDTH * 2}>
@@ -109,14 +144,16 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
         <Animated.Image
           source={characterImage}
           style={[
-            stylesBtm.characterImg,
+            styles.characterImg,
             { transform: [{ translateX: playerShakeAnim }] }
           ]}
           resizeMode="contain"
         />
       </View>
 
-      <View style={stylesBtm.playerHpWrapper}>
+      <DamageModifierIndicator modifier={damageModifiers} />
+
+      <View style={styles.playerHpWrapper}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
           <SvgHeart
             color="red"
@@ -124,45 +161,45 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
             height={scale(36)}
             width={scale(36)}
           />
-          <Text style={stylesBtm.playerHPText}>{playerHP}</Text>
+          <Text style={styles.playerHPText}>{playerHP}</Text>
         </View>
       </View>
 
-      <View style={stylesBtm.sectionWrapper}>
-        <View style={stylesBtm.manaWrapper}>
-          <Text style={stylesBtm.manaText}>{mana}</Text>
+      <View style={styles.sectionWrapper}>
+        <View style={styles.manaWrapper}>
+          <Text style={styles.manaText}>{mana}</Text>
           <SvgMana
             height={scale(20)}
             width={scale(20)}
             color={Colors.primary}
           />
         </View>
-        <View style={stylesBtm.buttonsWrapper}>
+        <View style={styles.buttonsWrapper}>
           {/* Reshuffle button */}
-          <View style={stylesBtm.reshuffleDotsAndButton}>
-            <View style={stylesBtm.reshuffleDotsWrapper}>
+          <View style={styles.reshuffleDotsAndButton}>
+            <View style={styles.reshuffleDotsWrapper}>
               {Array.from({ length: maxReshuffle }).map((_, i) => {
                 const isUsed = i < maxReshuffle - currentReshuffle;
                 return (
                   <View
                     key={i}
                     style={[
-                      stylesBtm.reshuffleDot,
+                      styles.reshuffleDot,
                       isUsed
-                        ? stylesBtm.reshuffleDotUsed
-                        : stylesBtm.reshuffleDotActive
+                        ? styles.reshuffleDotUsed
+                        : styles.reshuffleDotActive
                     ]}
                   />
                 );
               })}
             </View>
             <TouchableOpacity
-              style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
+              style={[styles.button, styles.buttonParent3DEffect]}
               onPress={onReshuffle}
               disabled={disableReshuffle}>
               <LinearGradient
                 colors={reshuffleStyle}
-                style={[stylesBtm.button, { bottom: 1.5 }]}>
+                style={[styles.button, { bottom: 1.5 }]}>
                 <IcReshuffle
                   color="black"
                   width={ACTION_ICON_SIZE}
@@ -175,11 +212,11 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
 
           {/* Rearrange button */}
           <TouchableOpacity
-            style={[stylesBtm.button, stylesBtm.buttonParent3DEffect]}
+            style={[styles.button, styles.buttonParent3DEffect]}
             onPress={onRearrange}>
             <LinearGradient
               colors={BUTTON_GRADIENT_SECONDARY}
-              style={[stylesBtm.button, { bottom: 1.5 }]}>
+              style={[styles.button, { bottom: 1.5 }]}>
               <IcRearrange
                 color="black"
                 width={ACTION_ICON_SIZE}
@@ -191,14 +228,11 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
 
           {/* Attack button */}
           <TouchableOpacity
-            style={[
-              stylesBtm.playButtonWrapper,
-              stylesBtm.buttonParent3DEffect
-            ]}
+            style={[styles.playButtonWrapper, styles.buttonParent3DEffect]}
             onPress={onPlay}>
             <LinearGradient
               colors={BUTTON_GRADIENT}
-              style={[stylesBtm.playButtonWrapper, { bottom: 4 }]}>
+              style={[styles.playButtonWrapper, { bottom: 4 }]}>
               <IcFight width={scale(20)} height={scale(20)} />
             </LinearGradient>
           </TouchableOpacity>
@@ -208,7 +242,7 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   );
 };
 
-const stylesBtm = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -216,14 +250,10 @@ const stylesBtm = StyleSheet.create({
     paddingVertical: verticalScale(4),
     borderTopLeftRadius: moderateScale(18),
     borderTopRightRadius: moderateScale(18),
-    shadowColor: Colors.neutralDark,
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.12,
-    shadowRadius: 8,
     backgroundColor: Colors.secondaryBg70
   },
   playerHpWrapper: {
-    marginLeft: IMAGE_SIZE + 8,
+    marginLeft: IMAGE_SIZE + scale(8),
     justifyContent: 'flex-end'
   },
   playerHPText: {
@@ -259,7 +289,7 @@ const stylesBtm = StyleSheet.create({
   reshuffleDotsWrapper: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 4
+    marginRight: scale(4)
   },
   reshuffleDot: {
     width: scale(7),
@@ -268,11 +298,7 @@ const stylesBtm = StyleSheet.create({
     marginVertical: verticalScale(0.8),
     backgroundColor: Colors.neutralDark,
     borderWidth: 1,
-    borderColor: Colors.borderBlack,
-    shadowColor: Colors.primary,
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.18,
-    shadowRadius: 2
+    borderColor: Colors.borderBlack
   },
   reshuffleDotActive: {
     backgroundColor: Colors.primary,
@@ -310,8 +336,8 @@ const stylesBtm = StyleSheet.create({
   },
   ringWrapper: {
     position: 'absolute',
-    left: 12,
-    bottom: 8,
+    left: scale(12),
+    bottom: verticalScale(8),
     width: IMAGE_SIZE + STROKE_WIDTH * 2,
     height: IMAGE_SIZE + STROKE_WIDTH * 2,
     alignItems: 'center',
@@ -325,6 +351,18 @@ const stylesBtm = StyleSheet.create({
     height: IMAGE_SIZE,
     borderRadius: IMAGE_SIZE / 2,
     backgroundColor: Colors.neutralDark
+  },
+  dmgModsContainer: {
+    position: 'absolute',
+    left: IMAGE_SIZE + scale(30),
+    top: verticalScale(-24),
+    flexDirection: 'row',
+    gap: scale(6)
+  },
+  rectangle: {
+    height: scale(20),
+    width: scale(20),
+    borderRadius: 6
   }
 });
 
