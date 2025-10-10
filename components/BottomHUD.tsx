@@ -4,7 +4,7 @@ import Colors from 'app/foundation/colors';
 import { IDamageModifier } from 'app/types/IDamageModifier';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -15,6 +15,7 @@ import {
   View,
   ViewStyle
 } from 'react-native';
+import Popover, { PopoverPlacement } from 'react-native-popover-view';
 import Animated, { SharedValue } from 'react-native-reanimated';
 import Svg, { Circle } from 'react-native-svg';
 
@@ -47,34 +48,13 @@ interface IBottomHUD {
   customStyle?: StyleProp<ViewStyle>;
 }
 
-const DamageModifierIndicator: React.FC<{ modifier: IDamageModifier }> = ({
-  modifier
-}) => {
-  const modifierImages: Record<keyof IDamageModifier, ImageSourcePropType> = {
-    bonusDamage: require('@assets/icons/battle/damageModifier/bonusDamage.jpg'),
-    vowelModifier: require('@assets/icons/battle/damageModifier/vowel.jpg'),
-    ABCDEModifier: require('@assets/icons/battle/damageModifier/abcde.png'),
-    VWXYZModifier: require('@assets/icons/battle/damageModifier/vwxyz.png'),
-    IngModifier: require('@assets/icons/battle/damageModifier/ing.png'),
-    STModifier: require('@assets/icons/battle/damageModifier/st.png')
-  };
-
-  return (
-    <View style={styles.dmgModsContainer}>
-      {Object.entries(modifier).map(([key, mod]) => {
-        if (mod.value <= 0) return null;
-        const source = modifierImages[key as keyof IDamageModifier];
-        return (
-          <Image
-            key={key}
-            source={source}
-            style={styles.rectangle}
-            resizeMode="cover"
-          />
-        );
-      })}
-    </View>
-  );
+const modifierImages: Record<keyof IDamageModifier, ImageSourcePropType> = {
+  bonusDamage: require('@assets/icons/battle/damageModifier/bonusDamage.jpg'),
+  vowelModifier: require('@assets/icons/battle/damageModifier/vowel.jpg'),
+  ABCDEModifier: require('@assets/icons/battle/damageModifier/abcde.png'),
+  VWXYZModifier: require('@assets/icons/battle/damageModifier/vwxyz.png'),
+  IngModifier: require('@assets/icons/battle/damageModifier/ing.png'),
+  STModifier: require('@assets/icons/battle/damageModifier/st.png')
 };
 
 const _BottomHUD: React.FC<IBottomHUD> = ({
@@ -92,6 +72,15 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   damageModifiers,
   customStyle
 }) => {
+  const [activeModifier, setActiveModifier] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (activeModifier) {
+      const timer = setTimeout(() => setActiveModifier(null), 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [activeModifier]);
+
   const healthPercent = useMemo(() => {
     return Math.max(0, playerHP / playerMaxHP);
   }, [playerHP, playerMaxHP]);
@@ -151,7 +140,41 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
         />
       </View>
 
-      <DamageModifierIndicator modifier={damageModifiers} />
+      <View style={styles.dmgModsContainer}>
+        {Object.entries(damageModifiers).map(([key, mod]) => {
+          if (mod.value === 0) return null;
+          const source = modifierImages[key as keyof typeof modifierImages];
+
+          return (
+            <Popover
+              key={key}
+              isVisible={activeModifier === key}
+              onRequestClose={() => setActiveModifier(null)}
+              placement={PopoverPlacement.TOP}
+              backgroundStyle={{ opacity: 0 }}
+              from={
+                <TouchableOpacity
+                  onPress={() =>
+                    setActiveModifier(prev => (prev === key ? null : key))
+                  }>
+                  <Image
+                    source={source}
+                    style={styles.rectangle}
+                    resizeMode="cover"
+                  />
+                </TouchableOpacity>
+              }>
+              <View style={{ paddingHorizontal: 6, paddingVertical: 4 }}>
+                <Text
+                  style={{
+                    fontSize: 10,
+                    fontWeight: 'bold'
+                  }}>{`${mod.description}${mod.value}`}</Text>
+              </View>
+            </Popover>
+          );
+        })}
+      </View>
 
       <View style={styles.playerHpWrapper}>
         <View style={{ alignItems: 'center', justifyContent: 'center' }}>
