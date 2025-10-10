@@ -1,4 +1,5 @@
 // stores/useGameStore.ts
+import { DamageModifierDefault } from 'app/constants/damageModifierDefault';
 import { KeyValues } from 'app/constants/keyValues';
 import { create } from 'zustand';
 import { GameStoreType } from './GameStoreType';
@@ -87,59 +88,9 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
       playerHP: state.playerMaxHP,
       maxReshuffle: 2,
       reshuffle: 2,
-      damageModifier: {
-        bonusDamage: {
-          ...state.damageModifier.bonusDamage,
-          value: 0
-        },
-        vowelModifier: {
-          ...state.damageModifier.vowelModifier,
-          value: 0
-        },
-        ABCDEModifier: {
-          ...state.damageModifier.ABCDEModifier,
-          value: 0
-        },
-        VWXYZModifier: {
-          ...state.damageModifier.VWXYZModifier,
-          value: 0
-        },
-        IngModifier: {
-          ...state.damageModifier.IngModifier,
-          value: 0
-        },
-        STModifier: {
-          ...state.damageModifier.STModifier,
-          value: 0
-        }
-      }
+      damageModifier: DamageModifierDefault
     })),
-  damageModifier: {
-    bonusDamage: {
-      value: 0,
-      description: ''
-    },
-    vowelModifier: {
-      value: 0,
-      description: ''
-    },
-    ABCDEModifier: {
-      value: 0,
-      description: ''
-    },
-    VWXYZModifier: {
-      value: 0,
-      description: ''
-    },
-    IngModifier: {
-      value: 0,
-      description: ''
-    },
-    STModifier: {
-      value: 0,
-      description: ''
-    }
-  },
+  damageModifier: DamageModifierDefault,
   setBonusDamage: (modifier: number) =>
     set(state => ({
       damageModifier: {
