@@ -5,7 +5,7 @@ export default {
   expo: {
     name: 'Word Fight',
     slug: 'word-fight',
-    version: '1.0.15',
+    version: '1.0.16',
     orientation: 'portrait',
     icon: './assets/word_fight_logo.png',
     scheme: 'wordfight',
@@ -16,7 +16,7 @@ export default {
       bundleIdentifier: 'com.germp24.wordfight'
     },
     android: {
-      versionCode: 15,
+      versionCode: 16,
       package: "com.germp24.wordfight",
       adaptiveIcon: {
         foregroundImage: './assets/word_fight_logo.png',
