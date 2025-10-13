@@ -417,7 +417,7 @@ export default function UseBattle() {
   }
 
   async function onConfirmToHome() {
-    if (!(step !== 1 && stage !== 1)) {
+    if (!(step === 1 && stage === 1)) {
       await onSaveGame({
         enemyHP: enemyHP,
         playerMaxHP: playerMaxHP,
