@@ -32,7 +32,7 @@ const STROKE_WIDTH = IMAGE_SIZE * 0.12;
 const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
 const CIRCUM = 2 * Math.PI * RADIUS;
 const ACTION_ICON_SIZE = IMAGE_SIZE * 0.28;
-const MOD_ICON_SIZE = scale(20);
+const MOD_ICON_SIZE = verticalScale(20);
 
 interface IBottomHUD {
   characterImage: any;
@@ -155,7 +155,7 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
       <View
         style={[
           styles.dmgModsContainer,
-          { top: verticalScale(-hudHeight / 2) }
+          { bottom: hudHeight + verticalScale(4) }
         ]}>
         {Object.entries(damageModifiers).map(([key, mod]) => {
           if (mod.value === 0) return null;
@@ -400,7 +400,7 @@ const styles = StyleSheet.create({
   rectangle: {
     height: MOD_ICON_SIZE,
     width: MOD_ICON_SIZE,
-    borderRadius: 6
+    borderRadius: moderateScale(6)
   }
 });
 

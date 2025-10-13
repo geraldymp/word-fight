@@ -1,3 +1,4 @@
+import { verticalScale } from 'app/utils/sizeScaling';
 import React, { memo, useEffect } from 'react';
 import { StyleProp, TextStyle } from 'react-native';
 import Animated, {
@@ -32,7 +33,11 @@ const BlinkingText: React.FC<Props> = ({ text, style, duration = 500 }) => {
   return (
     <Animated.Text
       style={[
-        { fontSize: 18, color: 'white', fontFamily: 'SourGummy_800ExtraBold' },
+        {
+          fontSize: verticalScale(14),
+          color: 'white',
+          fontFamily: 'SourGummy_800ExtraBold'
+        },
         style,
         animatedStyle
       ]}>
