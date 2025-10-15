@@ -60,7 +60,7 @@ export default function PremiumModal({ visible, onClose }: Props) {
   }
 
   return (
-    <Modal visible={visible} transparent animationType="slide">
+    <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.modal}>
           {loading && <ActivityIndicator />}

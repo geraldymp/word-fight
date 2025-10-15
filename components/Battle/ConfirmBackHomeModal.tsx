@@ -22,7 +22,7 @@ export const _ConfirmBackHomeModal: React.FC<IConfirmBackHomeModal> = ({
   onCancel
 }) => {
   return (
-    <Modal visible={visible} transparent animationType="slide">
+    <Modal visible={visible} transparent animationType="fade">
       <View style={styles.overlay}>
         <View style={styles.modalContainer}>
           <Text style={styles.title}>Back to Home and save progress?</Text>

@@ -33,7 +33,7 @@ const _GameProgressModal: React.FC<IGameProgressModal> = ({
   const { modalText, showNextStageBtn, showNextAreaBtn, showHomeBtn } =
     modalContent;
   return (
-    <Modal visible={showModal} transparent animationType="slide">
+    <Modal visible={showModal} transparent animationType="fade">
       <View
         style={{
           flex: 1,
