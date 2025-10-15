@@ -12,6 +12,7 @@ import {
 
 interface ChangeHeroIconModalProps {
   visible: boolean;
+  // TODO: hero icon go to array 0 when first reloading
   initialHeroId?: string | null;
   onSelect: (heroId: string) => void;
   onCancel: () => void;
