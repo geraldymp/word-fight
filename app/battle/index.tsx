@@ -161,7 +161,7 @@ export default function BattleScreen() {
         )}
 
         <BottomHUD
-          characterImage={require('@assets/hero_icon.png')}
+          characterImage={states.selectedHero?.icon}
           playerShakeAnim={playerShakeAnim}
           playerHP={playerHP}
           playerMaxHP={playerMaxHP}

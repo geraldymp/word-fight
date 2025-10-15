@@ -9,7 +9,9 @@ import { usePremiumStore } from '@store/usePremiumStore';
 import { useSfxStore } from '@store/useSFXStore';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
+import { HeroIcons } from 'app/constants/heroIcons';
 import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
+import { useHeroStore } from 'app/store/useHeroStore';
 import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
@@ -95,6 +97,11 @@ export default function UseBattle() {
     state => state.magicHutPotion.currentPotionUsed
   );
   const purchasedItemIds = useMagicHutStore(state => state.purchasedItemIds);
+
+  // -- Hero Icon --
+  const selectedHeroId = useHeroStore(state => state.selectedHeroId);
+
+  const selectedHero = HeroIcons.find(h => h.id === selectedHeroId);
 
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
@@ -543,7 +550,8 @@ export default function UseBattle() {
       showDamageBreakdown,
       showNumberedTiles,
       isReshuffling,
-      damageModifier
+      damageModifier,
+      selectedHero
     }
   };
 }
