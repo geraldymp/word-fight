@@ -1,11 +1,11 @@
 import { FontAwesome } from '@expo/vector-icons';
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { useDebounce } from 'app/utils/useDebounce';
 import leoProfanity from 'leo-profanity';
 import React, { useEffect, useRef, useState } from 'react';
 import {
   ActivityIndicator,
-  Dimensions,
   Modal,
   Pressable,
   StyleSheet,
@@ -22,8 +22,6 @@ interface IChangeNameModal {
   onConfirm: (updatedName: string) => void;
   onClose: () => void;
 }
-
-const { width } = Dimensions.get('window');
 
 export const _ChangeNameModal: React.FC<IChangeNameModal> = ({
   visible,
@@ -175,57 +173,52 @@ export const _ChangeNameModal: React.FC<IChangeNameModal> = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: Colors.blackBg50,
     justifyContent: 'center',
     alignItems: 'center'
   },
   modalContainer: {
-    width: width * 0.85,
-    backgroundColor: '#1e1e2f',
-    padding: 24,
-    borderRadius: 16,
+    width: '85%',
+    backgroundColor: Colors.shallowBlue,
+    padding: scale(16),
+    borderRadius: moderateScale(16),
     borderWidth: 2,
-    borderColor: '#ffe08a',
-    alignItems: 'center',
-    shadowColor: '#ffe08a',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 0.4,
-    shadowRadius: 20,
-    elevation: 10
+    borderColor: Colors.primary,
+    alignItems: 'center'
   },
   title: {
-    fontSize: 24,
-    color: '#ffe08a',
+    fontSize: moderateScale(24),
+    color: Colors.primary,
     fontWeight: 'bold',
     textAlign: 'center',
-    textShadowColor: '#ffcc00',
+    textShadowColor: Colors.primary,
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 8
+    textShadowRadius: moderateScale(8)
   },
   buttonDisabled: {
     backgroundColor: Colors.disabled,
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    marginBottom: 16,
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(32),
+    borderRadius: scale(10),
+    marginBottom: verticalScale(16),
     width: '100%',
     alignItems: 'center'
   },
   button: {
-    backgroundColor: '#ffb347',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    marginBottom: 16,
+    backgroundColor: Colors.primary,
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(32),
+    borderRadius: moderateScale(10),
+    marginBottom: verticalScale(16),
     width: '100%',
     alignItems: 'center'
   },
   secondaryButton: {
-    backgroundColor: '#ffd580'
+    backgroundColor: Colors.quarternary
   },
   buttonText: {
-    fontSize: 18,
-    color: '#1a1a1a',
+    fontSize: moderateScale(18),
+    color: Colors.deeperDark,
     fontWeight: 'bold'
   }
 });

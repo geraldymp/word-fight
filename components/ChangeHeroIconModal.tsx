@@ -1,5 +1,7 @@
 import { HeroIcons } from 'app/constants/heroIcons';
-import React, { FC, memo, useState } from 'react';
+import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
+import React, { FC, memo, useEffect, useState } from 'react';
 import {
   FlatList,
   Image,
@@ -12,8 +14,7 @@ import {
 
 interface ChangeHeroIconModalProps {
   visible: boolean;
-  // TODO: hero icon go to array 0 when first reloading
-  initialHeroId?: string | null;
+  initialHeroId: string;
   onSelect: (heroId: string) => void;
   onCancel: () => void;
 }
@@ -24,16 +25,18 @@ const HeroSelectModal: FC<ChangeHeroIconModalProps> = ({
   onSelect,
   onCancel
 }) => {
-  const [tempSelected, setTempSelected] = useState<string | null>(
-    initialHeroId ?? null
-  );
+  const [tempSelected, setTempSelected] = useState<string>(initialHeroId);
+
+  useEffect(() => {
+    setTempSelected(initialHeroId ?? null);
+  }, [initialHeroId]);
 
   function handleConfirm() {
     if (tempSelected) onSelect(tempSelected);
   }
 
   function handleCancel() {
-    setTempSelected(initialHeroId ?? null);
+    setTempSelected(initialHeroId);
     onCancel();
   }
 
@@ -69,12 +72,10 @@ const HeroSelectModal: FC<ChangeHeroIconModalProps> = ({
             renderItem={renderHero}
             keyExtractor={item => item.id}
             numColumns={3}
+            contentContainerStyle={styles.flatlistContainer}
           />
 
-          <TouchableOpacity
-            style={[styles.button, !tempSelected && styles.buttonDisabled]}
-            disabled={!tempSelected}
-            onPress={handleConfirm}>
+          <TouchableOpacity style={styles.button} onPress={handleConfirm}>
             <Text style={styles.buttonText}>Select</Text>
           </TouchableOpacity>
 
@@ -94,70 +95,68 @@ export default memo(HeroSelectModal);
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: Colors.blackBg50,
     justifyContent: 'center',
     alignItems: 'center'
   },
   modalContainer: {
     width: '85%',
-    backgroundColor: '#1e1e2f',
-    padding: 16,
-    borderRadius: 16,
+    backgroundColor: Colors.shallowBlue,
+    padding: scale(16),
+    borderRadius: moderateScale(16),
     borderWidth: 2,
-    borderColor: '#ffe08a'
+    borderColor: Colors.primary
   },
   title: {
-    fontSize: 22,
-    color: '#ffe08a',
+    fontSize: moderateScale(24),
+    color: Colors.primary,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 16,
-    textShadowColor: '#ffcc00',
+    textShadowColor: Colors.primary,
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 8
+    textShadowRadius: moderateScale(8)
+  },
+  flatlistContainer: {
+    marginVertical: verticalScale(16)
   },
   heroWrapper: {
     flex: 1,
-    marginBottom: 8,
-    marginHorizontal: 4,
+    marginBottom: verticalScale(8),
+    marginHorizontal: scale(4),
     borderWidth: 2,
-    borderColor: '#000',
-    borderRadius: 8,
+    borderColor: Colors.deeperDark,
+    borderRadius: moderateScale(8),
     overflow: 'hidden',
-    backgroundColor: '#111'
+    backgroundColor: Colors.deeperDark
   },
   heroSelected: {
-    borderColor: '#ffe08a'
+    borderColor: Colors.primary
   },
   heroImage: {
     width: '100%',
-    height: 100
+    height: verticalScale(100)
   },
   heroName: {
-    color: '#fff',
-    fontSize: 14,
-    paddingVertical: 6,
+    color: Colors.textWhite,
+    fontSize: moderateScale(14),
+    paddingVertical: verticalScale(6),
     textAlign: 'center',
     fontFamily: 'SourGummy_800ExtraBold'
   },
   button: {
-    backgroundColor: '#ffb347',
-    paddingVertical: 12,
-    borderRadius: 10,
-    marginTop: 8,
-    marginBottom: 16,
+    backgroundColor: Colors.primary,
+    paddingVertical: verticalScale(12),
+    borderRadius: moderateScale(10),
+    marginBottom: verticalScale(16),
     width: '100%',
     alignItems: 'center'
   },
   secondaryButton: {
-    backgroundColor: '#ffd580'
-  },
-  buttonDisabled: {
-    backgroundColor: '#555'
+    backgroundColor: Colors.quarternary
   },
   buttonText: {
-    fontSize: 18,
-    color: '#1a1a1a',
+    fontSize: moderateScale(18),
+    color: Colors.deeperDark,
     fontWeight: 'bold'
   }
 });
