@@ -2,6 +2,7 @@ const Colors = {
   primary: '#F4C542', // Gold - highlights, buttons, rewards
   secondary: '#2C3E73', // Deep Blue - panels, tiles, UI backgrounds
   tertiary: '#23232a', // Added for tertiary button background
+  quarternary: '#ffd580',
 
   accent: '#2ECC71', // Emerald Green - success, positive states
   danger: '#E63946', // Crimson Red - enemy HP, damage
