@@ -11,5 +11,7 @@ export const STORAGE_KEYS = {
   MUSIC_STATE: 'music-store',
 
   SHOW_NUMBERED_TILE: 'bhvfplws',
-  SHOW_DAMAGE_BREAKDOWN: 'ggslwkfs'
+  SHOW_DAMAGE_BREAKDOWN: 'ggslwkfs',
+
+  SELECTED_HERO: 'lpaowjds'
 };
