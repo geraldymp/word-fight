@@ -11,7 +11,7 @@ export const HeroIcons = [
   },
   {
     id: 'male_archer',
-    name: 'Clint',
+    name: 'Fritz',
     icon: require('@assets/hero_images/male_archer.png')
   }
 ];
