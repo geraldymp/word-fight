@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useIsFocused } from '@react-navigation/native';
-import { onSaveGame } from '@store/savedGame/useSavedGame';
+import { onClearResume, onSaveGame } from '@store/savedGame/useSavedGame';
 import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
 import { useMagicHutStore } from '@store/useMagicHutStore';
@@ -41,7 +41,7 @@ import {
 // START: SUBMIT => PROJECTION LAUNCHED (350 DR) => ENEMY SHOOK (50 DR) => (A / B)
 //
 // A (ENEMY HAVE HP) ATTACK BACK (1200 DL) => ENEMY ATTACK ANIMATION (200 DR) => (C / D)
-// B (ENEMY NO HP) REMOVE ENEMY IMAGE, GET MANA (500 DL) => SHOW PROGRESS MODAL (3000 DL)
+// B (ENEMY NO HP) REMOVE ENEMY IMAGE, GET MANA (500 DL) => SHOW PROGRESS MODAL (2500 DL)
 //
 // C (PLAYER HAVE HP) PLAYER SHOOK (50 DR) => DONE
 // D (PLAYER NO HP) SHOW PROGRESS MODAL (1500 DL) => DONE
@@ -212,7 +212,7 @@ export default function UseBattle() {
       }, 500);
       setTimeout(() => {
         setShowGameProgressModal(true);
-      }, 3000);
+      }, 2500);
     }
   }
 
@@ -345,6 +345,7 @@ export default function UseBattle() {
   // for analytic total boss beaten
   useEffect(() => {
     if (enemyHP === 0 && step === 7) {
+      onClearResume();
       setBossBeatenStatistic();
     }
   }, [enemyHP, step]);
@@ -512,8 +513,8 @@ export default function UseBattle() {
       enemyImageRef,
       enemyShakeAnim,
       enemyAttackAnim,
+      enemyId: selectedEnemy.id,
       enemyName: selectedEnemy.name,
-      enemyImage: selectedEnemy.image,
       enemyHP,
       enemyMaxHp,
       enemyMinDmg: selectedEnemy.minDmg,

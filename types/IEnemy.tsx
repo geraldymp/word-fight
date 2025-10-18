@@ -1,8 +1,6 @@
-import { ImageSourcePropType } from 'react-native';
-
 export interface IEnemy {
+  id: string;
   name: string;
-  image: ImageSourcePropType | undefined;
   baseHp: number;
   minDmg: number;
   maxDmg: number;
