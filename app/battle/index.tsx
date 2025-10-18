@@ -2,6 +2,7 @@
 import { ConfirmBackHomeModal } from '@components/Battle/ConfirmBackHomeModal';
 import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
+import { EnemyImages } from '@constants/enemyImages';
 import { Ionicons } from '@expo/vector-icons';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
@@ -9,6 +10,7 @@ import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import { LetterTile } from 'app/components/Battle/LetterTiles';
 import BottomHUD from 'app/components/BottomHUD';
 import TutorialModal from 'app/components/TutorialModal';
+import { battleBackgrounds } from 'app/constants/battleBackgrounds';
 import { BattleTutorialContents } from 'app/constants/battleTutorialContents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
@@ -49,8 +51,8 @@ export default function BattleScreen() {
     areaDetail,
     stage,
     enemyStyle,
+    enemyId,
     enemyName,
-    enemyImage,
     enemyHP,
     enemyMaxHp,
     enemyMinDmg,
@@ -77,7 +79,7 @@ export default function BattleScreen() {
   return (
     <ImageBackground
       style={styles.container}
-      source={areaDetail?.battleBackground}>
+      source={battleBackgrounds[areaDetail?.id ?? '']}>
       {/* Top Button + Area Progress + Enemy Detail */}
       <View style={styles.enemyArea}>
         {/* For damage number animation */}
@@ -111,7 +113,7 @@ export default function BattleScreen() {
           ref={states.enemyImageRef}
           style={[enemyStyle, styles.enemyImage]}>
           <Image
-            source={enemyImage}
+            source={EnemyImages[enemyId]}
             resizeMode="contain"
             style={{ width: '100%', height: '100%' }}
           />

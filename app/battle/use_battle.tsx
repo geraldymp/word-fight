@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useIsFocused } from '@react-navigation/native';
-import { onSaveGame } from '@store/savedGame/useSavedGame';
+import { onClearResume, onSaveGame } from '@store/savedGame/useSavedGame';
 import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
 import { useMagicHutStore } from '@store/useMagicHutStore';
@@ -345,6 +345,7 @@ export default function UseBattle() {
   // for analytic total boss beaten
   useEffect(() => {
     if (enemyHP === 0 && step === 7) {
+      onClearResume();
       setBossBeatenStatistic();
     }
   }, [enemyHP, step]);
@@ -512,8 +513,8 @@ export default function UseBattle() {
       enemyImageRef,
       enemyShakeAnim,
       enemyAttackAnim,
+      enemyId: selectedEnemy.id,
       enemyName: selectedEnemy.name,
-      enemyImage: selectedEnemy.image,
       enemyHP,
       enemyMaxHp,
       enemyMinDmg: selectedEnemy.minDmg,
