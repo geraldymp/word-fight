@@ -18,7 +18,21 @@ export const useHeroStore = create<HeroState>(set => ({
   },
 
   loadHero: async () => {
-    const stored = await AsyncStorage.getItem(STORAGE_KEYS.SELECTED_HERO);
-    if (stored) set({ selectedHeroId: stored });
+    try {
+      const stored = await AsyncStorage.getItem(STORAGE_KEYS.SELECTED_HERO);
+      const validId = HeroIcons.map(hero => hero.id); // in case hero icons data is changed
+
+      if (stored && validId.includes(stored)) {
+        set({ selectedHeroId: stored });
+      } else {
+        // Stored ID is invalid or missing, reset to default hero
+        await AsyncStorage.setItem(STORAGE_KEYS.SELECTED_HERO, HeroIcons[0].id);
+        set({ selectedHeroId: HeroIcons[0].id });
+      }
+    } catch (err) {
+      console.error('Failed to load hero:', err);
+      // fallback to default hero
+      set({ selectedHeroId: HeroIcons[0].id });
+    }
   }
 }));
