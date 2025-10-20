@@ -9,7 +9,9 @@ import { usePremiumStore } from '@store/usePremiumStore';
 import { useSfxStore } from '@store/useSFXStore';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
+import { HeroIcons } from 'app/constants/heroIcons';
 import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
+import { useHeroStore } from 'app/store/useHeroStore';
 import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
@@ -90,11 +92,26 @@ export default function UseBattle() {
   const highScoreFilled = useGameStore(s => s.highScoreFilled);
   const setHighScoreFilled = useGameStore(s => s.setHighScoreFilled);
 
+  // --- Current Run Statistic ---
+  const highestDamage = useGameStore(s => s.highestDamage);
+  const setHighestDamage = useGameStore(s => s.setHighestDamage);
+  const longestWordLength = useGameStore(s => s.longestWordLength);
+  const setLongestWordLength = useGameStore(s => s.setLongestWordLength);
+  const wordsUsed = useGameStore(s => s.wordsUsed);
+  const increaseWordsUsed = useGameStore(s => s.increaseWordsUsed);
+  const damageDealt = useGameStore(s => s.damageDealt);
+  const increaseDamageDealt = useGameStore(s => s.increaseDamageDealt);
+
   // -- Shop Progress --
   const currentPotionUsed = useAdStore(
     state => state.magicHutPotion.currentPotionUsed
   );
   const purchasedItemIds = useMagicHutStore(state => state.purchasedItemIds);
+
+  // -- Hero Icon --
+  const selectedHeroId = useHeroStore(state => state.selectedHeroId);
+
+  const selectedHero = HeroIcons.find(h => h.id === selectedHeroId);
 
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
@@ -135,6 +152,13 @@ export default function UseBattle() {
   const [showProjection, setShowProjection] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   const [isReshuffling, setIsReshuffling] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    modalText: '',
+    showNextStageBtn: false,
+    showNextAreaBtn: false,
+    showHomeBtn: false
+  });
+  const [modalFinishedGame, setModalFinishedGame] = useState<boolean>(false);
 
   // filtered from letters, this only get the word (no value)
   const currentWord: string = selectedIndices
@@ -172,9 +196,11 @@ export default function UseBattle() {
     reducePlayerHP(enemyDamage);
     playSfx('playerHit');
     triggerQuickShake(playerShakeAnim);
-    if (playerHP === 0) {
+    const currentPlayerHP = useGameStore.getState().playerHP;
+    if (currentPlayerHP === 0) {
+      onClearResume();
       setTimeout(() => {
-        setShowGameProgressModal(true);
+        setModalFinishedGame(true);
       }, 1500);
     }
   }
@@ -195,6 +221,11 @@ export default function UseBattle() {
       ...prev,
       { id: Date.now(), amount: totalDamage, type: 'enemy' }
     ]);
+    // add value to current run statistic
+    setHighestDamage(totalDamage);
+    setLongestWordLength(currentWordWithValue.length);
+    increaseWordsUsed();
+    increaseDamageDealt(totalDamage);
 
     const currentEnemyHp = useGameStore.getState().enemyHP;
 
@@ -204,15 +235,39 @@ export default function UseBattle() {
         triggerEnemyAttack();
       }, 1200);
     } else {
-      // Enemy beaten
+      if (stage === 3) {
+        setModalContent({
+          modalText: 'You clear the area!',
+          showNextStageBtn: false,
+          showNextAreaBtn: true,
+          showHomeBtn: false
+        });
+        setTimeout(() => {
+          setShowGameProgressModal(true);
+        }, 2000);
+      } else if (step === 7) {
+        // Clear saved game and add a statistic of beating the boss
+        onClearResume();
+        setBossBeatenStatistic();
+        setTimeout(() => {
+          setModalFinishedGame(true);
+        }, 2000);
+      } else {
+        setModalContent({
+          modalText: 'You beat the enemy!',
+          showNextStageBtn: true,
+          showNextAreaBtn: false,
+          showHomeBtn: false
+        });
+        setTimeout(() => {
+          setShowGameProgressModal(true);
+        }, 2000);
+      }
       setTimeout(() => {
         playSfx('enemyBeaten');
         enemyOpacity.value = withTiming(0, { duration: 1500 });
         increaseMana(manaGained);
       }, 500);
-      setTimeout(() => {
-        setShowGameProgressModal(true);
-      }, 2500);
     }
   }
 
@@ -342,55 +397,10 @@ export default function UseBattle() {
     setSelectedIndices([]);
   };
 
-  // for analytic total boss beaten
-  useEffect(() => {
-    if (enemyHP === 0 && step === 7) {
-      onClearResume();
-      setBossBeatenStatistic();
-    }
-  }, [enemyHP, step]);
-
   // generate random letters when the game start (called once)
   useEffect(() => {
     setLetters(generateRandomLettersWithVowels());
   }, []);
-
-  const modalContent: {
-    modalText: string;
-    showNextStageBtn: boolean;
-    showNextAreaBtn: boolean;
-    showHomeBtn: boolean;
-  } = useMemo(() => {
-    if (enemyHP === 0 && step === 7) {
-      return {
-        modalText: 'Congratulations, you beat the game!',
-        showNextStageBtn: false,
-        showNextAreaBtn: false,
-        showHomeBtn: true
-      };
-    } else if (enemyHP === 0 && stage === 3) {
-      return {
-        modalText: 'You clear the area!',
-        showNextStageBtn: false,
-        showNextAreaBtn: true,
-        showHomeBtn: false
-      };
-    } else if (enemyHP === 0) {
-      return {
-        modalText: 'You beat the enemy!',
-        showNextStageBtn: true,
-        showNextAreaBtn: false,
-        showHomeBtn: false
-      };
-    } else {
-      return {
-        modalText: 'You lose!',
-        showNextStageBtn: false,
-        showNextAreaBtn: false,
-        showHomeBtn: true
-      };
-    }
-  }, [step, stage, enemyHP]);
 
   function onPressNextStage() {
     increaseStage();
@@ -433,7 +443,11 @@ export default function UseBattle() {
         reshuffle: reshuffle,
         damageModifier: JSON.stringify(damageModifier),
         currentPotionUsed: currentPotionUsed,
-        purchasedItem: JSON.stringify(purchasedItemIds)
+        purchasedItem: JSON.stringify(purchasedItemIds),
+        statHighestDamage: highestDamage,
+        statLongestWordLength: longestWordLength,
+        statWordsUsed: wordsUsed,
+        statDamageDealt: damageDealt
       });
     }
     router.replace('/');
@@ -455,6 +469,11 @@ export default function UseBattle() {
   const handleCloseTutorial = async () => {
     setShowTutorial(false);
     await setBattleTutorial(false); // disable after shown once
+  };
+
+  const handleCloseModalFinishedGame = () => {
+    setModalFinishedGame(false);
+    router.replace('/');
   };
 
   useEffect(() => {
@@ -504,7 +523,8 @@ export default function UseBattle() {
       onPressNextArea,
       onPressNextStage,
       onGiveUp,
-      handleCloseTutorial
+      handleCloseTutorial,
+      handleCloseModalFinishedGame
     },
     states: {
       areaDetail: area,
@@ -544,7 +564,18 @@ export default function UseBattle() {
       showDamageBreakdown,
       showNumberedTiles,
       isReshuffling,
-      damageModifier
+      damageModifier,
+      selectedHero,
+      modalFinishedGame,
+      currentRunStatistic: {
+        // same of props from FinishGameModal.tsx
+        hpLeft: playerHP,
+        manaLeft: mana,
+        highestDamage,
+        longestWordLength,
+        wordsUsed,
+        damageDealt
+      }
     }
   };
 }

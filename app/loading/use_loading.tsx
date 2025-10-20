@@ -25,6 +25,7 @@ export default function UseLoading() {
 
   const playerMaxHP = useGameStore(s => s.playerMaxHP);
   const setPlayerHP = useGameStore(s => s.setPlayerHP);
+  const resetRunStatistic = useGameStore(s => s.resetRunStatistic);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -72,6 +73,7 @@ export default function UseLoading() {
         resetPotionUsed();
         resetPurchasedItems();
         setPlayerHP(playerMaxHP);
+        resetRunStatistic();
         router.replace('/choose_area');
       }
     };

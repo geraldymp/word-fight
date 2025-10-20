@@ -60,4 +60,15 @@ export interface GameStoreType {
   setLowestHighScore: (hiscore: number) => void;
   highScoreFilled: boolean;
   setHighScoreFilled: (isFilled: boolean) => void;
+
+  // Current run statistic
+  highestDamage: number;
+  setHighestDamage: (damage: number) => void;
+  longestWordLength: number;
+  setLongestWordLength: (wordLength: number) => void;
+  wordsUsed: number;
+  increaseWordsUsed: () => void;
+  damageDealt: number;
+  increaseDamageDealt: (damage: number) => void;
+  resetRunStatistic: () => void;
 }

@@ -1,0 +1,38 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { HeroIcons } from 'app/constants/heroIcons';
+import { STORAGE_KEYS } from 'app/constants/storageKeys';
+import { create } from 'zustand';
+
+interface HeroState {
+  selectedHeroId: string;
+  setHero: (heroId: string) => Promise<void>;
+  loadHero: () => Promise<void>;
+}
+
+export const useHeroStore = create<HeroState>(set => ({
+  selectedHeroId: HeroIcons[0].id,
+
+  setHero: async heroId => {
+    await AsyncStorage.setItem(STORAGE_KEYS.SELECTED_HERO, heroId);
+    set({ selectedHeroId: heroId });
+  },
+
+  loadHero: async () => {
+    try {
+      const stored = await AsyncStorage.getItem(STORAGE_KEYS.SELECTED_HERO);
+      const validId = HeroIcons.map(hero => hero.id); // in case hero icons data is changed
+
+      if (stored && validId.includes(stored)) {
+        set({ selectedHeroId: stored });
+      } else {
+        // Stored ID is invalid or missing, reset to default hero
+        await AsyncStorage.setItem(STORAGE_KEYS.SELECTED_HERO, HeroIcons[0].id);
+        set({ selectedHeroId: HeroIcons[0].id });
+      }
+    } catch (err) {
+      console.error('Failed to load hero:', err);
+      // fallback to default hero
+      set({ selectedHeroId: HeroIcons[0].id });
+    }
+  }
+}));

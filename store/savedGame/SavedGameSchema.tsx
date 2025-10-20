@@ -18,7 +18,13 @@ export const SavedGameSchema = {
     maxReshuffle: 'int',
     reshuffle: 'int',
     damageModifier: 'string',
+
     currentPotionUsed: 'int',
-    purchasedItem: 'string'
+    purchasedItem: 'string',
+
+    statHighestDamage: 'int',
+    statLongestWordLength: 'int',
+    statWordsUsed: 'int',
+    statDamageDealt: 'int'
   }
 };

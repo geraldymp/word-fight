@@ -9,6 +9,7 @@ import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
 import { LetterTile } from 'app/components/Battle/LetterTiles';
 import BottomHUD from 'app/components/BottomHUD';
+import FinishGameModal from 'app/components/FinishGameModal';
 import TutorialModal from 'app/components/TutorialModal';
 import { battleBackgrounds } from 'app/constants/battleBackgrounds';
 import { BattleTutorialContents } from 'app/constants/battleTutorialContents';
@@ -163,7 +164,7 @@ export default function BattleScreen() {
         )}
 
         <BottomHUD
-          characterImage={require('@assets/hero_icon.png')}
+          characterImage={states.selectedHero?.icon}
           playerShakeAnim={playerShakeAnim}
           playerHP={playerHP}
           playerMaxHP={playerMaxHP}
@@ -184,6 +185,11 @@ export default function BattleScreen() {
         onPressNextStage={onPressNextStage}
         onPressNextArea={onPressNextArea}
         onPressBackToHome={onPressBackToHome}
+      />
+      <FinishGameModal
+        visible={states.modalFinishedGame}
+        onClose={actions.handleCloseModalFinishedGame}
+        stats={states.currentRunStatistic}
       />
       <ConfirmBackHomeModal
         visible={showConfirmModal}

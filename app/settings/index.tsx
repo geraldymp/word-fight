@@ -1,12 +1,16 @@
+import { FontAwesome5 } from '@expo/vector-icons';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useMusicStore } from '@store/useMusicStore';
 import { usePremiumStore } from '@store/usePremiumStore';
 import { useSfxStore } from '@store/useSFXStore';
 import { useSubscriptionStore } from '@store/useSubscriptionStore';
+import ChangeHeroIconModal from 'app/components/ChangeHeroIconModal';
 import { ChangeNameModal } from 'app/components/ChangeNameModal';
 import SettingCardSwitch from 'app/components/SettingCardSwitch';
 import SettingHeader from 'app/components/SettingHeader';
+import { HeroIcons } from 'app/constants/heroIcons';
 import Colors from 'app/foundation/colors';
+import { useHeroStore } from 'app/store/useHeroStore';
 import { scale } from 'app/utils/sizeScaling';
 import {
   getBattleTutorial,
@@ -23,6 +27,7 @@ import {
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   Alert,
+  Image,
   ScrollView,
   StyleSheet,
   Text,
@@ -43,11 +48,16 @@ const SettingsScreen = () => {
     toggleDamageBreakdown
   } = usePremiumStore();
 
+  const { selectedHeroId, setHero, loadHero } = useHeroStore();
+
+  const [visibleChangeIconModal, setVisibleChangeIconModal] = useState(false);
   const [username, setUsername] = useState('');
   const [visibleChangeNameModal, setVisibleChangeNameModal] = useState(false);
 
   const [battleTutorEnabled, setBattleTutorEnabled] = useState(true);
   const [magicHutTutorEnabled, setMagicHutTutorEnabled] = useState(true);
+
+  const selectedHero = HeroIcons.find(h => h.id === selectedHeroId);
 
   const musicState = useMemo(() => {
     if (mutedMusic) {
@@ -96,6 +106,19 @@ const SettingsScreen = () => {
       return 'Tutorial Disabled';
     }
   }, [magicHutTutorEnabled]);
+
+  function onPressChangeIcon() {
+    setVisibleChangeIconModal(true);
+  }
+
+  function onPressSelectIcon(heroId: string) {
+    setHero(heroId);
+    setVisibleChangeIconModal(false);
+  }
+
+  function onPressCancelIcon() {
+    setVisibleChangeIconModal(false);
+  }
 
   async function onPressChangeUsername() {
     const allowedToChangeName = await canChangeUsername();
@@ -148,12 +171,39 @@ const SettingsScreen = () => {
     })();
   }, []);
 
+  useEffect(() => {
+    loadHero();
+  }, []);
+
   return (
     <View style={styles.container}>
       <SettingHeader title="Settings" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.card}>
           <Text style={styles.sectionTitle}>Profile</Text>
+          <View style={styles.settingRow}>
+            <View style={{ flex: 1 }}>
+              <Image
+                source={selectedHero?.icon}
+                style={{
+                  height: 75,
+                  width: 75,
+                  borderRadius: 37.5,
+                  borderWidth: 2,
+                  borderColor: 'black',
+                  backgroundColor: Colors.blackBg50
+                }}
+                resizeMode="contain"></Image>
+              <Text style={styles.settingDesc}>Hero icon in battlefield</Text>
+            </View>
+            <TouchableOpacity onPress={onPressChangeIcon}>
+              <FontAwesome5
+                name="exchange-alt"
+                size={24}
+                color={Colors.primary}
+              />
+            </TouchableOpacity>
+          </View>
           <View style={styles.settingRow}>
             <View style={{ flex: 1 }}>
               <Text style={styles.settingText}>{username}</Text>
@@ -220,6 +270,12 @@ const SettingsScreen = () => {
               onPress: toggleMagicHutTutor
             }
           ]}
+        />
+        <ChangeHeroIconModal
+          visible={visibleChangeIconModal}
+          initialHeroId={selectedHeroId}
+          onSelect={heroId => onPressSelectIcon(heroId)}
+          onCancel={onPressCancelIcon}
         />
         <ChangeNameModal
           visible={visibleChangeNameModal}

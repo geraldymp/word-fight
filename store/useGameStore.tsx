@@ -45,8 +45,8 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
       selectedEnemy: state.selectedEnemies[state.stage]
     })),
   selectedEnemy: {
+    id: '',
     name: '',
-    image: undefined,
     baseHp: 0,
     minDmg: 0,
     maxDmg: 0,
@@ -160,5 +160,38 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
   lowestHighscore: 0,
   setLowestHighScore: score => set({ lowestHighscore: score }),
   highScoreFilled: false,
-  setHighScoreFilled: isFilled => set({ highScoreFilled: isFilled })
+  setHighScoreFilled: isFilled => set({ highScoreFilled: isFilled }),
+
+  highestDamage: 0,
+  setHighestDamage: damage => {
+    if (damage > get().highestDamage) {
+      set({ highestDamage: damage });
+    }
+  },
+  longestWordLength: 0,
+  setLongestWordLength: wordLength => {
+    if (wordLength > get().longestWordLength) {
+      set({ longestWordLength: wordLength });
+    }
+  },
+  wordsUsed: 0,
+  increaseWordsUsed: () => {
+    set(state => ({
+      wordsUsed: state.wordsUsed + 1
+    }));
+  },
+  damageDealt: 0,
+  increaseDamageDealt: damage => {
+    set(state => ({
+      damageDealt: state.damageDealt + damage
+    }));
+  },
+  resetRunStatistic: () => {
+    set({
+      highestDamage: 0,
+      longestWordLength: 0,
+      wordsUsed: 0,
+      damageDealt: 0
+    });
+  }
 }));
