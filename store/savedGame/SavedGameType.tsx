@@ -12,6 +12,12 @@ export interface ISavedGame {
   maxReshuffle: number;
   reshuffle: number;
   damageModifier: string;
+
   currentPotionUsed: number;
   purchasedItem: string;
+
+  statHighestDamage: number;
+  statLongestWordLength: number;
+  statWordsUsed: number;
+  statDamageDealt: number;
 }

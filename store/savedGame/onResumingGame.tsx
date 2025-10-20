@@ -18,7 +18,11 @@ export const resumeGame = async (saved: ISavedGame) => {
     selectedEnemies: JSON.parse(saved.selectedEnemies),
     maxReshuffle: saved.maxReshuffle,
     reshuffle: saved.reshuffle,
-    damageModifier: JSON.parse(saved.damageModifier)
+    damageModifier: JSON.parse(saved.damageModifier),
+    highestDamage: saved.statHighestDamage,
+    longestWordLength: saved.statLongestWordLength,
+    wordsUsed: saved.statWordsUsed,
+    damageDealt: saved.statDamageDealt
   });
 
   useMagicHutStore.setState({
