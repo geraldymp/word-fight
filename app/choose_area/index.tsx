@@ -1,4 +1,5 @@
 // app/choose_area.tsx
+import { areaImages } from 'app/constants/areaImages';
 import Colors from 'app/foundation/colors';
 import {
   ImageBackground,
@@ -26,7 +27,7 @@ export default function ChooseAreaScreen() {
             <View style={styles.cardMiddleBorder}>
               <ImageBackground
                 style={styles.cardInner}
-                source={choices[0].image}>
+                source={areaImages[choices[0].id]}>
                 <Text style={styles.optionName}>{choices[0].name}</Text>
                 <View style={styles.descriptionWrapper}>
                   <Text style={styles.descriptionText}>
@@ -46,7 +47,9 @@ export default function ChooseAreaScreen() {
               onPress={() => onPress(option.id)}
               testID={`select-area-btn-${option.id}`}>
               <View style={styles.cardMiddleBorder}>
-                <ImageBackground style={styles.cardInner} source={option.image}>
+                <ImageBackground
+                  style={styles.cardInner}
+                  source={areaImages[option.id]}>
                   <Text style={styles.optionName}>{option.name}</Text>
                   <View style={styles.descriptionWrapper}>
                     <Text style={styles.descriptionText}>

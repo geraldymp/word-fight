@@ -1,5 +1,5 @@
 import { SvgMana, SvgSword } from 'app/assets/icons/svgs';
-import Colors from 'app/foundation/colors'; // adjust path to your Colors
+import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';

@@ -12,8 +12,8 @@ export const enemies: IEnemies[] = [
     area: 'forest',
     content: [
       {
+        id: 'juniorMage',
         name: 'Junior Mage',
-        image: require('../assets/enemies/forest/junior_mage.png'),
         baseHp: 36,
         minDmg: 3,
         maxDmg: 5,
@@ -21,8 +21,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 8
       },
       {
+        id: 'livingTree',
         name: 'Living Tree',
-        image: require('../assets/enemies/forest/living_tree.png'),
         baseHp: 38,
         minDmg: 3,
         maxDmg: 5,
@@ -30,8 +30,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 9
       },
       {
+        id: 'oldWarlock',
         name: 'Old Warlock',
-        image: require('../assets/enemies/forest/old_warlock.png'),
         baseHp: 40,
         minDmg: 5,
         maxDmg: 7,
@@ -45,8 +45,8 @@ export const enemies: IEnemies[] = [
     area: 'goblinCamp',
     content: [
       {
+        id: 'scarredGoblin',
         name: 'Scarred Goblin',
-        image: require('../assets/enemies/goblin_camp/scarred_goblin.png'),
         baseHp: 45,
         minDmg: 1,
         maxDmg: 3,
@@ -54,8 +54,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 9
       },
       {
+        id: 'oneEyedGoblin',
         name: 'One-eyed Goblin',
-        image: require('../assets/enemies/goblin_camp/one_eyed_goblin.png'),
         baseHp: 48,
         minDmg: 2,
         maxDmg: 3,
@@ -63,8 +63,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 10
       },
       {
+        id: 'madGoblin',
         name: 'Mad Goblin',
-        image: require('../assets/enemies/goblin_camp/mad_goblin.png'),
         baseHp: 50,
         minDmg: 3,
         maxDmg: 5,
@@ -78,8 +78,8 @@ export const enemies: IEnemies[] = [
     area: 'graveyard',
     content: [
       {
+        id: 'crackedSkull',
         name: 'Cracked Skull',
-        image: require('../assets/enemies/graveyard/cracked_skull.png'),
         baseHp: 41,
         minDmg: 3,
         maxDmg: 5,
@@ -87,8 +87,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 8
       },
       {
+        id: 'deadFace',
         name: 'Dead Face',
-        image: require('../assets/enemies/graveyard/dead_face.png'),
         baseHp: 42,
         minDmg: 3,
         maxDmg: 5,
@@ -96,8 +96,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 9
       },
       {
+        id: 'theFrankenstein',
         name: 'The Frankenstein',
-        image: require('../assets/enemies/graveyard/the_frankenstein.png'),
         baseHp: 45,
         minDmg: 5,
         maxDmg: 7,
@@ -111,8 +111,8 @@ export const enemies: IEnemies[] = [
     area: 'witchSwamp',
     content: [
       {
+        id: 'whiteMoss',
         name: 'White Moss',
-        image: require('../assets/enemies/witch_swamp/white_moss.png'),
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
@@ -120,8 +120,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 9
       },
       {
+        id: 'beardedCentaur',
         name: 'Bearded Centaur',
-        image: require('../assets/enemies/witch_swamp/bearded_centaur.png'),
         baseHp: 55,
         minDmg: 2,
         maxDmg: 3,
@@ -129,8 +129,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 10
       },
       {
+        id: 'theMedusa',
         name: 'The Medusa',
-        image: require('../assets/enemies/witch_swamp/the_medusa.png'),
         baseHp: 60,
         minDmg: 3,
         maxDmg: 5,
@@ -144,8 +144,8 @@ export const enemies: IEnemies[] = [
     area: 'ancientKingdom',
     content: [
       {
+        id: 'metalKnight',
         name: 'Metal Knight',
-        image: require('../assets/enemies/ancient_kingdom/metal_knight.png'),
         baseHp: 60,
         minDmg: 2,
         maxDmg: 3,
@@ -153,8 +153,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 12
       },
       {
+        id: 'oldViking',
         name: 'Old Viking',
-        image: require('../assets/enemies/ancient_kingdom/old_viking.png'),
         baseHp: 60,
         minDmg: 2,
         maxDmg: 4,
@@ -162,8 +162,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 13
       },
       {
+        id: 'theExecutioner',
         name: 'The Executioner',
-        image: require('../assets/enemies/ancient_kingdom/the_executioner.png'),
         baseHp: 65,
         minDmg: 3,
         maxDmg: 5,
@@ -177,8 +177,8 @@ export const enemies: IEnemies[] = [
     area: 'futuristicCity',
     content: [
       {
+        id: 'halfCyborg',
         name: 'Half Cyborg',
-        image: require('../assets/enemies/futuristic_city/half_cyborg.png'),
         baseHp: 46,
         minDmg: 5,
         maxDmg: 7,
@@ -186,8 +186,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 11
       },
       {
+        id: 'gunnerMachine',
         name: 'Gunner Machine',
-        image: require('../assets/enemies/futuristic_city/gunner_machine.png'),
         baseHp: 48,
         minDmg: 5,
         maxDmg: 7,
@@ -195,8 +195,8 @@ export const enemies: IEnemies[] = [
         maxManaBounty: 12
       },
       {
+        id: 'flyingAndroid',
         name: 'Flying Android',
-        image: require('../assets/enemies/futuristic_city/flying_android.png'),
         baseHp: 50,
         minDmg: 9,
         maxDmg: 9,
@@ -210,8 +210,8 @@ export const enemies: IEnemies[] = [
     area: 'boss',
     content: [
       {
+        id: 'boss1',
         name: 'Azazel the Archmage',
-        image: require('../assets/enemies/boss/azazel_the_archmage.png'),
         baseHp: 70,
         minDmg: 10,
         maxDmg: 15,
