@@ -215,8 +215,8 @@ export const enemies: IEnemies[] = [
         baseHp: 70,
         minDmg: 10,
         maxDmg: 15,
-        minManaBounty: 99,
-        maxManaBounty: 99
+        minManaBounty: 50,
+        maxManaBounty: 50
       }
     ]
   }
