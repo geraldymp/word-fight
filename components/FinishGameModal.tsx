@@ -1,4 +1,5 @@
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React, { memo, useEffect, useMemo, useState } from 'react';
 import {
   Animated,
@@ -23,7 +24,7 @@ interface FinishGameModalProps {
   };
 }
 
-const FinishGameModal: React.FC<FinishGameModalProps> = ({
+export const FinishGameModal: React.FC<FinishGameModalProps> = ({
   visible,
   onClose,
   stats
@@ -42,30 +43,57 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
     }
   }, [visible]);
 
-  const scoreRank = useMemo(() => {
-    const { hpLeft, manaLeft, highestDamage, totalDamage } = stats;
-    const rawScore =
-      hpLeft * 0.4 + manaLeft * 0.3 + highestDamage * 0.2 + totalDamage * 0.1;
+  const multipliers = {
+    hpLeft: 3,
+    manaLeft: 2,
+    highestDamage: 1,
+    longestWord: 5,
+    totalWords: 1,
+    totalDamage: 1
+  };
 
-    if (rawScore > 400) return 'S';
-    if (rawScore > 300) return 'A';
-    if (rawScore > 200) return 'B';
-    if (rawScore > 100) return 'C';
-    return 'D';
+  const scoreDetails = useMemo(() => {
+    const hp = stats.hpLeft * multipliers.hpLeft;
+    const mana = stats.manaLeft * multipliers.manaLeft;
+    const highest = stats.highestDamage * multipliers.highestDamage;
+    const longest = stats.longestWord * multipliers.longestWord;
+    const words = stats.totalWords * multipliers.totalWords;
+    const totalDmg = stats.totalDamage * multipliers.totalDamage;
+
+    const total = hp + mana + highest + longest + words + totalDmg;
+
+    return {
+      hp,
+      mana,
+      highest,
+      longest,
+      words,
+      totalDmg,
+      total
+    };
   }, [stats]);
+
+  const scoreRank = useMemo(() => {
+    const total = scoreDetails.total;
+    if (total > 400) return 'S';
+    if (total > 300) return 'A';
+    if (total > 200) return 'B';
+    if (total > 100) return 'C';
+    return 'D';
+  }, [scoreDetails]);
 
   const rankColor = useMemo(() => {
     switch (scoreRank) {
       case 'S':
-        return '#FFD700'; // gold
+        return '#FFD700';
       case 'A':
-        return '#ff7f50'; // orange
+        return '#ff7f50';
       case 'B':
-        return '#1e90ff'; // blue
+        return '#1e90ff';
       case 'C':
-        return '#32cd32'; // green
+        return '#32cd32';
       default:
-        return '#999'; // grey
+        return '#999';
     }
   }, [scoreRank]);
 
@@ -85,31 +113,63 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
             ]}>
             <Text style={styles.title}>Victory!</Text>
 
+            {/* Rank + total points */}
             <View style={styles.rankBadgeContainer}>
               <View style={[styles.rankBadge, { borderColor: rankColor }]}>
                 <Text style={[styles.rankText, { color: rankColor }]}>
                   {scoreRank}
                 </Text>
               </View>
-              <Text style={styles.rankLabel}>Your Rank</Text>
+              <Text style={styles.totalPointsText}>
+                {scoreDetails.total} pts
+              </Text>
             </View>
 
+            {/* Detailed Breakdown */}
             <View style={styles.statsContainer}>
-              <StatRow label="HP Left" value={stats.hpLeft.toString()} />
-              <StatRow label="Mana Left" value={stats.manaLeft.toString()} />
+              <StatRow
+                label="HP Left"
+                base={stats.hpLeft}
+                mult={multipliers.hpLeft}
+                total={scoreDetails.hp}
+              />
+              <StatRow
+                label="Mana Left"
+                base={stats.manaLeft}
+                mult={multipliers.manaLeft}
+                total={scoreDetails.mana}
+              />
               <StatRow
                 label="Highest Damage"
-                value={stats.highestDamage.toString()}
+                base={stats.highestDamage}
+                mult={multipliers.highestDamage}
+                total={scoreDetails.highest}
               />
               <StatRow
                 label="Longest Word"
-                value={`${stats.longestWord} letters`}
+                base={stats.longestWord}
+                mult={multipliers.longestWord}
+                total={scoreDetails.longest}
               />
-              <StatRow label="Words Used" value={stats.totalWords.toString()} />
+              <StatRow
+                label="Words Used"
+                base={stats.totalWords}
+                mult={multipliers.totalWords}
+                total={scoreDetails.words}
+              />
               <StatRow
                 label="Total Damage"
-                value={stats.totalDamage.toString()}
+                base={stats.totalDamage}
+                mult={multipliers.totalDamage}
+                total={scoreDetails.totalDmg}
               />
+
+              {/* Total points calculation */}
+              <View style={styles.totalRow}>
+                <Text style={styles.totalValue}>
+                  {scoreDetails.total} points
+                </Text>
+              </View>
             </View>
 
             <TouchableOpacity style={styles.button} onPress={onClose}>
@@ -122,10 +182,23 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
   );
 };
 
-const StatRow = ({ label, value }: { label: string; value: string }) => (
+const StatRow = ({
+  label,
+  base,
+  mult,
+  total
+}: {
+  label: string;
+  base: number;
+  mult: number;
+  total: number;
+}) => (
   <View style={styles.statRow}>
     <Text style={styles.statLabel}>{label}</Text>
-    <Text style={styles.statValue}>{value}</Text>
+    <Text style={styles.statMult}>
+      {base} x {mult}
+    </Text>
+    <Text style={styles.statTotal}>{total}</Text>
   </View>
 );
 
@@ -147,19 +220,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondary,
     borderWidth: 2,
     borderColor: Colors.tertiary,
-    borderRadius: 16,
-    padding: 20,
-    width: '85%',
+    borderRadius: moderateScale(16),
+    padding: moderateScale(20),
+    width: '90%',
     alignItems: 'center',
-    gap: 16,
-    shadowColor: '#000',
-    shadowOpacity: 0.4,
-    shadowRadius: 10,
-    elevation: 10
+    gap: scale(16)
   },
   title: {
     fontFamily: 'TechnoRaceItalic',
-    fontSize: 28,
+    fontSize: moderateScale(28),
     color: Colors.textWhite,
     textShadowColor: 'black',
     textShadowOffset: { width: 2, height: 2 },
@@ -167,59 +236,90 @@ const styles = StyleSheet.create({
   },
   rankBadgeContainer: {
     alignItems: 'center',
-    gap: 4
+    gap: moderateScale(4)
   },
   rankBadge: {
-    borderWidth: 3,
-    borderRadius: 50,
-    width: 80,
-    height: 80,
+    borderWidth: moderateScale(3),
+    borderRadius: scale(40),
+    width: scale(80),
+    height: scale(80),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.tertiary
   },
   rankText: {
-    fontFamily: 'SourGummy_800ExtraBold',
-    fontSize: 42
+    fontFamily: 'TechnoRaceItalic',
+    fontSize: moderateScale(42)
   },
-  rankLabel: {
-    fontFamily: 'ArchitectsDaughter_400Regular',
+  totalPointsText: {
+    fontFamily: 'TechnoRaceItalic',
     color: Colors.textWhite,
-    fontSize: 16
+    fontSize: moderateScale(18)
   },
   statsContainer: {
     width: '100%',
     backgroundColor: Colors.tertiary,
-    borderRadius: 12,
-    padding: 12,
-    gap: 6
+    borderRadius: moderateScale(12),
+    padding: moderateScale(12),
+    gap: scale(6)
   },
   statRow: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderColor: Colors.borderBlack,
-    paddingVertical: 4
+    paddingVertical: scale(4),
+    width: '100%',
+    gap: scale(8)
   },
   statLabel: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: 16
+    fontSize: moderateScale(16),
+    flex: 4
   },
-  statValue: {
+  statMult: {
     fontFamily: 'ArchitectsDaughter_400Regular',
     color: Colors.textWhite,
-    fontSize: 16
+    fontSize: moderateScale(16),
+    flex: 2,
+    textAlign: 'center'
+  },
+  statTotal: {
+    fontFamily: 'SourGummy_800ExtraBold',
+    color: Colors.textWhite,
+    fontSize: moderateScale(16),
+    flex: 1,
+    textAlign: 'right'
+  },
+  divider: {
+    height: 1,
+    backgroundColor: Colors.borderBlack,
+    marginTop: verticalScale(6)
+  },
+  totalRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    marginTop: verticalScale(4)
+  },
+  totalLabel: {
+    fontFamily: 'SourGummy_800ExtraBold',
+    color: Colors.textWhite,
+    fontSize: moderateScale(18)
+  },
+  totalValue: {
+    fontFamily: 'TechnoRaceItalic',
+    color: Colors.textWhite,
+    fontSize: moderateScale(18)
   },
   button: {
     backgroundColor: Colors.primary,
-    borderRadius: 8,
-    paddingHorizontal: 24,
-    paddingVertical: 8
+    borderRadius: moderateScale(8),
+    paddingHorizontal: scale(24),
+    paddingVertical: verticalScale(8)
   },
   buttonText: {
     fontFamily: 'TechnoRaceItalic',
     color: 'white',
-    fontSize: 18
+    fontSize: moderateScale(18)
   }
 });
