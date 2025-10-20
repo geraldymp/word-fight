@@ -142,6 +142,12 @@ export default function UseBattle() {
   const [showProjection, setShowProjection] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   const [isReshuffling, setIsReshuffling] = useState(false);
+  const [modalContent, setModalContent] = useState({
+    modalText: '',
+    showNextStageBtn: false,
+    showNextAreaBtn: false,
+    showHomeBtn: false
+  });
 
   // filtered from letters, this only get the word (no value)
   const currentWord: string = selectedIndices
@@ -180,6 +186,12 @@ export default function UseBattle() {
     playSfx('playerHit');
     triggerQuickShake(playerShakeAnim);
     if (playerHP === 0) {
+      setModalContent({
+        modalText: 'You lose!',
+        showNextStageBtn: false,
+        showNextAreaBtn: false,
+        showHomeBtn: true
+      });
       setTimeout(() => {
         setShowGameProgressModal(true);
       }, 1500);
@@ -211,7 +223,31 @@ export default function UseBattle() {
         triggerEnemyAttack();
       }, 1200);
     } else {
-      // Enemy beaten
+      if (stage === 3) {
+        setModalContent({
+          modalText: 'You clear the area!',
+          showNextStageBtn: false,
+          showNextAreaBtn: true,
+          showHomeBtn: false
+        });
+      } else if (step === 7) {
+        // Clear saved game and add a statistic of beating the boss
+        onClearResume();
+        setBossBeatenStatistic();
+        setModalContent({
+          modalText: 'Congratulations, you beat the game!',
+          showNextStageBtn: false,
+          showNextAreaBtn: false,
+          showHomeBtn: true
+        });
+      } else {
+        setModalContent({
+          modalText: 'You beat the enemy!',
+          showNextStageBtn: true,
+          showNextAreaBtn: false,
+          showHomeBtn: false
+        });
+      }
       setTimeout(() => {
         playSfx('enemyBeaten');
         enemyOpacity.value = withTiming(0, { duration: 1500 });
@@ -219,7 +255,7 @@ export default function UseBattle() {
       }, 500);
       setTimeout(() => {
         setShowGameProgressModal(true);
-      }, 2500);
+      }, 2000);
     }
   }
 
@@ -349,55 +385,10 @@ export default function UseBattle() {
     setSelectedIndices([]);
   };
 
-  // for analytic total boss beaten
-  useEffect(() => {
-    if (enemyHP === 0 && step === 7) {
-      onClearResume();
-      setBossBeatenStatistic();
-    }
-  }, [enemyHP, step]);
-
   // generate random letters when the game start (called once)
   useEffect(() => {
     setLetters(generateRandomLettersWithVowels());
   }, []);
-
-  const modalContent: {
-    modalText: string;
-    showNextStageBtn: boolean;
-    showNextAreaBtn: boolean;
-    showHomeBtn: boolean;
-  } = useMemo(() => {
-    if (enemyHP === 0 && step === 7) {
-      return {
-        modalText: 'Congratulations, you beat the game!',
-        showNextStageBtn: false,
-        showNextAreaBtn: false,
-        showHomeBtn: true
-      };
-    } else if (enemyHP === 0 && stage === 3) {
-      return {
-        modalText: 'You clear the area!',
-        showNextStageBtn: false,
-        showNextAreaBtn: true,
-        showHomeBtn: false
-      };
-    } else if (enemyHP === 0) {
-      return {
-        modalText: 'You beat the enemy!',
-        showNextStageBtn: true,
-        showNextAreaBtn: false,
-        showHomeBtn: false
-      };
-    } else {
-      return {
-        modalText: 'You lose!',
-        showNextStageBtn: false,
-        showNextAreaBtn: false,
-        showHomeBtn: true
-      };
-    }
-  }, [step, stage, enemyHP]);
 
   function onPressNextStage() {
     increaseStage();
