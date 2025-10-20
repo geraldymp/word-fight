@@ -196,17 +196,11 @@ export default function UseBattle() {
     reducePlayerHP(enemyDamage);
     playSfx('playerHit');
     triggerQuickShake(playerShakeAnim);
-    // TODO: change modal when player beaten to FinishGameModal
     const currentPlayerHP = useGameStore.getState().playerHP;
     if (currentPlayerHP === 0) {
-      setModalContent({
-        modalText: 'You lose!',
-        showNextStageBtn: false,
-        showNextAreaBtn: false,
-        showHomeBtn: true
-      });
+      onClearResume();
       setTimeout(() => {
-        setShowGameProgressModal(true);
+        setModalFinishedGame(true);
       }, 1500);
     }
   }
