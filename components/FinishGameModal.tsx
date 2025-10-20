@@ -18,13 +18,13 @@ interface FinishGameModalProps {
     hpLeft: number;
     manaLeft: number;
     highestDamage: number;
-    longestWord: number;
-    totalWords: number;
-    totalDamage: number;
+    longestWordLength: number;
+    wordsUsed: number;
+    damageDealt: number;
   };
 }
 
-export const FinishGameModal: React.FC<FinishGameModalProps> = ({
+const FinishGameModal: React.FC<FinishGameModalProps> = ({
   visible,
   onClose,
   stats
@@ -48,7 +48,7 @@ export const FinishGameModal: React.FC<FinishGameModalProps> = ({
     manaLeft: 2,
     highestDamage: 1,
     longestWord: 5,
-    totalWords: 1,
+    totalWords: 2,
     totalDamage: 1
   };
 
@@ -56,9 +56,9 @@ export const FinishGameModal: React.FC<FinishGameModalProps> = ({
     const hp = stats.hpLeft * multipliers.hpLeft;
     const mana = stats.manaLeft * multipliers.manaLeft;
     const highest = stats.highestDamage * multipliers.highestDamage;
-    const longest = stats.longestWord * multipliers.longestWord;
-    const words = stats.totalWords * multipliers.totalWords;
-    const totalDmg = stats.totalDamage * multipliers.totalDamage;
+    const longest = stats.longestWordLength * multipliers.longestWord;
+    const words = stats.wordsUsed * multipliers.totalWords;
+    const totalDmg = stats.damageDealt * multipliers.totalDamage;
 
     const total = hp + mana + highest + longest + words + totalDmg;
 
@@ -75,10 +75,10 @@ export const FinishGameModal: React.FC<FinishGameModalProps> = ({
 
   const scoreRank = useMemo(() => {
     const total = scoreDetails.total;
-    if (total > 400) return 'S';
-    if (total > 300) return 'A';
-    if (total > 200) return 'B';
-    if (total > 100) return 'C';
+    if (total > 500) return 'S';
+    if (total > 400) return 'A';
+    if (total > 300) return 'B';
+    if (total > 200) return 'C';
     return 'D';
   }, [scoreDetails]);
 
@@ -147,19 +147,19 @@ export const FinishGameModal: React.FC<FinishGameModalProps> = ({
               />
               <StatRow
                 label="Longest Word"
-                base={stats.longestWord}
+                base={stats.longestWordLength}
                 mult={multipliers.longestWord}
                 total={scoreDetails.longest}
               />
               <StatRow
                 label="Words Used"
-                base={stats.totalWords}
+                base={stats.wordsUsed}
                 mult={multipliers.totalWords}
                 total={scoreDetails.words}
               />
               <StatRow
                 label="Total Damage"
-                base={stats.totalDamage}
+                base={stats.damageDealt}
                 mult={multipliers.totalDamage}
                 total={scoreDetails.totalDmg}
               />
