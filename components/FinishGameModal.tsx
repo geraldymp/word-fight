@@ -44,12 +44,12 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
   }, [visible]);
 
   const multipliers = {
-    hpLeft: 3,
-    manaLeft: 2,
-    highestDamage: 1,
+    hpLeft: 7,
+    manaLeft: 3,
+    highestDamage: 2,
     longestWord: 5,
-    totalWords: 2,
-    totalDamage: 1
+    totalWords: 3,
+    totalDamage: 0.3
   };
 
   const scoreDetails = useMemo(() => {
@@ -58,7 +58,7 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
     const highest = stats.highestDamage * multipliers.highestDamage;
     const longest = stats.longestWordLength * multipliers.longestWord;
     const words = stats.wordsUsed * multipliers.totalWords;
-    const totalDmg = stats.damageDealt * multipliers.totalDamage;
+    const totalDmg = Math.round(stats.damageDealt * multipliers.totalDamage);
 
     const total = hp + mana + highest + longest + words + totalDmg;
 
@@ -97,6 +97,14 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
     }
   }, [scoreRank]);
 
+  const title = useMemo(() => {
+    if (stats.hpLeft > 0) {
+      return 'Victory!';
+    } else {
+      return 'Game Over!';
+    }
+  }, [stats.hpLeft]);
+
   return (
     <Modal
       visible={visible}
@@ -111,7 +119,7 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
               styles.modalContainer,
               { transform: [{ scale: scaleAnim }] }
             ]}>
-            <Text style={styles.title}>Victory!</Text>
+            <Text style={styles.title}>{title}</Text>
 
             {/* Rank + total points */}
             <View style={styles.rankBadgeContainer}>
