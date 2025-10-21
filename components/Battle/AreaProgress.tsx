@@ -1,5 +1,5 @@
 import Colors from 'app/foundation/colors';
-import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
+import { moderateScale, scale } from 'app/utils/sizeScaling';
 import React from 'react';
 import { StyleProp, StyleSheet, Text, View, ViewStyle } from 'react-native';
 
@@ -43,16 +43,15 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.secondaryBg70,
     borderWidth: 1,
     borderColor: Colors.borderBlack,
-    borderRadius: 8,
-    paddingVertical: verticalScale(8),
-    paddingHorizontal: scale(12),
+    borderRadius: moderateScale(6),
+    paddingHorizontal: scale(8),
     justifyContent: 'center'
   },
   areaText: {
     color: Colors.textWhite,
     fontWeight: 'bold',
     fontSize: moderateScale(12),
-    marginRight: scale(8)
+    marginRight: scale(4)
   },
   progressRow: {
     flexDirection: 'row',
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
   circle: {
     width: scale(10),
     height: scale(10),
-    borderRadius: 5,
+    borderRadius: scale(5),
     borderWidth: 2,
     borderColor: Colors.borderGold,
     backgroundColor: 'transparent'

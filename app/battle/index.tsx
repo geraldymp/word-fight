@@ -96,8 +96,8 @@ export default function BattleScreen() {
           ))}
         <View style={styles.exitAndAreaWrapper}>
           <TouchableOpacity style={styles.exitButton} onPress={onGiveUp}>
-            <Text style={{ fontSize: moderateScale(14) }}>Exit</Text>
-            <Ionicons name="exit-outline" size={scale(20)} color="black" />
+            <Text style={{ fontSize: moderateScale(12) }}>Exit</Text>
+            <Ionicons name="exit-outline" size={scale(14)} color="black" />
           </TouchableOpacity>
           <AreaProgress area={areaDetail?.name} stage={stage} />
         </View>
@@ -225,23 +225,23 @@ const styles = StyleSheet.create({
   exitAndAreaWrapper: {
     flexDirection: 'row',
     width: '100%',
-    marginTop: verticalScale(8),
-    paddingHorizontal: scale(8),
+    marginTop: verticalScale(6),
+    paddingHorizontal: scale(6),
     justifyContent: 'space-between'
   },
   exitButton: {
     paddingVertical: verticalScale(4),
     paddingHorizontal: scale(8),
     backgroundColor: 'red',
-    borderRadius: 8,
+    borderRadius: moderateScale(6),
     borderColor: Colors.borderBlack,
-    borderWidth: 2,
+    borderWidth: 1,
     flexDirection: 'row',
     alignItems: 'center',
     gap: scale(4)
   },
   enemyArea: {
-    flex: 3,
+    flex: 1,
     alignItems: 'center'
   },
   enemyImage: {
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     marginBottom: verticalScale(8)
   },
   playerArea: {
-    flex: 2,
+    flex: 1,
     alignItems: 'center',
     paddingTop: verticalScale(8)
   },
