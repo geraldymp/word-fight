@@ -146,7 +146,7 @@ export default function BattleScreen() {
           <DamageBreakdown
             currentWord={currentWord}
             damageBreakdownNums={getDmgBreakdown}
-            customStyle={{ opacity: states.showDamageBreakdown ? 1 : 1 }} // turn to 1 if subscribing later
+            customStyle={{ opacity: states.showDamageBreakdown ? 1 : 0 }} // turn to 1 if subscribing later
           />
         </View>
 
@@ -249,9 +249,8 @@ const styles = StyleSheet.create({
   },
   enemyImage: {
     marginTop: verticalScale(4),
-    flex: 1,
-    width: '75%',
-    marginBottom: verticalScale(8)
+    flex: 0.9,
+    width: '75%'
   },
   playerArea: {
     flex: 1,

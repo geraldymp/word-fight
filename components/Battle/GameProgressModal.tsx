@@ -1,3 +1,4 @@
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import {
   Dimensions,
@@ -79,33 +80,33 @@ const styles = StyleSheet.create({
   modalContainer: {
     width: width * 0.85,
     backgroundColor: '#1e1e2f',
-    padding: 24,
-    borderRadius: 16,
-    borderWidth: 2,
+    padding: verticalScale(24),
+    borderRadius: moderateScale(16),
+    borderWidth: moderateScale(2),
     borderColor: '#ffe08a',
     alignItems: 'center',
     shadowColor: '#ffe08a',
-    shadowOffset: { width: 0, height: 10 },
+    shadowOffset: { width: 0, height: moderateScale(10) },
     shadowOpacity: 0.4,
-    shadowRadius: 20,
-    elevation: 10
+    shadowRadius: moderateScale(20),
+    elevation: moderateScale(10)
   },
   title: {
-    fontSize: 24,
+    fontSize: verticalScale(24),
     color: '#ffe08a',
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 24,
+    marginBottom: verticalScale(24),
     textShadowColor: '#ffcc00',
     textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: 8
+    textShadowRadius: moderateScale(8)
   },
   button: {
     backgroundColor: '#ffb347',
-    paddingVertical: 12,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    marginBottom: 16,
+    paddingVertical: verticalScale(12),
+    paddingHorizontal: scale(32),
+    borderRadius: moderateScale(10),
+    marginBottom: verticalScale(16),
     width: '100%',
     alignItems: 'center'
   },
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffd580'
   },
   buttonText: {
-    fontSize: 18,
+    fontSize: verticalScale(18),
     color: '#1a1a1a',
     fontWeight: 'bold'
   }
