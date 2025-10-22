@@ -1,3 +1,4 @@
+import { verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
@@ -45,17 +46,17 @@ const _RoundedButton: React.FC<IRoundedButton> = ({
 
 const styles = StyleSheet.create({
   buttonGrad: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
-    bottom: 3,
+    height: verticalScale(40),
+    width: verticalScale(40),
+    borderRadius: verticalScale(20),
+    bottom: verticalScale(3),
     alignItems: 'center',
     justifyContent: 'center'
   },
   buttonParent: {
-    height: 40,
-    width: 40,
-    borderRadius: 20,
+    height: verticalScale(40),
+    width: verticalScale(40),
+    borderRadius: verticalScale(20),
     backgroundColor: '#024e51'
   }
 });

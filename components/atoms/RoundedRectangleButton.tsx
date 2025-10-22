@@ -1,4 +1,5 @@
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import {
@@ -48,22 +49,22 @@ const TYPE_STYLES = {
 
 const SIZE_STYLES = {
   lg: {
-    height: 50,
-    minWidth: 150,
-    paddingHorizontal: 16,
-    fontSize: 16
+    height: verticalScale(50),
+    minWidth: scale(150),
+    paddingHorizontal: scale(16),
+    fontSize: verticalScale(16)
   },
   md: {
-    height: 45,
-    minWidth: 120,
-    paddingHorizontal: 12,
-    fontSize: 14
+    height: verticalScale(45),
+    minWidth: scale(120),
+    paddingHorizontal: scale(12),
+    fontSize: verticalScale(14)
   },
   sm: {
-    height: 40,
-    minWidth: 90,
-    paddingHorizontal: 10,
-    fontSize: 12
+    height: verticalScale(40),
+    minWidth: scale(90),
+    paddingHorizontal: scale(10),
+    fontSize: verticalScale(12)
   }
 };
 
@@ -119,8 +120,8 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
               {
                 height: sizeStyle.height,
                 minWidth: sizeStyle.minWidth,
-                borderRadius: 12,
-                bottom: 4 // creates the 3D "lifted" effect
+                borderRadius: moderateScale(12),
+                bottom: verticalScale(4) // creates the 3D "lifted" effect
               }
             ]}>
             <View
@@ -142,7 +143,7 @@ const _RoundedRectButton: React.FC<IRoundedRectButton> = ({
                       {
                         color: disabled ? '#ddd' : typeStyle.textColor,
                         fontSize: sizeStyle.fontSize,
-                        marginRight: icon ? 8 : 0
+                        marginRight: icon ? scale(8) : 0
                       }
                     ]}
                     numberOfLines={1}>
@@ -171,8 +172,8 @@ const styles = StyleSheet.create({
     right: 0
   },
   button: {
-    borderRadius: 12,
-    borderWidth: 2,
+    borderRadius: moderateScale(12),
+    borderWidth: moderateScale(2),
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
