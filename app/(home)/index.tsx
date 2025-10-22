@@ -37,6 +37,7 @@ import {
   getLowestHighscore,
   isHighscoreFilled
 } from 'app/lib/highscoreFunctions';
+import { useHeroStore } from 'app/store/useHeroStore';
 import { IShowedStats } from 'app/types/IShowedStats';
 import { scale as scaling, verticalScale } from 'app/utils/sizeScaling';
 import { getAllStats } from 'app/utils/Statistic/getAllStatistics';
@@ -54,6 +55,8 @@ export default function HomeScreen() {
   const { setLowestHighScore, setHighScoreFilled } = useGameStore();
 
   const { playMusic, stopMusic } = useMusicStore();
+
+  const { loadHero } = useHeroStore();
 
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({
@@ -109,6 +112,7 @@ export default function HomeScreen() {
 
   useEffect(() => {
     setHiScore();
+    loadHero();
   }, []);
 
   useEffect(() => {

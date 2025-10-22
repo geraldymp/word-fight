@@ -8,6 +8,9 @@ start:
 android:
 	npx expo run:android
 
+android-choose:
+	npx expo run:android --device
+
 ios:
 	npx expo run:ios
 

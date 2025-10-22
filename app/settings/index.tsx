@@ -48,7 +48,7 @@ const SettingsScreen = () => {
     toggleDamageBreakdown
   } = usePremiumStore();
 
-  const { selectedHeroId, setHero, loadHero } = useHeroStore();
+  const { selectedHeroId, setHero } = useHeroStore();
 
   const [visibleChangeIconModal, setVisibleChangeIconModal] = useState(false);
   const [username, setUsername] = useState('');
@@ -169,10 +169,6 @@ const SettingsScreen = () => {
       setBattleTutorEnabled(battleTutorialEnabled);
       setMagicHutTutorEnabled(magicHutTutorialEnabled);
     })();
-  }, []);
-
-  useEffect(() => {
-    loadHero();
   }, []);
 
   return (
