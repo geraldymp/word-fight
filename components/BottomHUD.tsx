@@ -1,24 +1,24 @@
 import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
-import { SvgHeart, SvgMana } from 'app/assets/icons/svgs';
+import { SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { IDamageModifier } from 'app/types/IDamageModifier';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
+  Dimensions,
   Image,
   ImageSourcePropType,
   LayoutChangeEvent,
-  StyleProp,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  ViewStyle
+  View
 } from 'react-native';
 import Popover, { PopoverPlacement } from 'react-native-popover-view';
 import Animated, { SharedValue } from 'react-native-reanimated';
-import Svg, { Circle } from 'react-native-svg';
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
 const BUTTON_GRADIENT = ['#f7e7c6', '#f5ce64ff'] as const;
 const BUTTON_GRADIENT_SECONDARY = ['#ba7ddbff', '#4164caff'] as const;
@@ -27,12 +27,18 @@ const BUTTON_GRADIENT_SECONDARY_DISABLED = [
   'rgba(127, 133, 150, 1)'
 ] as const;
 
-const IMAGE_SIZE = scale(50);
-const STROKE_WIDTH = IMAGE_SIZE * 0.12;
-const RADIUS = (IMAGE_SIZE + STROKE_WIDTH) / 2;
-const CIRCUM = 2 * Math.PI * RADIUS;
-const ACTION_ICON_SIZE = IMAGE_SIZE * 0.28;
-const MOD_ICON_SIZE = verticalScale(20);
+const IMAGE_SIZE = SCREEN_WIDTH * 0.25;
+const ACTION_ICON_SIZE = SCREEN_WIDTH / 35;
+const MOD_ICON_SIZE = verticalScale(18);
+
+const modifierImages: Record<keyof IDamageModifier, ImageSourcePropType> = {
+  bonusDamage: require('@assets/icons/battle/damageModifier/bonusDamage.jpg'),
+  vowelModifier: require('@assets/icons/battle/damageModifier/vowel.jpg'),
+  ABCDEModifier: require('@assets/icons/battle/damageModifier/abcde.png'),
+  VWXYZModifier: require('@assets/icons/battle/damageModifier/vwxyz.png'),
+  IngModifier: require('@assets/icons/battle/damageModifier/ing.png'),
+  STModifier: require('@assets/icons/battle/damageModifier/st.png')
+};
 
 interface IBottomHUD {
   characterImage: any;
@@ -47,19 +53,9 @@ interface IBottomHUD {
   onRearrange: () => void;
   onPlay: () => void;
   damageModifiers: IDamageModifier;
-  customStyle?: StyleProp<ViewStyle>;
 }
 
-const modifierImages: Record<keyof IDamageModifier, ImageSourcePropType> = {
-  bonusDamage: require('@assets/icons/battle/damageModifier/bonusDamage.jpg'),
-  vowelModifier: require('@assets/icons/battle/damageModifier/vowel.jpg'),
-  ABCDEModifier: require('@assets/icons/battle/damageModifier/abcde.png'),
-  VWXYZModifier: require('@assets/icons/battle/damageModifier/vwxyz.png'),
-  IngModifier: require('@assets/icons/battle/damageModifier/ing.png'),
-  STModifier: require('@assets/icons/battle/damageModifier/st.png')
-};
-
-const _BottomHUD: React.FC<IBottomHUD> = ({
+const BottomHUDBase: React.FC<IBottomHUD> = ({
   characterImage,
   playerShakeAnim,
   playerHP,
@@ -71,15 +67,20 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
   onReshuffle,
   onRearrange,
   onPlay,
-  damageModifiers,
-  customStyle
+  damageModifiers
 }) => {
   const [activeModifier, setActiveModifier] = useState<string | null>(null);
-  const [hudHeight, setHudHeight] = useState(0);
+  const [baseHudHeight, setBaseHudHeight] = useState(0);
+  const [healthHeight, setHealthHeight] = useState(0);
 
-  const onLayoutHud = (e: LayoutChangeEvent) => {
+  const onLayoutBaseHud = (e: LayoutChangeEvent) => {
     const { height } = e.nativeEvent.layout;
-    setHudHeight(height);
+    setBaseHudHeight(height);
+  };
+
+  const onLayoutHealth = (e: LayoutChangeEvent) => {
+    const { height } = e.nativeEvent.layout;
+    setHealthHeight(height);
   };
 
   useEffect(() => {
@@ -89,9 +90,9 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
     }
   }, [activeModifier]);
 
-  const healthPercent = useMemo(() => {
-    return Math.max(0, playerHP / playerMaxHP);
-  }, [playerHP, playerMaxHP]);
+  const hudAndHealthHeight = useMemo(() => {
+    return baseHudHeight + healthHeight;
+  }, [baseHudHeight, healthHeight]);
 
   const disableReshuffle = useMemo(() => {
     if (disabledReshuffle) {
@@ -111,51 +112,14 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
 
   return (
     <View
-      style={[styles.container, customStyle]}
-      onLayout={event => {
-        onLayoutHud(event);
-      }}>
-      {/* Health ring */}
-      <View style={styles.ringWrapper}>
-        <Svg
-          width={IMAGE_SIZE + STROKE_WIDTH * 2}
-          height={IMAGE_SIZE + STROKE_WIDTH * 2}>
-          {/* Background (lost health) */}
-          <Circle
-            cx={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
-            cy={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
-            r={RADIUS}
-            stroke={Colors.neutralLight}
-            strokeWidth={STROKE_WIDTH}
-            fill="none"
-          />
-          {/* Foreground (current health) */}
-          <Circle
-            cx={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
-            cy={(IMAGE_SIZE + STROKE_WIDTH * 2) / 2}
-            r={RADIUS}
-            stroke={Colors.danger}
-            strokeWidth={STROKE_WIDTH}
-            fill="none"
-            strokeDasharray={CIRCUM}
-            strokeDashoffset={CIRCUM * (1 - healthPercent)}
-            strokeLinecap="round"
-          />
-        </Svg>
-        <Animated.Image
-          source={characterImage}
-          style={[
-            styles.characterImg,
-            { transform: [{ translateX: playerShakeAnim }] }
-          ]}
-          resizeMode="contain"
-        />
-      </View>
-
+      style={[
+        styles.wrapper,
+        { marginTop: MOD_ICON_SIZE + verticalScale(36) }
+      ]}>
       <View
         style={[
           styles.dmgModsContainer,
-          { bottom: hudHeight + verticalScale(4) }
+          { bottom: hudAndHealthHeight + verticalScale(4) }
         ]}>
         {Object.entries(damageModifiers).map(([key, mod]) => {
           if (mod.value === 0) return null;
@@ -191,136 +155,215 @@ const _BottomHUD: React.FC<IBottomHUD> = ({
           );
         })}
       </View>
-
-      <View style={styles.playerHpWrapper}>
-        <View style={{ alignItems: 'center', justifyContent: 'center' }}>
-          <SvgHeart
-            color="red"
-            stroke="black"
-            height={scale(36)}
-            width={scale(36)}
-          />
-          <Text style={styles.playerHPText}>{playerHP}</Text>
-        </View>
+      <View
+        style={[
+          styles.maxHealthBar,
+          { width: SCREEN_WIDTH - IMAGE_SIZE, marginLeft: IMAGE_SIZE }
+        ]}
+        onLayout={event => {
+          onLayoutHealth(event);
+        }}>
+        <View
+          style={[
+            styles.currentHealthBar,
+            { width: `${Math.max(0, (playerHP / playerMaxHP) * 100)}%` }
+          ]}
+        />
+        <Text style={styles.currentHealthText}>
+          {playerHP} / {playerMaxHP}
+        </Text>
       </View>
-
-      <View style={styles.sectionWrapper}>
+      <View
+        style={styles.background}
+        onLayout={event => {
+          onLayoutBaseHud(event);
+        }}>
+        {/* Mana */}
         <View style={styles.manaWrapper}>
           <Text style={styles.manaText}>{mana}</Text>
           <SvgMana
-            height={scale(20)}
-            width={scale(20)}
+            height={verticalScale(20)}
+            width={verticalScale(20)}
             color={Colors.primary}
           />
         </View>
-        <View style={styles.buttonsWrapper}>
-          {/* Reshuffle button */}
-          <View style={styles.reshuffleDotsAndButton}>
-            <View style={styles.reshuffleDotsWrapper}>
-              {Array.from({ length: maxReshuffle }).map((_, i) => {
-                const isUsed = i < maxReshuffle - currentReshuffle;
-                return (
-                  <View
-                    key={i}
-                    style={[
-                      styles.reshuffleDot,
-                      isUsed
-                        ? styles.reshuffleDotUsed
-                        : styles.reshuffleDotActive
-                    ]}
-                  />
-                );
-              })}
-            </View>
-            <TouchableOpacity
-              style={[styles.button, styles.buttonParent3DEffect]}
-              onPress={onReshuffle}
-              disabled={disableReshuffle}>
-              <LinearGradient
-                colors={reshuffleStyle}
-                style={[styles.button, { bottom: 1.5 }]}>
-                <IcReshuffle
-                  color="black"
-                  width={ACTION_ICON_SIZE}
-                  height={ACTION_ICON_SIZE}
-                  style={{ marginVertical: 4, marginHorizontal: 9 }}
-                />
-              </LinearGradient>
-            </TouchableOpacity>
-          </View>
 
-          {/* Rearrange button */}
+        {/* Reshuffle */}
+        <View style={styles.reshuffleDotsAndButton}>
+          <View style={styles.reshuffleDotsWrapper}>
+            {Array.from({ length: maxReshuffle }).map((_, i) => {
+              const isUsed = i < maxReshuffle - currentReshuffle;
+              return (
+                <View
+                  key={i}
+                  style={[
+                    styles.reshuffleDot,
+                    isUsed ? styles.reshuffleDotUsed : styles.reshuffleDotActive
+                  ]}
+                />
+              );
+            })}
+          </View>
           <TouchableOpacity
             style={[styles.button, styles.buttonParent3DEffect]}
-            onPress={onRearrange}>
+            onPress={onReshuffle}
+            disabled={disableReshuffle}>
             <LinearGradient
-              colors={BUTTON_GRADIENT_SECONDARY}
+              colors={reshuffleStyle}
               style={[styles.button, { bottom: 1.5 }]}>
-              <IcRearrange
+              <IcReshuffle
                 color="black"
                 width={ACTION_ICON_SIZE}
                 height={ACTION_ICON_SIZE}
-                style={{ marginVertical: 4, marginHorizontal: 9 }}
+                style={{
+                  marginVertical: verticalScale(4),
+                  marginHorizontal: scale(9)
+                }}
               />
             </LinearGradient>
           </TouchableOpacity>
-
-          {/* Attack button */}
-          <TouchableOpacity
-            style={[styles.playButtonWrapper, styles.buttonParent3DEffect]}
-            onPress={onPlay}>
-            <LinearGradient
-              colors={BUTTON_GRADIENT}
-              style={[styles.playButtonWrapper, { bottom: 4 }]}>
-              <IcFight width={scale(20)} height={scale(20)} />
-            </LinearGradient>
-          </TouchableOpacity>
         </View>
+
+        {/* Remove */}
+        <TouchableOpacity
+          style={[styles.button, styles.buttonParent3DEffect]}
+          onPress={onRearrange}>
+          <LinearGradient
+            colors={BUTTON_GRADIENT_SECONDARY}
+            style={[styles.button, { bottom: 1.5 }]}>
+            <IcRearrange
+              color="black"
+              width={ACTION_ICON_SIZE}
+              height={ACTION_ICON_SIZE}
+              style={{
+                marginVertical: verticalScale(4),
+                marginHorizontal: scale(9)
+              }}
+            />
+          </LinearGradient>
+        </TouchableOpacity>
+
+        {/* Rearrange */}
+        <TouchableOpacity
+          style={[styles.button, styles.buttonParent3DEffect]}
+          onPress={onRearrange}>
+          <LinearGradient
+            colors={BUTTON_GRADIENT_SECONDARY}
+            style={[styles.button, { bottom: 1.5 }]}>
+            <IcRearrange
+              color="black"
+              width={ACTION_ICON_SIZE}
+              height={ACTION_ICON_SIZE}
+              style={{
+                marginVertical: verticalScale(4),
+                marginHorizontal: scale(9)
+              }}
+            />
+          </LinearGradient>
+        </TouchableOpacity>
+
+        {/* Attack button */}
+        <TouchableOpacity
+          style={[styles.playButtonWrapper, styles.buttonParent3DEffect]}
+          onPress={onPlay}>
+          <LinearGradient
+            colors={BUTTON_GRADIENT}
+            style={[styles.playButtonWrapper, { bottom: verticalScale(3) }]}>
+            <IcFight width={scale(16)} height={scale(16)} />
+          </LinearGradient>
+        </TouchableOpacity>
       </View>
+
+      <Animated.Image
+        source={characterImage}
+        resizeMode="contain"
+        style={[
+          styles.character,
+          {
+            width: IMAGE_SIZE,
+            height: IMAGE_SIZE
+          },
+          { transform: [{ translateX: playerShakeAnim }] }
+        ]}
+      />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  wrapper: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    width: '100%'
+  },
+  background: {
+    width: '100%',
+    paddingLeft: IMAGE_SIZE,
+    backgroundColor: Colors.secondaryBg70,
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: scale(16),
+    alignItems: 'center',
     paddingVertical: verticalScale(4),
-    borderTopLeftRadius: moderateScale(18),
-    borderTopRightRadius: moderateScale(18),
-    backgroundColor: Colors.secondaryBg70
+    justifyContent: 'space-around',
+    borderBottomWidth: moderateScale(2.5),
+    borderRightWidth: moderateScale(2.5),
+    borderColor: Colors.borderBlack,
+    borderRadius: moderateScale(4)
   },
-  playerHpWrapper: {
-    marginLeft: IMAGE_SIZE + scale(8),
-    justifyContent: 'flex-end'
-  },
-  playerHPText: {
-    color: Colors.textWhite,
-    fontSize: moderateScale(17),
-    fontFamily: 'SourGummy_800ExtraBold',
-    position: 'absolute'
-  },
-  sectionWrapper: {
-    flex: 1,
+  leftSection: {
     flexDirection: 'row',
-    alignItems: 'center'
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'blue'
   },
+  rightSection: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: 'yellow'
+  },
+  character: {
+    borderRadius: moderateScale(4),
+    borderWidth: moderateScale(2.5),
+    borderColor: Colors.borderBlack,
+    backgroundColor: Colors.secondaryBg50,
+    position: 'absolute',
+    bottom: 0,
+    left: 0
+  },
+
+  playButtonWrapper: {
+    backgroundColor: Colors.primary,
+    height: verticalScale(30),
+    width: scale(60),
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: moderateScale(10),
+    borderColor: Colors.borderBlack,
+    borderWidth: 0.5,
+    marginTop: verticalScale(2)
+  },
+  buttonParent3DEffect: {
+    backgroundColor: Colors.neutralDark
+  },
+
   manaWrapper: {
     flexDirection: 'row',
     backgroundColor: Colors.neutralDark,
-    paddingVertical: verticalScale(4),
-    paddingHorizontal: scale(9),
-    marginHorizontal: scale(10),
+    paddingVertical: verticalScale(3),
+    paddingHorizontal: scale(6),
     borderColor: Colors.borderBlack,
     borderWidth: 2,
     borderRadius: moderateScale(4),
+    alignItems: 'center',
+    justifyContent: 'center',
     gap: scale(4)
   },
   manaText: {
     color: Colors.neutralLight,
-    fontFamily: 'ArchitectsDaughter_400Regular'
+    fontFamily: 'ArchitectsDaughter_400Regular',
+    fontSize: verticalScale(16)
   },
+
   reshuffleDotsAndButton: {
     flexDirection: 'row',
     alignItems: 'center'
@@ -347,62 +390,54 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.neutralDark,
     opacity: 0.4
   },
-  buttonsWrapper: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
+
   button: {
     backgroundColor: Colors.calm,
     borderRadius: 8,
     borderColor: Colors.borderBlack,
     borderWidth: 0.5
   },
-  playButtonWrapper: {
-    backgroundColor: Colors.primary,
-    height: verticalScale(30),
-    width: scale(70),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: moderateScale(10),
+
+  maxHealthBar: {
+    height: verticalScale(25),
+    backgroundColor: Colors.neutralLight,
+    borderTopRightRadius: moderateScale(4),
+    borderBottomRightRadius: moderateScale(4),
+    borderTopWidth: moderateScale(2.5),
+    borderRightWidth: moderateScale(2.5),
+    borderBottomWidth: moderateScale(2.5),
     borderColor: Colors.borderBlack,
-    borderWidth: 0.5,
-    marginTop: verticalScale(2)
+    justifyContent: 'center',
+    overflow: 'hidden'
   },
-  buttonParent3DEffect: {
-    backgroundColor: Colors.neutralDark
+  currentHealthBar: {
+    height: verticalScale(25),
+    backgroundColor: Colors.danger,
+    overflow: 'hidden'
   },
-  ringWrapper: {
+  currentHealthText: {
+    color: Colors.textWhite,
+    textShadowColor: Colors.borderBlack,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: moderateScale(4),
     position: 'absolute',
-    left: scale(12),
-    bottom: verticalScale(8),
-    width: IMAGE_SIZE + STROKE_WIDTH * 2,
-    height: IMAGE_SIZE + STROKE_WIDTH * 2,
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignSelf: 'center',
+    fontSize: verticalScale(16),
+    fontFamily: 'SourGummy_800ExtraBold'
   },
-  characterImg: {
-    position: 'absolute',
-    left: STROKE_WIDTH,
-    top: STROKE_WIDTH,
-    width: IMAGE_SIZE,
-    height: IMAGE_SIZE,
-    borderRadius: IMAGE_SIZE / 2,
-    backgroundColor: Colors.neutralDark
-  },
+
   dmgModsContainer: {
     position: 'absolute',
-    left: IMAGE_SIZE + scale(28),
+    left: IMAGE_SIZE + scale(4),
     flexDirection: 'row',
-    gap: scale(6)
+    gap: scale(6),
+    backgroundColor: 'black'
   },
   rectangle: {
     height: MOD_ICON_SIZE,
     width: MOD_ICON_SIZE,
-    borderRadius: moderateScale(6)
+    borderRadius: moderateScale(4)
   }
 });
 
-const BottomHUD = React.memo(_BottomHUD);
-export default BottomHUD;
+export default BottomHUDBase;
