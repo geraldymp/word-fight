@@ -63,7 +63,7 @@ export default function HomeScreen() {
     transform: [{ scale: scale.value }]
   }));
 
-  const BottomIconSize = scaling(24);
+  const BottomIconSize = verticalScale(24);
 
   const [stats, setStats] = useState<IShowedStats>({
     averageLength: 0,
@@ -140,8 +140,8 @@ export default function HomeScreen() {
         customStyle={[styles.topButtonsContainer, { left: scaling(24) }]}
         icon={
           <SvgGraph
-            width={scaling(20)}
-            height={scaling(20)}
+            width={verticalScale(20)}
+            height={verticalScale(20)}
             color={Colors.neutralDark}
           />
         }
@@ -151,8 +151,8 @@ export default function HomeScreen() {
         customStyle={[styles.topButtonsContainer, { right: scaling(24) }]}
         icon={
           <SvgInformation
-            width={scaling(36)}
-            height={scaling(36)}
+            width={verticalScale(36)}
+            height={verticalScale(36)}
             color={Colors.neutralDark}
           />
         }
@@ -161,13 +161,14 @@ export default function HomeScreen() {
         source={require('@assets/word_fight_title.png')}
         style={[
           {
-            width: '80%',
+            width: '70%',
             height: verticalScale(200),
-            marginTop: verticalScale(120)
+            marginTop: verticalScale(120),
+            marginBottom: verticalScale(12)
           },
           animatedStyle
         ]}
-        resizeMode="cover"
+        resizeMode="contain"
       />
 
       <RoundedRectButton
