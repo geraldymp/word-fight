@@ -113,7 +113,7 @@ const BottomHUDBase: React.FC<IBottomHUD> = ({
   return (
     <View
       style={[
-        styles.wrapper,
+        styles.container,
         { marginTop: MOD_ICON_SIZE + verticalScale(36) }
       ]}>
       <View
@@ -291,11 +291,53 @@ const BottomHUDBase: React.FC<IBottomHUD> = ({
 };
 
 const styles = StyleSheet.create({
-  wrapper: {
+  container: {
     alignItems: 'center',
     justifyContent: 'flex-end',
     width: '100%'
   },
+
+  dmgModsContainer: {
+    position: 'absolute',
+    left: IMAGE_SIZE + scale(4),
+    flexDirection: 'row',
+    gap: scale(6),
+    backgroundColor: 'black'
+  },
+  rectangle: {
+    height: MOD_ICON_SIZE,
+    width: MOD_ICON_SIZE,
+    borderRadius: moderateScale(4)
+  },
+
+  maxHealthBar: {
+    height: verticalScale(25),
+    backgroundColor: Colors.neutralLight,
+    borderTopRightRadius: moderateScale(4),
+    borderBottomRightRadius: moderateScale(4),
+    borderTopWidth: moderateScale(2.5),
+    borderRightWidth: moderateScale(2.5),
+    borderBottomWidth: moderateScale(2.5),
+    borderColor: Colors.borderBlack,
+    justifyContent: 'center',
+    overflow: 'hidden'
+  },
+  currentHealthBar: {
+    height: verticalScale(25),
+    backgroundColor: Colors.danger,
+    overflow: 'hidden'
+  },
+  currentHealthText: {
+    color: Colors.textWhite,
+    textShadowColor: Colors.borderBlack,
+    textShadowOffset: { width: 0, height: 0 },
+    textShadowRadius: moderateScale(4),
+    position: 'absolute',
+    alignSelf: 'center',
+    fontSize: verticalScale(16),
+    fontFamily: 'SourGummy_800ExtraBold'
+  },
+
   background: {
     width: '100%',
     paddingLeft: IMAGE_SIZE,
@@ -308,42 +350,6 @@ const styles = StyleSheet.create({
     borderRightWidth: moderateScale(2.5),
     borderColor: Colors.borderBlack,
     borderRadius: moderateScale(4)
-  },
-  leftSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: 'blue'
-  },
-  rightSection: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: 'yellow'
-  },
-  character: {
-    borderRadius: moderateScale(4),
-    borderWidth: moderateScale(2.5),
-    borderColor: Colors.borderBlack,
-    backgroundColor: Colors.secondaryBg50,
-    position: 'absolute',
-    bottom: 0,
-    left: 0
-  },
-
-  playButtonWrapper: {
-    backgroundColor: Colors.primary,
-    height: verticalScale(30),
-    width: scale(60),
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: moderateScale(10),
-    borderColor: Colors.borderBlack,
-    borderWidth: 0.5,
-    marginTop: verticalScale(2)
-  },
-  buttonParent3DEffect: {
-    backgroundColor: Colors.neutralDark
   },
 
   manaWrapper: {
@@ -397,46 +403,30 @@ const styles = StyleSheet.create({
     borderColor: Colors.borderBlack,
     borderWidth: 0.5
   },
+  buttonParent3DEffect: {
+    backgroundColor: Colors.neutralDark
+  },
 
-  maxHealthBar: {
-    height: verticalScale(25),
-    backgroundColor: Colors.neutralLight,
-    borderTopRightRadius: moderateScale(4),
-    borderBottomRightRadius: moderateScale(4),
-    borderTopWidth: moderateScale(2.5),
-    borderRightWidth: moderateScale(2.5),
-    borderBottomWidth: moderateScale(2.5),
-    borderColor: Colors.borderBlack,
+  playButtonWrapper: {
+    backgroundColor: Colors.primary,
+    height: verticalScale(30),
+    width: scale(60),
+    alignItems: 'center',
     justifyContent: 'center',
-    overflow: 'hidden'
-  },
-  currentHealthBar: {
-    height: verticalScale(25),
-    backgroundColor: Colors.danger,
-    overflow: 'hidden'
-  },
-  currentHealthText: {
-    color: Colors.textWhite,
-    textShadowColor: Colors.borderBlack,
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: moderateScale(4),
-    position: 'absolute',
-    alignSelf: 'center',
-    fontSize: verticalScale(16),
-    fontFamily: 'SourGummy_800ExtraBold'
+    borderRadius: moderateScale(10),
+    borderColor: Colors.borderBlack,
+    borderWidth: 0.5,
+    marginTop: verticalScale(2)
   },
 
-  dmgModsContainer: {
+  character: {
+    borderRadius: moderateScale(4),
+    borderWidth: moderateScale(2.5),
+    borderColor: Colors.borderBlack,
+    backgroundColor: Colors.neutralDark,
     position: 'absolute',
-    left: IMAGE_SIZE + scale(4),
-    flexDirection: 'row',
-    gap: scale(6),
-    backgroundColor: 'black'
-  },
-  rectangle: {
-    height: MOD_ICON_SIZE,
-    width: MOD_ICON_SIZE,
-    borderRadius: moderateScale(4)
+    bottom: 0,
+    left: 0
   }
 });
 
