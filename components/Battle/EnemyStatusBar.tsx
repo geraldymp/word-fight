@@ -48,7 +48,7 @@ const EnemyStatusBar: React.FC<EnemyStatusBarProps> = ({
       {/* Status Damage and Mana */}
       <View style={styles.statusWrapper}>
         <View style={styles.statusItemBox}>
-          <SvgSword width={18} height={18} />
+          <SvgSword width={verticalScale(18)} height={verticalScale(18)} />
           {sameDmg ? (
             <Text style={styles.statText}>{minDmg} Damage</Text>
           ) : (
@@ -58,7 +58,11 @@ const EnemyStatusBar: React.FC<EnemyStatusBarProps> = ({
           )}
         </View>
         <View style={styles.statusItemBox}>
-          <SvgMana width={18} height={18} color={Colors.primary} />
+          <SvgMana
+            width={verticalScale(18)}
+            height={verticalScale(18)}
+            color={Colors.primary}
+          />
           {sameMana ? (
             <Text style={styles.statText}>{minMana} Mana</Text>
           ) : (
@@ -77,7 +81,7 @@ export default React.memo(EnemyStatusBar);
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
-    marginVertical: verticalScale(12),
+    marginTop: verticalScale(12),
     width: '75%'
   },
   nameWrapper: {
@@ -94,7 +98,7 @@ const styles = StyleSheet.create({
   },
   name: {
     color: Colors.neutralDark,
-    fontSize: moderateScale(16),
+    fontSize: verticalScale(16),
     fontFamily: 'SourGummy_800ExtraBold'
   },
   maxHealthBar: {
@@ -119,7 +123,7 @@ const styles = StyleSheet.create({
     textShadowRadius: moderateScale(4),
     position: 'absolute',
     alignSelf: 'center',
-    fontSize: moderateScale(16),
+    fontSize: verticalScale(16),
     fontFamily: 'SourGummy_800ExtraBold'
   },
   statusWrapper: {
@@ -143,7 +147,7 @@ const styles = StyleSheet.create({
   },
   statText: {
     color: Colors.neutralLight,
-    fontSize: moderateScale(12),
+    fontSize: verticalScale(12),
     fontFamily: 'SourGummy_800ExtraBold'
   }
 });

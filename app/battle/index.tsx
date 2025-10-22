@@ -96,8 +96,12 @@ export default function BattleScreen() {
           ))}
         <View style={styles.exitAndAreaWrapper}>
           <TouchableOpacity style={styles.exitButton} onPress={onGiveUp}>
-            <Text style={{ fontSize: moderateScale(12) }}>Exit</Text>
-            <Ionicons name="exit-outline" size={scale(14)} color="black" />
+            <Text style={{ fontSize: verticalScale(12) }}>Exit</Text>
+            <Ionicons
+              name="exit-outline"
+              size={verticalScale(14)}
+              color="black"
+            />
           </TouchableOpacity>
           <AreaProgress area={areaDetail?.name} stage={stage} />
         </View>
@@ -142,7 +146,7 @@ export default function BattleScreen() {
           <DamageBreakdown
             currentWord={currentWord}
             damageBreakdownNums={getDmgBreakdown}
-            customStyle={{ opacity: states.showDamageBreakdown ? 1 : 0 }} // turn to 1 if subscribing later
+            customStyle={{ opacity: states.showDamageBreakdown ? 1 : 1 }} // turn to 1 if subscribing later
           />
         </View>
 
@@ -176,7 +180,6 @@ export default function BattleScreen() {
           onRearrange={handleRearrange}
           onReshuffle={handleReshuffle}
           damageModifiers={states.damageModifier}
-          customStyle={styles.bottomBarContainer}
         />
       </View>
       <GameProgressModal
@@ -245,15 +248,15 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   enemyImage: {
-    marginTop: verticalScale(12),
-    flex: 0.85,
-    width: '55%',
+    marginTop: verticalScale(4),
+    flex: 1,
+    width: '75%',
     marginBottom: verticalScale(8)
   },
   playerArea: {
     flex: 1,
     alignItems: 'center',
-    paddingTop: verticalScale(8)
+    justifyContent: 'flex-end'
   },
   currentWord: {
     fontSize: diceTextSize,
@@ -278,11 +281,5 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(3),
     fontWeight: 'bold',
     fontSize: moderateScale(8)
-  },
-  bottomBarContainer: {
-    width: '100%',
-    position: 'absolute',
-    bottom: 0,
-    left: 0
   }
 });
