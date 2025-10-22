@@ -39,6 +39,7 @@ export default function BattleScreen() {
     handleLetterPress,
     handleRearrange,
     handleReshuffle,
+    handleCancel,
     handleSubmit,
     onCancelToHome,
     onCompleteFloatingDamage,
@@ -179,6 +180,7 @@ export default function BattleScreen() {
           onPlay={handleSubmit}
           onRearrange={handleRearrange}
           onReshuffle={handleReshuffle}
+          onCancel={handleCancel}
           damageModifiers={states.damageModifier}
         />
       </View>

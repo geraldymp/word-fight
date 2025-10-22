@@ -299,6 +299,10 @@ export default function UseBattle() {
     setLetters(shuffled);
   };
 
+  const handleCancel = () => {
+    setSelectedIndices([]);
+  };
+
   const handleLetterPress = (index: number) => {
     if (!selectedIndices.includes(index)) {
       setSelectedIndices([...selectedIndices, index]);
@@ -515,6 +519,7 @@ export default function UseBattle() {
       handleLetterPress,
       handleRearrange,
       handleReshuffle,
+      handleCancel,
       handleSubmit,
       onCancelToHome,
       onCompleteFloatingDamage,

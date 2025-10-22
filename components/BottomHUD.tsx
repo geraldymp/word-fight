@@ -1,4 +1,9 @@
-import { IcFight, IcRearrange, IcReshuffle } from 'app/assets/icons/battle';
+import {
+  IcCancel,
+  IcFight,
+  IcRearrange,
+  IcReshuffle
+} from 'app/assets/icons/battle';
 import { SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { IDamageModifier } from 'app/types/IDamageModifier';
@@ -51,6 +56,7 @@ interface IBottomHUD {
   disabledReshuffle: boolean;
   onReshuffle: () => void;
   onRearrange: () => void;
+  onCancel: () => void;
   onPlay: () => void;
   damageModifiers: IDamageModifier;
 }
@@ -66,6 +72,7 @@ const BottomHUDBase: React.FC<IBottomHUD> = ({
   disabledReshuffle,
   onReshuffle,
   onRearrange,
+  onCancel,
   onPlay,
   damageModifiers
 }) => {
@@ -227,11 +234,11 @@ const BottomHUDBase: React.FC<IBottomHUD> = ({
         {/* Remove */}
         <TouchableOpacity
           style={[styles.button, styles.buttonParent3DEffect]}
-          onPress={onRearrange}>
+          onPress={onCancel}>
           <LinearGradient
             colors={BUTTON_GRADIENT_SECONDARY}
             style={[styles.button, { bottom: 1.5 }]}>
-            <IcRearrange
+            <IcCancel
               color="black"
               width={ACTION_ICON_SIZE}
               height={ACTION_ICON_SIZE}
