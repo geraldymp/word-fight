@@ -309,8 +309,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: IMAGE_SIZE + scale(4),
     flexDirection: 'row',
-    gap: scale(6),
-    backgroundColor: 'black'
+    gap: scale(3)
   },
   rectangle: {
     height: MOD_ICON_SIZE,
