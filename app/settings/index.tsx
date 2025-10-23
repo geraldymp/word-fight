@@ -11,7 +11,7 @@ import SettingHeader from 'app/components/SettingHeader';
 import { HeroIcons } from 'app/constants/heroIcons';
 import Colors from 'app/foundation/colors';
 import { useHeroStore } from 'app/store/useHeroStore';
-import { scale } from 'app/utils/sizeScaling';
+import { scale, verticalScale } from 'app/utils/sizeScaling';
 import {
   getBattleTutorial,
   getMagicHutTutorial,
@@ -181,21 +181,14 @@ const SettingsScreen = () => {
             <View style={{ flex: 1 }}>
               <Image
                 source={selectedHero?.icon}
-                style={{
-                  height: 75,
-                  width: 75,
-                  borderRadius: 37.5,
-                  borderWidth: 2,
-                  borderColor: 'black',
-                  backgroundColor: Colors.blackBg50
-                }}
+                style={styles.imageStyle}
                 resizeMode="contain"></Image>
               <Text style={styles.settingDesc}>Hero icon in battlefield</Text>
             </View>
             <TouchableOpacity onPress={onPressChangeIcon}>
               <FontAwesome5
                 name="exchange-alt"
-                size={24}
+                size={verticalScale(24)}
                 color={Colors.primary}
               />
             </TouchableOpacity>
@@ -208,7 +201,7 @@ const SettingsScreen = () => {
             <TouchableOpacity onPress={onPressChangeUsername}>
               <MaterialIcons
                 name="drive-file-rename-outline"
-                size={24}
+                size={verticalScale(24)}
                 color={Colors.primary}
               />
             </TouchableOpacity>
@@ -299,35 +292,43 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginTop: scale(8)
+    marginTop: verticalScale(8)
   },
   card: {
     backgroundColor: Colors.shallowBlue,
     borderRadius: scale(18),
-    padding: scale(18),
+    padding: verticalScale(18),
     width: '90%',
-    marginBottom: scale(16)
+    marginBottom: verticalScale(16)
   },
   sectionTitle: {
-    fontSize: scale(24),
+    fontSize: verticalScale(24),
     color: Colors.primary,
     fontWeight: 'bold',
-    marginBottom: scale(18)
+    marginBottom: verticalScale(18)
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: scale(12)
+    marginBottom: verticalScale(12)
+  },
+  imageStyle: {
+    height: verticalScale(75),
+    width: verticalScale(75),
+    borderRadius: verticalScale(37.5),
+    borderWidth: 2,
+    borderColor: 'black',
+    backgroundColor: Colors.blackBg50
   },
   settingText: {
     color: Colors.textWhite,
-    fontSize: scale(18),
+    fontSize: verticalScale(18),
     fontWeight: '600'
   },
   settingDesc: {
     color: Colors.borderBlue,
-    fontSize: scale(10),
-    marginTop: scale(4),
-    marginBottom: scale(0)
+    fontSize: verticalScale(10),
+    marginTop: verticalScale(4),
+    marginBottom: verticalScale(0)
   }
 });

@@ -2,7 +2,7 @@
 import SettingHeader from 'app/components/SettingHeader';
 import Colors from 'app/foundation/colors';
 import { getHighscore } from 'app/lib/highscoreFunctions';
-import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
+import { scale, verticalScale } from 'app/utils/sizeScaling';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
@@ -58,7 +58,11 @@ export default function LeaderboardScreen() {
           keyExtractor={item => item.id}
           renderItem={renderItem}
           ListEmptyComponent={() => <Text style={styles.noData}>No Data</Text>}
-          contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 24 }}
+          contentContainerStyle={{
+            paddingHorizontal: scale(20),
+            paddingBottom: verticalScale(24),
+            paddingTop: verticalScale(4)
+          }}
           showsVerticalScrollIndicator={false}
         />
       )}
@@ -83,7 +87,7 @@ const styles = StyleSheet.create({
   },
   rank: {
     color: Colors.primary,
-    fontSize: moderateScale(18),
+    fontSize: verticalScale(18),
     width: scale(30),
     fontWeight: 'bold',
     textAlign: 'center'
@@ -97,25 +101,25 @@ const styles = StyleSheet.create({
   },
   word: {
     color: Colors.textWhite,
-    fontSize: moderateScale(18),
+    fontSize: verticalScale(18),
     flex: 1,
     textTransform: 'uppercase',
     fontWeight: '600'
   },
   submitBy: {
     color: Colors.borderBlue,
-    fontSize: moderateScale(10),
+    fontSize: verticalScale(10),
     flex: 1,
     fontWeight: '500'
   },
   score: {
     color: Colors.accent,
-    fontSize: moderateScale(24),
+    fontSize: verticalScale(24),
     fontWeight: 'bold'
   },
   noData: {
     color: Colors.primary,
-    fontSize: moderateScale(16),
+    fontSize: verticalScale(16),
     textAlign: 'center',
     marginVertical: verticalScale(20)
   }

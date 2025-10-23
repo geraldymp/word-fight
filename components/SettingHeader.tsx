@@ -1,5 +1,6 @@
 import Entypo from '@expo/vector-icons/Entypo';
 import Colors from 'app/foundation/colors';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { useRouter } from 'expo-router';
 import React, { memo } from 'react';
 import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
@@ -15,9 +16,9 @@ const SettingHeader: React.FC<ISettingHeader> = ({ title }) => {
     <View style={[styles.container, { width: width }]}>
       <Entypo
         name="arrow-bold-left"
-        size={24}
+        size={verticalScale(24)}
         color="white"
-        style={{ marginRight: 24 }}
+        style={{ marginRight: verticalScale(24) }}
         onPress={() => router.back()}
       />
       <Text style={styles.titleText}>{title}</Text>
@@ -32,14 +33,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Colors.deeperDark,
     alignItems: 'center',
-    paddingVertical: 20,
-    paddingHorizontal: 16
+    paddingVertical: verticalScale(20),
+    paddingHorizontal: scale(16)
   },
   titleText: {
-    fontSize: 32,
+    fontSize: verticalScale(32),
     color: Colors.accent,
     fontWeight: 'bold',
     fontFamily: 'KnightWarrior',
-    letterSpacing: 1.5
+    letterSpacing: moderateScale(1.5)
   }
 });

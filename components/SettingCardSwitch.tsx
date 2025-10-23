@@ -1,5 +1,5 @@
 import Colors from 'app/foundation/colors';
-import { scale } from 'app/utils/sizeScaling';
+import { scale, verticalScale } from 'app/utils/sizeScaling';
 import React, { memo } from 'react';
 import { StyleSheet, Switch, Text, View } from 'react-native';
 
@@ -46,30 +46,30 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: Colors.shallowBlue,
     borderRadius: scale(18),
-    padding: scale(18),
+    padding: verticalScale(18),
     width: '90%',
-    marginBottom: scale(16)
+    marginBottom: verticalScale(16)
   },
   sectionTitle: {
-    fontSize: scale(24),
+    fontSize: verticalScale(24),
     color: Colors.primary,
     fontWeight: 'bold',
-    marginBottom: scale(18)
+    marginBottom: verticalScale(18)
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: scale(12)
+    marginBottom: verticalScale(12)
   },
   settingText: {
     color: Colors.textWhite,
-    fontSize: scale(18),
+    fontSize: verticalScale(18),
     fontWeight: '600'
   },
   settingDesc: {
     color: Colors.borderBlue,
-    fontSize: scale(10),
-    marginTop: scale(4),
-    marginBottom: scale(0)
+    fontSize: verticalScale(10),
+    marginTop: verticalScale(4),
+    marginBottom: verticalScale(0)
   }
 });
