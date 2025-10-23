@@ -53,15 +53,16 @@ interface IBottomHUD {
   mana: number;
   maxReshuffle: number;
   currentReshuffle: number;
-  disabledReshuffle: boolean;
+  disableReshuffle: boolean;
   onReshuffle: () => void;
   onRearrange: () => void;
   onCancel: () => void;
   onPlay: () => void;
+  disablePlayBtn?: boolean;
   damageModifiers: IDamageModifier;
 }
 
-const BottomHUDBase: React.FC<IBottomHUD> = ({
+const BottomHUD: React.FC<IBottomHUD> = ({
   characterImage,
   playerShakeAnim,
   playerHP,
@@ -69,11 +70,12 @@ const BottomHUDBase: React.FC<IBottomHUD> = ({
   mana,
   maxReshuffle,
   currentReshuffle,
-  disabledReshuffle,
+  disableReshuffle,
   onReshuffle,
   onRearrange,
   onCancel,
   onPlay,
+  disablePlayBtn,
   damageModifiers
 }) => {
   const [activeModifier, setActiveModifier] = useState<string | null>(null);
@@ -101,21 +103,19 @@ const BottomHUDBase: React.FC<IBottomHUD> = ({
     return baseHudHeight + healthHeight;
   }, [baseHudHeight, healthHeight]);
 
-  const disableReshuffle = useMemo(() => {
-    if (disabledReshuffle) {
-      return true;
-    } else if (currentReshuffle === 0) {
-      return true;
-    }
-    return false;
-  }, [currentReshuffle, disabledReshuffle]);
-
   const reshuffleStyle = useMemo(() => {
     if (disableReshuffle) {
       return BUTTON_GRADIENT_SECONDARY_DISABLED;
     }
     return BUTTON_GRADIENT_SECONDARY;
   }, [disableReshuffle]);
+
+  const playBtnStyle = useMemo(() => {
+    if (disablePlayBtn) {
+      return BUTTON_GRADIENT_SECONDARY_DISABLED;
+    }
+    return BUTTON_GRADIENT;
+  }, [disablePlayBtn]);
 
   return (
     <View
@@ -272,9 +272,10 @@ const BottomHUDBase: React.FC<IBottomHUD> = ({
         {/* Attack button */}
         <TouchableOpacity
           style={[styles.playButtonWrapper, styles.buttonParent3DEffect]}
-          onPress={onPlay}>
+          onPress={onPlay}
+          disabled={disablePlayBtn}>
           <LinearGradient
-            colors={BUTTON_GRADIENT}
+            colors={playBtnStyle}
             style={[styles.playButtonWrapper, { bottom: verticalScale(3) }]}>
             <IcFight width={scale(16)} height={scale(16)} />
           </LinearGradient>
@@ -437,4 +438,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default BottomHUDBase;
+export default BottomHUD;

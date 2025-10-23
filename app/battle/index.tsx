@@ -69,7 +69,6 @@ export default function BattleScreen() {
     letters,
     selectedIndices,
     wrongWordShakeAnim,
-    feedback,
     showGameProgressModal,
     modalContent,
     showConfirmModal,
@@ -161,13 +160,6 @@ export default function BattleScreen() {
           wrongWordShakeAnim={wrongWordShakeAnim}
         />
 
-        {feedback === 'invalid' && (
-          <Text style={styles.invalid}>Invalid word</Text>
-        )}
-        {feedback === 'short' && (
-          <Text style={styles.invalid}>At least 3 letters</Text>
-        )}
-
         <BottomHUD
           characterImage={states.selectedHero?.icon}
           playerShakeAnim={playerShakeAnim}
@@ -176,7 +168,8 @@ export default function BattleScreen() {
           mana={mana}
           maxReshuffle={maxReshuffle}
           currentReshuffle={reshuffleCount}
-          disabledReshuffle={states.isReshuffling}
+          disableReshuffle={states.disableReshuffle}
+          disablePlayBtn={states.disablePlayBtn}
           onPlay={handleSubmit}
           onRearrange={handleRearrange}
           onReshuffle={handleReshuffle}

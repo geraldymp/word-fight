@@ -143,7 +143,6 @@ export default function UseBattle() {
   const [enemyMaxHp, setEnemyMaxHP] = useState(selectedEnemy.baseHp);
   const [letters, setLetters] = useState<ILetter[]>([]); // Letters in word builder
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]); // Indexes of selected letters
-  const [feedback, setFeedback] = useState<'invalid' | 'short' | null>(null);
   const [showGameProgressModal, setShowGameProgressModal] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [damageEvents, setDamageEvents] = useState<
@@ -367,37 +366,23 @@ export default function UseBattle() {
   }
 
   const handleSubmit = () => {
-    if (isValidWord(currentWord) && currentWord.length >= 3) {
-      const baseDamage = selectedIndices.reduce(
-        (sum, i) => sum + letters[i].value,
-        0
-      );
-      const lengthDamage = getBonusDamageFromLength(currentWordWithValue);
-      const nonModifiedDamage = baseDamage + lengthDamage;
+    const baseDamage = selectedIndices.reduce(
+      (sum, i) => sum + letters[i].value,
+      0
+    );
+    const lengthDamage = getBonusDamageFromLength(currentWordWithValue);
+    const nonModifiedDamage = baseDamage + lengthDamage;
 
-      launchProjection();
+    launchProjection();
 
-      // Submit highscore to supabase if in top 20
-      setHiScore(currentWord, nonModifiedDamage);
-      // Update submitted word to statistic
-      setWordsStatistic(currentWord, nonModifiedDamage);
+    // Submit highscore to supabase if in top 20
+    setHiScore(currentWord, nonModifiedDamage);
+    // Update submitted word to statistic
+    setWordsStatistic(currentWord, nonModifiedDamage);
 
-      // Replace used letters
-      const newLetters = generateSomeLettersWithVowels(
-        letters,
-        selectedIndices
-      );
-      setLetters(newLetters);
-    } else {
-      if (currentWord.length < 3) {
-        setFeedback('short');
-        triggerQuickShake(wrongWordShakeAnim);
-      } else if (!isValidWord(currentWord)) {
-        setFeedback('invalid');
-        triggerQuickShake(wrongWordShakeAnim);
-      }
-      setTimeout(() => setFeedback(null), 2000); // hide feedback after 2
-    }
+    // Replace used letters
+    const newLetters = generateSomeLettersWithVowels(letters, selectedIndices);
+    setLetters(newLetters);
     setSelectedIndices([]);
   };
 
@@ -412,7 +397,6 @@ export default function UseBattle() {
     setEnemyMaxHP(useGameStore.getState().selectedEnemy.baseHp);
     setLetters(generateRandomLettersWithVowels());
     setSelectedIndices([]);
-    setFeedback(null);
     setShowGameProgressModal(false);
     enemyOpacity.value = 1;
   }
@@ -479,6 +463,19 @@ export default function UseBattle() {
     setModalFinishedGame(false);
     router.replace('/');
   };
+
+  const disableReshuffle = useMemo(() => {
+    if (isReshuffling) {
+      return true;
+    } else if (reshuffle === 0) {
+      return true;
+    }
+    return false;
+  }, [isReshuffling, reshuffle]);
+
+  const disablePlayBtn = useMemo(() => {
+    return !(isValidWord(currentWord) && currentWord.length >= 3);
+  }, [currentWord]);
 
   useEffect(() => {
     (async () => {
@@ -557,7 +554,6 @@ export default function UseBattle() {
       letters,
       selectedIndices,
       wrongWordShakeAnim,
-      feedback,
       showGameProgressModal,
       modalContent,
       showConfirmModal,
@@ -569,6 +565,8 @@ export default function UseBattle() {
       showDamageBreakdown,
       showNumberedTiles,
       isReshuffling,
+      disableReshuffle,
+      disablePlayBtn,
       damageModifier,
       selectedHero,
       modalFinishedGame,
