@@ -1,8 +1,7 @@
-import { SvgMana, SvgSword } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View } from 'react-native';
 
 interface EnemyStatusBarProps {
   name: string;
@@ -19,12 +18,12 @@ const EnemyStatusBar: React.FC<EnemyStatusBarProps> = ({
   maxHealth,
   currentHealth,
   minDmg,
-  maxDmg,
-  minMana,
-  maxMana
+  maxDmg
+  // minMana,
+  // maxMana
 }) => {
   const sameDmg = minDmg === maxDmg;
-  const sameMana = minMana === maxMana;
+  const ICON_SIZE = verticalScale(16);
   return (
     <View style={styles.container}>
       {/* Name */}
@@ -48,26 +47,18 @@ const EnemyStatusBar: React.FC<EnemyStatusBarProps> = ({
       {/* Status Damage and Mana */}
       <View style={styles.statusWrapper}>
         <View style={styles.statusItemBox}>
-          <SvgSword width={verticalScale(18)} height={verticalScale(18)} />
+          <Image
+            source={require('@assets/icons/battle/sword.png')}
+            style={{
+              width: ICON_SIZE,
+              height: ICON_SIZE
+            }}
+          />
           {sameDmg ? (
             <Text style={styles.statText}>{minDmg} Damage</Text>
           ) : (
             <Text style={styles.statText}>
-              {minDmg} - {maxDmg} Damage
-            </Text>
-          )}
-        </View>
-        <View style={styles.statusItemBox}>
-          <SvgMana
-            width={verticalScale(18)}
-            height={verticalScale(18)}
-            color={Colors.primary}
-          />
-          {sameMana ? (
-            <Text style={styles.statText}>{minMana} Mana</Text>
-          ) : (
-            <Text style={styles.statText}>
-              {minMana} - {maxMana} Mana
+              {minDmg} - {maxDmg}
             </Text>
           )}
         </View>
@@ -82,11 +73,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     marginTop: verticalScale(12),
-    width: '75%'
+    width: '40%'
   },
   nameWrapper: {
     backgroundColor: Colors.primary,
-    paddingHorizontal: scale(12),
+    paddingHorizontal: scale(8),
     paddingVertical: verticalScale(2),
     borderRadius: moderateScale(4),
     borderColor: Colors.borderBlack,
@@ -98,12 +89,12 @@ const styles = StyleSheet.create({
   },
   name: {
     color: Colors.neutralDark,
-    fontSize: verticalScale(16),
+    fontSize: verticalScale(12),
     fontFamily: 'SourGummy_800ExtraBold'
   },
   maxHealthBar: {
     width: '100%',
-    height: verticalScale(25),
+    height: verticalScale(22),
     backgroundColor: Colors.neutralLight,
     borderRadius: moderateScale(4),
     borderWidth: moderateScale(2.5),
@@ -112,7 +103,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden'
   },
   currentHealthBar: {
-    height: verticalScale(25),
+    height: verticalScale(22),
     backgroundColor: Colors.danger,
     overflow: 'hidden'
   },
@@ -123,27 +114,26 @@ const styles = StyleSheet.create({
     textShadowRadius: moderateScale(4),
     position: 'absolute',
     alignSelf: 'center',
-    fontSize: verticalScale(16),
+    fontSize: verticalScale(12),
     fontFamily: 'SourGummy_800ExtraBold'
   },
   statusWrapper: {
     alignSelf: 'center',
     flexDirection: 'row',
-    width: '95%',
-    justifyContent: 'space-between'
+    justifyContent: 'center'
   },
   statusItemBox: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.secondaryBg70,
-    paddingHorizontal: scale(6),
+    paddingHorizontal: scale(4),
     paddingVertical: verticalScale(2),
     borderWidth: moderateScale(2.5),
     borderRadius: moderateScale(4),
     borderTopWidth: 0,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
-    gap: scale(4)
+    gap: scale(3)
   },
   statText: {
     color: Colors.neutralLight,

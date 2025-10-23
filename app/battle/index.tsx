@@ -243,8 +243,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   enemyImage: {
-    marginTop: verticalScale(4),
-    flex: 0.9,
+    marginTop: verticalScale(2),
+    flex: 0.8,
     width: '75%'
   },
   playerArea: {
