@@ -39,10 +39,10 @@ const MOD_ICON_SIZE = verticalScale(18);
 const modifierImages: Record<keyof IDamageModifier, ImageSourcePropType> = {
   bonusDamage: require('@assets/icons/battle/damageModifier/bonusDamage.jpg'),
   vowelModifier: require('@assets/icons/battle/damageModifier/vowel.jpg'),
-  ABCDEModifier: require('@assets/icons/battle/damageModifier/abcde.png'),
-  VWXYZModifier: require('@assets/icons/battle/damageModifier/vwxyz.png'),
-  IngModifier: require('@assets/icons/battle/damageModifier/ing.png'),
-  STModifier: require('@assets/icons/battle/damageModifier/st.png')
+  ABCDEModifier: require('@assets/icons/battle/damageModifier/abcde.jpg'),
+  VWXYZModifier: require('@assets/icons/battle/damageModifier/vwxyz.jpg'),
+  IngModifier: require('@assets/icons/battle/damageModifier/ing.jpg'),
+  STModifier: require('@assets/icons/battle/damageModifier/st.jpg')
 };
 
 interface IBottomHUD {
@@ -147,7 +147,7 @@ const BottomHUD: React.FC<IBottomHUD> = ({
                   <Image
                     source={source}
                     style={styles.rectangle}
-                    resizeMode="cover"
+                    resizeMode="contain"
                   />
                 </TouchableOpacity>
               }>
