@@ -1,8 +1,15 @@
 import { Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StyleSheet, Text } from 'react-native';
+import { StyleSheet } from 'react-native';
 import mobileAds, { MaxAdContentRating } from 'react-native-google-mobile-ads';
 import Purchases, { CustomerInfo } from 'react-native-purchases';
+import Animated, {
+  Easing,
+  interpolate,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming
+} from 'react-native-reanimated';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // fonts
@@ -28,8 +35,11 @@ import { useSubscriptionStore } from '@store/useSubscriptionStore';
 import Colors from 'app/foundation/colors';
 import { MusicPlayer } from 'app/utils/musicPlayer';
 import { SfxPlayer } from 'app/utils/sfxPlayer';
+import { verticalScale } from 'app/utils/sizeScaling';
 
 export default function Layout() {
+  const progress = useSharedValue(0);
+
   const [ready, setReady] = useState(false);
 
   const [fontsLoaded, fontError] = useFonts({
@@ -96,12 +106,39 @@ export default function Layout() {
     init();
   }, [fontsLoaded, fontError]);
 
+  useEffect(() => {
+    progress.value = withTiming(1, {
+      duration: 1200, // quicker than setReady timeout
+      easing: Easing.bounce
+    });
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    const rotate = interpolate(
+      progress.value,
+      [0, 1],
+      [0, 360 * 3] // spin 3 times
+    );
+
+    const scale = interpolate(progress.value, [0, 1], [0, 1]);
+
+    return {
+      transform: [{ rotate: `${rotate}deg` }, { scale }]
+    };
+  });
+
   if (!ready) {
     return (
       <SafeAreaProvider>
         <SafeAreaView style={[styles.container, styles.loader]}>
-          <ActivityIndicator size="large" color="#fff" />
-          <Text style={styles.text}>Starting the game...</Text>
+          <Animated.Image
+            source={require('@assets/geyo_studio_logo.png')}
+            style={[
+              { width: verticalScale(200), height: verticalScale(200) },
+              animatedStyle
+            ]}
+            resizeMode="contain"
+          />
         </SafeAreaView>
       </SafeAreaProvider>
     );
@@ -125,7 +162,7 @@ const styles = StyleSheet.create({
   loader: {
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.borderBlack
+    backgroundColor: Colors.shallowBlue
   },
   text: {
     color: '#fff',
