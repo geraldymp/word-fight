@@ -316,6 +316,7 @@ export default function UseBattle() {
         submitHighscore(word, dmg);
       }
     } else {
+      // if there is less than 20 highscore, submit highscore and check if still less than 20
       submitHighscore(word, dmg);
       const hiscoreFilled = await isHighscoreFilled();
       setHighScoreFilled(hiscoreFilled);
