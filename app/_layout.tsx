@@ -96,7 +96,7 @@ export default function Layout() {
         // all process done
         setTimeout(() => {
           setReady(true);
-        }, 3000);
+        }, 2800);
       } catch (err) {
         console.warn('Init error', err);
         setReady(true);
@@ -108,7 +108,7 @@ export default function Layout() {
 
   useEffect(() => {
     progress.value = withTiming(1, {
-      duration: 1200, // quicker than setReady timeout
+      duration: 2000, // quicker than setReady timeout
       easing: Easing.bounce
     });
   }, []);
