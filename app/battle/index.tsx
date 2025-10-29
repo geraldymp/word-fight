@@ -244,7 +244,7 @@ const styles = StyleSheet.create({
   },
   enemyImage: {
     marginTop: verticalScale(2),
-    flex: 0.8,
+    flex: 0.95,
     width: '75%'
   },
   playerArea: {
