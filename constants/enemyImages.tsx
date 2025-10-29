@@ -13,7 +13,7 @@ export const EnemyImages: Record<string, ImageSourcePropType> = {
   deadFace: require('@assets/enemies/graveyard/dead_face.png'),
   theFrankenstein: require('@assets/enemies/graveyard/the_frankenstein.png'),
 
-  whiteMoss: require('@assets/enemies/witch_swamp/white_moss.png'),
+  greenMoss: require('@assets/enemies/witch_swamp/green_moss.png'),
   beardedCentaur: require('@assets/enemies/witch_swamp/bearded_centaur.png'),
   theMedusa: require('@assets/enemies/witch_swamp/the_medusa.png'),
 

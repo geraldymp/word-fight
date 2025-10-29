@@ -111,8 +111,8 @@ export const enemies: IEnemies[] = [
     area: 'witchSwamp',
     content: [
       {
-        id: 'whiteMoss',
-        name: 'White Moss',
+        id: 'greenMoss',
+        name: 'Green Moss',
         baseHp: 55,
         minDmg: 1,
         maxDmg: 3,
