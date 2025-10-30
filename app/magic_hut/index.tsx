@@ -1,5 +1,6 @@
 import { SvgMana } from 'app/assets/icons/svgs';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
+import AreaProgress from 'app/components/Battle/AreaProgress';
 import { BoosterCard } from 'app/components/BoosterCard';
 import { DialogModal } from 'app/components/DialogModal';
 import MagicalReload from 'app/components/MagicReload';
@@ -27,7 +28,7 @@ const TOP_AREA_FLEX = 1;
 const BOTTOM_AREA_FLEX = 2;
 
 // Mage size relative to width
-const MAGE_SIZE = scale(220);
+const MAGE_SIZE = verticalScale(220);
 
 const MAGE_RELOAD_SIZE = MAGE_SIZE / 2.5;
 
@@ -42,13 +43,13 @@ export default function MagicHutScreen() {
     <View style={styles.container}>
       {/* Wrapper for title, mage and bubble chat */}
       <View style={styles.topWrapper}>
-        <View style={styles.titleWrapper}>
-          <Text style={styles.titleText}>Magic Hut</Text>
-        </View>
         <ImageBackground
           source={require('@assets/backgrounds/half_bg.jpg')}
           resizeMode="stretch"
           style={{ flex: 1 }}>
+          <View style={styles.areaWrapper}>
+            <AreaProgress area="Magic Hut" stage={0} />
+          </View>
           {/* Magician */}
           <Image
             source={require('@assets/icons/shop/magician.png')}
@@ -152,28 +153,12 @@ const styles = StyleSheet.create({
     flex: TOP_AREA_FLEX,
     backgroundColor: Colors.neutralDark
   },
-  titleWrapper: {
-    position: 'absolute',
-    top: verticalScale(16),
-    backgroundColor: Colors.secondaryBg70,
-    borderColor: Colors.borderBlack,
-    borderWidth: StyleSheet.hairlineWidth,
-    paddingVertical: verticalScale(4),
+  areaWrapper: {
+    flexDirection: 'row',
+    width: '100%',
+    marginTop: verticalScale(6),
     paddingHorizontal: scale(6),
-    borderRadius: moderateScale(12),
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'center',
-    zIndex: 2
-  },
-  titleText: {
-    fontSize: moderateScale(20),
-    color: Colors.textWhite,
-    textAlign: 'center',
-    textShadowColor: Colors.primary,
-    textShadowOffset: { width: 0, height: 0 },
-    textShadowRadius: scale(10),
-    fontFamily: 'ArchitectsDaughter_400Regular'
+    justifyContent: 'flex-end'
   },
   mageImage: {
     height: MAGE_SIZE,
@@ -202,7 +187,7 @@ const styles = StyleSheet.create({
     borderColor: Colors.neutralDark
   },
   bubbleText: {
-    fontSize: moderateScale(14),
+    fontSize: verticalScale(14),
     color: Colors.neutralDark,
     textAlign: 'center'
   },
@@ -227,13 +212,13 @@ const styles = StyleSheet.create({
     gap: scale(6)
   },
   adPotionWrapper: {
-    height: moderateScale(40),
-    width: moderateScale(40),
+    height: verticalScale(40),
+    width: verticalScale(40),
     borderRadius: moderateScale(8),
     backgroundColor: Colors.secondary
   },
   manaWrapper: {
-    height: moderateScale(40),
+    height: verticalScale(40),
     alignItems: 'center',
     flexDirection: 'row',
     backgroundColor: Colors.neutralDark,
@@ -243,7 +228,7 @@ const styles = StyleSheet.create({
     borderRadius: moderateScale(4)
   },
   manaText: {
-    fontSize: moderateScale(18),
+    fontSize: verticalScale(18),
     color: Colors.neutralLight,
     fontFamily: 'ArchitectsDaughter_400Regular'
   },
