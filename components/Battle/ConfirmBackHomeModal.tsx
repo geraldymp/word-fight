@@ -1,3 +1,4 @@
+import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import {
@@ -44,7 +45,7 @@ export const _ConfirmBackHomeModal: React.FC<IConfirmBackHomeModal> = ({
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: Colors.modalBg,
     justifyContent: 'center',
     alignItems: 'center'
   },

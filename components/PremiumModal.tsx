@@ -1,3 +1,4 @@
+import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React, { useEffect, useState } from 'react';
 import {
@@ -117,7 +118,7 @@ export default function PremiumModal({ visible, onClose }: Props) {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
+    backgroundColor: Colors.modalBg,
     justifyContent: 'center',
     alignItems: 'center'
   },

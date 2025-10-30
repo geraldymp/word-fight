@@ -88,7 +88,7 @@ export default memo(TutorialModal);
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.75)',
+    backgroundColor: Colors.modalBg,
     justifyContent: 'center',
     alignItems: 'center'
   },

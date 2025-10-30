@@ -1,3 +1,4 @@
+import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import {
@@ -40,7 +41,7 @@ const _GameProgressModal: React.FC<IGameProgressModal> = ({
           flex: 1,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: 'rgba(0,0,0,0.6)'
+          backgroundColor: Colors.modalBg
         }}>
         <View style={styles.modalContainer}>
           <Text style={styles.title}>{modalText}</Text>

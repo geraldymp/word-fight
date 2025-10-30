@@ -58,8 +58,7 @@ export const JourneyMapModal = ({
                       return (
                         <View
                           key={colIndex}
-                          style={[styles.nodeWrapper, { flex }]}
-                        >
+                          style={[styles.nodeWrapper, { flex }]}>
                           <View style={styles.node}>{renderNode(node)}</View>
                         </View>
                       );
@@ -81,7 +80,7 @@ export const JourneyMapModal = ({
 const styles = StyleSheet.create({
   modalOverlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: Colors.modalBg,
     justifyContent: 'center',
     alignItems: 'center'
   },
