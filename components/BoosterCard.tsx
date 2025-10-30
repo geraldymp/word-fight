@@ -1,7 +1,7 @@
 import { SvgMana } from 'app/assets/icons/svgs';
 import Colors from 'app/foundation/colors';
 import { IBooster } from 'app/types/IBooster';
-import { scale, verticalScale } from 'app/utils/sizeScaling';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import { LinearGradient } from 'expo-linear-gradient';
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -55,14 +55,14 @@ const _BoosterCard: React.FC<IBoosterCard> = ({
           <Image
             source={item.image}
             style={[styles.icon, iconSize]}
-            resizeMode="cover"
+            resizeMode="contain"
           />
           <Text style={styles.desc}>{item.description}</Text>
           <View style={styles.priceWrapper}>
             <Text style={styles.priceText}>{item.price}</Text>
             <SvgMana
-              height={scale(20)}
-              width={scale(20)}
+              height={verticalScale(20)}
+              width={verticalScale(20)}
               color={Colors.primary}
             />
           </View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     overflow: 'hidden',
-    borderRadius: 16,
+    borderRadius: moderateScale(16),
     paddingVertical: verticalScale(12),
     paddingHorizontal: scale(12),
     alignItems: 'center',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: 'black',
     overflow: 'hidden',
-    borderRadius: 16,
+    borderRadius: moderateScale(16),
     paddingVertical: verticalScale(12),
     paddingHorizontal: scale(12),
     alignItems: 'center',
@@ -112,17 +112,17 @@ const styles = StyleSheet.create({
     backgroundColor: '#888'
   },
   icon: {
-    marginBottom: 8
+    marginBottom: verticalScale(8)
   },
   name: {
-    fontSize: scale(14),
+    fontSize: verticalScale(14),
     color: Colors.neutralDark,
-    fontWeight: 'bold',
+    fontFamily: 'SourGummy_800ExtraBold',
     marginBottom: verticalScale(4),
     textAlign: 'center'
   },
   desc: {
-    color: Colors.neutralDark,
+    color: Colors.textBlack,
     fontSize: scale(10),
     textAlign: 'center'
   },
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   },
   priceText: {
     color: Colors.neutralDark,
-    fontSize: scale(14),
+    fontSize: verticalScale(14),
     textAlign: 'center',
     fontFamily: 'ArchitectsDaughter_400Regular'
   }

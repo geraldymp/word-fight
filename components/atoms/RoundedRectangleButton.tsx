@@ -186,6 +186,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   title: {
+    fontSize: verticalScale(14),
     fontWeight: 'bold'
   },
   iconWrapper: {
