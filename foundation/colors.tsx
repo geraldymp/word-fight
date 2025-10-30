@@ -28,7 +28,8 @@ const Colors = {
   // Background with opacity
   blackBg50: '#00000080',
   secondaryBg50: '#2c3e7380',
-  secondaryBg70: '#2c3e73b3'
+  secondaryBg70: '#2c3e73b3',
+  modalBg: 'rgba(0,0,0,0.6)'
 };
 
 export default Colors;
