@@ -1,11 +1,11 @@
 import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
 import { useMagicHutStore } from '@store/useMagicHutStore';
-import { useSubscriptionStore } from '@store/useSubscriptionStore';
 import { boosters } from 'app/constants/boosters';
 import { HutDialog } from 'app/constants/hutDialog';
 import { KeyValues } from 'app/constants/keyValues';
 import { REWARDED_UNIT_ID } from 'app/lib/ads/config';
+import { useSubscriptionStore } from 'app/store/useSubscriptionStore';
 import { IBooster } from 'app/types/IBooster';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import {
@@ -56,7 +56,7 @@ export default function UseMagicHut() {
   const [visibleAdDoneModal, setVisibleAdDoneModal] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
 
-  const [totalReload, setTotalReload] = useState(2);
+  const [totalReload, setTotalReload] = useState(isPremium ? 2 : 1);
 
   async function handleCloseTutorial() {
     setShowTutorial(false);
@@ -208,14 +208,17 @@ export default function UseMagicHut() {
   }, [selectedItem]);
 
   const isReloadVisible: boolean = useMemo(() => {
-    if (!isPremium) {
-      return false;
-    } else if (totalReload > 0) {
+    if (totalReload > 0) {
       return true;
     } else {
       return false;
     }
-  }, [totalReload, isPremium]);
+  }, [totalReload]);
+
+  // make sure premium get 2 reload
+  useEffect(() => {
+    setTotalReload(isPremium ? 2 : 1);
+  }, [isPremium]);
 
   function onRefreshItems() {
     setRandomizedItems(getRandomPowerups(filteredBooster));
