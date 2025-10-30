@@ -1,7 +1,9 @@
 // app/leaderboard.tsx
 import SettingHeader from 'app/components/SettingHeader';
+import Toggle from 'app/components/Toggle';
 import Colors from 'app/foundation/colors';
-import { getHighscore } from 'app/lib/highscoreFunctions';
+import { getHighscore, getMonthlyHighscore } from 'app/lib/highscoreFunctions';
+import { IOption } from 'app/types/IOption';
 import { scale, verticalScale } from 'app/utils/sizeScaling';
 import { useEffect, useState } from 'react';
 import {
@@ -21,17 +23,35 @@ interface HighScore {
 }
 
 export default function LeaderboardScreen() {
-  const [scores, setScores] = useState<HighScore[]>([]);
+  const ToggleOptions: IOption<string>[] = [
+    { label: 'All Time', value: 'all' },
+    { label: 'Monthly', value: 'monthly' }
+  ];
+  const [allTimeScores, setAllTimeScores] = useState<HighScore[]>([]);
+  const [monthlyScores, setMonthlyScores] = useState<HighScore[]>([]);
   const [loading, setLoading] = useState(true);
+  const [currentShown, setCurrentShown] = useState<IOption<string>>(
+    ToggleOptions[0]
+  );
 
-  async function fetchHighscore() {
-    const data = await getHighscore();
-    setScores(data);
-    setLoading(false);
+  async function fetchLeaderboards() {
+    setLoading(true);
+    try {
+      const [allTime, monthly] = await Promise.all([
+        getHighscore(),
+        getMonthlyHighscore()
+      ]);
+      setAllTimeScores(allTime);
+      setMonthlyScores(monthly);
+    } catch (err) {
+      console.error('Failed to fetch leaderboards', err);
+    } finally {
+      setLoading(false);
+    }
   }
 
   useEffect(() => {
-    fetchHighscore();
+    fetchLeaderboards();
   }, []);
 
   const renderItem = ({ item, index }: { item: HighScore; index: number }) => (
@@ -50,11 +70,17 @@ export default function LeaderboardScreen() {
   return (
     <View style={styles.scrollContainer}>
       <SettingHeader title="Leaderboard" />
+      <Toggle
+        options={ToggleOptions}
+        current={currentShown}
+        setCurrent={setCurrentShown}
+        customStyle={{ marginBottom: verticalScale(12) }}
+      />
       {loading ? (
         <ActivityIndicator size="large" color="#ffe08a" />
       ) : (
         <FlatList
-          data={scores}
+          data={currentShown.value === 'all' ? allTimeScores : monthlyScores}
           keyExtractor={item => item.id}
           renderItem={renderItem}
           ListEmptyComponent={() => <Text style={styles.noData}>No Data</Text>}
