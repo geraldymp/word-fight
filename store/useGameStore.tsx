@@ -159,8 +159,8 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
 
   lowestHighscore: 0,
   setLowestHighScore: score => set({ lowestHighscore: score }),
-  highScoreFilled: false,
-  setHighScoreFilled: isFilled => set({ highScoreFilled: isFilled }),
+  lowestMonthlyHighscore: 0,
+  setLowestMonthlyHighScore: score => set({ lowestMonthlyHighscore: score }),
 
   highestDamage: 0,
   setHighestDamage: damage => {

@@ -35,7 +35,7 @@ import { HelperContents } from 'app/constants/helperContents';
 import Colors from 'app/foundation/colors';
 import {
   getLowestHighscore,
-  isHighscoreFilled
+  getLowestMonthlyHighscore
 } from 'app/lib/highscoreFunctions';
 import { useHeroStore } from 'app/store/useHeroStore';
 import { IShowedStats } from 'app/types/IShowedStats';
@@ -52,7 +52,10 @@ export default function HomeScreen() {
   const isPremium = useSubscriptionStore(s => s.isPremium);
   const [showModal, setShowModal] = useState(false);
 
-  const { setLowestHighScore, setHighScoreFilled } = useGameStore();
+  const setLowestHighScore = useGameStore(s => s.setLowestHighScore);
+  const setLowestMonthlyHighScore = useGameStore(
+    s => s.setLowestMonthlyHighScore
+  );
 
   const { playMusic, stopMusic } = useMusicStore();
 
@@ -84,15 +87,11 @@ export default function HomeScreen() {
     });
   }
 
-  async function setHiScore() {
-    const highscoreFilled = await isHighscoreFilled();
-    const lowestHiScoreSupabase: number = (await getLowestHighscore()) ?? 0;
-    setHighScoreFilled(highscoreFilled);
-    if (highscoreFilled) {
-      setLowestHighScore(lowestHiScoreSupabase);
-    } else {
-      setLowestHighScore(0);
-    }
+  async function setHighScoreLowestValue() {
+    const lowestHS: number = await getLowestHighscore();
+    const lowestMonthlyHS: number = await getLowestMonthlyHighscore();
+    setLowestHighScore(lowestHS);
+    setLowestMonthlyHighScore(lowestMonthlyHS);
   }
 
   useEffect(() => {
@@ -111,7 +110,7 @@ export default function HomeScreen() {
   }, [scale]);
 
   useEffect(() => {
-    setHiScore();
+    setHighScoreLowestValue();
     loadHero();
   }, []);
 

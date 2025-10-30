@@ -57,9 +57,9 @@ export interface GameStoreType {
 
   // Highscore section
   lowestHighscore: number;
-  setLowestHighScore: (hiscore: number) => void;
-  highScoreFilled: boolean;
-  setHighScoreFilled: (isFilled: boolean) => void;
+  setLowestHighScore: (score: number) => void;
+  lowestMonthlyHighscore: number;
+  setLowestMonthlyHighScore: (score: number) => void;
 
   // Current run statistic
   highestDamage: number;

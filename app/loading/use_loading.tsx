@@ -2,11 +2,13 @@ import { resumeGame } from '@store/savedGame/onResumingGame';
 import { onLoadGame } from '@store/savedGame/useSavedGame';
 import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
-import { useHighscoreStore } from '@store/useHighscoreStore';
 import { useMagicHutStore } from '@store/useMagicHutStore';
 import { getRandomInt } from '@utils/getRandomInt';
 import { LoadingTexts, Tips } from 'app/constants/loadingText';
-import { getLowestHighscore } from 'app/lib/highscoreFunctions';
+import {
+  getLowestHighscore,
+  getLowestMonthlyHighscore
+} from 'app/lib/highscoreFunctions';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
@@ -14,7 +16,6 @@ import { Animated, BackHandler } from 'react-native';
 
 export default function UseLoading() {
   const router = useRouter();
-  const { setLowestHighscore } = useHighscoreStore();
   const resetGame = useGameStore(state => state.resetGame);
   const resetPotionUsed = useAdStore(
     state => state.magicHutPotion.resetPotionUsed
@@ -27,6 +28,11 @@ export default function UseLoading() {
   const setPlayerHP = useGameStore(s => s.setPlayerHP);
   const resetRunStatistic = useGameStore(s => s.resetRunStatistic);
 
+  const setLowestHighScore = useGameStore(s => s.setLowestHighScore);
+  const setLowestMonthlyHighScore = useGameStore(
+    s => s.setLowestMonthlyHighScore
+  );
+
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const randomizedTime = getRandomInt(1500, 4000);
@@ -34,9 +40,11 @@ export default function UseLoading() {
   const [loadingText, setLoadingText] = useState('');
   const [tipText, setTipText] = useState('');
 
-  async function setHighscoreLowerLimit() {
-    const lowestHS = await getLowestHighscore();
-    setLowestHighscore(lowestHS);
+  async function setHighScoreLowestValue() {
+    const lowestHS: number = await getLowestHighscore();
+    const lowestMonthlyHS: number = await getLowestMonthlyHighscore();
+    setLowestHighScore(lowestHS);
+    setLowestMonthlyHighScore(lowestMonthlyHS);
   }
 
   useEffect(() => {
@@ -54,7 +62,7 @@ export default function UseLoading() {
         })
       ])
     ).start();
-    setHighscoreLowerLimit();
+    setHighScoreLowestValue();
     setLoadingText(getRandomText(LoadingTexts));
     setTipText(getRandomText(Tips));
   }, []);
