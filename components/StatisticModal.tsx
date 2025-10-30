@@ -1,5 +1,6 @@
 import Colors from 'app/foundation/colors';
 import { IShowedStats } from 'app/types/IShowedStats';
+import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React, { useMemo, useState } from 'react';
 import {
   Modal,
@@ -118,22 +119,22 @@ const _StatisticModal: React.FC<IStatsModal> = ({
 const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: Colors.secondary,
-    padding: 16,
-    borderRadius: 12,
-    gap: 12,
+    padding: verticalScale(16),
+    borderRadius: moderateScale(12),
+    gap: verticalScale(12),
     alignItems: 'center',
     width: '80%'
   },
   modalTitleText: {
     fontFamily: 'ArchitectsDaughter_400Regular',
     color: 'white',
-    fontSize: 24
+    fontSize: verticalScale(24)
   },
   itemContainer: {
     backgroundColor: Colors.tertiary,
-    borderRadius: 8,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
+    borderRadius: moderateScale(8),
+    paddingHorizontal: scale(12),
+    paddingVertical: verticalScale(8),
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between'
@@ -141,17 +142,17 @@ const styles = StyleSheet.create({
   itemText: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: 18
+    fontSize: verticalScale(18)
   },
   resetContainer: {
     backgroundColor: Colors.danger,
-    borderRadius: 8,
-    padding: 4
+    borderRadius: moderateScale(8),
+    padding: verticalScale(4)
   },
   resetText: {
     fontFamily: 'TechnoRaceItalic',
     color: Colors.textWhite,
-    fontSize: 12
+    fontSize: verticalScale(12)
   },
   overlay: {
     flex: 1,
@@ -165,8 +166,8 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   card: {
-    borderRadius: 16,
-    padding: 20
+    borderRadius: moderateScale(16),
+    padding: verticalScale(20)
   }
 });
 
