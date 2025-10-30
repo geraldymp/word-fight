@@ -229,14 +229,14 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: Colors.tertiary,
     borderRadius: moderateScale(16),
-    padding: moderateScale(20),
+    padding: verticalScale(20),
     width: '90%',
     alignItems: 'center',
     gap: scale(16)
   },
   title: {
     fontFamily: 'TechnoRaceItalic',
-    fontSize: moderateScale(28),
+    fontSize: verticalScale(28),
     color: Colors.textWhite,
     textShadowColor: 'black',
     textShadowOffset: { width: 2, height: 2 },
@@ -248,27 +248,27 @@ const styles = StyleSheet.create({
   },
   rankBadge: {
     borderWidth: moderateScale(3),
-    borderRadius: scale(40),
-    width: scale(80),
-    height: scale(80),
+    borderRadius: verticalScale(40),
+    width: verticalScale(80),
+    height: verticalScale(80),
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: Colors.tertiary
   },
   rankText: {
     fontFamily: 'TechnoRaceItalic',
-    fontSize: moderateScale(42)
+    fontSize: verticalScale(42)
   },
   totalPointsText: {
     fontFamily: 'TechnoRaceItalic',
     color: Colors.textWhite,
-    fontSize: moderateScale(18)
+    fontSize: verticalScale(18)
   },
   statsContainer: {
     width: '100%',
     backgroundColor: Colors.tertiary,
     borderRadius: moderateScale(12),
-    padding: moderateScale(12),
+    padding: verticalScale(12),
     gap: scale(6)
   },
   statRow: {
@@ -282,20 +282,20 @@ const styles = StyleSheet.create({
   statLabel: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: moderateScale(16),
+    fontSize: verticalScale(16),
     flex: 4
   },
   statMult: {
     fontFamily: 'ArchitectsDaughter_400Regular',
     color: Colors.textWhite,
-    fontSize: moderateScale(16),
+    fontSize: verticalScale(16),
     flex: 2,
     textAlign: 'center'
   },
   statTotal: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: moderateScale(16),
+    fontSize: verticalScale(16),
     flex: 1,
     textAlign: 'right'
   },
@@ -312,12 +312,12 @@ const styles = StyleSheet.create({
   totalLabel: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: moderateScale(18)
+    fontSize: verticalScale(18)
   },
   totalValue: {
     fontFamily: 'TechnoRaceItalic',
     color: Colors.textWhite,
-    fontSize: moderateScale(18)
+    fontSize: verticalScale(18)
   },
   button: {
     backgroundColor: Colors.primary,
@@ -328,6 +328,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontFamily: 'TechnoRaceItalic',
     color: 'white',
-    fontSize: moderateScale(18)
+    fontSize: verticalScale(18)
   }
 });
