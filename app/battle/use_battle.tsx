@@ -10,7 +10,11 @@ import { useSfxStore } from '@store/useSFXStore';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { HeroIcons } from 'app/constants/heroIcons';
-import { isHighscoreFilled, submitHighscore } from 'app/lib/highscoreFunctions';
+import {
+  getLowestHighscore,
+  getLowestMonthlyHighscore,
+  submitHighscore
+} from 'app/lib/highscoreFunctions';
 import { useHeroStore } from 'app/store/useHeroStore';
 import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
@@ -88,9 +92,10 @@ export default function UseBattle() {
   const maxReshuffle = useGameStore(s => s.maxReshuffle);
 
   // --- Highscore / Meta ---
-  const lowestHighscore = useGameStore(s => s.lowestHighscore);
-  const highScoreFilled = useGameStore(s => s.highScoreFilled);
-  const setHighScoreFilled = useGameStore(s => s.setHighScoreFilled);
+  const setLowestHighScore = useGameStore(s => s.setLowestHighScore);
+  const setLowestMonthlyHighScore = useGameStore(
+    s => s.setLowestMonthlyHighScore
+  );
 
   // --- Current Run Statistic ---
   const highestDamage = useGameStore(s => s.highestDamage);
@@ -310,15 +315,21 @@ export default function UseBattle() {
     }
   };
 
+  async function setHighScoreLowestValue() {
+    const lowestHS: number = await getLowestHighscore();
+    const lowestMonthlyHS: number = await getLowestMonthlyHighscore();
+    setLowestHighScore(lowestHS);
+    setLowestMonthlyHighScore(lowestMonthlyHS);
+  }
+
   async function setHiScore(word: string, dmg: number) {
-    if (highScoreFilled) {
-      if (dmg > lowestHighscore) {
-        submitHighscore(word, dmg);
-      }
-    } else {
-      submitHighscore(word, dmg);
-      const hiscoreFilled = await isHighscoreFilled();
-      setHighScoreFilled(hiscoreFilled);
+    const lowestHighscore = useGameStore.getState().lowestHighscore;
+    const lowestMonthlyHighscore =
+      useGameStore.getState().lowestMonthlyHighscore;
+    if (dmg > lowestHighscore) {
+      submitHighscore(word, dmg, 'all time');
+    } else if (dmg > lowestMonthlyHighscore) {
+      submitHighscore(word, dmg, 'monthly');
     }
   }
 
@@ -491,6 +502,7 @@ export default function UseBattle() {
   useEffect(() => {
     if (isFocused) {
       playMusic('battle');
+      setHighScoreLowestValue();
     }
     return () => {
       stopMusic();
