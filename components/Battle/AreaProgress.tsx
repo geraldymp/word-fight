@@ -14,6 +14,7 @@ const _AreaProgress: React.FC<AreaProgressProps> = ({
   stage,
   customStyle
 }) => {
+  const showStage = stage !== 0;
   const circles = [1, 2, 3].map(i => (
     <View
       key={i}
@@ -30,8 +31,8 @@ const _AreaProgress: React.FC<AreaProgressProps> = ({
 
   return (
     <View style={[styles.container, customStyle]}>
-      <Text style={styles.areaText}>{area}:</Text>
-      <View style={styles.progressRow}>{circles}</View>
+      <Text style={styles.areaText}>{area}</Text>
+      {showStage && <View style={styles.progressRow}>{circles}</View>}
     </View>
   );
 };
@@ -50,13 +51,13 @@ const styles = StyleSheet.create({
   areaText: {
     color: Colors.textWhite,
     fontWeight: 'bold',
-    fontSize: verticalScale(12),
-    marginRight: scale(4)
+    fontSize: verticalScale(12)
   },
   progressRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: scale(4)
+    gap: scale(4),
+    marginLeft: scale(6)
   },
   circle: {
     width: verticalScale(10),
