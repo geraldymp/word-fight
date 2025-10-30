@@ -1,3 +1,4 @@
+import Colors from 'app/foundation/colors';
 import React from 'react';
 import {
   Dimensions,
