@@ -19,6 +19,7 @@ const Colors = {
   neutralMedium: '#D9D9D9',
 
   textWhite: '#FFFFFF', // White - text/icons (with outline/shadow)
+  textBlack: '#000',
 
   borderGold: '#bfa13a', // Added for gold border (used in primary)
   borderBlue: '#00aaff', // blue border mainly for tile
