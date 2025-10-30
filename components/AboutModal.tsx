@@ -1,4 +1,5 @@
 import Colors from 'app/foundation/colors';
+import { moderateScale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import { Modal, Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -19,9 +20,20 @@ const _AboutModal: React.FC<IAboutModal> = ({ visible, onClose }) => {
         <View style={styles.dialog} pointerEvents="box-none">
           <Pressable style={styles.card} onPress={e => e.stopPropagation()}>
             <View style={styles.modalContainer}>
-              <Text style={styles.gameByText}>Game by</Text>
-              <View style={styles.nameWrapper}>
+              <Text style={styles.subtitleText}>Game by</Text>
+              <View
+                style={[
+                  styles.nameWrapper,
+                  { marginBottom: verticalScale(12) }
+                ]}>
                 <Text style={styles.nameText}>Kiel Helix</Text>
+              </View>
+              <Text style={styles.subtitleText}>Supported by</Text>
+              <View style={styles.nameWrapper}>
+                <Text style={styles.nameText}>YoHom Bing</Text>
+              </View>
+              <View style={styles.nameWrapper}>
+                <Text style={styles.nameText}>Lionheart</Text>
               </View>
             </View>
           </Pressable>
@@ -34,7 +46,7 @@ const _AboutModal: React.FC<IAboutModal> = ({ visible, onClose }) => {
 const styles = StyleSheet.create({
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.6)',
+    backgroundColor: Colors.modalBg,
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -44,31 +56,30 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   card: {
-    borderRadius: 16,
-    padding: 20
+    borderRadius: moderateScale(16),
+    padding: verticalScale(20)
   },
   modalContainer: {
-    backgroundColor: Colors.primary,
-    padding: 16,
-    flexDirection: 'row',
-    borderRadius: 12,
-    gap: 12,
+    backgroundColor: Colors.secondary,
+    padding: verticalScale(16),
+    borderRadius: moderateScale(12),
+    gap: verticalScale(12),
     alignItems: 'center'
   },
-  gameByText: {
+  subtitleText: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: 24
+    fontSize: verticalScale(18)
   },
   nameWrapper: {
     backgroundColor: Colors.neutralDark,
-    borderRadius: 8,
-    padding: 8
+    borderRadius: moderateScale(8),
+    padding: verticalScale(8)
   },
   nameText: {
     fontFamily: 'SourGummy_800ExtraBold',
-    color: Colors.neutralLight,
-    fontSize: 24,
+    color: Colors.primary,
+    fontSize: verticalScale(24),
     textAlignVertical: 'center'
   }
 });
