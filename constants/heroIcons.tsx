@@ -1,17 +1,17 @@
 export const HeroIcons = [
   {
-    id: 'male_paladin',
+    id: 'male_knight',
     name: 'Shamrock',
-    icon: require('@assets/hero_images/male_paladin.png')
+    icon: require('@assets/hero_images/male_knight.png')
   },
   {
-    id: 'female_mage',
+    id: 'female_archer',
     name: 'Cecilia',
-    icon: require('@assets/hero_images/female_mage.png')
+    icon: require('@assets/hero_images/female_archer.png')
   },
   {
-    id: 'male_archer',
+    id: 'male_mage',
     name: 'Fritz',
-    icon: require('@assets/hero_images/male_archer.png')
+    icon: require('@assets/hero_images/male_mage.png')
   }
 ];
