@@ -90,7 +90,6 @@ export default function UseLoading() {
 
   useEffect(() => {
     const backAction = () => {
-      router.replace('/');
       return true;
     };
     const backHandler = BackHandler.addEventListener(
