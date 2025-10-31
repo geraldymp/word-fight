@@ -21,6 +21,7 @@ import { Candal_400Regular } from '@expo-google-fonts/candal';
 import { Chilanka_400Regular } from '@expo-google-fonts/chilanka';
 import { Cinzel_400Regular } from '@expo-google-fonts/cinzel';
 import { DaysOne_400Regular } from '@expo-google-fonts/days-one';
+import { DMSans_500Medium, DMSans_700Bold } from '@expo-google-fonts/dm-sans';
 import { GoblinOne_400Regular } from '@expo-google-fonts/goblin-one';
 import {
   SourGummy_400Regular,
@@ -50,7 +51,9 @@ export default function Layout() {
     SourGummy_400Regular,
     SourGummy_800ExtraBold,
     DaysOne_400Regular,
-    Chilanka_400Regular
+    Chilanka_400Regular,
+    DMSans_500Medium,
+    DMSans_700Bold
   });
 
   const setFromCustomerInfo = useSubscriptionStore(s => s.setFromCustomerInfo);

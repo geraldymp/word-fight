@@ -12,7 +12,7 @@ import BottomHUD from 'app/components/BottomHUD';
 import FinishGameModal from 'app/components/FinishGameModal';
 import TutorialModal from 'app/components/TutorialModal';
 import { battleBackgrounds } from 'app/constants/battleBackgrounds';
-import { BattleTutorialContents } from 'app/constants/battleTutorialContents';
+import { BattleTutorialContents } from 'app/constants/tutorials/battleTutorialContents';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
