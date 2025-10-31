@@ -2,17 +2,9 @@ import Colors from 'app/foundation/colors';
 import { IHelperContent } from 'app/types/IHelperContent';
 import { moderateScale, verticalScale } from 'app/utils/sizeScaling';
 import React, { memo, useRef, useState } from 'react';
-import {
-  Dimensions,
-  Image,
-  ImageBackground,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { Dimensions, Image, Modal, StyleSheet, Text, View } from 'react-native';
 import Carousel, { ICarouselInstance } from 'react-native-reanimated-carousel';
+import RoundedRectButton from './atoms/RoundedRectangleButton';
 
 type Props = {
   visible: boolean;
@@ -36,11 +28,16 @@ const TutorialModal: React.FC<Props> = ({ visible, onClose, slides }) => {
     </View>
   );
 
+  const onDone = () => {
+    setActiveIndex(0);
+    onClose();
+  };
+
   const goNext = () => {
     if (activeIndex < slides.length - 1) {
       carouselRef.current?.scrollTo({ index: activeIndex + 1, animated: true });
     } else {
-      onClose();
+      onDone();
     }
   };
 
@@ -49,34 +46,24 @@ const TutorialModal: React.FC<Props> = ({ visible, onClose, slides }) => {
       visible={visible}
       transparent
       animationType="fade"
-      onRequestClose={onClose}>
+      onRequestClose={onDone}>
       <View style={styles.overlay}>
         <View style={styles.container}>
-          <ImageBackground
-            source={require('@assets/tutorial/tutorial_modal_bg.png')}
-            style={styles.bg}
-            resizeMode="stretch">
-            <Carousel
-              ref={carouselRef}
-              width={MODAL_WIDTH * 0.85}
-              height={CAROUSEL_HEIGHT}
-              data={slides}
-              renderItem={renderItem}
-              onSnapToItem={setActiveIndex}
-              loop={false}
-            />
-
-            <TouchableOpacity style={styles.nextBtn} onPress={goNext}>
-              <ImageBackground
-                source={require('@assets/buttons/silver_normal.png')}
-                style={styles.nextBtnBg}
-                resizeMode="stretch">
-                <Text style={styles.nextBtnText}>
-                  {activeIndex === slides.length - 1 ? 'Done' : 'Next'}
-                </Text>
-              </ImageBackground>
-            </TouchableOpacity>
-          </ImageBackground>
+          <Carousel
+            ref={carouselRef}
+            width={MODAL_WIDTH * 0.85}
+            height={CAROUSEL_HEIGHT}
+            data={slides}
+            renderItem={renderItem}
+            onSnapToItem={setActiveIndex}
+            loop={false}
+          />
+          <RoundedRectButton
+            onPress={goNext}
+            title={activeIndex === slides.length - 1 ? 'Done' : 'Next'}
+            type={'primary'}
+            size={'lg'}
+          />
         </View>
       </View>
     </Modal>
@@ -96,13 +83,13 @@ const styles = StyleSheet.create({
     width: MODAL_WIDTH,
     height: MODAL_HEIGHT,
     borderRadius: moderateScale(20),
-    overflow: 'hidden'
-  },
-  bg: {
-    flex: 1,
+    overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingVertical: verticalScale(30)
+    paddingVertical: verticalScale(15),
+    backgroundColor: Colors.secondary,
+    borderWidth: 2,
+    borderColor: Colors.borderBlack
   },
   slide: {
     alignItems: 'center',
@@ -115,23 +102,9 @@ const styles = StyleSheet.create({
   },
   description: {
     width: '90%',
-    fontSize: verticalScale(18),
+    fontSize: verticalScale(16),
     color: Colors.neutralLight,
-    textAlign: 'center',
-    lineHeight: verticalScale(25),
-    fontFamily: 'Chilanka_400Regular'
-  },
-  nextBtn: {
-    width: '30%'
-  },
-  nextBtnBg: {
-    width: '100%',
-    paddingVertical: verticalScale(10),
-    alignItems: 'center'
-  },
-  nextBtnText: {
-    fontSize: verticalScale(18),
-    fontFamily: 'DaysOne_400Regular',
-    color: 'black'
+    lineHeight: verticalScale(20),
+    fontFamily: 'DMSans_500Medium'
   }
 });
