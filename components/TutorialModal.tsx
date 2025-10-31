@@ -22,7 +22,7 @@ type Props = {
 
 const { width, height } = Dimensions.get('window');
 const MODAL_WIDTH = width * 0.9;
-const MODAL_HEIGHT = height * 0.7;
+const MODAL_HEIGHT = height * 0.85;
 const CAROUSEL_HEIGHT = MODAL_HEIGHT * 0.75;
 
 const TutorialModal: React.FC<Props> = ({ visible, onClose, slides }) => {
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
   },
   description: {
     width: '90%',
-    fontSize: moderateScale(18),
+    fontSize: verticalScale(18),
     color: Colors.neutralLight,
     textAlign: 'center',
     lineHeight: verticalScale(25),
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   nextBtnText: {
-    fontSize: moderateScale(18),
+    fontSize: verticalScale(18),
     fontFamily: 'DaysOne_400Regular',
     color: 'black'
   }
