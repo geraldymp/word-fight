@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   itemText: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: verticalScale(18)
+    fontSize: verticalScale(14)
   },
   resetContainer: {
     backgroundColor: Colors.danger,
