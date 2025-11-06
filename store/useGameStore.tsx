@@ -5,12 +5,12 @@ import { create } from 'zustand';
 import { GameStoreType } from './GameStoreType';
 
 export const useGameStore = create<GameStoreType>((set, get) => ({
-  enemyHP: 20,
+  enemyHP: 0,
   setEnemyHP: hp => set({ enemyHP: hp }),
   reduceEnemyHP: amount =>
     set(state => ({ enemyHP: Math.max(0, state.enemyHP - amount) })),
 
-  playerMaxHP: 50,
+  playerMaxHP: 500,
   setPlayerMaxHP: maxHp => set({ playerMaxHP: maxHp }),
   playerHP: 0,
   setPlayerHP: hp => set({ playerHP: hp }),
@@ -84,7 +84,7 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
       step: 1,
       stage: 1,
       mana: 0,
-      playerMaxHP: 50,
+      playerMaxHP: 500,
       playerHP: state.playerMaxHP,
       maxReshuffle: 2,
       reshuffle: 2,

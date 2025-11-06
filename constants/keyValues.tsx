@@ -7,26 +7,26 @@
 export const KeyValues = {
   shop: {
     enlightenment: 2,
-    restorationSpell: 15,
+    restorationSpell: 200,
     fullHealMagic: 999,
-    intelligenceScroll: 4,
-    intelligenceBook: 10,
-    vowelScroll: 2,
-    vowelBook: 5,
-    genesisScroll: 3,
-    genesisBook: 7,
-    omegaScroll: 3,
-    omegaBook: 8,
-    scrollOfWorking: 10,
-    bookOfWorking: 25,
-    scrollOfSaint: 4,
-    bookOfSaint: 10
+    intelligenceScroll: 30,
+    intelligenceBook: 75,
+    vowelScroll: 20,
+    vowelBook: 50,
+    genesisScroll: 25,
+    genesisBook: 60,
+    omegaScroll: 30,
+    omegaBook: 70,
+    scrollOfWorking: 100,
+    bookOfWorking: 250,
+    scrollOfSaint: 35,
+    bookOfSaint: 75
   },
   ad: {
-    restoreHp: 10
+    restoreHp: 100
   },
   fireCamp: {
-    restoreHp: 5,
-    increaseDamage: 2
+    restoreHp: 50,
+    increaseDamage: 20
   }
 };

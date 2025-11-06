@@ -44,12 +44,12 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
   }, [visible]);
 
   const multipliers = {
-    hpLeft: 7,
-    manaLeft: 3,
-    highestDamage: 2,
-    longestWord: 5,
+    hpLeft: 1,
+    manaLeft: 8,
+    highestDamage: 0.5,
+    longestWord: 10,
     totalWords: 3,
-    totalDamage: 0.3
+    totalDamage: 0.1
   };
 
   const scoreDetails = useMemo(() => {
@@ -75,10 +75,10 @@ const FinishGameModal: React.FC<FinishGameModalProps> = ({
 
   const scoreRank = useMemo(() => {
     const total = scoreDetails.total;
-    if (total > 500) return 'S';
-    if (total > 400) return 'A';
-    if (total > 300) return 'B';
-    if (total > 200) return 'C';
+    if (total > 1000) return 'S';
+    if (total > 900) return 'A';
+    if (total > 800) return 'B';
+    if (total > 700) return 'C';
     return 'D';
   }, [scoreDetails]);
 
@@ -282,20 +282,20 @@ const styles = StyleSheet.create({
   statLabel: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: verticalScale(16),
+    fontSize: verticalScale(15),
     flex: 4
   },
   statMult: {
     fontFamily: 'ArchitectsDaughter_400Regular',
     color: Colors.textWhite,
-    fontSize: verticalScale(16),
+    fontSize: verticalScale(12),
     flex: 2,
     textAlign: 'center'
   },
   statTotal: {
     fontFamily: 'SourGummy_800ExtraBold',
     color: Colors.textWhite,
-    fontSize: verticalScale(16),
+    fontSize: verticalScale(15),
     flex: 1,
     textAlign: 'right'
   },
