@@ -1,30 +1,37 @@
 import { ILetter } from 'app/types/ILetter';
 
+export const ADEGILNORSTU = 10;
+const BCFHMP = 20;
+const VWY = 30;
+const JK = 40;
+const XZ = 50;
+const QQ = 60;
+
 export const alphabets: ILetter[] = [
-  { letter: 'A', value: 1 },
-  { letter: 'B', value: 3 },
-  { letter: 'C', value: 3 },
-  { letter: 'D', value: 2 },
-  { letter: 'E', value: 1 },
-  { letter: 'F', value: 4 },
-  { letter: 'G', value: 2 },
-  { letter: 'H', value: 4 },
-  { letter: 'I', value: 1 },
-  { letter: 'J', value: 5 },
-  { letter: 'K', value: 5 },
-  { letter: 'L', value: 2 },
-  { letter: 'M', value: 3 },
-  { letter: 'N', value: 2 },
-  { letter: 'O', value: 1 },
-  { letter: 'P', value: 3 },
-  { letter: 'Q', value: 8 },
-  { letter: 'R', value: 2 },
-  { letter: 'S', value: 1 },
-  { letter: 'T', value: 2 },
-  { letter: 'U', value: 1 },
-  { letter: 'V', value: 4 },
-  { letter: 'W', value: 4 },
-  { letter: 'X', value: 5 },
-  { letter: 'Y', value: 4 },
-  { letter: 'Z', value: 6 }
+  { letter: 'A', value: ADEGILNORSTU },
+  { letter: 'B', value: BCFHMP },
+  { letter: 'C', value: BCFHMP },
+  { letter: 'D', value: ADEGILNORSTU },
+  { letter: 'E', value: ADEGILNORSTU },
+  { letter: 'F', value: BCFHMP },
+  { letter: 'G', value: ADEGILNORSTU },
+  { letter: 'H', value: BCFHMP },
+  { letter: 'I', value: ADEGILNORSTU },
+  { letter: 'J', value: JK },
+  { letter: 'K', value: JK },
+  { letter: 'L', value: ADEGILNORSTU },
+  { letter: 'M', value: BCFHMP },
+  { letter: 'N', value: ADEGILNORSTU },
+  { letter: 'O', value: ADEGILNORSTU },
+  { letter: 'P', value: BCFHMP },
+  { letter: 'Q', value: QQ },
+  { letter: 'R', value: ADEGILNORSTU },
+  { letter: 'S', value: ADEGILNORSTU },
+  { letter: 'T', value: ADEGILNORSTU },
+  { letter: 'U', value: ADEGILNORSTU },
+  { letter: 'V', value: VWY },
+  { letter: 'W', value: VWY },
+  { letter: 'X', value: XZ },
+  { letter: 'Y', value: VWY },
+  { letter: 'Z', value: XZ }
 ];
