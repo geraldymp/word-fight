@@ -1,8 +1,12 @@
 import { useGameStore } from '@store/useGameStore';
+import { KeyValues } from 'app/constants/keyValues';
 import { useRouter } from 'expo-router';
 import LottieView from 'lottie-react-native';
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+const { fireCamp } = KeyValues;
+const { increaseDamage, restoreHp } = fireCamp;
 
 export default function FireCamp() {
   const router = useRouter();
@@ -32,7 +36,7 @@ export default function FireCamp() {
       </Text>
 
       <Text style={[styles.description, { color: '#ffb347', fontSize: 12 }]}>
-        Healed by 5 HP and gain +2 total damage.
+        Healed by ${restoreHp} HP and gain +${increaseDamage} total damage.
       </Text>
 
       <TouchableOpacity style={styles.button} onPress={handleNext}>
