@@ -387,7 +387,7 @@ export default function UseBattle() {
     launchProjection();
 
     // Submit highscore to supabase if in top 20
-    setHiScore(currentWord, nonModifiedDamage);
+    // setHiScore(currentWord, nonModifiedDamage);
     // Update submitted word to statistic
     setWordsStatistic(currentWord, nonModifiedDamage);
 
