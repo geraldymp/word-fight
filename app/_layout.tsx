@@ -59,44 +59,37 @@ export default function Layout() {
   useEffect(() => {
     async function init() {
       try {
-        // 1. Fonts
-        await new Promise((resolve, reject) => {
-          if (fontsLoaded || fontError) resolve(true);
-          // watch for font change
-          const interval = setInterval(() => {
-            if (fontsLoaded || fontError) {
-              clearInterval(interval);
-              resolve(true);
-            }
-          }, 1000);
-        });
+        const minLoadingTime = new Promise(resolve =>
+          setTimeout(resolve, 1500)
+        );
 
-        // 2. Ads
-        await mobileAds()
-          .setRequestConfiguration({
-            maxAdContentRating: MaxAdContentRating.G,
-            tagForChildDirectedTreatment: false,
-            tagForUnderAgeOfConsent: false
-          })
-          .then(() => mobileAds().initialize());
+        const initWorkPromise = (async () => {
+          // a. Ads
+          await mobileAds()
+            .setRequestConfiguration({
+              maxAdContentRating: MaxAdContentRating.G,
+              tagForChildDirectedTreatment: false,
+              tagForUnderAgeOfConsent: false
+            })
+            .then(() => mobileAds().initialize());
 
-        // 3. RevenueCat
-        if (!__DEV__) {
-          Purchases.configure({ apiKey: 'goog_BEXkLJEyXiWjowRmFmAcZETYydM' });
-          const info = await Purchases.getCustomerInfo();
-          setFromCustomerInfo(info);
-          loadSettings();
-
-          Purchases.addCustomerInfoUpdateListener((info: CustomerInfo) => {
+          // b. RevenueCat
+          if (!__DEV__) {
+            Purchases.configure({ apiKey: 'goog_BEXkLJEyXiWjowRmFmAcZETYydM' });
+            const info = await Purchases.getCustomerInfo();
             setFromCustomerInfo(info);
             loadSettings();
-          });
-        }
 
-        // all process done
-        setTimeout(() => {
-          setReady(true);
-        }, 2800);
+            Purchases.addCustomerInfoUpdateListener((info: CustomerInfo) => {
+              setFromCustomerInfo(info);
+              loadSettings();
+            });
+          }
+          // Return something to satisfy the structure of Promise.all, though not strictly needed
+          return 'Init work complete';
+        })();
+        await Promise.all([initWorkPromise, minLoadingTime]);
+        setReady(true);
       } catch (err) {
         console.warn('Init error', err);
         setReady(true);
@@ -104,11 +97,11 @@ export default function Layout() {
     }
 
     init();
-  }, [fontsLoaded, fontError]);
+  }, []);
 
   useEffect(() => {
     progress.value = withTiming(1, {
-      duration: 2000, // quicker than setReady timeout
+      duration: 1000, // quicker than setReady timeout
       easing: Easing.bounce
     });
   }, []);
