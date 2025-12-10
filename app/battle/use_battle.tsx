@@ -16,10 +16,12 @@ import {
   submitHighscore
 } from 'app/lib/highscoreFunctions';
 import { useHeroStore } from 'app/store/useHeroStore';
+import { usePlayerStore } from 'app/store/usePlayerStore';
 import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
 import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
+import { getDamageFromUpgrades } from 'app/utils/getDamageFromUpgrades';
 import { getDamageModifier } from 'app/utils/getDamageModifier';
 import { setBossBeatenStatistic } from 'app/utils/Statistic/setBossBeaten';
 import { setWordsStatistic } from 'app/utils/Statistic/setWords';
@@ -115,8 +117,13 @@ export default function UseBattle() {
 
   // -- Hero Icon --
   const selectedHeroId = useHeroStore(state => state.selectedHeroId);
-
   const selectedHero = HeroIcons.find(h => h.id === selectedHeroId);
+
+  // -- Exp System --
+  const addTempExp = usePlayerStore(state => state.addTempExp);
+  const applyTempExp = usePlayerStore(state => state.applyTempExp);
+  const tempBattleExp = usePlayerStore(state => state.tempBattleExp);
+  const upgrades = usePlayerStore(state => state.upgrades);
 
   const getRandomInt = (min: number, max: number): number =>
     Math.floor(Math.random() * (max - min + 1)) + min;
@@ -216,7 +223,9 @@ export default function UseBattle() {
     );
     const lengthDamage = getBonusDamageFromLength(currentWordWithValue);
     const dmgModifier = getDamageModifier(currentWord, damageModifier);
-    const totalDamage = baseDamage + lengthDamage + dmgModifier;
+    const dmgFromUpgrade = getDamageFromUpgrades(currentWord, upgrades);
+    const totalDamage =
+      baseDamage + lengthDamage + dmgModifier + dmgFromUpgrade;
     setShowProjection(false);
     reduceEnemyHP(totalDamage);
     playSfx('enemyHit');
@@ -239,6 +248,7 @@ export default function UseBattle() {
         triggerEnemyAttack();
       }, 1200);
     } else {
+      addTempExp(selectedEnemy.exp);
       if (stage === 3) {
         setModalContent({
           modalText: 'You clear the area!',
@@ -334,8 +344,8 @@ export default function UseBattle() {
   }
 
   const damageBreakdowns = useMemo(
-    () => damageBreakdown(currentWordWithValue, damageModifier),
-    [currentWordWithValue, damageModifier]
+    () => damageBreakdown(currentWordWithValue, damageModifier, upgrades),
+    [currentWordWithValue, damageModifier, upgrades]
   );
 
   const projectionStyle = useAnimatedStyle(() => {
@@ -441,6 +451,7 @@ export default function UseBattle() {
         maxReshuffle: maxReshuffle,
         reshuffle: reshuffle,
         damageModifier: JSON.stringify(damageModifier),
+        tempExp: tempBattleExp,
         currentPotionUsed: currentPotionUsed,
         purchasedItem: JSON.stringify(purchasedItemIds),
         statHighestDamage: highestDamage,
@@ -471,6 +482,7 @@ export default function UseBattle() {
   };
 
   const handleCloseModalFinishedGame = () => {
+    applyTempExp();
     setModalFinishedGame(false);
     router.replace('/');
   };

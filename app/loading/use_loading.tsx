@@ -9,9 +9,12 @@ import {
   getLowestHighscore,
   getLowestMonthlyHighscore
 } from 'app/lib/highscoreFunctions';
+import { usePlayerStore } from 'app/store/usePlayerStore';
+import { getBonusHPFromUpgrades } from 'app/utils/getHPFromUpgrades';
+import { getManaFromUpgrades } from 'app/utils/getManaFromUpgrades';
 import { getRandomText } from 'app/utils/getRandomFromArrayOfText';
 import { useRouter } from 'expo-router';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Animated, BackHandler } from 'react-native';
 
 export default function UseLoading() {
@@ -24,14 +27,18 @@ export default function UseLoading() {
     state => state.resetPurchasedItems
   );
 
-  const playerMaxHP = useGameStore(s => s.playerMaxHP);
+  const setPlayerMaxHP = useGameStore(s => s.setPlayerMaxHP);
+  const upgrades = usePlayerStore(s => s.upgrades);
   const setPlayerHP = useGameStore(s => s.setPlayerHP);
+  const setMana = useGameStore(s => s.setMana);
   const resetRunStatistic = useGameStore(s => s.resetRunStatistic);
 
   const setLowestHighScore = useGameStore(s => s.setLowestHighScore);
   const setLowestMonthlyHighScore = useGameStore(
     s => s.setLowestMonthlyHighScore
   );
+
+  const resetTempExp = usePlayerStore(s => s.resetTempExp);
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
@@ -46,6 +53,16 @@ export default function UseLoading() {
     setLowestHighScore(lowestHS);
     setLowestMonthlyHighScore(lowestMonthlyHS);
   }
+
+  const playerMaxHPUpgraded = useMemo(() => {
+    const bonusHpFromUpgrades = getBonusHPFromUpgrades(upgrades);
+    return 500 + bonusHpFromUpgrades;
+  }, [upgrades]);
+
+  const playerManaUpgraded = useMemo(() => {
+    const bonusManaFromUpgrades = getManaFromUpgrades(upgrades);
+    return 0 + bonusManaFromUpgrades;
+  }, [upgrades]);
 
   useEffect(() => {
     Animated.loop(
@@ -80,8 +97,11 @@ export default function UseLoading() {
         resetGame();
         resetPotionUsed();
         resetPurchasedItems();
-        setPlayerHP(playerMaxHP);
+        setPlayerMaxHP(playerMaxHPUpgraded);
+        setPlayerHP(playerMaxHPUpgraded);
+        setMana(playerManaUpgraded);
         resetRunStatistic();
+        resetTempExp();
         router.replace('/choose_area');
       }
     };
