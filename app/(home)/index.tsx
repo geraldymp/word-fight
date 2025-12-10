@@ -27,9 +27,9 @@ import { onClearResume, onLoadGame } from '@store/savedGame/useSavedGame';
 import { useSubscriptionStore } from '@store/useSubscriptionStore';
 import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
-import HelpModal from 'app/components/HelpModal';
 import PremiumModal from 'app/components/PremiumModal';
-import { HelperContents } from 'app/constants/helperContents';
+import TutorialModal from 'app/components/TutorialModal';
+import { GeneralTutorialContents } from 'app/constants/tutorials/generalTutorialContents';
 import Colors from 'app/foundation/colors';
 import {
   getLowestHighscore,
@@ -235,10 +235,10 @@ export default function HomeScreen() {
         visible={visibleAboutModal}
         onClose={() => setVisibleAboutModal(false)}
       />
-      <HelpModal
+      <TutorialModal
         visible={visibleHelpModal}
         onClose={() => setVisibleHelpModal(false)}
-        slides={HelperContents}
+        slides={GeneralTutorialContents}
       />
       <PremiumModal visible={showModal} onClose={() => setShowModal(false)} />
     </ImageBackground>
