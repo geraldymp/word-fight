@@ -13,5 +13,7 @@ export const STORAGE_KEYS = {
   SHOW_NUMBERED_TILE: 'bhvfplws',
   SHOW_DAMAGE_BREAKDOWN: 'ggslwkfs',
 
-  SELECTED_HERO: 'lpaowjds'
+  SELECTED_HERO: 'lpaowjds',
+
+  PLAYER_STATUS: 'nroxalpw'
 };
