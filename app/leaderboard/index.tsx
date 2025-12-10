@@ -24,8 +24,8 @@ interface HighScore {
 
 export default function LeaderboardScreen() {
   const ToggleOptions: IOption<string>[] = [
-    { label: 'All Time', value: 'all' },
-    { label: 'Monthly', value: 'monthly' }
+    { label: 'Monthly', value: 'monthly' },
+    { label: 'All Time', value: 'all' }
   ];
   const [allTimeScores, setAllTimeScores] = useState<HighScore[]>([]);
   const [monthlyScores, setMonthlyScores] = useState<HighScore[]>([]);

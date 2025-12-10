@@ -37,7 +37,7 @@ export const usePlayerStore = create<PlayerState>((set, get) => ({
   level: 1,
   exp: 0,
   expNeeded: BASE_EXP_NEEDED,
-  upgradePoints: 12,
+  upgradePoints: 0,
   usedUpgradePoints: 0,
   upgrades: DEFAULT_UPGRADE_LIST.map(u => ({ ...u })),
   tempBattleExp: 0,
