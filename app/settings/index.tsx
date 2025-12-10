@@ -1,39 +1,19 @@
-import { FontAwesome5 } from '@expo/vector-icons';
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import { useMusicStore } from '@store/useMusicStore';
 import { usePremiumStore } from '@store/usePremiumStore';
 import { useSfxStore } from '@store/useSFXStore';
 import { useSubscriptionStore } from '@store/useSubscriptionStore';
-import ChangeHeroIconModal from 'app/components/ChangeHeroIconModal';
-import { ChangeNameModal } from 'app/components/ChangeNameModal';
 import SettingCardSwitch from 'app/components/SettingCardSwitch';
 import SettingHeader from 'app/components/SettingHeader';
-import { HeroIcons } from 'app/constants/heroIcons';
 import Colors from 'app/foundation/colors';
-import { useHeroStore } from 'app/store/useHeroStore';
-import { scale, verticalScale } from 'app/utils/sizeScaling';
+import { verticalScale } from 'app/utils/sizeScaling';
 import {
   getBattleTutorial,
   getMagicHutTutorial,
   setBattleTutorial,
   setMagicHutTutorial
 } from 'app/utils/tutorialManager';
-import {
-  canChangeUsername,
-  getNextChangeDate,
-  getUsername,
-  setUsername as setUsernameStorage
-} from 'app/utils/usernameManager';
 import React, { useEffect, useMemo, useState } from 'react';
-import {
-  Alert,
-  Image,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View
-} from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 const SettingsScreen = () => {
   const { muted: mutedSfx, setMuted: setMutedSfx } = useSfxStore();
@@ -48,16 +28,8 @@ const SettingsScreen = () => {
     toggleDamageBreakdown
   } = usePremiumStore();
 
-  const { selectedHeroId, setHero } = useHeroStore();
-
-  const [visibleChangeIconModal, setVisibleChangeIconModal] = useState(false);
-  const [username, setUsername] = useState('');
-  const [visibleChangeNameModal, setVisibleChangeNameModal] = useState(false);
-
   const [battleTutorEnabled, setBattleTutorEnabled] = useState(true);
   const [magicHutTutorEnabled, setMagicHutTutorEnabled] = useState(true);
-
-  const selectedHero = HeroIcons.find(h => h.id === selectedHeroId);
 
   const musicState = useMemo(() => {
     if (mutedMusic) {
@@ -107,49 +79,6 @@ const SettingsScreen = () => {
     }
   }, [magicHutTutorEnabled]);
 
-  function onPressChangeIcon() {
-    setVisibleChangeIconModal(true);
-  }
-
-  function onPressSelectIcon(heroId: string) {
-    setHero(heroId);
-    setVisibleChangeIconModal(false);
-  }
-
-  function onPressCancelIcon() {
-    setVisibleChangeIconModal(false);
-  }
-
-  async function onPressChangeUsername() {
-    const allowedToChangeName = await canChangeUsername();
-    if (allowedToChangeName) {
-      setVisibleChangeNameModal(true);
-    } else {
-      const nextDate = await getNextChangeDate();
-      Alert.alert(
-        `Name changeable every 7 days`,
-        `You can change your name again on ${nextDate?.toLocaleDateString(
-          'en-GB',
-          {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric'
-          }
-        )}`
-      );
-    }
-  }
-
-  async function onConfirmChange(updatedName: string) {
-    setUsername(updatedName);
-    setVisibleChangeNameModal(false);
-    await setUsernameStorage(updatedName);
-  }
-
-  function onCloseModal() {
-    setVisibleChangeNameModal(false);
-  }
-
   const toggleBattleTutor = async (value: boolean) => {
     setBattleTutorEnabled(value);
     await setBattleTutorial(value);
@@ -162,10 +91,8 @@ const SettingsScreen = () => {
 
   useEffect(() => {
     (async () => {
-      const currentName = await getUsername();
       const battleTutorialEnabled = await getBattleTutorial();
       const magicHutTutorialEnabled = await getMagicHutTutorial();
-      setUsername(currentName);
       setBattleTutorEnabled(battleTutorialEnabled);
       setMagicHutTutorEnabled(magicHutTutorialEnabled);
     })();
@@ -175,38 +102,6 @@ const SettingsScreen = () => {
     <View style={styles.container}>
       <SettingHeader title="Settings" />
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-        <View style={styles.card}>
-          <Text style={styles.sectionTitle}>Profile</Text>
-          <View style={styles.settingRow}>
-            <View style={{ flex: 1 }}>
-              <Image
-                source={selectedHero?.icon}
-                style={styles.imageStyle}
-                resizeMode="contain"></Image>
-              <Text style={styles.settingDesc}>Hero icon in battlefield</Text>
-            </View>
-            <TouchableOpacity onPress={onPressChangeIcon}>
-              <FontAwesome5
-                name="exchange-alt"
-                size={verticalScale(24)}
-                color={Colors.primary}
-              />
-            </TouchableOpacity>
-          </View>
-          <View style={styles.settingRow}>
-            <View style={{ flex: 1 }}>
-              <Text style={styles.settingText}>{username}</Text>
-              <Text style={styles.settingDesc}>Name for global highscore</Text>
-            </View>
-            <TouchableOpacity onPress={onPressChangeUsername}>
-              <MaterialIcons
-                name="drive-file-rename-outline"
-                size={verticalScale(24)}
-                color={Colors.primary}
-              />
-            </TouchableOpacity>
-          </View>
-        </View>
         {isPremium && (
           <SettingCardSwitch
             title="Premium Settings"
@@ -260,19 +155,6 @@ const SettingsScreen = () => {
             }
           ]}
         />
-        <ChangeHeroIconModal
-          visible={visibleChangeIconModal}
-          initialHeroId={selectedHeroId}
-          onSelect={heroId => onPressSelectIcon(heroId)}
-          onCancel={onPressCancelIcon}
-        />
-        <ChangeNameModal
-          visible={visibleChangeNameModal}
-          onConfirm={onConfirmChange}
-          title="Input user name"
-          confirmationText="OK"
-          onClose={onCloseModal}
-        />
       </ScrollView>
     </View>
   );
@@ -293,42 +175,5 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start',
     marginTop: verticalScale(8)
-  },
-  card: {
-    backgroundColor: Colors.shallowBlue,
-    borderRadius: scale(18),
-    padding: verticalScale(18),
-    width: '90%',
-    marginBottom: verticalScale(16)
-  },
-  sectionTitle: {
-    fontSize: verticalScale(24),
-    color: Colors.primary,
-    fontWeight: 'bold',
-    marginBottom: verticalScale(18)
-  },
-  settingRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: verticalScale(12)
-  },
-  imageStyle: {
-    height: verticalScale(75),
-    width: verticalScale(75),
-    borderRadius: verticalScale(37.5),
-    borderWidth: 2,
-    borderColor: 'black',
-    backgroundColor: Colors.blackBg50
-  },
-  settingText: {
-    color: Colors.textWhite,
-    fontSize: verticalScale(18),
-    fontWeight: '600'
-  },
-  settingDesc: {
-    color: Colors.borderBlue,
-    fontSize: verticalScale(10),
-    marginTop: verticalScale(4),
-    marginBottom: verticalScale(0)
   }
 });
