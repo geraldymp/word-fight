@@ -18,6 +18,7 @@ export const SavedGameSchema = {
     maxReshuffle: 'int',
     reshuffle: 'int',
     damageModifier: 'string',
+    tempExp: 'int',
 
     currentPotionUsed: 'int',
     purchasedItem: 'string',

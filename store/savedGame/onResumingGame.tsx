@@ -3,6 +3,7 @@
 import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
 import { useMagicHutStore } from '@store/useMagicHutStore';
+import { usePlayerStore } from '../usePlayerStore';
 import { ISavedGame } from './SavedGameType';
 
 export const resumeGame = async (saved: ISavedGame) => {
@@ -35,5 +36,10 @@ export const resumeGame = async (saved: ISavedGame) => {
       ...state.magicHutPotion,
       potionUsed: saved.currentPotionUsed
     }
+  }));
+
+  usePlayerStore.setState(state => ({
+    ...state,
+    tempBattleExp: saved.tempExp
   }));
 };
