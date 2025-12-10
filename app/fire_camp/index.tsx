@@ -36,7 +36,7 @@ export default function FireCamp() {
       </Text>
 
       <Text style={[styles.description, { color: '#ffb347', fontSize: 12 }]}>
-        Healed by ${restoreHp} HP and gain +${increaseDamage} total damage.
+        Healed by {restoreHp} HP and gain +{increaseDamage} total damage.
       </Text>
 
       <TouchableOpacity style={styles.button} onPress={handleNext}>
