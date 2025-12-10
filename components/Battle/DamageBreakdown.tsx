@@ -26,7 +26,9 @@ const _DamageBreakdown: React.FC<DamageBreakdown> = ({
                   ? styles.letter
                   : item.type === 'length'
                     ? styles.lengthBonus
-                    : styles.modifier
+                    : item.type === 'upgrades'
+                      ? styles.upgrades
+                      : styles.modifier
               }>
               {item.value}
               {idx < damageBreakdownNums.length - 1 ? ' + ' : ''}
@@ -86,6 +88,11 @@ const styles = StyleSheet.create({
   },
   modifier: {
     color: Colors.borderGold,
+    fontSize: moderateScale(9),
+    fontWeight: 'bold'
+  },
+  upgrades: {
+    color: Colors.calm,
     fontSize: moderateScale(9),
     fontWeight: 'bold'
   },
