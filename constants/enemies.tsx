@@ -18,7 +18,8 @@ export const enemies: IEnemies[] = [
         minDmg: 20,
         maxDmg: 30,
         minManaBounty: 5,
-        maxManaBounty: 8
+        maxManaBounty: 8,
+        exp: 10
       },
       {
         id: 'livingTree',
@@ -27,7 +28,8 @@ export const enemies: IEnemies[] = [
         minDmg: 20,
         maxDmg: 40,
         minManaBounty: 6,
-        maxManaBounty: 9
+        maxManaBounty: 9,
+        exp: 10
       },
       {
         id: 'oldWarlock',
@@ -36,7 +38,8 @@ export const enemies: IEnemies[] = [
         minDmg: 20,
         maxDmg: 50,
         minManaBounty: 7,
-        maxManaBounty: 10
+        maxManaBounty: 10,
+        exp: 15
       }
     ]
   },
@@ -51,7 +54,8 @@ export const enemies: IEnemies[] = [
         minDmg: 10,
         maxDmg: 20,
         minManaBounty: 4,
-        maxManaBounty: 9
+        maxManaBounty: 9,
+        exp: 10
       },
       {
         id: 'oneEyedGoblin',
@@ -60,7 +64,8 @@ export const enemies: IEnemies[] = [
         minDmg: 10,
         maxDmg: 30,
         minManaBounty: 5,
-        maxManaBounty: 10
+        maxManaBounty: 10,
+        exp: 10
       },
       {
         id: 'madGoblin',
@@ -69,7 +74,8 @@ export const enemies: IEnemies[] = [
         minDmg: 10,
         maxDmg: 40,
         minManaBounty: 6,
-        maxManaBounty: 11
+        maxManaBounty: 11,
+        exp: 15
       }
     ]
   },
@@ -84,7 +90,8 @@ export const enemies: IEnemies[] = [
         minDmg: 25,
         maxDmg: 35,
         minManaBounty: 5,
-        maxManaBounty: 8
+        maxManaBounty: 8,
+        exp: 10
       },
       {
         id: 'deadFace',
@@ -93,7 +100,8 @@ export const enemies: IEnemies[] = [
         minDmg: 25,
         maxDmg: 45,
         minManaBounty: 6,
-        maxManaBounty: 9
+        maxManaBounty: 9,
+        exp: 10
       },
       {
         id: 'theFrankenstein',
@@ -102,7 +110,8 @@ export const enemies: IEnemies[] = [
         minDmg: 25,
         maxDmg: 55,
         minManaBounty: 7,
-        maxManaBounty: 10
+        maxManaBounty: 10,
+        exp: 25
       }
     ]
   },
@@ -117,7 +126,8 @@ export const enemies: IEnemies[] = [
         minDmg: 15,
         maxDmg: 25,
         minManaBounty: 4,
-        maxManaBounty: 9
+        maxManaBounty: 9,
+        exp: 10
       },
       {
         id: 'beardedCentaur',
@@ -126,7 +136,8 @@ export const enemies: IEnemies[] = [
         minDmg: 15,
         maxDmg: 35,
         minManaBounty: 5,
-        maxManaBounty: 10
+        maxManaBounty: 10,
+        exp: 10
       },
       {
         id: 'theMedusa',
@@ -135,7 +146,8 @@ export const enemies: IEnemies[] = [
         minDmg: 15,
         maxDmg: 45,
         minManaBounty: 6,
-        maxManaBounty: 11
+        maxManaBounty: 11,
+        exp: 25
       }
     ]
   },
@@ -150,7 +162,8 @@ export const enemies: IEnemies[] = [
         minDmg: 30,
         maxDmg: 40,
         minManaBounty: 8,
-        maxManaBounty: 12
+        maxManaBounty: 12,
+        exp: 30
       },
       {
         id: 'oldViking',
@@ -159,7 +172,8 @@ export const enemies: IEnemies[] = [
         minDmg: 30,
         maxDmg: 50,
         minManaBounty: 9,
-        maxManaBounty: 13
+        maxManaBounty: 13,
+        exp: 30
       },
       {
         id: 'theExecutioner',
@@ -168,7 +182,8 @@ export const enemies: IEnemies[] = [
         minDmg: 30,
         maxDmg: 60,
         minManaBounty: 10,
-        maxManaBounty: 15
+        maxManaBounty: 15,
+        exp: 50
       }
     ]
   },
@@ -183,7 +198,8 @@ export const enemies: IEnemies[] = [
         minDmg: 20,
         maxDmg: 30,
         minManaBounty: 10,
-        maxManaBounty: 11
+        maxManaBounty: 11,
+        exp: 30
       },
       {
         id: 'gunnerMachine',
@@ -192,7 +208,8 @@ export const enemies: IEnemies[] = [
         minDmg: 20,
         maxDmg: 40,
         minManaBounty: 11,
-        maxManaBounty: 12
+        maxManaBounty: 12,
+        exp: 30
       },
       {
         id: 'flyingAndroid',
@@ -201,7 +218,8 @@ export const enemies: IEnemies[] = [
         minDmg: 20,
         maxDmg: 50,
         minManaBounty: 13,
-        maxManaBounty: 14
+        maxManaBounty: 14,
+        exp: 50
       }
     ]
   },
@@ -216,7 +234,8 @@ export const enemies: IEnemies[] = [
         minDmg: 35,
         maxDmg: 65,
         minManaBounty: 50,
-        maxManaBounty: 50
+        maxManaBounty: 50,
+        exp: 100
       }
     ]
   }

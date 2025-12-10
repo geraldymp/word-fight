@@ -51,7 +51,8 @@ export const useGameStore = create<GameStoreType>((set, get) => ({
     minDmg: 0,
     maxDmg: 0,
     minManaBounty: 0,
-    maxManaBounty: 0
+    maxManaBounty: 0,
+    exp: 0
   },
   setSelectedEnemy: enemy =>
     set({ selectedEnemy: enemy, enemyHP: enemy.baseHp }),
