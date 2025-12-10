@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {
   SvgAchievement,
-  SvgGraph,
   SvgHelp,
   SvgInformation,
   SvgSetting
@@ -22,7 +21,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 // @ts-ignore
-import { Entypo } from '@expo/vector-icons';
+import { Entypo, MaterialCommunityIcons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { onClearResume, onLoadGame } from '@store/savedGame/useSavedGame';
 import { useSubscriptionStore } from '@store/useSubscriptionStore';
@@ -30,7 +29,6 @@ import RoundedButton from 'app/components/atoms/RoundedButton';
 import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import HelpModal from 'app/components/HelpModal';
 import PremiumModal from 'app/components/PremiumModal';
-import { StatisticModal } from 'app/components/StatisticModal';
 import { HelperContents } from 'app/constants/helperContents';
 import Colors from 'app/foundation/colors';
 import {
@@ -38,10 +36,10 @@ import {
   getLowestMonthlyHighscore
 } from 'app/lib/highscoreFunctions';
 import { useHeroStore } from 'app/store/useHeroStore';
+import { usePlayerStore } from 'app/store/usePlayerStore';
 import { IShowedStats } from 'app/types/IShowedStats';
 import { scale as scaling, verticalScale } from 'app/utils/sizeScaling';
 import { getAllStats } from 'app/utils/Statistic/getAllStatistics';
-import { resetAllStats } from 'app/utils/Statistic/resetAllStatistics';
 
 const AnimatedImage = Animated.createAnimatedComponent(Image);
 
@@ -60,6 +58,8 @@ export default function HomeScreen() {
   const { playMusic, stopMusic } = useMusicStore();
 
   const { loadHero } = useHeroStore();
+
+  const { loadProfile } = usePlayerStore();
 
   const scale = useSharedValue(1);
   const animatedStyle = useAnimatedStyle(() => ({
@@ -112,6 +112,7 @@ export default function HomeScreen() {
   useEffect(() => {
     setHighScoreLowestValue();
     loadHero();
+    loadProfile();
   }, []);
 
   useEffect(() => {
@@ -134,35 +135,41 @@ export default function HomeScreen() {
       style={styles.mainContainer}
       source={require('@assets/backgrounds/home_background.jpg')}
       resizeMode="cover">
-      <RoundedButton
-        onPress={() => setVisibleStatsModal(true)}
-        customStyle={[styles.topButtonsContainer, { left: scaling(24) }]}
-        icon={
-          <SvgGraph
-            width={verticalScale(20)}
-            height={verticalScale(20)}
-            color={Colors.neutralDark}
-          />
-        }
-      />
-      <RoundedButton
-        onPress={() => setVisibleAboutModal(true)}
-        customStyle={[styles.topButtonsContainer, { right: scaling(24) }]}
-        icon={
-          <SvgInformation
-            width={verticalScale(36)}
-            height={verticalScale(36)}
-            color={Colors.neutralDark}
-          />
-        }
-      />
+      <View
+        style={{
+          width: '90%',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          marginTop: verticalScale(24)
+        }}>
+        <RoundedButton
+          onPress={() => setVisibleHelpModal(true)}
+          icon={
+            <SvgHelp
+              width={verticalScale(20)}
+              height={verticalScale(20)}
+              color={Colors.neutralDark}
+            />
+          }
+        />
+        <RoundedButton
+          onPress={() => setVisibleAboutModal(true)}
+          icon={
+            <SvgInformation
+              width={verticalScale(36)}
+              height={verticalScale(36)}
+              color={Colors.neutralDark}
+            />
+          }
+        />
+      </View>
       <AnimatedImage
         source={require('@assets/word_fight_title.png')}
         style={[
           {
             width: '70%',
             height: verticalScale(200),
-            marginTop: verticalScale(120),
+            marginTop: verticalScale(100),
             marginBottom: verticalScale(12)
           },
           animatedStyle
@@ -196,14 +203,8 @@ export default function HomeScreen() {
       )}
       <View style={styles.bottomButtonsContainer}>
         <RoundedButton
-          onPress={() => setVisibleHelpModal(true)}
-          icon={
-            <SvgHelp
-              width={BottomIconSize}
-              height={BottomIconSize}
-              color={Colors.neutralDark}
-            />
-          }
+          onPress={() => router.push('/player')}
+          icon={<MaterialCommunityIcons name="account" size={BottomIconSize} />}
         />
         <RoundedButton
           onPress={() => router.push('/leaderboard')}
@@ -230,12 +231,6 @@ export default function HomeScreen() {
           icon={<Entypo name="shop" size={BottomIconSize} />}
         />
       </View>
-      <StatisticModal
-        stats={stats}
-        visible={visibleStatsModal}
-        onClose={() => setVisibleStatsModal(false)}
-        onReset={resetAllStats}
-      />
       <AboutModal
         visible={visibleAboutModal}
         onClose={() => setVisibleAboutModal(false)}
@@ -254,10 +249,6 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     alignItems: 'center'
-  },
-  topButtonsContainer: {
-    top: verticalScale(24),
-    position: 'absolute'
   },
   bottomButtonsContainer: {
     flexDirection: 'row',
