@@ -121,6 +121,7 @@ export default function PlayerScreen() {
 
   async function onAcceptResetCurrentRun() {
     await onClearResume();
+    onPressResetStat();
     setVisibleResetCurrentRunModal(false);
   }
 
