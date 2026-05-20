@@ -5,13 +5,13 @@ export const HeroIcons = [
     icon: require('@assets/hero_images/male_knight.png')
   },
   {
-    id: 'female_archer',
+    id: 'female_mage',
     name: 'Cecilia',
-    icon: require('@assets/hero_images/female_archer.png')
+    icon: require('@assets/hero_images/female_mage.png')
   },
   {
-    id: 'male_mage',
+    id: 'male_thief',
     name: 'Fritz',
-    icon: require('@assets/hero_images/male_mage.png')
+    icon: require('@assets/hero_images/male_thief.png')
   }
 ];

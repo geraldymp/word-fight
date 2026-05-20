@@ -226,6 +226,7 @@ export default function UseBattle() {
       ...prev,
       { id: Date.now(), amount: totalDamage, type: 'enemy' }
     ]);
+
     // add value to current run statistic
     setHighestDamage(totalDamage);
     setLongestWordLength(currentWordWithValue.length);
