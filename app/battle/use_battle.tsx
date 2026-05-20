@@ -23,6 +23,7 @@ import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVo
 import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
 import { getDamageFromUpgrades } from 'app/utils/getDamageFromUpgrades';
 import { getDamageModifier } from 'app/utils/getDamageModifier';
+import { getRandomInt } from 'app/utils/getRandomInt';
 import { setBossBeatenStatistic } from 'app/utils/Statistic/setBossBeaten';
 import { setWordsStatistic } from 'app/utils/Statistic/setWords';
 import {
@@ -125,20 +126,6 @@ export default function UseBattle() {
   const tempBattleExp = usePlayerStore(state => state.tempBattleExp);
   const upgrades = usePlayerStore(state => state.upgrades);
 
-  const getRandomInt = (min: number, max: number): number =>
-    Math.floor(Math.random() * (max - min + 1)) + min;
-
-  const enemyDamage = useMemo(() => {
-    return getRandomInt(selectedEnemy.minDmg, selectedEnemy.maxDmg);
-  }, [selectedEnemy.minDmg, selectedEnemy.maxDmg]);
-
-  const manaGained = useMemo(() => {
-    return getRandomInt(
-      selectedEnemy.minManaBounty,
-      selectedEnemy.maxManaBounty
-    );
-  }, [selectedEnemy.minManaBounty, selectedEnemy.maxManaBounty]);
-
   const playerShakeAnim = useSharedValue(0);
   const enemyShakeAnim = useSharedValue(0);
   const enemyAttackAnim = useSharedValue(0);
@@ -200,6 +187,11 @@ export default function UseBattle() {
   };
 
   function playerAttacked() {
+    const enemyDamage = getRandomInt(
+      selectedEnemy.minDmg,
+      selectedEnemy.maxDmg,
+      5
+    );
     setDamageEvents(prev => [
       ...prev,
       { id: Date.now(), amount: enemyDamage, type: 'player' }
@@ -277,6 +269,11 @@ export default function UseBattle() {
           setShowGameProgressModal(true);
         }, 2000);
       }
+
+      const manaGained = getRandomInt(
+        selectedEnemy.minManaBounty,
+        selectedEnemy.maxManaBounty
+      );
       setTimeout(() => {
         playSfx('enemyBeaten');
         enemyOpacity.value = withTiming(0, { duration: 1500 });
