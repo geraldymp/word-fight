@@ -1,11 +1,6 @@
 // A function to generate letters to replace that used by player.
 
 // The goal is to guarantee a certain amount of vowels exist in the whole letters
-// Yet this function not fully correct, because this one only generate certain amount of vowels
-// rather than make sure the entire letters to contain certain amount of vowels
-// But this get the job done
-
-// TODO: update to proper one
 
 import { alphabets, vowels } from 'app/constants/lettersAndValues';
 import { ILetter } from 'app/types/ILetter';
@@ -23,18 +18,30 @@ export function generateSomeLettersWithVowels(
   selectedIndices: number[], // Array of used tiles
   vowelsNeeded: number = 1
 ): ILetter[] {
-  let minimumVowels = vowelsNeeded;
+  const selectedSet = new Set(selectedIndices);
+
+  // Count vowels in tiles that are NOT being replaced
+  const existingVowelsCount = letters.filter(
+    (letter, idx) => !selectedSet.has(idx) && vowels.includes(letter)
+  ).length;
+
+  // How many vowels still need to be added in replacements
+  let vowelsStillNeeded = Math.max(0, vowelsNeeded - existingVowelsCount);
+
   let newLetters = [...letters];
   let replacements: ILetter[] = [];
 
   for (let i = 0; i < selectedIndices.length; i++) {
-    if (minimumVowels > 0) {
+    if (vowelsStillNeeded > 0) {
       replacements.push(getRandomVowel());
-      minimumVowels--;
+      vowelsStillNeeded--;
     } else {
       replacements.push(getRandomAlphabet());
     }
   }
+
+  // Shuffle replacements so vowels aren't always at the first indices
+  replacements = replacements.sort(() => Math.random() - 0.5);
 
   // Apply replacements
   selectedIndices.forEach((idx, i) => {
