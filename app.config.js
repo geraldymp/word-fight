@@ -5,7 +5,7 @@ export default {
   expo: {
     name: 'Word Fight',
     slug: 'word-fight',
-    version: '1.0.20',
+    version: '1.0.21',
     orientation: 'portrait',
     icon: './assets/word_fight_logo.png',
     scheme: 'wordfight',
@@ -16,15 +16,15 @@ export default {
       bundleIdentifier: 'com.germp24.wordfight'
     },
     android: {
-      versionCode: 20,
-      package: "com.germp24.wordfight",
+      versionCode: 21,
+      package: 'com.germp24.wordfight',
       adaptiveIcon: {
         foregroundImage: './assets/word_fight_logo.png',
         backgroundColor: '#ffffff'
       },
       edgeToEdgeEnabled: true,
-      blockedPermissions: ["android.permission.RECORD_AUDIO"],
-      permissions: ["com.android.vending.BILLING"]
+      blockedPermissions: ['android.permission.RECORD_AUDIO'],
+      permissions: ['com.android.vending.BILLING']
     },
     web: {
       bundler: 'metro',
@@ -59,7 +59,7 @@ export default {
         }
       ],
       [
-        "expo-build-properties",
+        'expo-build-properties',
         {
           android: {
             compileSdkVersion: 35,
@@ -69,10 +69,10 @@ export default {
         }
       ],
       [
-        "react-native-google-mobile-ads",
+        'react-native-google-mobile-ads',
         {
-          "androidAppId": process.env.ADMOB_APPID,
-          "iosAppId": process.env.ADMOB_APPID
+          androidAppId: process.env.ADMOB_APPID,
+          iosAppId: process.env.ADMOB_APPID
         }
       ]
     ],
