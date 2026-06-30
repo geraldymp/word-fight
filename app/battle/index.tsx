@@ -18,7 +18,6 @@ import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
 import {
   Dimensions,
-  Image,
   ImageBackground,
   StyleSheet,
   Text,
@@ -117,10 +116,11 @@ export default function BattleScreen() {
         <Animated.View
           ref={states.enemyImageRef}
           style={[enemyStyle, styles.enemyImage]}>
-          <Image
+          <Animated.Image
             source={EnemyImages[enemyId]}
             resizeMode="contain"
             style={{ width: '100%', height: '100%' }}
+            tintColor={states.enemyFlashActive ? 'white' : undefined} // needs a derived boolean/state, not ideal with reanimated directly
           />
         </Animated.View>
       </View>

@@ -147,6 +147,7 @@ export default function UseBattle() {
   const [damageEvents, setDamageEvents] = useState<
     { id: number; amount: number; type: 'player' | 'enemy' }[]
   >([]);
+  const [enemyFlashActive, setEnemyFlashActive] = useState(false);
   const [showProjection, setShowProjection] = useState(false);
   const [showTutorial, setShowTutorial] = useState(false);
   const [isReshuffling, setIsReshuffling] = useState(false);
@@ -186,6 +187,11 @@ export default function UseBattle() {
     );
   };
 
+  function triggerEnemyFlash() {
+    setEnemyFlashActive(true);
+    setTimeout(() => setEnemyFlashActive(false), 80);
+  }
+
   function playerAttacked() {
     const enemyDamage = getRandomInt(
       selectedEnemy.minDmg,
@@ -221,6 +227,7 @@ export default function UseBattle() {
     setShowProjection(false);
     reduceEnemyHP(totalDamage);
     playSfx('enemyHit');
+    triggerEnemyFlash();
     triggerQuickShake(enemyShakeAnim);
     setDamageEvents(prev => [
       ...prev,
@@ -554,6 +561,7 @@ export default function UseBattle() {
       areaDetail: area,
       stage,
       enemyStyle,
+      enemyFlashActive,
       enemyImageRef,
       enemyShakeAnim,
       enemyAttackAnim,
