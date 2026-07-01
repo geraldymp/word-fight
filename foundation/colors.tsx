@@ -24,6 +24,7 @@ const Colors = {
   borderGold: '#bfa13a', // Added for gold border (used in primary)
   borderBlue: '#00aaff', // blue border mainly for tile
   borderBlack: '#000',
+  borderGreen: '#2bb866', // Added for green border (used in success states)
 
   // Background with opacity
   blackBg50: '#00000080',

@@ -11,6 +11,10 @@ import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { HeroIcons } from 'app/constants/heroIcons';
 import {
+  WordEffectConfig,
+  WordEffectTiers
+} from 'app/constants/wordEffectTier';
+import {
   getLowestHighscore,
   getLowestMonthlyHighscore,
   submitHighscore
@@ -57,6 +61,8 @@ import {
 //
 // C (PLAYER HAVE HP) PLAYER SHOOK (50 DR) => DONE
 // D (PLAYER NO HP) SHOW PROGRESS MODAL (1500 DL) => DONE
+
+const { NORMAL, GOOD, GREAT, AMAZING, NOTHING } = WordEffectTiers;
 
 export default function UseBattle() {
   const router = useRouter();
@@ -135,6 +141,8 @@ export default function UseBattle() {
   const enemyIdleScale = useSharedValue(1);
   const enemyIdleY = useSharedValue(0);
   const wrongWordShakeAnim = useSharedValue(0);
+  const wordPulse = useSharedValue(1);
+  const wordShake = useSharedValue(0);
 
   const enemyOpacity = useSharedValue(1);
 
@@ -170,6 +178,17 @@ export default function UseBattle() {
     .join('');
   // array of created word, with each letter value
   const currentWordWithValue: ILetter[] = selectedIndices.map(i => letters[i]);
+
+  const wordEffectTier = useMemo(() => {
+    if (isValidWord(currentWord)) {
+      if (selectedIndices.length >= 6) return AMAZING;
+      if (selectedIndices.length >= 5) return GREAT;
+      if (selectedIndices.length >= 4) return GOOD;
+      if (selectedIndices.length >= 3) return NORMAL;
+      return NOTHING;
+    }
+    return NOTHING;
+  }, [selectedIndices, currentWord]);
 
   // Shake when damage is done (for enemy, player and word builder)
   const triggerQuickShake = (animRef: SharedValue<number>) => {
@@ -308,6 +327,10 @@ export default function UseBattle() {
     ]
   }));
 
+  const wordPulseStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: wordPulse.value }, { translateX: wordShake.value }]
+  }));
+
   const handleReshuffle = () => {
     if (reshuffle > 0) {
       setIsReshuffling(true);
@@ -400,6 +423,11 @@ export default function UseBattle() {
   }
 
   const handleSubmit = () => {
+    cancelAnimation(wordPulse);
+    cancelAnimation(wordShake);
+    wordPulse.value = 1;
+    wordShake.value = 0;
+
     const baseDamage = selectedIndices.reduce(
       (sum, i) => sum + letters[i].value,
       0
@@ -534,6 +562,45 @@ export default function UseBattle() {
     );
   }
 
+  useEffect(() => {
+    cancelAnimation(wordPulse);
+    cancelAnimation(wordShake);
+
+    const config = WordEffectConfig[wordEffectTier];
+
+    wordPulse.value = withRepeat(
+      withSequence(
+        withTiming(config.scaleTarget, {
+          duration: config.duration,
+          easing: Easing.inOut(Easing.quad)
+        }),
+        withTiming(1, {
+          duration: config.duration,
+          easing: Easing.inOut(Easing.quad)
+        })
+      ),
+      -1,
+      true
+    );
+
+    if (wordEffectTier === AMAZING) {
+      wordShake.value = withRepeat(
+        withSequence(
+          withTiming(6, { duration: 60 }),
+          withTiming(-6, { duration: 60 }),
+          withTiming(4, { duration: 50 }),
+          withTiming(-4, { duration: 50 }),
+          withTiming(0, { duration: 40 }),
+          withTiming(0, { duration: 200 })
+        ),
+        -1,
+        false
+      );
+    } else {
+      wordShake.value = withTiming(0, { duration: 100 });
+    }
+  }, [wordEffectTier]);
+
   async function triggerBattleTutorial() {
     const enabled = await getBattleTutorial();
     if (enabled) {
@@ -611,6 +678,8 @@ export default function UseBattle() {
       letters,
       selectedIndices,
       wrongWordShakeAnim,
+      wordPulseStyle,
+      wordEffectTier,
       showGameProgressModal,
       modalContent,
       showConfirmModal,

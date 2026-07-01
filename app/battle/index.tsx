@@ -14,6 +14,7 @@ import FinishGameModal from 'app/components/FinishGameModal';
 import TutorialModal from 'app/components/TutorialModal';
 import { battleBackgrounds } from 'app/constants/battleBackgrounds';
 import { BattleTutorialContents } from 'app/constants/tutorials/battleTutorialContents';
+import { WordEffectConfig } from 'app/constants/wordEffectTier';
 import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import React from 'react';
@@ -156,9 +157,19 @@ export default function BattleScreen() {
             />
           ))}
         <View style={{ alignItems: 'center' }}>
-          <Text ref={states.playerWordRef} style={styles.currentWord}>
-            {currentWord ? currentWord.toUpperCase() : '-'}
-          </Text>
+          <Animated.View style={states.wordPulseStyle}>
+            <Text
+              ref={states.playerWordRef}
+              style={[
+                styles.currentWord,
+                {
+                  borderColor:
+                    WordEffectConfig[states.wordEffectTier].borderColor
+                }
+              ]}>
+              {currentWord ? currentWord.toUpperCase() : '-'}
+            </Text>
+          </Animated.View>
 
           <DamageBreakdown
             currentWord={currentWord}
@@ -278,8 +289,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: scale(10),
     paddingVertical: verticalScale(4),
-    borderWidth: 2,
-    borderColor: Colors.borderBlue
+    borderWidth: 2
   },
   invalid: {
     color: Colors.danger,
