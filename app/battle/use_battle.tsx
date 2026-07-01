@@ -34,10 +34,13 @@ import { useRouter } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { BackHandler, Text, View } from 'react-native';
 import {
+  cancelAnimation,
+  Easing,
   runOnJS,
   SharedValue,
   useAnimatedStyle,
   useSharedValue,
+  withRepeat,
   withSequence,
   withTiming
 } from 'react-native-reanimated';
@@ -129,6 +132,8 @@ export default function UseBattle() {
   const playerShakeAnim = useSharedValue(0);
   const enemyShakeAnim = useSharedValue(0);
   const enemyAttackAnim = useSharedValue(0);
+  const enemyIdleScale = useSharedValue(1);
+  const enemyIdleY = useSharedValue(0);
   const wrongWordShakeAnim = useSharedValue(0);
 
   const enemyOpacity = useSharedValue(1);
@@ -248,6 +253,10 @@ export default function UseBattle() {
         triggerEnemyAttack();
       }, 1200);
     } else {
+      cancelAnimation(enemyIdleScale);
+      cancelAnimation(enemyIdleY);
+      enemyIdleScale.value = withTiming(1, { duration: 150 });
+      enemyIdleY.value = withTiming(0, { duration: 150 });
       addTempExp(selectedEnemy.exp);
       if (stage === 3) {
         setModalContent({
@@ -290,15 +299,14 @@ export default function UseBattle() {
     }
   }
 
-  const enemyStyle = useAnimatedStyle(() => {
-    return {
-      opacity: enemyOpacity.value,
-      transform: [
-        { translateX: enemyShakeAnim.value }, // shake when hit
-        { translateY: enemyAttackAnim.value } // vertical attack
-      ]
-    };
-  });
+  const enemyStyle = useAnimatedStyle(() => ({
+    opacity: enemyOpacity.value,
+    transform: [
+      { translateX: enemyShakeAnim.value },
+      { translateY: enemyAttackAnim.value + enemyIdleY.value },
+      { scale: 1 * enemyIdleScale.value }
+    ]
+  }));
 
   const handleReshuffle = () => {
     if (reshuffle > 0) {
@@ -412,9 +420,10 @@ export default function UseBattle() {
     setSelectedIndices([]);
   };
 
-  // generate random letters when the game start (called once)
   useEffect(() => {
+    startEnemyIdleAnimation();
     setLetters(generateRandomLettersWithVowels());
+    triggerBattleTutorial();
   }, []);
 
   function onPressNextStage() {
@@ -425,6 +434,7 @@ export default function UseBattle() {
     setSelectedIndices([]);
     setShowGameProgressModal(false);
     enemyOpacity.value = 1;
+    startEnemyIdleAnimation();
   }
 
   function onPressNextArea() {
@@ -505,16 +515,33 @@ export default function UseBattle() {
     return !(isValidWord(currentWord) && currentWord.length >= 3);
   }, [currentWord]);
 
-  useEffect(() => {
-    (async () => {
-      const enabled = await getBattleTutorial();
-      if (enabled) {
-        setTimeout(() => {
-          setShowTutorial(true);
-        }, 350);
-      }
-    })();
-  }, []);
+  function startEnemyIdleAnimation() {
+    enemyIdleScale.value = withRepeat(
+      withSequence(
+        withTiming(1.02, { duration: 1200, easing: Easing.inOut(Easing.quad) }),
+        withTiming(1, { duration: 1200, easing: Easing.inOut(Easing.quad) })
+      ),
+      -1,
+      true
+    );
+    enemyIdleY.value = withRepeat(
+      withSequence(
+        withTiming(-3, { duration: 1200, easing: Easing.inOut(Easing.quad) }),
+        withTiming(0, { duration: 1200, easing: Easing.inOut(Easing.quad) })
+      ),
+      -1,
+      true
+    );
+  }
+
+  async function triggerBattleTutorial() {
+    const enabled = await getBattleTutorial();
+    if (enabled) {
+      setTimeout(() => {
+        setShowTutorial(true);
+      }, 350);
+    }
+  }
 
   useEffect(() => {
     if (isFocused) {
