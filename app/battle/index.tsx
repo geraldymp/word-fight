@@ -4,6 +4,7 @@ import { GameProgressModal } from '@components/Battle/GameProgressModal';
 import { FloatingDamage } from '@components/FloatingDamage';
 import { EnemyImages } from '@constants/enemyImages';
 import { Ionicons } from '@expo/vector-icons';
+import RoundedRectButton from 'app/components/atoms/RoundedRectangleButton';
 import AreaProgress from 'app/components/Battle/AreaProgress';
 import DamageBreakdown from 'app/components/Battle/DamageBreakdown';
 import EnemyStatusBar from 'app/components/Battle/EnemyStatusBar';
@@ -104,6 +105,22 @@ export default function BattleScreen() {
           </TouchableOpacity>
           <AreaProgress area={areaDetail?.name} stage={stage} />
         </View>
+        {__DEV__ && (
+          <View style={styles.skipButtonContainer}>
+            <RoundedRectButton
+              title="Skip Area"
+              onPress={actions.onPressNextArea}
+              type="secondary"
+              size="mini"
+            />
+            <RoundedRectButton
+              title="Skip Stage"
+              onPress={actions.onPressNextStage}
+              type="secondary"
+              size="mini"
+            />
+          </View>
+        )}
         <EnemyStatusBar
           name={enemyName}
           maxHealth={enemyMaxHp}
@@ -275,5 +292,10 @@ const styles = StyleSheet.create({
     marginTop: verticalScale(3),
     fontWeight: 'bold',
     fontSize: moderateScale(8)
+  },
+  skipButtonContainer: {
+    position: 'absolute',
+    top: verticalScale(36),
+    left: scale(6)
   }
 });

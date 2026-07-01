@@ -1,8 +1,15 @@
 import Colors from 'app/foundation/colors';
 import { ILetter } from 'app/types/ILetter';
 import { LinearGradient } from 'expo-linear-gradient';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity } from 'react-native';
+import Animated, {
+  Easing,
+  useAnimatedStyle,
+  useSharedValue,
+  withDelay,
+  withTiming
+} from 'react-native-reanimated';
 
 interface INormalTile {
   item: ILetter;
@@ -22,24 +29,41 @@ const _NormalTile: React.FC<INormalTile> = ({
   handleLetterPress,
   selectedIndices
 }) => {
+  const entrance = useSharedValue(0);
+
+  useEffect(() => {
+    entrance.value = 0;
+    entrance.value = withDelay(
+      index * 40,
+      withTiming(1, { duration: 200, easing: Easing.out(Easing.back(1.5)) })
+    );
+  }, []);
+
+  const entranceStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: entrance.value }],
+    opacity: entrance.value
+  }));
+
   return (
-    <TouchableOpacity
-      style={[
-        styles.letterTile,
-        { backgroundColor: Colors.neutralDark } // There is View inside to make shadowing effect
-      ]}
-      onPress={() => handleLetterPress(index)}
-      testID={`letter-${item}`}>
-      <LinearGradient
-        colors={BUTTON_GRADIENT}
+    <Animated.View style={entranceStyle}>
+      <TouchableOpacity
         style={[
           styles.letterTile,
-          { bottom: 2 },
-          selectedIndices.includes(index) && styles.selectedTile
-        ]}>
-        <Text style={styles.letter}>{item.letter.toUpperCase()}</Text>
-      </LinearGradient>
-    </TouchableOpacity>
+          { backgroundColor: Colors.neutralDark } // There is View inside to make shadowing effect
+        ]}
+        onPress={() => handleLetterPress(index)}
+        testID={`letter-${item}`}>
+        <LinearGradient
+          colors={BUTTON_GRADIENT}
+          style={[
+            styles.letterTile,
+            { bottom: 2 },
+            selectedIndices.includes(index) && styles.selectedTile
+          ]}>
+          <Text style={styles.letter}>{item.letter.toUpperCase()}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    </Animated.View>
   );
 };
 

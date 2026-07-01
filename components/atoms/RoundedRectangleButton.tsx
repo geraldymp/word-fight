@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 
 type ButtonType = 'primary' | 'secondary' | 'tertiary' | 'warning';
-type ButtonSize = 'lg' | 'md' | 'sm';
+type ButtonSize = 'lg' | 'md' | 'sm' | 'mini';
 
 // Gradient colors for each type
 const PRIMARY_GRADIENT = ['#ffe08a', '#f4c542'] as const;
@@ -65,6 +65,12 @@ const SIZE_STYLES = {
     minWidth: scale(90),
     paddingHorizontal: scale(10),
     fontSize: verticalScale(12)
+  },
+  mini: {
+    height: verticalScale(20),
+    minWidth: scale(50),
+    paddingHorizontal: scale(6),
+    fontSize: verticalScale(6)
   }
 };
 
