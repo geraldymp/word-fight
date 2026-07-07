@@ -14,6 +14,7 @@ import {
   WordEffectConfig,
   WordEffectTiers
 } from 'app/constants/wordEffectTier';
+import Colors from 'app/foundation/colors';
 import {
   getLowestHighscore,
   getLowestMonthlyHighscore,
@@ -40,6 +41,7 @@ import { BackHandler, Text, View } from 'react-native';
 import {
   cancelAnimation,
   Easing,
+  interpolateColor,
   runOnJS,
   SharedValue,
   useAnimatedStyle,
@@ -63,6 +65,7 @@ import {
 // D (PLAYER NO HP) SHOW PROGRESS MODAL (1500 DL) => DONE
 
 const { NORMAL, GOOD, GREAT, AMAZING, NOTHING } = WordEffectTiers;
+const PROJECTILE_BASE_SIZE = 100;
 
 export default function UseBattle() {
   const router = useRouter();
@@ -143,6 +146,9 @@ export default function UseBattle() {
   const wrongWordShakeAnim = useSharedValue(0);
   const wordPulse = useSharedValue(1);
   const wordShake = useSharedValue(0);
+  const wordConvergeScale = useSharedValue(1);
+  const wordConvergeRotate = useSharedValue(0);
+  const wordConvergeColor = useSharedValue(0);
 
   const enemyOpacity = useSharedValue(1);
 
@@ -151,6 +157,11 @@ export default function UseBattle() {
 
   const playerWordRef = useRef<Text>(null);
   const enemyImageRef = useRef<View>(null);
+
+  const magicProjectionSource = require('@assets/icons/projection/magic_projection.png');
+  const earthProjectionSource = require('@assets/icons/projection/earth_projection.png');
+  const iceProjectionSource = require('@assets/icons/projection/ice_projection.png');
+  const fireProjectionSource = require('@assets/icons/projection/flame_projection.png');
 
   const [enemyMaxHp, setEnemyMaxHP] = useState(selectedEnemy.baseHp);
   const [letters, setLetters] = useState<ILetter[]>([]); // Letters in word builder
@@ -162,6 +173,12 @@ export default function UseBattle() {
   >([]);
   const [enemyFlashActive, setEnemyFlashActive] = useState(false);
   const [showProjection, setShowProjection] = useState(false);
+  const [activeProjectileSize, setActiveProjectileSize] =
+    useState(PROJECTILE_BASE_SIZE);
+  const [activeProjectileSource, setActiveProjectileSource] = useState(
+    magicProjectionSource
+  );
+
   const [showTutorial, setShowTutorial] = useState(false);
   const [isReshuffling, setIsReshuffling] = useState(false);
   const [modalContent, setModalContent] = useState({
@@ -181,9 +198,9 @@ export default function UseBattle() {
 
   const wordEffectTier = useMemo(() => {
     if (isValidWord(currentWord)) {
-      if (selectedIndices.length >= 6) return AMAZING;
-      if (selectedIndices.length >= 5) return GREAT;
-      if (selectedIndices.length >= 4) return GOOD;
+      if (selectedIndices.length >= 8) return AMAZING;
+      if (selectedIndices.length >= 7) return GREAT;
+      if (selectedIndices.length >= 6) return GOOD;
       if (selectedIndices.length >= 3) return NORMAL;
       return NOTHING;
     }
@@ -331,6 +348,78 @@ export default function UseBattle() {
     transform: [{ scale: wordPulse.value }, { translateX: wordShake.value }]
   }));
 
+  const wordConvergeStyle = useAnimatedStyle(() => ({
+    transform: [
+      { scale: wordConvergeScale.value }
+      // { rotate: `${wordConvergeRotate.value}deg` }
+    ],
+    color: interpolateColor(
+      wordConvergeColor.value,
+      [0, 1],
+      [Colors.accent, Colors.danger]
+    )
+  }));
+
+  // TODO: update to suitable animation for each tier, currently all tiers have the same animation
+  function triggerWordConverge(onDone: () => void) {
+    switch (wordEffectTier) {
+      case AMAZING:
+        wordConvergeScale.value = withTiming(0.05, {
+          duration: 1000,
+          easing: Easing.in(Easing.back(5))
+        });
+        wordConvergeRotate.value = withTiming(1080, {
+          duration: 1000,
+          easing: Easing.linear
+        });
+        wordConvergeColor.value = withTiming(1, { duration: 800 }, finished => {
+          if (finished) {
+            runOnJS(onDone)();
+            wordConvergeScale.value = 1;
+            wordConvergeRotate.value = 0;
+            wordConvergeColor.value = 0;
+          }
+        });
+        break;
+      case GREAT:
+        wordConvergeScale.value = withTiming(0.05, {
+          duration: 1000,
+          easing: Easing.in(Easing.back(5))
+        });
+        wordConvergeRotate.value = withTiming(1080, {
+          duration: 1000,
+          easing: Easing.linear
+        });
+        wordConvergeColor.value = withTiming(1, { duration: 800 }, finished => {
+          if (finished) {
+            runOnJS(onDone)();
+            wordConvergeScale.value = 1;
+            wordConvergeRotate.value = 0;
+            wordConvergeColor.value = 0;
+          }
+        });
+        break;
+      case GOOD:
+        wordConvergeScale.value = withTiming(0.05, {
+          duration: 1000,
+          easing: Easing.in(Easing.back(5))
+        });
+        wordConvergeRotate.value = withTiming(1080, {
+          duration: 1000,
+          easing: Easing.linear
+        });
+        wordConvergeColor.value = withTiming(1, { duration: 800 }, finished => {
+          if (finished) {
+            runOnJS(onDone)();
+            wordConvergeScale.value = 1;
+            wordConvergeRotate.value = 0;
+            wordConvergeColor.value = 0;
+          }
+        });
+        break;
+    }
+  }
+
   const handleReshuffle = () => {
     if (reshuffle > 0) {
       setIsReshuffling(true);
@@ -393,34 +482,64 @@ export default function UseBattle() {
     };
   });
 
-  function launchProjection() {
+  function launchProjection(
+    projectileSize = PROJECTILE_BASE_SIZE,
+    projectileSource = magicProjectionSource
+  ) {
     if (!playerWordRef.current || !enemyImageRef.current) return;
+    const halfSize = projectileSize / 2;
 
-    // Set starting point for animation, selected word position
-    // 50 is half of the projection image H and W (if size change, this MUST changed as well)
-    // Reduce the point to make sure it hit the middle part of all images
-    playerWordRef.current.measure((x, y, width, height, pageX, pageY) => {
-      const startX = pageX + width / 2 - 50;
-      const startY = pageY + height / 2 - 50;
+    playerWordRef.current.measure((_x, _y, width, height, pageX, pageY) => {
+      const startX = pageX + width / 2 - halfSize;
+      const startY = pageY + height / 2 - halfSize;
 
       // Set ending point for animation, enemy position
-      enemyImageRef?.current?.measure((ex, ey, ew, eh, ePageX, ePageY) => {
-        const targetX = ePageX + ew / 2 - 50;
-        const targetY = ePageY + eh / 2 - 50;
+      enemyImageRef?.current?.measure((_ex, _ey, ew, eh, ePageX, ePageY) => {
+        const targetX = ePageX + ew / 2 - halfSize;
+        const targetY = ePageY + eh / 2 - halfSize;
 
         // reset position + show
+        setActiveProjectileSize(projectileSize);
+        setActiveProjectileSource(projectileSource);
         runOnJS(setShowProjection)(true);
         projectionX.value = startX;
         projectionY.value = startY;
 
         // animate toward enemy
-        projectionX.value = withTiming(targetX, { duration: 350 });
-        projectionY.value = withTiming(targetY, { duration: 350 }, () => {
+        projectionX.value = withTiming(targetX, { duration: 500 });
+        projectionY.value = withTiming(targetY, { duration: 500 }, () => {
           runOnJS(enemyAttacked)();
         });
       });
     });
   }
+
+  const projectileAttribute = useMemo(() => {
+    let projectileSize = PROJECTILE_BASE_SIZE;
+    let projectileSource = magicProjectionSource;
+    switch (wordEffectTier) {
+      case AMAZING:
+        projectileSize = PROJECTILE_BASE_SIZE + 30;
+        projectileSource = fireProjectionSource;
+        break;
+      case GREAT:
+        projectileSize = PROJECTILE_BASE_SIZE + 20;
+        projectileSource = iceProjectionSource;
+        break;
+      case GOOD:
+        projectileSize = PROJECTILE_BASE_SIZE + 10;
+        projectileSource = earthProjectionSource;
+        break;
+      default:
+        projectileSize = PROJECTILE_BASE_SIZE;
+        projectileSource = magicProjectionSource;
+    }
+
+    return {
+      size: projectileSize,
+      source: projectileSource
+    };
+  }, [wordEffectTier]);
 
   const handleSubmit = () => {
     cancelAnimation(wordPulse);
@@ -435,17 +554,23 @@ export default function UseBattle() {
     const lengthDamage = getBonusDamageFromLength(currentWordWithValue);
     const nonModifiedDamage = baseDamage + lengthDamage;
 
-    launchProjection();
-
     // Submit highscore to supabase if in top 20
     setHiScore(currentWord, nonModifiedDamage);
     // Update submitted word to statistic
     setWordsStatistic(currentWord, nonModifiedDamage);
 
-    // Replace used letters
-    const newLetters = generateSomeLettersWithVowels(letters, selectedIndices);
-    setLetters(newLetters);
-    setSelectedIndices([]);
+    const finishSubmit = () => {
+      launchProjection(projectileAttribute.size, projectileAttribute.source);
+
+      const newLetters = generateSomeLettersWithVowels(
+        letters,
+        selectedIndices
+      );
+      setLetters(newLetters);
+      setSelectedIndices([]);
+    };
+
+    triggerWordConverge(finishSubmit);
   };
 
   useEffect(() => {
@@ -680,6 +805,9 @@ export default function UseBattle() {
       wrongWordShakeAnim,
       wordPulseStyle,
       wordEffectTier,
+      wordConvergeStyle,
+      activeProjectileSize,
+      activeProjectileSource,
       showGameProgressModal,
       modalContent,
       showConfirmModal,

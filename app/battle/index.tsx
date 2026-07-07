@@ -158,17 +158,18 @@ export default function BattleScreen() {
           ))}
         <View style={{ alignItems: 'center' }}>
           <Animated.View style={states.wordPulseStyle}>
-            <Text
+            <Animated.Text
               ref={states.playerWordRef}
               style={[
                 styles.currentWord,
                 {
                   borderColor:
                     WordEffectConfig[states.wordEffectTier].borderColor
-                }
+                },
+                states.wordConvergeStyle
               ]}>
               {currentWord ? currentWord.toUpperCase() : '-'}
-            </Text>
+            </Animated.Text>
           </Animated.View>
 
           <DamageBreakdown
@@ -229,12 +230,12 @@ export default function BattleScreen() {
       />
       {states.showProjection && (
         <Animated.Image
-          source={require('@assets/magic_projection.png')}
+          source={states.activeProjectileSource}
           style={[
             {
               position: 'absolute',
-              width: 100, // if W & H changed, projection movement need some change as well
-              height: 100
+              width: states.activeProjectileSize, // if W & H changed, projection movement need some change as well
+              height: states.activeProjectileSize
             },
             states.projectionStyle
           ]}
