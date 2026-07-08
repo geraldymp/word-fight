@@ -11,6 +11,7 @@ import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { HeroIcons } from 'app/constants/heroIcons';
 import {
+  BUBBLE_ELIGIBLE_TIERS,
   WordEffectConfig,
   WordEffectTiers
 } from 'app/constants/wordEffectTier';
@@ -178,6 +179,11 @@ export default function UseBattle() {
   const [activeProjectileSource, setActiveProjectileSource] = useState(
     magicProjectionSource
   );
+
+  const [bubbleVisible, setBubbleVisible] = useState(false);
+  const [bubbleTier, setBubbleTier] = useState(NOTHING);
+  const justSubmittedRef = useRef(false);
+  const bubbleHideTimer = useRef<ReturnType<typeof setTimeout>>(0);
 
   const [showTutorial, setShowTutorial] = useState(false);
   const [isReshuffling, setIsReshuffling] = useState(false);
@@ -351,6 +357,7 @@ export default function UseBattle() {
   const wordConvergeStyle = useAnimatedStyle(() => ({
     transform: [
       { scale: wordConvergeScale.value }
+      // TODO: hide rotation for now, but can be used for future animation
       // { rotate: `${wordConvergeRotate.value}deg` }
     ],
     color: interpolateColor(
@@ -360,13 +367,13 @@ export default function UseBattle() {
     )
   }));
 
-  // TODO: update to suitable animation for each tier, currently all tiers have the same animation
+  // TODO: update to suitable animation for each tier, currently all tiers have the similar animation
   function triggerWordConverge(onDone: () => void) {
     switch (wordEffectTier) {
       case AMAZING:
         wordConvergeScale.value = withTiming(0.05, {
           duration: 1000,
-          easing: Easing.in(Easing.back(5))
+          easing: Easing.in(Easing.back(8))
         });
         wordConvergeRotate.value = withTiming(1080, {
           duration: 1000,
@@ -402,7 +409,7 @@ export default function UseBattle() {
       case GOOD:
         wordConvergeScale.value = withTiming(0.05, {
           duration: 1000,
-          easing: Easing.in(Easing.back(5))
+          easing: Easing.in(Easing.back(2))
         });
         wordConvergeRotate.value = withTiming(1080, {
           duration: 1000,
@@ -417,6 +424,8 @@ export default function UseBattle() {
           }
         });
         break;
+      case NORMAL:
+        runOnJS(onDone)();
     }
   }
 
@@ -541,11 +550,37 @@ export default function UseBattle() {
     };
   }, [wordEffectTier]);
 
+  // Reacts to letter selection changes (not to submit-triggered resets)
+  useEffect(() => {
+    if (justSubmittedRef.current) return; // submit flow controls visibility itself
+
+    if (BUBBLE_ELIGIBLE_TIERS.includes(wordEffectTier)) {
+      setBubbleTier(wordEffectTier);
+      setBubbleVisible(true);
+    } else {
+      setBubbleVisible(false);
+    }
+  }, [wordEffectTier]);
+
   const handleSubmit = () => {
     cancelAnimation(wordPulse);
     cancelAnimation(wordShake);
     wordPulse.value = 1;
     wordShake.value = 0;
+
+    // capture tier before letters reset wipe it out
+    const tierAtSubmit = wordEffectTier;
+    if (BUBBLE_ELIGIBLE_TIERS.includes(tierAtSubmit)) {
+      justSubmittedRef.current = true;
+      setBubbleTier(tierAtSubmit);
+      setBubbleVisible(true);
+
+      if (bubbleHideTimer.current) clearTimeout(bubbleHideTimer.current);
+      bubbleHideTimer.current = setTimeout(() => {
+        setBubbleVisible(false);
+        justSubmittedRef.current = false;
+      }, 1300); // linger duration after submit
+    }
 
     const baseDamage = selectedIndices.reduce(
       (sum, i) => sum + letters[i].value,
@@ -708,22 +743,27 @@ export default function UseBattle() {
       true
     );
 
-    if (wordEffectTier === AMAZING) {
-      wordShake.value = withRepeat(
-        withSequence(
-          withTiming(6, { duration: 60 }),
-          withTiming(-6, { duration: 60 }),
-          withTiming(4, { duration: 50 }),
-          withTiming(-4, { duration: 50 }),
-          withTiming(0, { duration: 40 }),
-          withTiming(0, { duration: 200 })
-        ),
-        -1,
-        false
-      );
-    } else {
-      wordShake.value = withTiming(0, { duration: 100 });
-    }
+    // TODO: Hide shake for now
+    // if (
+    //   wordEffectTier === AMAZING ||
+    //   wordEffectTier === GREAT ||
+    //   wordEffectTier === GOOD
+    // ) {
+    //   wordShake.value = withRepeat(
+    //     withSequence(
+    //       withTiming(6, { duration: 60 }),
+    //       withTiming(-6, { duration: 60 }),
+    //       withTiming(4, { duration: 50 }),
+    //       withTiming(-4, { duration: 50 }),
+    //       withTiming(0, { duration: 40 }),
+    //       withTiming(0, { duration: 200 })
+    //     ),
+    //     -1,
+    //     false
+    //   );
+    // } else {
+    //   wordShake.value = withTiming(0, { duration: 100 });
+    // }
   }, [wordEffectTier]);
 
   async function triggerBattleTutorial() {
@@ -734,6 +774,12 @@ export default function UseBattle() {
       }, 350);
     }
   }
+
+  useEffect(() => {
+    return () => {
+      if (bubbleHideTimer.current) clearTimeout(bubbleHideTimer.current);
+    };
+  }, []);
 
   useEffect(() => {
     if (isFocused) {
@@ -824,6 +870,8 @@ export default function UseBattle() {
       damageModifier,
       selectedHero,
       modalFinishedGame,
+      bubbleVisible,
+      bubbleTier,
       currentRunStatistic: {
         // same of props from FinishGameModal.tsx
         hpLeft: playerHP,

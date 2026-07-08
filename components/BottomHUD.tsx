@@ -5,6 +5,7 @@ import {
   IcReshuffle
 } from 'app/assets/icons/battle';
 import { SvgMana } from 'app/assets/icons/svgs';
+import { HeroSpeechBubble } from 'app/components/Battle/HeroSpeechBubble';
 import Colors from 'app/foundation/colors';
 import { IDamageModifier } from 'app/types/IDamageModifier';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
@@ -60,6 +61,8 @@ interface IBottomHUD {
   onPlay: () => void;
   disablePlayBtn?: boolean;
   damageModifiers: IDamageModifier;
+  bubbleVisible: boolean;
+  bubbleTier: string;
 }
 
 const BottomHUD: React.FC<IBottomHUD> = ({
@@ -76,7 +79,9 @@ const BottomHUD: React.FC<IBottomHUD> = ({
   onCancel,
   onPlay,
   disablePlayBtn,
-  damageModifiers
+  damageModifiers,
+  bubbleVisible,
+  bubbleTier
 }) => {
   const [activeModifier, setActiveModifier] = useState<string | null>(null);
   const [baseHudHeight, setBaseHudHeight] = useState(0);
@@ -282,15 +287,21 @@ const BottomHUD: React.FC<IBottomHUD> = ({
         </TouchableOpacity>
       </View>
 
+      <HeroSpeechBubble
+        visible={bubbleVisible}
+        tier={bubbleTier}
+        customStyle={{
+          left: scale(4),
+          bottom: IMAGE_SIZE * 0.85 // sits just above hero's head, ok to overlap HUD
+        }}
+      />
+
       <Animated.Image
         source={characterImage}
         resizeMode="contain"
         style={[
           styles.character,
-          {
-            width: IMAGE_SIZE,
-            height: IMAGE_SIZE
-          },
+          { width: IMAGE_SIZE, height: IMAGE_SIZE },
           { transform: [{ translateX: playerShakeAnim }] }
         ]}
       />

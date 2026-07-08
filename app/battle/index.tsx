@@ -204,6 +204,8 @@ export default function BattleScreen() {
           onReshuffle={handleReshuffle}
           onCancel={handleCancel}
           damageModifiers={states.damageModifier}
+          bubbleVisible={states.bubbleVisible}
+          bubbleTier={states.bubbleTier}
         />
       </View>
       <GameProgressModal
