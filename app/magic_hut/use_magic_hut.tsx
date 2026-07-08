@@ -12,7 +12,7 @@ import {
   getMagicHutTutorial,
   setMagicHutTutorial
 } from 'app/utils/tutorialManager';
-import { useRouter } from 'expo-router';
+import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Alert, BackHandler } from 'react-native';
 import {
@@ -87,29 +87,31 @@ export default function UseMagicHut() {
     setVisibleAdDoneModal(false);
   }
 
-  useEffect(() => {
-    const unsubLoaded = rewardedRef.current.addAdEventListener(
-      RewardedAdEventType.LOADED,
-      () => {
-        setLoaded(true);
-      }
-    );
+  useFocusEffect(
+    useCallback(() => {
+      // Load the rewarded ad when the screen is focused
+      rewardedRef.current.load();
 
-    const unsubError = rewardedRef.current.addAdEventListener(
-      AdEventType.ERROR,
-      (e: any) => {
-        setLoaded(false);
-      }
-    );
+      const unsubLoaded = rewardedRef.current.addAdEventListener(
+        RewardedAdEventType.LOADED,
+        () => {
+          setLoaded(true);
+        }
+      );
 
-    // First load
-    rewardedRef.current.load();
+      const unsubError = rewardedRef.current.addAdEventListener(
+        AdEventType.ERROR,
+        (e: any) => {
+          setLoaded(false);
+        }
+      );
 
-    return () => {
-      unsubLoaded();
-      unsubError();
-    };
-  }, []);
+      return () => {
+        unsubLoaded();
+        unsubError();
+      };
+    }, [])
+  );
 
   const showBlessingAd = useCallback(async () => {
     if (!isLoaded) {
