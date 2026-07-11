@@ -159,10 +159,10 @@ export default function UseBattle() {
   const playerWordRef = useRef<Text>(null);
   const enemyImageRef = useRef<View>(null);
 
-  const magicProjectionSource = require('@assets/icons/projection/magic_projection.png');
-  const earthProjectionSource = require('@assets/icons/projection/earth_projection.png');
-  const iceProjectionSource = require('@assets/icons/projection/ice_projection.png');
-  const fireProjectionSource = require('@assets/icons/projection/flame_projection.png');
+  const windProjectileImage = require('@assets/icons/projection/wind_projectile.png');
+  const earthProjectileImage = require('@assets/icons/projection/earth_projectile.png');
+  const iceProjectileImage = require('@assets/icons/projection/ice_projectile.png');
+  const fireProjectileImage = require('@assets/icons/projection/flame_projectile.png');
 
   const [enemyMaxHp, setEnemyMaxHP] = useState(selectedEnemy.baseHp);
   const [letters, setLetters] = useState<ILetter[]>([]); // Letters in word builder
@@ -176,9 +176,8 @@ export default function UseBattle() {
   const [showProjection, setShowProjection] = useState(false);
   const [activeProjectileSize, setActiveProjectileSize] =
     useState(PROJECTILE_BASE_SIZE);
-  const [activeProjectileSource, setActiveProjectileSource] = useState(
-    magicProjectionSource
-  );
+  const [activeProjectileSource, setActiveProjectileSource] =
+    useState(windProjectileImage);
 
   const [bubbleVisible, setBubbleVisible] = useState(false);
   const [bubbleTier, setBubbleTier] = useState(NOTHING);
@@ -493,7 +492,7 @@ export default function UseBattle() {
 
   function launchProjection(
     projectileSize = PROJECTILE_BASE_SIZE,
-    projectileSource = magicProjectionSource
+    projectileSource = windProjectileImage
   ) {
     if (!playerWordRef.current || !enemyImageRef.current) return;
     const halfSize = projectileSize / 2;
@@ -525,23 +524,23 @@ export default function UseBattle() {
 
   const projectileAttribute = useMemo(() => {
     let projectileSize = PROJECTILE_BASE_SIZE;
-    let projectileSource = magicProjectionSource;
+    let projectileSource = windProjectileImage;
     switch (wordEffectTier) {
       case AMAZING:
         projectileSize = PROJECTILE_BASE_SIZE + 30;
-        projectileSource = fireProjectionSource;
+        projectileSource = fireProjectileImage;
         break;
       case GREAT:
         projectileSize = PROJECTILE_BASE_SIZE + 20;
-        projectileSource = iceProjectionSource;
+        projectileSource = iceProjectileImage;
         break;
       case GOOD:
         projectileSize = PROJECTILE_BASE_SIZE + 10;
-        projectileSource = earthProjectionSource;
+        projectileSource = earthProjectileImage;
         break;
       default:
         projectileSize = PROJECTILE_BASE_SIZE;
-        projectileSource = magicProjectionSource;
+        projectileSource = windProjectileImage;
     }
 
     return {
