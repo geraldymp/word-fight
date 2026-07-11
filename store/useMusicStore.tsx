@@ -5,7 +5,13 @@ import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 
 const { MUSIC_STATE } = STORAGE_KEYS;
-export type TrackKey = 'home' | 'battle';
+export type TrackKey =
+  | 'home'
+  | 'battle'
+  | 'victory'
+  | 'game_over'
+  | 'boss'
+  | 'magic_hut';
 
 type MusicStore = {
   currentTrack: TrackKey | null;

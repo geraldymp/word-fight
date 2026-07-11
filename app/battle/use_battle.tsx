@@ -6,7 +6,7 @@ import { useGameStore } from '@store/useGameStore';
 import { useMagicHutStore } from '@store/useMagicHutStore';
 import { useMusicStore } from '@store/useMusicStore';
 import { usePremiumStore } from '@store/usePremiumStore';
-import { useSfxStore } from '@store/useSFXStore';
+import { SfxKey, useSfxStore } from '@store/useSFXStore';
 import { getBonusDamageFromLength } from '@utils/wordLengthDamageMap';
 import { isValidWord } from '@utils/wordValidator';
 import { HeroIcons } from 'app/constants/heroIcons';
@@ -67,6 +67,12 @@ import {
 
 const { NORMAL, GOOD, GREAT, AMAZING, NOTHING } = WordEffectTiers;
 const PROJECTILE_BASE_SIZE = 100;
+const tierToSfxKey: Record<string, SfxKey> = {
+  NORMAL: 'windHit',
+  GOOD: 'iceHit',
+  GREAT: 'earthHit',
+  AMAZING: 'flameHit'
+};
 
 export default function UseBattle() {
   const router = useRouter();
@@ -255,6 +261,7 @@ export default function UseBattle() {
     if (currentPlayerHP === 0) {
       onClearResume();
       setTimeout(() => {
+        playMusic('game_over');
         setModalFinishedGame(true);
       }, 1500);
     }
@@ -272,7 +279,10 @@ export default function UseBattle() {
       baseDamage + lengthDamage + dmgModifier + dmgFromUpgrade;
     setShowProjection(false);
     reduceEnemyHP(totalDamage);
-    playSfx('enemyHit');
+
+    const sfxKey = tierToSfxKey[wordEffectTier] ?? 'enemyHitNormal';
+    playSfx(sfxKey);
+
     triggerEnemyFlash();
     triggerQuickShake(enemyShakeAnim);
     setDamageEvents(prev => [
@@ -314,6 +324,7 @@ export default function UseBattle() {
         onClearResume();
         setBossBeatenStatistic();
         setTimeout(() => {
+          playMusic('victory');
           setModalFinishedGame(true);
         }, 2000);
       } else {
@@ -532,11 +543,11 @@ export default function UseBattle() {
         break;
       case GREAT:
         projectileSize = PROJECTILE_BASE_SIZE + 20;
-        projectileSource = iceProjectileImage;
+        projectileSource = earthProjectileImage;
         break;
       case GOOD:
         projectileSize = PROJECTILE_BASE_SIZE + 10;
-        projectileSource = earthProjectileImage;
+        projectileSource = iceProjectileImage;
         break;
       default:
         projectileSize = PROJECTILE_BASE_SIZE;
@@ -782,7 +793,11 @@ export default function UseBattle() {
 
   useEffect(() => {
     if (isFocused) {
-      playMusic('battle');
+      if (step === 7) {
+        playMusic('boss');
+      } else {
+        playMusic('battle');
+      }
       setHighScoreLowestValue();
     }
     return () => {

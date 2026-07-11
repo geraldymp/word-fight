@@ -4,8 +4,12 @@ import React, { useMemo } from 'react';
 import Video from 'react-native-video';
 
 const sources = {
-  home: require('@assets/sounds/home_screen.mp3'),
-  battle: require('@assets/sounds/battle_screen.mp3')
+  home: require('@assets/sounds/bg_music/home_screen.mp3'),
+  battle: require('@assets/sounds/bg_music/battle_screen.mp3'),
+  victory: require('@assets/sounds/bg_music/victory.mp3'),
+  game_over: require('@assets/sounds/bg_music/game_over.mp3'),
+  boss: require('@assets/sounds/bg_music/boss_battle.mp3'),
+  magic_hut: require('@assets/sounds/bg_music/magic_hut.mp3')
 };
 
 export function MusicPlayer() {

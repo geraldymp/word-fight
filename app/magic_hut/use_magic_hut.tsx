@@ -1,6 +1,7 @@
 import { useAdStore } from '@store/useAdStore';
 import { useGameStore } from '@store/useGameStore';
 import { useMagicHutStore } from '@store/useMagicHutStore';
+import { useMusicStore } from '@store/useMusicStore';
 import { boosters } from 'app/constants/boosters';
 import { HutDialog } from 'app/constants/hutDialog';
 import { KeyValues } from 'app/constants/keyValues';
@@ -37,6 +38,7 @@ export default function UseMagicHut() {
   } = useAdStore();
   const { purchasedItemIds, addPurchasedItemId } = useMagicHutStore();
   const { isPremium } = useSubscriptionStore();
+  const { playMusic, stopMusic } = useMusicStore();
 
   const filteredBooster = boosters.filter(
     booster => !purchasedItemIds.includes(booster.id)
@@ -89,6 +91,7 @@ export default function UseMagicHut() {
 
   useFocusEffect(
     useCallback(() => {
+      playMusic('magic_hut');
       // Load the rewarded ad when the screen is focused
       rewardedRef.current.load();
 
@@ -109,6 +112,7 @@ export default function UseMagicHut() {
       return () => {
         unsubLoaded();
         unsubError();
+        stopMusic();
       };
     }, [])
   );
