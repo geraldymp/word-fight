@@ -5,7 +5,7 @@ export default {
   expo: {
     name: 'Word Fight',
     slug: 'word-fight',
-    version: '1.0.21',
+    version: '1.0.22',
     orientation: 'portrait',
     icon: './assets/word_fight_logo.png',
     scheme: 'wordfight',
@@ -16,7 +16,7 @@ export default {
       bundleIdentifier: 'com.germp24.wordfight'
     },
     android: {
-      versionCode: 21,
+      versionCode: 22,
       package: 'com.germp24.wordfight',
       adaptiveIcon: {
         foregroundImage: './assets/word_fight_logo.png',
@@ -38,11 +38,11 @@ export default {
       [
         'expo-splash-screen',
         {
-          backgroundColor: '#AC1E23',
+          backgroundColor: '#1e44ac',
           image: './assets/word_fight_logo.png',
           dark: {
             image: './assets/word_fight_logo.png',
-            backgroundColor: '#AC1E23'
+            backgroundColor: '#1e44ac'
           },
           imageWidth: 200
         }
