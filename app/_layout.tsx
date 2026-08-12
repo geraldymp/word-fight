@@ -1,3 +1,4 @@
+import { Audio } from 'expo-av';
 import { Stack } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
@@ -65,6 +66,10 @@ export default function Layout() {
         const minLoadingTime = new Promise(resolve =>
           setTimeout(resolve, 1500)
         );
+        await Audio.setAudioModeAsync({
+          playsInSilentModeIOS: true,
+          staysActiveInBackground: false
+        });
 
         const initWorkPromise = (async () => {
           // a. Ads

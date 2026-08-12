@@ -1,7 +1,7 @@
 // SfxPlayer.tsx
 import { SfxKey, useSfxStore } from '@store/useSFXStore';
-import React, { useEffect, useRef, useState } from 'react';
-import Video from 'react-native-video';
+import { Audio } from 'expo-av';
+import { useEffect, useRef } from 'react';
 
 const sfxSources: Record<SfxKey, any> = {
   playerHit: require('@assets/sounds/sfx/player_hit.mp3'),
@@ -18,44 +18,70 @@ export function SfxPlayer() {
   const muted = useSfxStore(s => s.muted);
   const registerPlaySfx = useSfxStore(s => s.registerPlaySfx);
 
-  // one persistent ref per sound — mounted once, never recreated
-  const refs = useRef<Record<string, any>>({});
+  // one persistent Sound instance per key, preloaded once
+  const soundsRef = useRef<Partial<Record<SfxKey, Audio.Sound>>>({});
+  const mutedRef = useRef(muted);
 
-  // tracks paused state per sound; drives the `paused` prop
-  const [pausedMap, setPausedMap] = useState<Record<string, boolean>>(() =>
-    Object.fromEntries(sfxKeys.map(k => [k, true]))
-  );
-
+  // keep mutedRef current, and mute any already-loaded sounds
   useEffect(() => {
-    function play(key: SfxKey) {
-      const player = refs.current[key];
-      if (!player) return;
-      player.seek(0); // rewind instantly, asset is already loaded
-      setPausedMap(prev => ({ ...prev, [key]: false }));
+    mutedRef.current = muted;
+    Object.values(soundsRef.current).forEach(sound => {
+      sound?.setIsMutedAsync(muted);
+    });
+  }, [muted]);
+
+  // preload all sfx once on mount
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadAll() {
+      // await Audio.setAudioModeAsync({
+      //   playsInSilentModeIOS: true,
+      //   staysActiveInBackground: false
+      // });
+
+      for (const key of sfxKeys) {
+        try {
+          const { sound } = await Audio.Sound.createAsync(sfxSources[key], {
+            isMuted: mutedRef.current
+          });
+          if (cancelled) {
+            sound.unloadAsync();
+          } else {
+            soundsRef.current[key] = sound;
+          }
+        } catch (e) {
+          console.warn(`Failed to load sfx ${key}`, e);
+        }
+      }
+    }
+
+    loadAll();
+
+    return () => {
+      cancelled = true;
+      Object.values(soundsRef.current).forEach(sound => {
+        sound?.unloadAsync();
+      });
+      soundsRef.current = {};
+    };
+  }, []);
+
+  // register the imperative play function used by the store
+  useEffect(() => {
+    async function play(key: SfxKey) {
+      const sound = soundsRef.current[key];
+      if (!sound) return;
+      try {
+        await sound.setIsMutedAsync(mutedRef.current);
+        await sound.setPositionAsync(0);
+        await sound.playAsync();
+      } catch (e) {
+        console.warn(`Failed to play sfx ${key}`, e);
+      }
     }
     registerPlaySfx(play);
   }, [registerPlaySfx]);
 
-  function handleEnd(key: SfxKey) {
-    setPausedMap(prev => ({ ...prev, [key]: true }));
-  }
-
-  return (
-    <>
-      {sfxKeys.map(key => (
-        <Video
-          key={key} // STABLE key — never changes, so this never remounts
-          ref={ref => {
-            refs.current[key] = ref;
-          }}
-          source={sfxSources[key]}
-          paused={pausedMap[key]}
-          muted={muted}
-          repeat={false}
-          style={{ width: 0, height: 0 }}
-          onEnd={() => handleEnd(key)}
-        />
-      ))}
-    </>
-  );
+  return null;
 }
