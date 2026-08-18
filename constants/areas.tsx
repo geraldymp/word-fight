@@ -12,8 +12,8 @@ export const areas: IArea[] = [
           'A place where magic happened. Most of magician will fleed here to deepen their magic.'
       },
       {
-        id: 'goblinCamp',
-        name: 'Goblin Camp',
+        id: 'calmBeach',
+        name: 'Calm Beach',
         description:
           'Dangerous place, yet some people still gone to test their own strength'
       }

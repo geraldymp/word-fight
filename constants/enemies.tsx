@@ -6,6 +6,7 @@ interface IEnemies {
   content: IEnemy[];
 }
 
+// TODO: Rebalance numbers
 export const enemies: IEnemies[] = [
   {
     step: 1,
@@ -22,12 +23,32 @@ export const enemies: IEnemies[] = [
         exp: 10
       },
       {
+        id: 'oneEyedGoblin',
+        name: 'One-eyed Goblin',
+        baseHp: 320,
+        minDmg: 20,
+        maxDmg: 50,
+        minManaBounty: 7,
+        maxManaBounty: 10,
+        exp: 15
+      },
+      {
         id: 'livingTree',
         name: 'Living Tree',
         baseHp: 300,
         minDmg: 20,
         maxDmg: 40,
         minManaBounty: 6,
+        maxManaBounty: 9,
+        exp: 10
+      },
+      {
+        id: 'scarredGoblin',
+        name: 'Scarred Goblin',
+        baseHp: 380,
+        minDmg: 10,
+        maxDmg: 20,
+        minManaBounty: 4,
         maxManaBounty: 9,
         exp: 10
       },
@@ -45,11 +66,11 @@ export const enemies: IEnemies[] = [
   },
   {
     step: 1,
-    area: 'goblinCamp',
+    area: 'calmBeach',
     content: [
       {
-        id: 'scarredGoblin',
-        name: 'Scarred Goblin',
+        id: 'duckMagician',
+        name: 'Duck Magician',
         baseHp: 380,
         minDmg: 10,
         maxDmg: 20,
@@ -58,8 +79,8 @@ export const enemies: IEnemies[] = [
         exp: 10
       },
       {
-        id: 'oneEyedGoblin',
-        name: 'One-eyed Goblin',
+        id: 'frogMage',
+        name: 'Frog Mage',
         baseHp: 400,
         minDmg: 10,
         maxDmg: 30,
@@ -68,8 +89,28 @@ export const enemies: IEnemies[] = [
         exp: 10
       },
       {
-        id: 'madGoblin',
-        name: 'Mad Goblin',
+        id: 'duckWarrior',
+        name: 'Duck Warrior',
+        baseHp: 420,
+        minDmg: 10,
+        maxDmg: 40,
+        minManaBounty: 6,
+        maxManaBounty: 11,
+        exp: 15
+      },
+      {
+        id: 'frogWizard',
+        name: 'Frog Wizard',
+        baseHp: 440,
+        minDmg: 10,
+        maxDmg: 40,
+        minManaBounty: 6,
+        maxManaBounty: 11,
+        exp: 15
+      },
+      {
+        id: 'northFairy',
+        name: 'North Fairy',
         baseHp: 420,
         minDmg: 10,
         maxDmg: 40,
@@ -112,6 +153,26 @@ export const enemies: IEnemies[] = [
         minManaBounty: 7,
         maxManaBounty: 10,
         exp: 25
+      },
+      {
+        id: 'goblinGargoyle',
+        name: 'Goblin Gargoyle',
+        baseHp: 330,
+        minDmg: 25,
+        maxDmg: 55,
+        minManaBounty: 7,
+        maxManaBounty: 10,
+        exp: 25
+      },
+      {
+        id: 'soulProphet',
+        name: 'Soul Prophet',
+        baseHp: 330,
+        minDmg: 25,
+        maxDmg: 55,
+        minManaBounty: 7,
+        maxManaBounty: 10,
+        exp: 25
       }
     ]
   },
@@ -142,6 +203,26 @@ export const enemies: IEnemies[] = [
       {
         id: 'theMedusa',
         name: 'The Medusa',
+        baseHp: 430,
+        minDmg: 15,
+        maxDmg: 45,
+        minManaBounty: 6,
+        maxManaBounty: 11,
+        exp: 25
+      },
+      {
+        id: 'madGoblin',
+        name: 'Mad Goblin',
+        baseHp: 430,
+        minDmg: 15,
+        maxDmg: 45,
+        minManaBounty: 6,
+        maxManaBounty: 11,
+        exp: 25
+      },
+      {
+        id: 'overlordBeast',
+        name: 'Overlord Beast',
         baseHp: 430,
         minDmg: 15,
         maxDmg: 45,
@@ -184,6 +265,26 @@ export const enemies: IEnemies[] = [
         minManaBounty: 10,
         maxManaBounty: 15,
         exp: 50
+      },
+      {
+        id: 'wanderingWarrior',
+        name: 'Wandering Warrior',
+        baseHp: 360,
+        minDmg: 30,
+        maxDmg: 60,
+        minManaBounty: 10,
+        maxManaBounty: 15,
+        exp: 50
+      },
+      {
+        id: 'blindGoblin',
+        name: 'Blind Goblin',
+        baseHp: 360,
+        minDmg: 30,
+        maxDmg: 60,
+        minManaBounty: 10,
+        maxManaBounty: 15,
+        exp: 50
       }
     ]
   },
@@ -220,6 +321,26 @@ export const enemies: IEnemies[] = [
         minManaBounty: 13,
         maxManaBounty: 14,
         exp: 50
+      },
+      {
+        id: 'gearedRobot',
+        name: 'Geared Robot',
+        baseHp: 460,
+        minDmg: 20,
+        maxDmg: 50,
+        minManaBounty: 13,
+        maxManaBounty: 14,
+        exp: 50
+      },
+      {
+        id: 'thunderRevenant',
+        name: 'Thunder Revenant',
+        baseHp: 460,
+        minDmg: 20,
+        maxDmg: 50,
+        minManaBounty: 13,
+        maxManaBounty: 14,
+        exp: 50
       }
     ]
   },
@@ -228,8 +349,18 @@ export const enemies: IEnemies[] = [
     area: 'boss',
     content: [
       {
-        id: 'boss1',
-        name: 'Azazel the Archmage',
+        id: 'redMimic',
+        name: 'Red Mimic',
+        baseHp: 500,
+        minDmg: 35,
+        maxDmg: 65,
+        minManaBounty: 50,
+        maxManaBounty: 50,
+        exp: 100
+      },
+      {
+        id: 'grandMagi',
+        name: 'Grand Magi',
         baseHp: 500,
         minDmg: 35,
         maxDmg: 65,
