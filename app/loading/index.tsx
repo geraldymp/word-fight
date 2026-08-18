@@ -2,18 +2,16 @@ import Colors from 'app/foundation/colors';
 import { moderateScale, scale, verticalScale } from 'app/utils/sizeScaling';
 import LottieView from 'lottie-react-native';
 import React from 'react';
-import { Animated, ImageBackground, StyleSheet, Text } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import UseLoading from './use_loading';
 
 const LoadingScreen = () => {
   const { states } = UseLoading();
   const { fadeAnim, loadingText, tipText } = states;
 
+  // TODO: Edit to proper loading screen with fantasy theme and Lottie animation
   return (
-    <ImageBackground
-      style={styles.container}
-      source={require('@assets/backgrounds/loading_background.jpg')}
-      resizeMode="cover">
+    <View style={styles.container}>
       <LottieView
         source={require('@assets/lottie/balls_loading.json')} // Place your fantasy Lottie JSON here
         autoPlay
@@ -26,7 +24,7 @@ const LoadingScreen = () => {
 
       <Text style={styles.tipTitle}>Tip</Text>
       <Text style={styles.tipText}>{tipText}</Text>
-    </ImageBackground>
+    </View>
   );
 };
 
@@ -34,7 +32,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    backgroundColor: Colors.neutralDark
   },
   lottie: {
     width: scale(200),

@@ -309,7 +309,8 @@ export default function UseBattle() {
       enemyIdleScale.value = withTiming(1, { duration: 150 });
       enemyIdleY.value = withTiming(0, { duration: 150 });
       addTempExp(selectedEnemy.exp);
-      if (stage === 3) {
+      // for mini-boss / clearing the area
+      if (step < 7 && stage === 5) {
         setModalContent({
           modalText: 'You clear the area!',
           showNextStageBtn: false,
@@ -319,7 +320,7 @@ export default function UseBattle() {
         setTimeout(() => {
           setShowGameProgressModal(true);
         }, 2000);
-      } else if (step === 7) {
+      } else if (step === 7 && stage === 3) {
         // Clear saved game and add a statistic of beating the boss
         onClearResume();
         setBossBeatenStatistic();
@@ -785,6 +786,20 @@ export default function UseBattle() {
     }
   }
 
+  // for boss or miniboss stage
+  const isBossStage = useMemo(() => {
+    if (step !== 7) {
+      if (stage === 5) {
+        return true;
+      }
+    } else if (step === 7) {
+      if (stage === 2) {
+        return true;
+      }
+    }
+    return false;
+  }, [step, stage]);
+
   useEffect(() => {
     return () => {
       if (bubbleHideTimer.current) clearTimeout(bubbleHideTimer.current);
@@ -793,7 +808,7 @@ export default function UseBattle() {
 
   useEffect(() => {
     if (isFocused) {
-      if (step === 7) {
+      if (isBossStage) {
         playMusic('boss');
       } else {
         playMusic('battle');
@@ -803,7 +818,7 @@ export default function UseBattle() {
     return () => {
       stopMusic();
     };
-  }, [isFocused]);
+  }, [isFocused, isBossStage]);
 
   useEffect(() => {
     const backAction = () => {
@@ -886,6 +901,7 @@ export default function UseBattle() {
       modalFinishedGame,
       bubbleVisible,
       bubbleTier,
+      isBossStage,
       currentRunStatistic: {
         // same of props from FinishGameModal.tsx
         hpLeft: playerHP,

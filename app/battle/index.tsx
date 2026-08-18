@@ -48,7 +48,8 @@ export default function BattleScreen() {
     onPressBackToHome,
     onPressNextArea,
     onPressNextStage,
-    onGiveUp
+    onGiveUp,
+    handleCloseModalFinishedGame
   } = actions;
   const {
     areaDetail,
@@ -76,7 +77,8 @@ export default function BattleScreen() {
     damageEvents,
     maxReshuffle,
     reshuffleCount,
-    getDmgBreakdown
+    getDmgBreakdown,
+    isBossStage
   } = states;
   return (
     <ImageBackground
@@ -110,16 +112,18 @@ export default function BattleScreen() {
           <View style={styles.skipButtonContainer}>
             <RoundedRectButton
               title="Skip Area"
-              onPress={actions.onPressNextArea}
+              onPress={onPressNextArea}
               type="secondary"
               size="mini"
             />
-            <RoundedRectButton
-              title="Skip Stage"
-              onPress={actions.onPressNextStage}
-              type="secondary"
-              size="mini"
-            />
+            {stage < 5 && (
+              <RoundedRectButton
+                title="Skip Stage"
+                onPress={onPressNextStage}
+                type="secondary"
+                size="mini"
+              />
+            )}
           </View>
         )}
         <EnemyStatusBar
@@ -133,7 +137,10 @@ export default function BattleScreen() {
         />
         <Animated.View
           ref={states.enemyImageRef}
-          style={[enemyStyle, styles.enemyImage]}>
+          style={[
+            enemyStyle,
+            isBossStage ? styles.enemyImageBoss : styles.enemyImageNormal
+          ]}>
           <Animated.Image
             source={EnemyImages[enemyId]}
             resizeMode="contain"
@@ -217,7 +224,7 @@ export default function BattleScreen() {
       />
       <FinishGameModal
         visible={states.modalFinishedGame}
-        onClose={actions.handleCloseModalFinishedGame}
+        onClose={handleCloseModalFinishedGame}
         stats={states.currentRunStatistic}
       />
       <ConfirmBackHomeModal
@@ -273,7 +280,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center'
   },
-  enemyImage: {
+  enemyImageNormal: {
+    marginTop: verticalScale(52),
+    flex: 0.95,
+    width: '75%'
+  },
+  enemyImageBoss: {
     marginTop: verticalScale(2),
     flex: 0.95,
     width: '75%'
