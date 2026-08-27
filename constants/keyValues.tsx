@@ -28,5 +28,10 @@ export const KeyValues = {
   fireCamp: {
     restoreHp: 50,
     increaseDamage: 20
+  },
+  mimic: {
+    eligibleSteps: [3, 5],
+    eligiblePositions: [1, 2, 3], // index start from 0
+    chance: 0.5
   }
 };

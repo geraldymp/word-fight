@@ -2,6 +2,7 @@ import { useGameStore } from '@store/useGameStore';
 import { areas } from 'app/constants/areas';
 import { enemies } from 'app/constants/enemies';
 import { IArea } from 'app/types/IArea';
+import { rollMimicEncounter } from 'app/utils/rollMimicEncounter';
 import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { BackHandler } from 'react-native';
@@ -12,7 +13,8 @@ export default function UseChooseArea() {
   const [choices, setChoices] = useState<IArea['content']>([]);
 
   function getEnemiesByArea(area: string) {
-    return enemies.find(entry => entry.area === area)?.content || [];
+    const base = enemies.find(entry => entry.area === area)?.content || [];
+    return rollMimicEncounter(base, step);
   }
 
   function getSelectedAreaDetail(area: string) {
@@ -33,22 +35,26 @@ export default function UseChooseArea() {
 
   useEffect(() => {
     const filtered = areas.find(e => e.step === step)?.content || [];
+    console.log('Filtered areas for step', step, filtered);
     setChoices(filtered);
   }, [step]);
 
-  function onPress(option: string) {
+  function onPress(optionId: string) {
+    // If step is even, the player is choosing shop or fire camp
     if (step % 2 === 0) {
-      if (option === 'shop') {
+      if (optionId === 'shop') {
         router.replace('/magic_hut');
-      } else if (option === 'fireCamp') {
+      } else if (optionId === 'fireCamp') {
         router.replace('/fire_camp');
       }
     } else {
-      // Get set of enemies based on player area choice
-      setSelectedEnemies(getEnemiesByArea(option));
+      // If step is odd, the player is choosing an area to battle
+      // Get set of enemies based on area
+      setSelectedEnemies(getEnemiesByArea(optionId));
 
       // Get detail data of selected area
-      const selectedArea = getSelectedAreaDetail(option);
+      const selectedArea = getSelectedAreaDetail(optionId);
+      console.log('Selected area detail:', selectedArea);
       if (selectedArea) {
         setArea?.(selectedArea);
       }

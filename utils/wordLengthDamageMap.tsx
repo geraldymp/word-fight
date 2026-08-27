@@ -1,5 +1,7 @@
 import { ILetter } from 'app/types/ILetter';
 
+// This function returns the bonus damage based on the length of the word.
+// The longer the word, the more bonus damage is applied
 export function getBonusDamageFromLength(word: ILetter[]): number {
   const length = word.length;
 

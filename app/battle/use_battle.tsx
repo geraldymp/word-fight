@@ -25,10 +25,9 @@ import { useHeroStore } from 'app/store/useHeroStore';
 import { usePlayerStore } from 'app/store/usePlayerStore';
 import { ILetter } from 'app/types/ILetter';
 import { damageBreakdown } from 'app/utils/damageBreakdown';
+import { calculateTotalDamage } from 'app/utils/damageCalculation';
 import { generateRandomLettersWithVowels } from 'app/utils/generateLettersWithVowels';
 import { generateSomeLettersWithVowels } from 'app/utils/generateSomeLetters';
-import { getDamageFromUpgrades } from 'app/utils/getDamageFromUpgrades';
-import { getDamageModifier } from 'app/utils/getDamageModifier';
 import { getRandomInt } from 'app/utils/getRandomInt';
 import { setBossBeatenStatistic } from 'app/utils/Statistic/setBossBeaten';
 import { setWordsStatistic } from 'app/utils/Statistic/setWords';
@@ -268,15 +267,13 @@ export default function UseBattle() {
   }
 
   function enemyAttacked() {
-    const baseDamage = selectedIndices.reduce(
-      (sum, i) => sum + letters[i].value,
-      0
-    );
-    const lengthDamage = getBonusDamageFromLength(currentWordWithValue);
-    const dmgModifier = getDamageModifier(currentWord, damageModifier);
-    const dmgFromUpgrade = getDamageFromUpgrades(currentWord, upgrades);
-    const totalDamage =
-      baseDamage + lengthDamage + dmgModifier + dmgFromUpgrade;
+    const totalDamage = calculateTotalDamage({
+      currentWord,
+      currentWordWithValue,
+      damageModifier,
+      upgrades,
+      targetEnemy: selectedEnemy
+    });
     setShowProjection(false);
     reduceEnemyHP(totalDamage);
 
@@ -320,7 +317,7 @@ export default function UseBattle() {
         setTimeout(() => {
           setShowGameProgressModal(true);
         }, 2000);
-      } else if (step === 7 && stage === 3) {
+      } else if (step === 7 && stage === 2) {
         // Clear saved game and add a statistic of beating the boss
         onClearResume();
         setBossBeatenStatistic();

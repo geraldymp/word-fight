@@ -7,4 +7,11 @@ export interface IEnemy {
   minManaBounty: number;
   maxManaBounty: number;
   exp: number;
+  defenseType?:
+    | 'normal'
+    | 'lengthOnly'
+    | 'vowelOnly'
+    | 'consonantOnly'
+    | 'minThreeLetters'
+    | 'minFourLetters';
 }
